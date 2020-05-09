@@ -12,7 +12,7 @@ namespace DomL.Business
         public string Assunto { get; set; }
         public string Descricao { get; set; }
         public Classification Classificacao { get; set; }
-        public bool Importante { get; set; }
+        public bool IsInBlocoEspecial { get; set; }
         public string Companhia { get; set; }
 
         public string DeQuem { get; set; }
@@ -22,6 +22,5 @@ namespace DomL.Business
         public int Ordem { get; set; }
 
         public string FullLine { get; set; }
-        public bool IsInBlocoEspecial { get; set; }
     }
 }

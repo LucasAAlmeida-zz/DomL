@@ -1,6 +1,6 @@
 ﻿namespace DomL.Business.Enums
 {
-    internal enum Category
+    enum Category
     {
         Indefinido = 0,
         Trabalho = 1,
@@ -19,6 +19,6 @@
         Livro = 14,
         Comic = 15,
         Play = 16,
-        Curso
+        Curso = 17
     }
 }
