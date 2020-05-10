@@ -1,24 +1,24 @@
 ﻿namespace DomL.Business.Enums
 {
-    enum Category
+    public enum Category
     {
-        Indefinido = 0,
-        Trabalho = 1,
-        Desgraca = 2,
-        Saude = 3,
-        Viagem = 4,
-        Automovel = 5,
-        Presente = 6,
-        Pessoa = 7,
-        Animal = 8,
-        Compra = 9,
-        Jogo = 10,
+        Event = 0,
+        Work = 1,
+        Doom = 2,
+        Health = 3,
+        Travel = 4,
+        Auto = 5,
+        Gift = 6,
+        Person = 7,
+        Pet = 8,
+        Purchase = 9,
+        Game = 10,
         Watch = 11,
-        Filme = 12,
-        Serie = 13,
-        Livro = 14,
+        Movie = 12,
+        Series = 13,
+        Book = 14,
         Comic = 15,
         Play = 16,
-        Curso = 17
+        Course = 17
     }
 }

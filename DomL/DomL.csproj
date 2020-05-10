@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ClassificarWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -64,28 +64,33 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\Activity.cs" />
+    <Compile Include="Business\DTOs\ConsolidateDTO.cs" />
+    <Compile Include="Business\Events.cs" />
+    <Compile Include="Business\Play.cs" />
+    <Compile Include="Business\Comic.cs" />
+    <Compile Include="Business\Doom.cs" />
     <Compile Include="Business\Enums\Category.cs" />
     <Compile Include="Business\Enums\Classification.cs" />
-    <Compile Include="ClassificarWindow.xaml.cs">
-      <DependentUpon>ClassificarWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="ConsolidarWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ConsolidarWindow.xaml.cs">
-      <DependentUpon>ConsolidarWindow.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Business\Utils.cs" />
+    <Compile Include="Business\Watch.cs" />
+    <Compile Include="Business\Movie.cs" />
+    <Compile Include="Business\Series.cs" />
+    <Compile Include="Business\Book.cs" />
+    <Compile Include="Business\Health.cs" />
+    <Compile Include="Business\Travel.cs" />
+    <Compile Include="Business\Auto.cs" />
+    <Compile Include="Business\Gift.cs" />
+    <Compile Include="Business\Person.cs" />
+    <Compile Include="Business\Pet.cs" />
+    <Compile Include="Business\Purchase.cs" />
+    <Compile Include="Business\Game.cs" />
+    <Compile Include="Business\Work.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +117,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

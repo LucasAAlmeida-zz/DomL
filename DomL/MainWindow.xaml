@@ -3,17 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DomL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300">
+        Title="MainWindow" Height="600" Width="600">
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Arquivo">
-                <MenuItem Header="_Classificar" Click="ClassificarMenuItem_Click" />
-                <MenuItem Header="_Consolidar" Click="ConsolidarMenuItem_Click" />
-                <Separator />
-                <MenuItem Header="_Exit" Click="ExitMenuItem_Click" />
-            </MenuItem>
-        </Menu>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="5">
+                        <Label Content="Mês"/>
+                        <TextBox Name="MesTb"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Margin="5">
+                        <Label Content="Ano"/>
+                        <TextBox Name="AnoTb"/>
+                    </StackPanel>
+                </Grid>
+                <Label DockPanel.Dock="Top" Name="AtividadeLabel" Content="Atividades do dia" />
+                <ScrollViewer>
+                    <TextBox DockPanel.Dock="Bottom" Name="AtividadesTextBox" AcceptsReturn="True" />
+                </ScrollViewer>
+            </DockPanel>
+            <DockPanel Grid.Row="1" Grid.Column="0">
+                <StackPanel MaxWidth="300">
+                    <Label Name="MessageLabel"></Label>
+                    <Label Name="MessageLabel2"></Label>
+                </StackPanel>
+                <Button Name="CategorizarButton"  Height="30" Width="100" HorizontalAlignment="Right" Margin="10" Content="Categorizar" Click="CategorizarButton_Click"/>
+            </DockPanel>
+        </Grid>
     </DockPanel>
 </Window>

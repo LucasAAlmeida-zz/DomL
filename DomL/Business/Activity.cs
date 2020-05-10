@@ -3,9 +3,8 @@ using System;
 
 namespace DomL.Business
 {
-    class Activity
+    public class Activity
     {
-
         public DateTime Dia { get; set; }
         public DateTime? DiaFim { get; set; }
         public Category Categoria { get; set; }
@@ -17,9 +16,7 @@ namespace DomL.Business
 
         public string DeQuem { get; set; }
         public string MeioTransporte { get; set; }
-        public int Valor { get; set; }
-
-        public int Ordem { get; set; }
+        public string Valor { get; set; }
 
         public string FullLine { get; set; }
     }

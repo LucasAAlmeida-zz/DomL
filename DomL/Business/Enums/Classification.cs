@@ -1,6 +1,6 @@
 ﻿namespace DomL.Business.Enums
 {
-    enum Classification
+    public enum Classification
     {
         Indefinido = 0,
         Unica = 1,
