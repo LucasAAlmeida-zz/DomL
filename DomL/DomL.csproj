@@ -65,7 +65,8 @@
     </Compile>
     <Compile Include="Business\Activity.cs" />
     <Compile Include="Business\DTOs\ConsolidateDTO.cs" />
-    <Compile Include="Business\Events.cs" />
+    <Compile Include="Business\Event.cs" />
+    <Compile Include="Business\Undefined.cs" />
     <Compile Include="Business\Play.cs" />
     <Compile Include="Business\Comic.cs" />
     <Compile Include="Business\Doom.cs" />

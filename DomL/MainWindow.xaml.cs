@@ -74,7 +74,7 @@ namespace DomL
                     var atividade = new Activity
                     {
                         Dia = diaDT,
-                        Categoria = Category.Event,
+                        Categoria = Category.Undefined,
                         FullLine = atividadeString,
                         IsInBlocoEspecial = isBlocoEspecial
                     };
@@ -93,6 +93,7 @@ namespace DomL
 
                         case "DOOM":
                         case "DESGRACA":
+                        case "DESGRAÇA":
                             Doom.Parse(atividade, segmentos);
                             break;
 
@@ -288,7 +289,7 @@ namespace DomL
         }
         #endregion
 
-        #region Consolida
+        #region Consolida Atividades
         private void ConsolidaAtividadesImportantesEmArquivo()
         {
             _atividadesFull = new List<Activity>();
@@ -324,6 +325,7 @@ namespace DomL
             Book.Consolidate(consolidateDTO);
             Comic.Consolidate(consolidateDTO);
             Event.Consolidate(consolidateDTO);
+            Undefined.Consolidate(consolidateDTO);
 
             MessageLabel.Content = "Atividades Importantes Consolidadas";
             MessageLabel2.Content = "";
