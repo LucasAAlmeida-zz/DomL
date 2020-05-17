@@ -13,7 +13,7 @@ namespace DomL.Business.Activities.MultipleDayActivities
     {
         readonly static Category categoria = Category.Movie;
 
-        public static void Parse(Activity atividade, IReadOnlyList<string> segmentos)
+        public void Parse(IReadOnlyList<string> segmentos)
         {
             // FILME; (Assunto) Título; (Valor) Nota
             // FILME; (Assunto) Título; (Classificação) Começo
@@ -21,8 +21,8 @@ namespace DomL.Business.Activities.MultipleDayActivities
             // FILME; (Assunto) Título; (Classificação) Término; (Valor) Nota
             // FILME; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
 
-            atividade.Categoria = categoria;
-            atividade.Assunto = segmentos[1];
+            Categoria = categoria;
+            Assunto = segmentos[1];
             string segmentoToLower = segmentos[2].ToLower();
             string classificacao = "unica";
             switch (segmentos.Count)
@@ -34,25 +34,25 @@ namespace DomL.Business.Activities.MultipleDayActivities
                     }
                     else
                     {
-                        atividade.Valor = segmentos[2];
+                        Valor = segmentos[2];
                     }
                     break;
                 case 4:
                     if (segmentoToLower == "termino" || segmentoToLower == "término" || segmentoToLower == "2")
                     {
                         classificacao = segmentoToLower;
-                        atividade.Valor = segmentos[3];
+                        Valor = segmentos[3];
                     }
                     else
                     {
-                        atividade.Valor = segmentos[2];
-                        atividade.Descricao = segmentos[3];
+                        Valor = segmentos[2];
+                        Descricao = segmentos[3];
                     }
                     break;
                 case 5:
                     classificacao = segmentos[2].ToLower();
-                    atividade.Valor = segmentos[3];
-                    atividade.Descricao = segmentos[4];
+                    Valor = segmentos[3];
+                    Descricao = segmentos[4];
                     break;
                 default:
                     throw new Exception("what");
@@ -60,140 +60,28 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
             switch (classificacao)
             {
-                case "comeco": case "começo": case "1": atividade.Classificacao = Classification.Comeco; break;
-                case "termino": case "término": case "2": atividade.Classificacao = Classification.Termino; break;
-                case "unica": atividade.Classificacao = Classification.Unica; break;
+                case "comeco": case "começo": case "1": Classificacao = Classification.Comeco; break;
+                case "termino": case "término": case "2": Classificacao = Classification.Termino; break;
+                case "unica": Classificacao = Classification.Unica; break;
                 default: throw new Exception("what");
             }
 
-            if (atividade.Classificacao != Classification.Comeco && atividade.Valor != "-" && !int.TryParse(atividade.Valor, out _))
+            if (Classificacao != Classification.Comeco && Valor != "-" && !int.TryParse(Valor, out _))
             {
                 throw new Exception("what");
             }
         }
 
-        public static void Consolidate(ConsolidateDTO consolidateDTO)
+        protected override void ParseAtividadeVelha(string[] segmentos)
         {
-            var filePath = consolidateDTO.fileDir + categoria.ToString() + ".txt";
-            var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
-
-            var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.Categoria == categoria).ToList();
-            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
-
-            var allAtividadesCategoria = atividadesVelhas;
-            EscreverNoArquivo(filePath, allAtividadesCategoria);
-
-            consolidateDTO.allAtividades.AddRange(allAtividadesCategoria);
+            Assunto = segmentos[2];
+            Valor = segmentos[3];
+            Descricao = segmentos[4];
         }
 
-        private static List<Activity> GetAtividadesVelhas(string filePath, int year)
+        protected override void WriteAtividadeConsolidada(StreamWriter file, string dataInicio, string dataTermino)
         {
-            var atividadesVelhas = new List<Activity>();
-
-            if (File.Exists(filePath))
-            {
-                using (var reader = new StreamReader(filePath))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        line = line.Replace("\t", ";");
-                        var segmentos = Regex.Split(line, ";");
-
-                        Activity atividadeVelha;
-                        int dia;
-                        int mes;
-
-                        if (int.TryParse(segmentos[0].Substring(0, 2), out dia))
-                        {
-                            // se tiver data de inicio
-                            mes = int.Parse(segmentos[0].Substring(3, 2));
-
-                            atividadeVelha = new Activity
-                            {
-                                Categoria = categoria,
-                                Dia = new DateTime(year, mes, dia),
-                                Classificacao = Classification.Comeco,
-                                Assunto = segmentos[2]
-                            };
-
-                            atividadesVelhas.Add(atividadeVelha);
-                        }
-
-                        if (int.TryParse(segmentos[1].Substring(0, 2), out dia))
-                        {
-                            mes = int.Parse(segmentos[1].Substring(3, 2));
-
-                            atividadeVelha = new Activity
-                            {
-                                Categoria = categoria,
-                                Dia = new DateTime(year, mes, dia),
-                                Classificacao = Classification.Termino,
-                                Assunto = segmentos[2],
-                                Valor = segmentos[3],
-                                Descricao = segmentos[4]
-                            };
-
-                            atividadesVelhas.Add(atividadeVelha);
-                        }
-                    }
-                }
-            }
-
-            return atividadesVelhas;
-        }
-
-        private static void EscreverNoArquivo(string filePath, List<Activity> allAtividadesCategoria)
-        {
-            using (var file = new StreamWriter(filePath))
-            {
-                foreach (Activity atividade in allAtividadesCategoria)
-                {
-                    string dataInicio = "??/??";
-                    string dataTermino = "??/??";
-                    string valor = atividade.Valor;
-                    string descricao = atividade.Descricao;
-
-                    switch (atividade.Classificacao)
-                    {
-                        case Classification.Unica:
-                            dataInicio = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
-                            dataTermino = dataInicio;
-                            break;
-
-                        case Classification.Comeco:
-                            dataInicio = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
-
-                            Activity atividadeTermino = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Termino && Util.IsEqualTitle(a.Assunto, atividade.Assunto));
-                            if (atividadeTermino != null)
-                            {
-                                dataTermino = atividadeTermino.Dia.Day.ToString("00") + "/" + atividadeTermino.Dia.Month.ToString("00");
-                                valor = atividadeTermino.Valor;
-                                descricao = atividadeTermino.Descricao;
-                            }
-                            break;
-
-                        case Classification.Termino:
-                            //Pra não fazer duas vezes a mesma atividade
-                            Activity atividadeComeco = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Util.IsEqualTitle(a.Assunto, atividade.Assunto));
-                            if (atividadeComeco != null)
-                            {
-                                continue;
-                            }
-
-                            dataTermino = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
-                            break;
-
-                        case Classification.Indefinido:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-
-                    valor = string.IsNullOrWhiteSpace(valor) ? "-" : valor;
-                    file.WriteLine(dataInicio + "\t" + dataTermino + "\t" + atividade.Assunto + "\t" + valor + "\t" + descricao);
-                }
-            }
+            file.WriteLine(dataInicio + "\t" + dataTermino + "\t" + Assunto + "\t" + Valor + "\t" + Descricao);
         }
     }
 }

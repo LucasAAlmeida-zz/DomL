@@ -44,7 +44,7 @@ namespace DomL.Business.Activities.SpecialActivities
                             diaMesStr = segmentos[0];
                         }
 
-                        Activity atividadeVelha = Util.GetAtividadeVelha(diaMesStr, year, Category.Undefined);
+                        Activity atividadeVelha = Util.GetAtividadeVelha(diaMesStr, year, Category.Undefined, Classification.Unica);
                         atividadeVelha.FullLine = segmentos[1];
                         atividadeVelha.IsInBlocoEspecial = true;
 

@@ -90,83 +90,117 @@ namespace DomL
                     #region switch de categoria
                     switch (categoria)
                     {
-                        case "WORK":
-                            Work.Parse(atividade, segmentos);
+                        case "AUTO":
+                        case "CARRO":
+                            Auto auto = (Auto)atividade;
+                            auto.Parse(segmentos);
+                            _atividades.Add(auto);
                             break;
 
                         case "DOOM":
                         case "DESGRACA":
                         case "DESGRAÇA":
-                            Doom.Parse(atividade, segmentos);
-                            break;
-
-                        case "SAUDE":
-                        case "HEALTH":
-                            Health.Parse(atividade, segmentos);
-                            break;
-
-                        case "VIAGEM":
-                        case "TRIP":
-                            Travel.Parse(atividade, segmentos);
-                            break;
-
-                        case "AUTO":
-                        case "CARRO":
-                            Auto.Parse(atividade, segmentos);
+                            Doom doom = (Doom)atividade;
+                            doom.Parse(segmentos);
+                            _atividades.Add(doom);
                             break;
 
                         case "GIFT":
                         case "PRESENTE":
-                            Gift.Parse(atividade, segmentos);
+                            Gift gift = (Gift)atividade;
+                            gift.Parse(segmentos);
+                            _atividades.Add(gift);
+                            break;
+                        
+                        case "SAUDE":
+                        case "HEALTH":
+                            Health health = (Health)atividade;
+                            health.Parse(segmentos);
+                            _atividades.Add(health);
                             break;
 
                         case "PESSOA":
-                            Person.Parse(atividade, segmentos);
+                            Person person = (Person)atividade;
+                            person.Parse(segmentos);
+                            _atividades.Add(person);
                             break;
-
+                        
                         case "PET":
                         case "ANIMAL":
-                            Pet.Parse(atividade, segmentos);
+                            Pet pet = (Pet)atividade;
+                            pet.Parse(segmentos);
+                            _atividades.Add(pet);
+                            break;
+
+                        case "PLAY":
+                            Play play = (Play)atividade;
+                            play.Parse(segmentos);
+                            _atividades.Add(play);
                             break;
 
                         case "COMPRA":
-                            Purchase.Parse(atividade, segmentos);
+                            Purchase purchase = (Purchase)atividade;
+                            purchase.Parse(segmentos);
+                            _atividades.Add(purchase);
                             break;
 
+                        case "VIAGEM":
+                        case "TRIP":
+                            Travel travel = (Travel)atividade;
+                            travel.Parse(segmentos);
+                            _atividades.Add(travel);
+                            break;
+
+                        case "WORK":
+                            Work work = (Work)atividade;
+                            work.Parse(segmentos);
+                            _atividades.Add(work);
+                            break;
+
+                        // -----
+
+                        case "LIVRO":
+                        case "BOOK":
+                            Book book = (Book)atividade;
+                            book.Parse(segmentos);
+                            _atividades.Add(book);
+                            break;
+
+                        case "COMIC":
+                        case "MANGA":
+                            Comic comic = (Comic)atividade;
+                            comic.Parse(segmentos);
+                            _atividades.Add(comic);
+                            break;
+                        
                         case "JOGO":
                         case "GAME":
-                            Game.Parse(atividade, segmentos);
-                            break;
-
-                        case "WATCH":
-                            Watch.Parse(atividade, segmentos);
+                            Game game = (Game)atividade;
+                            game.Parse(segmentos);
+                            _atividades.Add(game);
                             break;
 
                         case "FILME":
                         case "MOVIE":
                         case "CINEMA":
-                            Movie.Parse(atividade, segmentos);
+                            Movie movie = (Movie)atividade;
+                            movie.Parse(segmentos);
+                            _atividades.Add(movie);
                             break;
 
                         case "SERIE":
                         case "DESENHO":
                         case "ANIME":
                         case "CARTOON":
-                            Series.Parse(atividade, segmentos);
+                            Series series = (Series)atividade;
+                            series.Parse(segmentos);
+                            _atividades.Add(series);
                             break;
 
-                        case "LIVRO":
-                        case "BOOK":
-                            Book.Parse(atividade, segmentos);
-                            break;
-
-                        case "COMIC":
-                        case "MANGA":
-                            Comic.Parse(atividade, segmentos);
-                            break;
-
-                        case "PLAY":
-                            Play.Parse(atividade, segmentos);
+                        case "WATCH":
+                            Watch watch = (Watch)atividade;
+                            watch.Parse(segmentos);
+                            _atividades.Add(watch);
                             break;
 
                         default:
@@ -311,27 +345,46 @@ namespace DomL
                 _atividadesFull
             );
 
-            Work.Consolidate(consolidateDTO);
-            Doom.Consolidate(consolidateDTO);
-            Health.Consolidate(consolidateDTO);
-            Travel.Consolidate(consolidateDTO);
-            Gift.Consolidate(consolidateDTO);
-            Auto.Consolidate(consolidateDTO);
-            Pet.Consolidate(consolidateDTO);
-            Play.Consolidate(consolidateDTO);
-            Person.Consolidate(consolidateDTO);
-            Purchase.Consolidate(consolidateDTO);
-            Game.Consolidate(consolidateDTO);
-            Watch.Consolidate(consolidateDTO);
-            Movie.Consolidate(consolidateDTO);
-            Series.Consolidate(consolidateDTO);
-            Book.Consolidate(consolidateDTO);
-            Comic.Consolidate(consolidateDTO);
+            int ano = int.Parse(AnoTb.Text);
+
+            ConsolidateSingleDayActivityCategory(Category.Auto, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Doom, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Gift, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Health, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Person, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Pet, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Play, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Purchase, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Travel, fileDir, ano);
+            ConsolidateSingleDayActivityCategory(Category.Work, fileDir, ano);
+
+            ConsolidateMultipleDayActivityCategory(Category.Game, fileDir, ano);
+            ConsolidateMultipleDayActivityCategory(Category.Watch, fileDir, ano);
+            ConsolidateMultipleDayActivityCategory(Category.Movie, fileDir, ano);
+            ConsolidateMultipleDayActivityCategory(Category.Series, fileDir, ano);
+            ConsolidateMultipleDayActivityCategory(Category.Book, fileDir, ano);
+            ConsolidateMultipleDayActivityCategory(Category.Comic, fileDir, ano);
+            ConsolidateMultipleDayActivityCategory(Category.Course, fileDir, ano);
+
             Event.Consolidate(consolidateDTO);
             Undefined.Consolidate(consolidateDTO);
 
             MessageLabel.Content = "Atividades Importantes Consolidadas";
             MessageLabel2.Content = "";
+        }
+
+        private void ConsolidateSingleDayActivityCategory(Category category, string fileDir, int ano)
+        {
+            var newCategoryActivities = _atividades.Where(a => a.Categoria == category).ToList();
+            var allCategoryActivities = SingleDayActivity.Consolidate(category, newCategoryActivities, fileDir, ano);
+            _atividadesFull.AddRange(allCategoryActivities);
+        }
+
+        private void ConsolidateMultipleDayActivityCategory(Category category, string fileDir, int ano)
+        {
+            var newCategoryActivities = _atividades.Where(a => a.Categoria == category).ToList();
+            var allCategoryActivities = MultipleDayActivity.Consolidate(category, newCategoryActivities, fileDir, ano);
+            _atividadesFull.AddRange(allCategoryActivities);
         }
         #endregion
 

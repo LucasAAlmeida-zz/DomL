@@ -8,15 +8,21 @@ namespace DomL.Business.Utils
 {
     public class Util
     {
-        public static Activity GetAtividadeVelha(string diaMes, int ano, Category categoria)
+        public static Activity GetAtividadeVelha(string diaMes, int year, Category categoria, Classification classification)
         {
-            int dia = int.Parse(diaMes.Substring(0, 2));
+            if (!int.TryParse(diaMes.Substring(0, 2), out int dia))
+            {
+                return null;
+            }
+
             int mes = int.Parse(diaMes.Substring(3, 2));
             var atividadeVelha = new Activity
             {
                 Categoria = categoria,
-                Dia = new DateTime(ano, mes, dia)
+                Dia = new DateTime(year, mes, dia),
+                Classificacao = classification,
             };
+
             return atividadeVelha;
         }
 

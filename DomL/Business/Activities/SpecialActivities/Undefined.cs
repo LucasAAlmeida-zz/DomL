@@ -37,7 +37,7 @@ namespace DomL.Business.Activities.SpecialActivities
                     {
                         var segmentos = Regex.Split(line, "\t");
 
-                        Activity atividadeVelha = Util.GetAtividadeVelha(segmentos[0], year, categoria);
+                        Activity atividadeVelha = Util.GetAtividadeVelha(segmentos[0], year, categoria, Classification.Unica);
                         atividadeVelha.FullLine = segmentos[1];
 
                         atividadesVelhas.Add(atividadeVelha);

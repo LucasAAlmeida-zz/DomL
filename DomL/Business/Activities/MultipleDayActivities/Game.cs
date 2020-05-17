@@ -13,7 +13,7 @@ namespace DomL.Business.Activities.MultipleDayActivities
     {
         readonly static Category categoria = Category.Game;
 
-        public static void Parse(Activity atividade, IReadOnlyList<string> segmentos)
+        public void Parse(IReadOnlyList<string> segmentos)
         {
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Valor) Nota
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Começo
@@ -21,9 +21,9 @@ namespace DomL.Business.Activities.MultipleDayActivities
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Término; (Valor) Nota
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
 
-            atividade.Categoria = categoria;
-            atividade.DeQuem = segmentos[1];
-            atividade.Assunto = segmentos[2];
+            Categoria = categoria;
+            DeQuem = segmentos[1];
+            Assunto = segmentos[2];
             string segmentoToLower = segmentos[3].ToLower();
             string classificacao = "unica";
             switch (segmentos.Count)
@@ -35,25 +35,25 @@ namespace DomL.Business.Activities.MultipleDayActivities
                     }
                     else
                     {
-                        atividade.Valor = segmentos[3];
+                        Valor = segmentos[3];
                     }
                     break;
                 case 5:
                     if (segmentoToLower == "termino" || segmentoToLower == "término")
                     {
                         classificacao = segmentoToLower;
-                        atividade.Valor = segmentos[4];
+                        Valor = segmentos[4];
                     }
                     else
                     {
-                        atividade.Valor = segmentos[3];
-                        atividade.Descricao = segmentos[4];
+                        Valor = segmentos[3];
+                        Descricao = segmentos[4];
                     }
                     break;
                 case 6:
                     classificacao = segmentos[3].ToLower();
-                    atividade.Valor = segmentos[4];
-                    atividade.Descricao = segmentos[5];
+                    Valor = segmentos[4];
+                    Descricao = segmentos[5];
                     break;
                 default:
                     throw new Exception("what");
@@ -61,13 +61,13 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
             switch (classificacao)
             {
-                case "comeco": case "começo": atividade.Classificacao = Classification.Comeco; break;
-                case "termino": case "término": atividade.Classificacao = Classification.Termino; break;
-                case "unica": atividade.Classificacao = Classification.Unica; break;
+                case "comeco": case "começo": Classificacao = Classification.Comeco; break;
+                case "termino": case "término": Classificacao = Classification.Termino; break;
+                case "unica": Classificacao = Classification.Unica; break;
                 default: throw new Exception("what");
             }
 
-            if (atividade.Classificacao != Classification.Comeco && atividade.Valor != "-" && !int.TryParse(atividade.Valor, out _))
+            if (Classificacao != Classification.Comeco && Valor != "-" && !int.TryParse(Valor, out _))
             {
                 throw new Exception("what");
             }
@@ -197,6 +197,19 @@ namespace DomL.Business.Activities.MultipleDayActivities
                     file.WriteLine(dataInicio + "\t" + dataTermino + "\t" + atividade.DeQuem + "\t" + atividade.Assunto + "\t" + valor + "\t" + descricao);
                 }
             }
+        }
+
+        protected override void ParseAtividadeVelha(string[] segmentos)
+        {
+            DeQuem = segmentos[2];
+            Assunto = segmentos[3];
+            Valor = segmentos[4];
+            Descricao = segmentos[5];
+        }
+
+        protected override void WriteAtividadeConsolidada(StreamWriter file, string dataInicio, string dataTermino)
+        {
+            file.WriteLine(dataInicio + "\t" + dataTermino + "\t" + DeQuem + "\t" + Assunto + "\t" + Valor + "\t" + Descricao);
         }
     }
 }
