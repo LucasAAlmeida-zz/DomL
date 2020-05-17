@@ -1,35 +1,23 @@
-﻿using System;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DomL.Business.DTOs;
-using DomL.Business.Enums;
 
-namespace DomL.Business
+namespace DomL.Business.Activities.SingleDayActivities
 {
-    public class Person
+    public class Work : SingleDayActivity
     {
-        readonly static Category categoria = Category.Person;
+        readonly static Category categoria = Category.Work;
 
         public static void Parse(Activity atividade, IReadOnlyList<string> segmentos)
         {
-            //PESSOA; (Assunto) Nome da Pessoa; (Descrição) Coisas pra me lembrar
-            //PESSOA; (Assunto) Nome da Pessoa; (DeQuem) Origem conheci (amigo de x, furry, etc); (Descrição) Coisas pra me lembrar
-
+            //WORK; (Descrição) O que aconteceu
+            
             atividade.Categoria = categoria;
-            atividade.Assunto = segmentos[1];
-            if (segmentos.Count == 3)
-            {
-                atividade.Descricao = segmentos[2];
-            }
-            else
-            {
-                atividade.DeQuem = segmentos[2];
-                atividade.Descricao = segmentos[3];
-            }
+            atividade.Descricao = segmentos[1];
         }
 
         public static void Consolidate(ConsolidateDTO consolidateDTO)
@@ -38,7 +26,7 @@ namespace DomL.Business
             var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
 
             var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.Categoria == categoria).ToList();
-            atividadesVelhas.AddRange(Utils.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
+            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
 
             var allAtividadesCategoria = atividadesVelhas;
             EscreverNoArquivo(filePath, allAtividadesCategoria);
@@ -60,7 +48,7 @@ namespace DomL.Business
                         line = line.Replace("\t", ";");
                         var segmentos = Regex.Split(line, ";");
 
-                        Activity atividadeVelha = Utils.GetAtividadeVelha(segmentos[0], year, categoria);
+                        Activity atividadeVelha = Util.GetAtividadeVelha(segmentos[0], year, categoria);
 
                         ParseAtividadeVelha(atividadeVelha, segmentos);
 
@@ -86,14 +74,12 @@ namespace DomL.Business
 
         private static void ParseAtividadeVelha(Activity atividadeVelha, string[] segmentos)
         {
-            atividadeVelha.Assunto = segmentos[1];
-            atividadeVelha.DeQuem = segmentos[2];
-            atividadeVelha.Descricao = segmentos[3];
+            atividadeVelha.Descricao = segmentos[1];
         }
 
         private static void WriteAtividadesConsolidadas(StreamWriter file, string dia, Activity atividade)
         {
-            file.WriteLine(dia + "\t" + atividade.Assunto + "\t" + (!string.IsNullOrWhiteSpace(atividade.DeQuem) ? atividade.DeQuem : "") + "\t" + atividade.Descricao);
+            file.WriteLine(dia + "\t" + atividade.Descricao);
         }
     }
 }

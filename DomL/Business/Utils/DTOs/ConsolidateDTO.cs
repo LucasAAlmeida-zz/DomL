@@ -1,10 +1,7 @@
-﻿using System;
+﻿using DomL.Business.Activities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DomL.Business.DTOs
+namespace DomL.Business.Utils.DTOs
 {
     public class ConsolidateDTO
     {

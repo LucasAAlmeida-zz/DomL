@@ -1,23 +1,21 @@
-﻿using System;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DomL.Business.DTOs;
-using DomL.Business.Enums;
 
-namespace DomL.Business
+namespace DomL.Business.Activities.SingleDayActivities
 {
-    public class Play
+    public class Pet : SingleDayActivity
     {
-        readonly static Category categoria = Category.Play;
+        readonly static Category categoria = Category.Pet;
         
         public static void Parse(Activity atividade, IReadOnlyList<string> segmentos)
         {
-            //PLAY; (Assunto) Quem; (Descricao) O que Aconteceu
-            //PLAY; (Descricao) O que Aconteceu
+            //PET; (Assunto) Qual Pet; (Descricao) O que Aconteceu
+            //PET; (Descricao) O que Aconteceu
 
             atividade.Categoria = categoria;
             if (segmentos.Count == 2)
@@ -37,7 +35,7 @@ namespace DomL.Business
             var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
 
             var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.Categoria == categoria).ToList();
-            atividadesVelhas.AddRange(Utils.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
+            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
 
             var allAtividadesCategoria = atividadesVelhas;
             EscreverNoArquivo(filePath, allAtividadesCategoria);
@@ -59,7 +57,7 @@ namespace DomL.Business
                         line = line.Replace("\t", ";");
                         var segmentos = Regex.Split(line, ";");
 
-                        Activity atividadeVelha = Utils.GetAtividadeVelha(segmentos[0], year, categoria);
+                        Activity atividadeVelha = Util.GetAtividadeVelha(segmentos[0], year, categoria);
 
                         ParseAtividadeVelha(atividadeVelha, segmentos);
 
@@ -93,6 +91,5 @@ namespace DomL.Business
         {
             file.WriteLine(dia + "\t" + atividade.Assunto + "\t" + atividade.Descricao);
         }
-
     }
 }

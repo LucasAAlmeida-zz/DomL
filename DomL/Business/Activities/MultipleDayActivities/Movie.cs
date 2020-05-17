@@ -1,26 +1,25 @@
-﻿using System;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DomL.Business.DTOs;
-using DomL.Business.Enums;
 
-namespace DomL.Business
+namespace DomL.Business.Activities.MultipleDayActivities
 {
-    public class Comic
+    public class Movie : MultipleDayActivity
     {
-        readonly static Category categoria = Category.Comic;
+        readonly static Category categoria = Category.Movie;
 
         public static void Parse(Activity atividade, IReadOnlyList<string> segmentos)
         {
-            // COMIC|MANGA; (Assunto) Título; (Valor) Nota
-            // COMIC|MANGA; (Assunto) Título; (Classificação) Começo
-            // COMIC|MANGA; (Assunto) Título; (Valor) Nota; (Descrição) O que achei
-            // COMIC|MANGA; (Assunto) Título; (Classificação) Término; (Valor) Nota
-            // COMIC|MANGA; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
+            // FILME; (Assunto) Título; (Valor) Nota
+            // FILME; (Assunto) Título; (Classificação) Começo
+            // FILME; (Assunto) Título; (Valor) Nota; (Descrição) O que achei
+            // FILME; (Assunto) Título; (Classificação) Término; (Valor) Nota
+            // FILME; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
 
             atividade.Categoria = categoria;
             atividade.Assunto = segmentos[1];
@@ -29,7 +28,7 @@ namespace DomL.Business
             switch (segmentos.Count)
             {
                 case 3:
-                    if (segmentoToLower == "comeco" || segmentoToLower == "começo")
+                    if (segmentoToLower == "comeco" || segmentoToLower == "começo" || segmentoToLower == "1")
                     {
                         classificacao = segmentoToLower;
                     }
@@ -39,7 +38,7 @@ namespace DomL.Business
                     }
                     break;
                 case 4:
-                    if (segmentoToLower == "termino" || segmentoToLower == "término")
+                    if (segmentoToLower == "termino" || segmentoToLower == "término" || segmentoToLower == "2")
                     {
                         classificacao = segmentoToLower;
                         atividade.Valor = segmentos[3];
@@ -61,8 +60,8 @@ namespace DomL.Business
 
             switch (classificacao)
             {
-                case "comeco": case "começo": atividade.Classificacao = Classification.Comeco; break;
-                case "termino": case "término": atividade.Classificacao = Classification.Termino; break;
+                case "comeco": case "começo": case "1": atividade.Classificacao = Classification.Comeco; break;
+                case "termino": case "término": case "2": atividade.Classificacao = Classification.Termino; break;
                 case "unica": atividade.Classificacao = Classification.Unica; break;
                 default: throw new Exception("what");
             }
@@ -79,7 +78,7 @@ namespace DomL.Business
             var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
 
             var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.Categoria == categoria).ToList();
-            atividadesVelhas.AddRange(Utils.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
+            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
 
             var allAtividadesCategoria = atividadesVelhas;
             EscreverNoArquivo(filePath, allAtividadesCategoria);
@@ -165,7 +164,7 @@ namespace DomL.Business
                         case Classification.Comeco:
                             dataInicio = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
 
-                            Activity atividadeTermino = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Termino && Utils.IsEqualTitle(a.Assunto, atividade.Assunto));
+                            Activity atividadeTermino = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Termino && Util.IsEqualTitle(a.Assunto, atividade.Assunto));
                             if (atividadeTermino != null)
                             {
                                 dataTermino = atividadeTermino.Dia.Day.ToString("00") + "/" + atividadeTermino.Dia.Month.ToString("00");
@@ -176,7 +175,7 @@ namespace DomL.Business
 
                         case Classification.Termino:
                             //Pra não fazer duas vezes a mesma atividade
-                            Activity atividadeComeco = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Utils.IsEqualTitle(a.Assunto, atividade.Assunto));
+                            Activity atividadeComeco = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Util.IsEqualTitle(a.Assunto, atividade.Assunto));
                             if (atividadeComeco != null)
                             {
                                 continue;

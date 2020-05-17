@@ -1,16 +1,15 @@
-﻿using System;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using DomL.Business.DTOs;
-using DomL.Business.Enums;
 
-namespace DomL.Business
+namespace DomL.Business.Activities.MultipleDayActivities
 {
-    public class Watch
+    public class Watch : MultipleDayActivity
     {
         readonly static Category categoria = Category.Watch;
 
@@ -79,7 +78,7 @@ namespace DomL.Business
             var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
 
             var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.Categoria == categoria).ToList();
-            atividadesVelhas.AddRange(Utils.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
+            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
 
             var allAtividadesCategoria = atividadesVelhas;
             EscreverNoArquivo(filePath, allAtividadesCategoria);
@@ -165,7 +164,7 @@ namespace DomL.Business
                         case Classification.Comeco:
                             dataInicio = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
 
-                            Activity atividadeTermino = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Termino && Utils.IsEqualTitle(a.Assunto, atividade.Assunto));
+                            Activity atividadeTermino = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Termino && Util.IsEqualTitle(a.Assunto, atividade.Assunto));
                             if (atividadeTermino != null)
                             {
                                 dataTermino = atividadeTermino.Dia.Day.ToString("00") + "/" + atividadeTermino.Dia.Month.ToString("00");
@@ -176,7 +175,7 @@ namespace DomL.Business
 
                         case Classification.Termino:
                             //Pra não fazer duas vezes a mesma atividade
-                            Activity atividadeComeco = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Utils.IsEqualTitle(a.Assunto, atividade.Assunto));
+                            Activity atividadeComeco = allAtividadesCategoria.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Util.IsEqualTitle(a.Assunto, atividade.Assunto));
                             if (atividadeComeco != null)
                             {
                                 continue;

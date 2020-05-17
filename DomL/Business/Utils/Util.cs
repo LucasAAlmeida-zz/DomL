@@ -1,13 +1,12 @@
-﻿using DomL.Business.Enums;
+﻿using DomL.Business.Activities;
+using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DomL.Business
+namespace DomL.Business.Utils
 {
-    public class Utils
+    public class Util
     {
         public static Activity GetAtividadeVelha(string diaMes, int ano, Category categoria)
         {

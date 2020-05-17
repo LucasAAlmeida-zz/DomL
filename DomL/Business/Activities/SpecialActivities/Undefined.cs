@@ -1,13 +1,14 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Enums;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace DomL.Business
+namespace DomL.Business.Activities.SpecialActivities
 {
-    class Undefined
+    class Undefined : SpecialActivity
     {
         readonly static Category categoria = Category.Undefined;
 
@@ -17,7 +18,7 @@ namespace DomL.Business
             var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
 
             var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.Categoria == categoria).ToList();
-            atividadesVelhas.AddRange(Utils.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
+            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
 
             var allAtividadesCategoria = atividadesVelhas;
             EscreverNoArquivo(filePath, allAtividadesCategoria);
@@ -36,7 +37,7 @@ namespace DomL.Business
                     {
                         var segmentos = Regex.Split(line, "\t");
 
-                        Activity atividadeVelha = Utils.GetAtividadeVelha(segmentos[0], year, categoria);
+                        Activity atividadeVelha = Util.GetAtividadeVelha(segmentos[0], year, categoria);
                         atividadeVelha.FullLine = segmentos[1];
 
                         atividadesVelhas.Add(atividadeVelha);

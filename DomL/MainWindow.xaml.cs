@@ -1,6 +1,9 @@
-﻿using DomL.Business;
-using DomL.Business.DTOs;
-using DomL.Business.Enums;
+﻿using DomL.Business.Activities;
+using DomL.Business.Activities.MultipleDayActivities;
+using DomL.Business.Activities.SingleDayActivities;
+using DomL.Business.Activities.SpecialActivities;
+using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;

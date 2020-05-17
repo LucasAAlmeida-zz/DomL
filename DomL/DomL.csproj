@@ -63,29 +63,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Business\Activity.cs" />
-    <Compile Include="Business\DTOs\ConsolidateDTO.cs" />
-    <Compile Include="Business\Event.cs" />
-    <Compile Include="Business\Undefined.cs" />
-    <Compile Include="Business\Play.cs" />
-    <Compile Include="Business\Comic.cs" />
-    <Compile Include="Business\Doom.cs" />
-    <Compile Include="Business\Enums\Category.cs" />
-    <Compile Include="Business\Enums\Classification.cs" />
-    <Compile Include="Business\Utils.cs" />
-    <Compile Include="Business\Watch.cs" />
-    <Compile Include="Business\Movie.cs" />
-    <Compile Include="Business\Series.cs" />
-    <Compile Include="Business\Book.cs" />
-    <Compile Include="Business\Health.cs" />
-    <Compile Include="Business\Travel.cs" />
-    <Compile Include="Business\Auto.cs" />
-    <Compile Include="Business\Gift.cs" />
-    <Compile Include="Business\Person.cs" />
-    <Compile Include="Business\Pet.cs" />
-    <Compile Include="Business\Purchase.cs" />
-    <Compile Include="Business\Game.cs" />
-    <Compile Include="Business\Work.cs" />
+    <Compile Include="Business\Activities\Activity.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivity.cs" />
+    <Compile Include="Business\Activities\SingleDayActivity.cs" />
+    <Compile Include="Business\Activities\SpecialActivity.cs" />
+    <Compile Include="Business\Utils\DTOs\ConsolidateDTO.cs" />
+    <Compile Include="Business\Activities\SpecialActivities\Event.cs" />
+    <Compile Include="Business\Activities\SpecialActivities\Undefined.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Play.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivities\Comic.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Doom.cs" />
+    <Compile Include="Business\Utils\Enums\Category.cs" />
+    <Compile Include="Business\Utils\Enums\Classification.cs" />
+    <Compile Include="Business\Utils\Util.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivities\Watch.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivities\Movie.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivities\Series.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivities\Book.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Health.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Travel.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Auto.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Gift.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Person.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Pet.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Purchase.cs" />
+    <Compile Include="Business\Activities\MultipleDayActivities\Game.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Work.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
