@@ -31,9 +31,10 @@ namespace DomL.Business.Activities.SingleDayActivities
             Descricao = segmentos[2];
         }
 
-        protected override void WriteAtividadeConsolidada(StreamWriter file, string dia)
+        protected override string ConsolidateActivity()
         {
-            file.WriteLine(dia + "\t" + Assunto + "\t" + Descricao);
+            string diaMes = Dia.Day.ToString("00") + "/" + Dia.Month.ToString("00");
+            return diaMes + "\t" + Assunto + "\t" + Descricao;
         }
     }
 }

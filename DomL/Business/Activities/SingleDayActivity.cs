@@ -108,57 +108,61 @@ namespace DomL.Business.Activities
                 {
                     string diaMes = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
 
+                    string consolidatedActivity;
+
                     switch (category)
                     {
                         case Category.Auto:
                             Auto auto = (Auto) atividade;
-                            auto.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = auto.ConsolidateActivity();
                             break;
                         case Category.Doom:
                             Doom doom = (Doom)atividade;
-                            doom.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = doom.ConsolidateActivity();
                             break;
                         case Category.Gift:
                             Gift gift = (Gift)atividade;
-                            gift.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = gift.ConsolidateActivity();
                             break;
                         case Category.Health:
                             Health health = (Health)atividade;
-                            health.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = health.ConsolidateActivity();
                             break;
                         case Category.Person:
                             Person person = (Person)atividade;
-                            person.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = person.ConsolidateActivity();
                             break;
                         case Category.Pet:
                             Pet pet = (Pet)atividade;
-                            pet.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = pet.ConsolidateActivity();
                             break;
                         case Category.Play:
                             Play play = (Play)atividade;
-                            play.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = play.ConsolidateActivity();
                             break;
                         case Category.Purchase:
                             Purchase purchase = (Purchase)atividade;
-                            purchase.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = purchase.ConsolidateActivity();
                             break;
                         case Category.Travel:
                             Travel travel = (Travel)atividade;
-                            travel.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = travel.ConsolidateActivity();
                             break;
                         case Category.Work:
                             Work work = (Work)atividade;
-                            work.WriteAtividadeConsolidada(file, diaMes);
+                            consolidatedActivity = work.ConsolidateActivity();
                             break;
                         default:
                             throw new Exception("what");
                     }
+
+                    file.WriteLine(consolidatedActivity);
                 }
             }
         }
 
         protected abstract void ParseAtividadeVelha(string[] segmentos);
 
-        protected abstract void WriteAtividadeConsolidada(StreamWriter file, string dia);
+        protected abstract string ConsolidateActivity();
     }
 }

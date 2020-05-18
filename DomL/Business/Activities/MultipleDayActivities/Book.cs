@@ -77,9 +77,11 @@ namespace DomL.Business.Activities.MultipleDayActivities
             Descricao = segmentos[4];
         }
 
-        protected override void WriteAtividadeConsolidada(StreamWriter file, string dataInicio, string dataTermino)
+        protected override string ConsolidateActivity()
         {
-            file.WriteLine(dataInicio + "\t" + dataTermino + "\t" + Assunto + "\t" + Valor + "\t" + Descricao);
+            var dataInicio = Dia != DateTime.MinValue ? Dia.Day.ToString("00") + "/" + Dia.Month.ToString("00") : "??/??";
+            var dataTermino = DiaTermino != DateTime.MinValue ? DiaTermino.Day.ToString("00") + "/" + DiaTermino.Month.ToString("00") : "??/??";
+            return dataInicio + "\t" + dataTermino + "\t" + Assunto + "\t" + Valor + "\t" + Descricao;
         }
     }
 }

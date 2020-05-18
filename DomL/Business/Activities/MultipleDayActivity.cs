@@ -11,6 +11,8 @@ namespace DomL.Business.Activities
 {
     public abstract class MultipleDayActivity : Activity
     {
+        public DateTime DiaTermino { get; set; }
+
         public static List<Activity> Consolidate(Category category, List<Activity> newCategoryActivities, string fileDir, int ano)
         {
             var filePath = fileDir + category.ToString() + ".txt";
@@ -145,76 +147,73 @@ namespace DomL.Business.Activities
         {
             using (var file = new StreamWriter(filePath))
             {
-                foreach (Activity activity in allCategoryActivities)
+                foreach (MultipleDayActivity activity in allCategoryActivities)
                 {
-                    string dataInicio = "??/??";
-                    string dataTermino = "??/??";
-
                     switch (activity.Classificacao)
                     {
                         case Classification.Unica:
-                            dataInicio = activity.Dia.Day.ToString("00") + "/" + activity.Dia.Month.ToString("00");
-                            dataTermino = dataInicio;
+                            activity.DiaTermino = activity.Dia;
                             break;
 
                         case Classification.Comeco:
-                            dataInicio = activity.Dia.Day.ToString("00") + "/" + activity.Dia.Month.ToString("00");
-
                             Activity atividadeTermino = allCategoryActivities.FirstOrDefault(a => a.Classificacao == Classification.Termino && Util.IsEqualTitle(a.Assunto, activity.Assunto));
                             if (atividadeTermino != null)
                             {
-                                dataTermino = atividadeTermino.Dia.Day.ToString("00") + "/" + atividadeTermino.Dia.Month.ToString("00");
+                                activity.DiaTermino = atividadeTermino.Dia;
                                 activity.Valor = atividadeTermino.Valor;
                                 activity.Descricao = string.IsNullOrWhiteSpace(activity.Descricao) ? atividadeTermino.Descricao : activity.Descricao + ", " + atividadeTermino.Descricao;
                             }
                             break;
 
                         case Classification.Termino:
+                            activity.DiaTermino = activity.Dia;
+                            activity.Dia = DateTime.MinValue;
+
                             //Pra não fazer duas vezes a mesma atividade
                             Activity atividadeComeco = allCategoryActivities.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Util.IsEqualTitle(a.Assunto, activity.Assunto));
                             if (atividadeComeco != null)
                             {
                                 continue;
                             }
-
-                            dataTermino = activity.Dia.Day.ToString("00") + "/" + activity.Dia.Month.ToString("00");
                             break;
 
-                        case Classification.Indefinido:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
+                            default:
+                                throw new ArgumentOutOfRangeException();
                     }
+
+                    string consolidatedActivity;
 
                     switch (category)
                     {
                         case Category.Book:
                             Book book = (Book)activity;
-                            book.WriteAtividadeConsolidada(file, dataInicio, dataTermino);
+                            consolidatedActivity = book.ConsolidateActivity();
                             break;
                         case Category.Comic:
                             Comic comic = (Comic)activity;
-                            comic.WriteAtividadeConsolidada(file, dataInicio, dataTermino);
+                            consolidatedActivity = comic.ConsolidateActivity();
                             break;
                         case Category.Game:
                             Game game = (Game)activity;
-                            game.WriteAtividadeConsolidada(file, dataInicio, dataTermino);
+                            consolidatedActivity = game.ConsolidateActivity();
                             break;
                         case Category.Movie:
                             Movie movie = (Movie)activity;
-                            movie.WriteAtividadeConsolidada(file, dataInicio, dataTermino);
+                            consolidatedActivity = movie.ConsolidateActivity();
                             break;
                         case Category.Series:
                             Series series = (Series)activity;
-                            series.WriteAtividadeConsolidada(file, dataInicio, dataTermino);
+                            consolidatedActivity = series.ConsolidateActivity();
                             break;
                         case Category.Watch:
                             Watch watch = (Watch)activity;
-                            watch.WriteAtividadeConsolidada(file, dataInicio, dataTermino);
+                            consolidatedActivity = watch.ConsolidateActivity();
                             break;
                         default:
                             throw new Exception("what");
                     }
+
+                    file.WriteLine(consolidatedActivity);
                 }
             }
 
@@ -222,6 +221,6 @@ namespace DomL.Business.Activities
 
         protected abstract void ParseAtividadeVelha(string[] segmentos);
 
-        protected abstract void WriteAtividadeConsolidada(StreamWriter file, string dataInicio, string dataTermino);
+        protected abstract string ConsolidateActivity();
     }
 }

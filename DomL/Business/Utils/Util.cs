@@ -32,7 +32,10 @@ namespace DomL.Business.Utils
             foreach (Activity atividade in atividadesNovas)
             {
                 Activity atividadeVelha = atividadesVelhas.FirstOrDefault(av => av.Dia == atividade.Dia);
-                if (atividadeVelha == null) { atividadesToAdd.Add(atividade); }
+                if (atividadeVelha == null)
+                {
+                    atividadesToAdd.Add(atividade);
+                }
             }
             return atividadesToAdd;
         }
