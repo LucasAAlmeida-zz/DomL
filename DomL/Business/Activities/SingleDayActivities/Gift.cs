@@ -1,32 +1,23 @@
-﻿using DomL.Business.Utils.Enums;
+﻿using DomL.Business.Utils.DTOs;
 using System.Collections.Generic;
-using System.IO;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Gift : SingleDayActivity
     {
-        readonly static Category categoria = Category.Gift;
+        public Gift(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
 
-        public void Parse(IReadOnlyList<string> segmentos)
+        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             //GIFT; (Assunto) O que ganhei; (DeQuem) De quem ganhei o presente
             //GIFT; (Assunto) O que ganhei; (DeQuem) De quem ganhei o presente; (Descrição) o que aconteceu
 
-            Categoria = categoria;
             Assunto = segmentos[1];
             DeQuem = segmentos[2];
             if (segmentos.Count == 4)
             {
                 Descricao = segmentos[3];
             }
-        }
-
-        protected override void ParseAtividadeVelha(string[] segmentos)
-        {
-            Assunto = segmentos[1];
-            DeQuem = segmentos[2];
-            Descricao = segmentos[3];
         }
 
         protected override string ConsolidateActivity()

@@ -1,19 +1,15 @@
-﻿using DomL.Business.Utils;
-using DomL.Business.Utils.DTOs;
+﻿using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.MultipleDayActivities
 {
     public class Game : MultipleDayActivity
     {
-        readonly static Category categoria = Category.Game;
+        public Game(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
 
-        public void Parse(IReadOnlyList<string> segmentos)
+        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Valor) Nota
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Começo
@@ -21,7 +17,6 @@ namespace DomL.Business.Activities.MultipleDayActivities
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Término; (Valor) Nota
             // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
 
-            Categoria = categoria;
             DeQuem = segmentos[1];
             Assunto = segmentos[2];
             string segmentoToLower = segmentos[3].ToLower();

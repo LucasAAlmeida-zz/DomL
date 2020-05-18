@@ -3,26 +3,24 @@ using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SpecialActivities
 {
     public class Event : SpecialActivity
     {
-        public static void Consolidate(ConsolidateDTO consolidateDTO)
+        public Event(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+
+        public new static void Consolidate(List<Activity> newEventActivities, string fileDir, int year)
         {
-            var filePath = consolidateDTO.fileDir + "Event.txt";
-            var atividadesVelhas = GetAtividadesVelhas(filePath, consolidateDTO.year);
-
-            var atividadesNovas = consolidateDTO.allNewAtividades.Where(ad => ad.IsInBlocoEspecial).ToList();
-            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(atividadesNovas, atividadesVelhas));
-
+            string filePath = fileDir + "Events.txt";
+            var atividadesVelhas = GetAtividadesVelhas(filePath, year);
+            atividadesVelhas.AddRange(Util.GetAtividadesToAdd(newEventActivities, atividadesVelhas));
             var allAtividadesCategoria = atividadesVelhas;
             EscreverNoArquivo(filePath, allAtividadesCategoria);
         }
 
-        private static List<Activity> GetAtividadesVelhas(string filePath, int year)
+        public static List<Activity> GetAtividadesVelhas(string filePath, int year)
         {
             var atividadesVelhas = new List<Activity>();
 
@@ -30,30 +28,14 @@ namespace DomL.Business.Activities.SpecialActivities
             {
                 using (var reader = new StreamReader(filePath))
                 {
-                    string line = reader.ReadLine();
-                    while (line == "")
-                    {
-                        line = reader.ReadLine();
-                    }
-                    string diaMesStr = "";
-                    while (line != null)
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
                     {
                         var segmentos = Regex.Split(line, "\t");
-                        if (!string.IsNullOrWhiteSpace(segmentos[0]))
-                        {
-                            diaMesStr = segmentos[0];
-                        }
 
-                        Activity atividadeVelha = Util.GetAtividadeVelha(diaMesStr, year, Category.Undefined, Classification.Unica);
-                        atividadeVelha.FullLine = segmentos[1];
-                        atividadeVelha.IsInBlocoEspecial = true;
+                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(segmentos[0], year, Category.Event);
 
-                        line = reader.ReadLine();
-                        while (line == "")
-                        {
-                            line = reader.ReadLine();
-                        }
-                        atividadesVelhas.Add(atividadeVelha);
+                        atividadesVelhas.Add(new Event(atividadeVelhaDTO, segmentos));
                     }
                 }
             }
@@ -65,41 +47,43 @@ namespace DomL.Business.Activities.SpecialActivities
         {
             using (var file = new StreamWriter(filePath))
             {
-                int dia = allAtividadesCategoria.First().Dia.Day;
-                foreach (Activity atividade in allAtividadesCategoria)
+                foreach (Event atividade in allAtividadesCategoria)
                 {
-                    string diaStr = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
-                    if (atividade.FullLine.StartsWith("<"))
+                    string dia = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
+
+                    if (atividade.IsInBlocoEspecial && !atividade.FullLine.StartsWith("<"))
                     {
-                        if (!atividade.FullLine.StartsWith("<END>") && !atividade.FullLine.StartsWith("<FIM>"))
-                        {
-                            // Tag de começo de bloco especial
-                            dia = atividade.Dia.Day;
-                            file.WriteLine(diaStr + "\t" + atividade.FullLine);
-                        }
-                        else
-                        {
-                            // Tag de fim de bloco especial
-                            file.WriteLine("\t" + atividade.FullLine);
-                            file.WriteLine("");
-                        }
+                        continue;
                     }
-                    else
-                    {
-                        if (atividade.Dia.Day != dia)
-                        {
-                            // atividade novo dia dentro de bloco especial
-                            dia = atividade.Dia.Day;
-                            file.WriteLine(diaStr + "\t" + atividade.FullLine);
-                        }
-                        else
-                        {
-                            // atividade mesmo dia dentro de bloco especial
-                            file.WriteLine("\t" + atividade.FullLine);
-                        }
-                    }
+
+                    var consolidatedActivity = atividade.ConsolidateActivity();
+                    file.WriteLine(consolidatedActivity);
                 }
             }
+        }
+
+        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
+        {
+            Descricao = segmentos[0];
+
+            if (Descricao.StartsWith("*"))
+            {
+                Descricao = Descricao.Substring(1);
+                FullLine = Descricao;
+            }
+            else if (Descricao.StartsWith("<"))
+            {
+                IsInBlocoEspecial = true;
+            }
+            else if (Descricao.StartsWith("---"))
+            {
+                IsInBlocoEspecial = false;
+            }
+        }
+
+        protected override string ConsolidateActivity()
+        {
+            return Dia + "\t" + FullLine;
         }
     }
 }

@@ -1,10 +1,20 @@
-﻿using DomL.Business.Utils.Enums;
+﻿using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace DomL.Business.Activities
 {
-    public class Activity
+    public abstract class Activity
     {
+        public Activity(ActivityDTO atividadeDTO)
+        {
+            Dia = atividadeDTO.Dia;
+            Categoria = atividadeDTO.Categoria;
+            IsInBlocoEspecial = atividadeDTO.IsInBlocoEspecial;
+            FullLine = atividadeDTO.FullLine;
+        }
+
         public DateTime Dia { get; set; }
         public Category Categoria { get; set; }
         public string Assunto { get; set; }
@@ -19,5 +29,8 @@ namespace DomL.Business.Activities
         public string Valor { get; set; }
 
         public string FullLine { get; set; }
+
+        protected abstract void ParseAtividade(IReadOnlyList<string> segmentos);
+        protected abstract string ConsolidateActivity();
     }
 }

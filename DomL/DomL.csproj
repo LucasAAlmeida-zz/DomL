@@ -67,9 +67,9 @@
     <Compile Include="Business\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Activities\SingleDayActivity.cs" />
     <Compile Include="Business\Activities\SpecialActivity.cs" />
-    <Compile Include="Business\Utils\DTOs\ConsolidateDTO.cs" />
+    <Compile Include="Business\Utils\DTOs\ActivityDTO.cs" />
+    <Compile Include="Business\Activities\SpecialActivities\SpecialEvent.cs" />
     <Compile Include="Business\Activities\SpecialActivities\Event.cs" />
-    <Compile Include="Business\Activities\SpecialActivities\Undefined.cs" />
     <Compile Include="Business\Activities\SingleDayActivities\Play.cs" />
     <Compile Include="Business\Activities\MultipleDayActivities\Comic.cs" />
     <Compile Include="Business\Activities\SingleDayActivities\Doom.cs" />

@@ -1,19 +1,17 @@
-﻿using DomL.Business.Utils.Enums;
+﻿using DomL.Business.Utils.DTOs;
 using System.Collections.Generic;
-using System.IO;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Pet : SingleDayActivity
     {
-        readonly static Category categoria = Category.Pet;
-        
-        public void Parse(IReadOnlyList<string> segmentos)
+        public Pet(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+
+        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             //PET; (Assunto) Qual Pet; (Descricao) O que Aconteceu
             //PET; (Descricao) O que Aconteceu
 
-            Categoria = categoria;
             if (segmentos.Count == 2)
             {
                 Descricao = segmentos[1];
@@ -23,12 +21,6 @@ namespace DomL.Business.Activities.SingleDayActivities
                 Assunto = segmentos[1];
                 Descricao = segmentos[2];
             }
-        }
-
-        protected override void ParseAtividadeVelha(string[] segmentos)
-        {
-            Assunto = segmentos[1];
-            Descricao = segmentos[2];
         }
 
         protected override string ConsolidateActivity()

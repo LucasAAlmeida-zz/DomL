@@ -2,7 +2,7 @@
 {
     public enum Category
     {
-        Undefined = 0,
+        Event = 0,
         Work = 1,
         Doom = 2,
         Health = 3,

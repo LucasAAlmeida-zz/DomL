@@ -1,19 +1,15 @@
-﻿using DomL.Business.Utils;
-using DomL.Business.Utils.DTOs;
+﻿using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.MultipleDayActivities
 {
     public class Comic : MultipleDayActivity
     {
-        readonly static Category categoria = Category.Comic;
+        public Comic(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
 
-        public void Parse(IReadOnlyList<string> segmentos)
+        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             // COMIC|MANGA; (Assunto) Título; (Valor) Nota
             // COMIC|MANGA; (Assunto) Título; (Classificação) Começo
@@ -21,7 +17,6 @@ namespace DomL.Business.Activities.MultipleDayActivities
             // COMIC|MANGA; (Assunto) Título; (Classificação) Término; (Valor) Nota
             // COMIC|MANGA; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
 
-            Categoria = categoria;
             Assunto = segmentos[1];
             string segmentoToLower = segmentos[2].ToLower();
             string classificacao = "unica";

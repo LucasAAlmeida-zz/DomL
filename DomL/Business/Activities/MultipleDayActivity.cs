@@ -1,5 +1,6 @@
 ﻿using DomL.Business.Activities.MultipleDayActivities;
 using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,18 @@ namespace DomL.Business.Activities
 {
     public abstract class MultipleDayActivity : Activity
     {
+        public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
+        {
+            if (atividadeDTO.IsNewActivity)
+            {
+                ParseAtividade(segmentos);
+            }
+            else
+            {
+                ParseAtividadeVelha(segmentos);
+            }
+        }
+
         public DateTime DiaTermino { get; set; }
 
         public static List<Activity> Consolidate(Category category, List<Activity> newCategoryActivities, string fileDir, int ano)
@@ -38,99 +51,69 @@ namespace DomL.Business.Activities
                     {
                         var segmentos = Regex.Split(line, "\t");
 
-                        Activity atividadeVelhaComeco = Util.GetAtividadeVelha(segmentos[0], year, category, Classification.Comeco);
-                        Activity atividadeVelhaTermino = Util.GetAtividadeVelha(segmentos[1], year, category, Classification.Termino);
+                        ActivityDTO atividadeVelhaComecoDTO = Util.GetAtividadeVelha(segmentos[0], year, category, Classification.Comeco);
+                        ActivityDTO atividadeVelhaTerminoDTO = Util.GetAtividadeVelha(segmentos[1], year, category, Classification.Termino);
 
                         switch (category)
                         {
                             case Category.Book:
-                                Book book;
-                                if (atividadeVelhaComeco != null)
+                                if (atividadeVelhaComecoDTO != null)
                                 {
-                                    book = (Book)atividadeVelhaComeco;
-                                    book.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(book);
+                                    atividadesVelhas.Add(new Book(atividadeVelhaComecoDTO, segmentos));
                                 }
-                                if (atividadeVelhaTermino != null)
+                                if (atividadeVelhaTerminoDTO != null)
                                 {
-                                    book = (Book)atividadeVelhaTermino;
-                                    book.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(book);
+                                    atividadesVelhas.Add(new Book(atividadeVelhaTerminoDTO, segmentos));
                                 }
                                 break;
                             case Category.Comic:
-                                Comic comic;
-                                if (atividadeVelhaComeco != null)
+                                if (atividadeVelhaComecoDTO != null)
                                 {
-                                    comic = (Comic)atividadeVelhaComeco;
-                                    comic.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(comic);
+                                    atividadesVelhas.Add(new Comic(atividadeVelhaComecoDTO, segmentos));
                                 }
-                                if (atividadeVelhaTermino != null)
+                                if (atividadeVelhaTerminoDTO != null)
                                 {
-                                    comic = (Comic)atividadeVelhaTermino;
-                                    comic.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(comic);
+                                    atividadesVelhas.Add(new Comic(atividadeVelhaTerminoDTO, segmentos));
                                 }
                                 break;
                             case Category.Game:
-                                Game game;
-                                if (atividadeVelhaComeco != null)
+                                if (atividadeVelhaComecoDTO != null)
                                 {
-                                    game = (Game)atividadeVelhaComeco;
-                                    game.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(game);
+                                    atividadesVelhas.Add(new Game(atividadeVelhaComecoDTO, segmentos));
                                 }
-                                if (atividadeVelhaTermino != null)
+                                if (atividadeVelhaTerminoDTO != null)
                                 {
-                                    game = (Game)atividadeVelhaTermino;
-                                    game.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(game);
+                                    atividadesVelhas.Add(new Game(atividadeVelhaTerminoDTO, segmentos));
                                 }
                                 break;
                             case Category.Movie:
-                                Movie movie;
-                                if (atividadeVelhaComeco != null)
+                                if (atividadeVelhaComecoDTO != null)
                                 {
-                                    movie = (Movie)atividadeVelhaComeco;
-                                    movie.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(movie);
+                                    atividadesVelhas.Add(new Movie(atividadeVelhaComecoDTO, segmentos));
                                 }
-                                if (atividadeVelhaTermino != null)
+                                if (atividadeVelhaTerminoDTO != null)
                                 {
-                                    movie = (Movie)atividadeVelhaTermino;
-                                    movie.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(movie);
+                                    atividadesVelhas.Add(new Movie(atividadeVelhaTerminoDTO, segmentos));
                                 }
                                 break;
                             case Category.Series:
-                                Series series;
-                                if (atividadeVelhaComeco != null)
+                                if (atividadeVelhaComecoDTO != null)
                                 {
-                                    series = (Series)atividadeVelhaComeco;
-                                    series.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(series);
+                                    atividadesVelhas.Add(new Series(atividadeVelhaComecoDTO, segmentos));
                                 }
-                                if (atividadeVelhaTermino != null)
+                                if (atividadeVelhaTerminoDTO != null)
                                 {
-                                    series = (Series)atividadeVelhaTermino;
-                                    series.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(series);
+                                    atividadesVelhas.Add(new Series(atividadeVelhaTerminoDTO, segmentos));
                                 }
                                 break;
                             case Category.Watch:
-                                Watch watch;
-                                if (atividadeVelhaComeco != null)
+                                if (atividadeVelhaComecoDTO != null)
                                 {
-                                    watch = (Watch)atividadeVelhaComeco;
-                                    watch.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(watch);
+                                    atividadesVelhas.Add(new Watch(atividadeVelhaComecoDTO, segmentos));
                                 }
-                                if (atividadeVelhaTermino != null)
+                                if (atividadeVelhaTerminoDTO != null)
                                 {
-                                    watch = (Watch)atividadeVelhaTermino;
-                                    watch.ParseAtividadeVelha(segmentos);
-                                    atividadesVelhas.Add(watch);
+                                    atividadesVelhas.Add(new Watch(atividadeVelhaTerminoDTO, segmentos));
                                 }
                                 break;
                             default:
@@ -181,46 +164,12 @@ namespace DomL.Business.Activities
                                 throw new ArgumentOutOfRangeException();
                     }
 
-                    string consolidatedActivity;
-
-                    switch (category)
-                    {
-                        case Category.Book:
-                            Book book = (Book)activity;
-                            consolidatedActivity = book.ConsolidateActivity();
-                            break;
-                        case Category.Comic:
-                            Comic comic = (Comic)activity;
-                            consolidatedActivity = comic.ConsolidateActivity();
-                            break;
-                        case Category.Game:
-                            Game game = (Game)activity;
-                            consolidatedActivity = game.ConsolidateActivity();
-                            break;
-                        case Category.Movie:
-                            Movie movie = (Movie)activity;
-                            consolidatedActivity = movie.ConsolidateActivity();
-                            break;
-                        case Category.Series:
-                            Series series = (Series)activity;
-                            consolidatedActivity = series.ConsolidateActivity();
-                            break;
-                        case Category.Watch:
-                            Watch watch = (Watch)activity;
-                            consolidatedActivity = watch.ConsolidateActivity();
-                            break;
-                        default:
-                            throw new Exception("what");
-                    }
-
+                    string consolidatedActivity = activity.ConsolidateActivity();
                     file.WriteLine(consolidatedActivity);
                 }
             }
-
         }
 
         protected abstract void ParseAtividadeVelha(string[] segmentos);
-
-        protected abstract string ConsolidateActivity();
     }
 }

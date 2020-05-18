@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Activities;
+using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace DomL.Business.Utils
 {
     public class Util
     {
-        public static Activity GetAtividadeVelha(string diaMes, int year, Category categoria, Classification classification)
+        public static ActivityDTO GetAtividadeVelha(string diaMes, int year, Category categoria, Classification classification = Classification.Unica)
         {
             if (!int.TryParse(diaMes.Substring(0, 2), out int dia))
             {
@@ -16,17 +17,17 @@ namespace DomL.Business.Utils
             }
 
             int mes = int.Parse(diaMes.Substring(3, 2));
-            var atividadeVelha = new Activity
+            var atividadeVelhaDTO = new ActivityDTO
             {
                 Categoria = categoria,
                 Dia = new DateTime(year, mes, dia),
                 Classificacao = classification,
             };
 
-            return atividadeVelha;
+            return atividadeVelhaDTO;
         }
 
-        public static IEnumerable<Activity> GetAtividadesToAdd(IEnumerable<Activity> atividadesNovas, List<Activity> atividadesVelhas)
+        public static IEnumerable<Activity> GetAtividadesToAdd(IEnumerable<Activity> atividadesNovas, IEnumerable<Activity> atividadesVelhas)
         {
             var atividadesToAdd = new List<Activity>();
             foreach (Activity atividade in atividadesNovas)
