@@ -10,7 +10,6 @@ namespace DomL.Business.Activities
         public Activity(ActivityDTO atividadeDTO)
         {
             Dia = atividadeDTO.Dia;
-            Categoria = atividadeDTO.Categoria;
             IsInBlocoEspecial = atividadeDTO.IsInBlocoEspecial;
             FullLine = atividadeDTO.FullLine;
         }

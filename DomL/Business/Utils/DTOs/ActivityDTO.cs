@@ -6,7 +6,6 @@ namespace DomL.Business.Utils.DTOs
     public class ActivityDTO
     {
         public DateTime Dia { get; set; }
-        public Category Categoria { get; set; }
         public bool IsInBlocoEspecial { get; set; }
         public string FullLine { get; set; }
         public Classification Classificacao { get; set; }

@@ -1,12 +1,16 @@
 ﻿using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Doom : SingleDayActivity
     {
-        public Doom(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
-        
+        public Doom(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
+        {
+            Categoria = Category.Doom;
+        }
+
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             //DOOM; (Descrição) O que aconteceu

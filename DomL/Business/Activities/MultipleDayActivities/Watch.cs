@@ -7,8 +7,11 @@ namespace DomL.Business.Activities.MultipleDayActivities
 {
     public class Watch : MultipleDayActivity
     {
-        public Watch(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
-        
+        public Watch(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
+        {
+            Categoria = Category.Watch;
+        }
+
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             // WATCH; (Assunto) Título; (Valor) Nota

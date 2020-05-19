@@ -1,11 +1,15 @@
 ﻿using DomL.Business.Utils.DTOs;
+using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Travel : SingleDayActivity
     {
-        public Travel(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Travel(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
+        {
+            Categoria = Category.Travel;
+        }
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {

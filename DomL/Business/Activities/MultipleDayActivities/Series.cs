@@ -7,8 +7,11 @@ namespace DomL.Business.Activities.MultipleDayActivities
 {
     public class Series : MultipleDayActivity
     {
-        public Series(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
-        
+        public Series(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
+        {
+            Categoria = Category.Series;
+        }
+
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             // SERIE; (Assunto) Título; (Valor) Nota

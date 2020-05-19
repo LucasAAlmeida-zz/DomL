@@ -77,7 +77,6 @@ namespace DomL
                     var atividadeDTO = new ActivityDTO
                     {
                         Dia = diaDT,
-                        Categoria = Category.Event,
                         FullLine = atividadeString,
                         IsInBlocoEspecial = isBlocoEspecial,
                         IsNewActivity = true
@@ -176,10 +175,11 @@ namespace DomL
                                 isBlocoEspecial = !isBlocoEspecial;
                             }
 
-                            Event undefined = new Event(atividadeDTO, segmentos);
-                            if (undefined.IsInBlocoEspecial)
+                            Event evento = new Event(atividadeDTO, segmentos);
+
+                            if (evento.IsInBlocoEspecial || evento.shouldSave)
                             {
-                                _atividades.Add(undefined);
+                                _atividades.Add(evento);
                             }
                             break;
                     }
@@ -215,7 +215,7 @@ namespace DomL
             using (var file = new StreamWriter(filePath))
             {
                 var jaPulouLinha = true;
-                int dia = _atividades.First().Dia.Day;
+                int dia = 0;
                 foreach (Activity atividade in _atividades)
                 {
                     string diaStr = atividade.Dia.Day.ToString("00");
@@ -321,7 +321,8 @@ namespace DomL
         private void ConsolidateSingleDayActivityCategory(Category category, string fileDir, int ano)
         {
             var newCategoryActivities = _atividades.Where(a => a.Categoria == category).ToList();
-            SingleDayActivity.Consolidate(category, newCategoryActivities, fileDir, ano);
+            var allCategoryActivities = SingleDayActivity.Consolidate(category, newCategoryActivities, fileDir, ano);
+            _atividadesFull.AddRange(allCategoryActivities);
         }
 
         private void ConsolidateMultipleDayActivityCategory(Category category, string fileDir, int ano)

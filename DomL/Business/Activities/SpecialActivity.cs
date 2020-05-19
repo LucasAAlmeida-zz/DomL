@@ -1,9 +1,7 @@
 ﻿using DomL.Business.Activities.SpecialActivities;
-using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace DomL.Business.Activities

@@ -19,7 +19,6 @@ namespace DomL.Business.Utils
             int mes = int.Parse(diaMes.Substring(3, 2));
             var atividadeVelhaDTO = new ActivityDTO
             {
-                Categoria = categoria,
                 Dia = new DateTime(year, mes, dia),
                 Classificacao = classification,
             };

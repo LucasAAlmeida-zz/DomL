@@ -16,7 +16,7 @@ namespace DomL.Business.Activities
             ParseAtividade(segmentos);
         }
 
-        public static void Consolidate(Category category, List<Activity> newCategoryActivities, string fileDir, int ano)
+        public static List<Activity> Consolidate(Category category, List<Activity> newCategoryActivities, string fileDir, int ano)
         {
             var filePath = fileDir + category.ToString() + ".txt";
             var atividadesVelhas = GetAtividadesVelhas(filePath, ano, category);
@@ -24,6 +24,8 @@ namespace DomL.Business.Activities
             
             var allCategoryActivities = atividadesVelhas; 
             EscreverNoArquivo(filePath, allCategoryActivities, category);
+
+            return allCategoryActivities;
         }
 
         private static List<Activity> GetAtividadesVelhas(string filePath, int year, Category category)

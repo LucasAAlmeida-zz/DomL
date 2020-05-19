@@ -7,8 +7,11 @@ namespace DomL.Business.Activities.MultipleDayActivities
 {
     public class Movie : MultipleDayActivity
     {
-        public Movie(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
-        
+        public Movie(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) 
+        {
+            Categoria = Category.Movie;
+        }
+
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             // FILME; (Assunto) Título; (Valor) Nota

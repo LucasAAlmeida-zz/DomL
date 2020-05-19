@@ -7,7 +7,10 @@ namespace DomL.Business.Activities.MultipleDayActivities
 {
     public class Book : MultipleDayActivity
     {
-        public Book(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Book(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
+        {
+            Categoria = Category.Book;
+        }
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {

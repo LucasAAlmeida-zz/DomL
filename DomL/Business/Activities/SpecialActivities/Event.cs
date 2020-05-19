@@ -11,6 +11,28 @@ namespace DomL.Business.Activities.SpecialActivities
     {
         public Event(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
 
+        public bool shouldSave = false;
+
+        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
+        {
+            Descricao = segmentos[0];
+
+            if (Descricao.StartsWith("*"))
+            {
+                Descricao = Descricao.Substring(1);
+                FullLine = Descricao;
+                shouldSave = true;
+            }
+            else if (Descricao.StartsWith("<"))
+            {
+                IsInBlocoEspecial = true;
+            }
+            else if (Descricao.StartsWith("---"))
+            {
+                IsInBlocoEspecial = false;
+            }
+        }
+
         public new static void Consolidate(List<Activity> newEventActivities, string fileDir, int year)
         {
             string filePath = fileDir + "Events.txt";
@@ -62,28 +84,10 @@ namespace DomL.Business.Activities.SpecialActivities
             }
         }
 
-        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
-        {
-            Descricao = segmentos[0];
-
-            if (Descricao.StartsWith("*"))
-            {
-                Descricao = Descricao.Substring(1);
-                FullLine = Descricao;
-            }
-            else if (Descricao.StartsWith("<"))
-            {
-                IsInBlocoEspecial = true;
-            }
-            else if (Descricao.StartsWith("---"))
-            {
-                IsInBlocoEspecial = false;
-            }
-        }
-
         protected override string ConsolidateActivity()
         {
-            return Dia + "\t" + FullLine;
+            string diaMes = Dia.Day.ToString("00") + "/" + Dia.Month.ToString("00");
+            return diaMes + "\t" + FullLine;
         }
     }
 }
