@@ -16,11 +16,11 @@ namespace DomL.Business.Activities.SpecialActivities
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
             Descricao = segmentos[0];
+            FullLine = Descricao;
 
             if (Descricao.StartsWith("*"))
             {
                 Descricao = Descricao.Substring(1);
-                FullLine = Descricao;
                 shouldSave = true;
             }
             else if (Descricao.StartsWith("<"))
@@ -31,6 +31,12 @@ namespace DomL.Business.Activities.SpecialActivities
             {
                 IsInBlocoEspecial = false;
             }
+        }
+
+        protected override void ParseAtividadeVelha(string[] segmentos)
+        {
+            Descricao = segmentos[1];
+            FullLine = Descricao;
         }
 
         public new static void Consolidate(List<Activity> newEventActivities, string fileDir, int year)

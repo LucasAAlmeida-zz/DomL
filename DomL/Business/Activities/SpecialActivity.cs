@@ -10,7 +10,15 @@ namespace DomL.Business.Activities
     {
         public SpecialActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
         {
-            ParseAtividade(segmentos);
+            Classificacao = atividadeDTO.Classificacao;
+            if (atividadeDTO.IsNewActivity)
+            {
+                ParseAtividade(segmentos);
+            }
+            else
+            {
+                ParseAtividadeVelha(segmentos);
+            }
         }
 
         public static void Consolidate(List<Activity> newCategoryActivities, string fileDir, int year)
@@ -21,5 +29,7 @@ namespace DomL.Business.Activities
             var newSpecialEventActivities = newCategoryActivities.Where(ad => ad.IsInBlocoEspecial).ToList();
             SpecialEvent.Consolidate(newSpecialEventActivities, fileDir, year);
         }
+
+        protected abstract void ParseAtividadeVelha(string[] segmentos);
     }
 }

@@ -176,7 +176,6 @@ namespace DomL
                             }
 
                             Event evento = new Event(atividadeDTO, segmentos);
-
                             if (evento.IsInBlocoEspecial || evento.shouldSave)
                             {
                                 _atividades.Add(evento);

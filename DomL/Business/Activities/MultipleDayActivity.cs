@@ -14,6 +14,7 @@ namespace DomL.Business.Activities
     {
         public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
         {
+            Classificacao = atividadeDTO.Classificacao;
             if (atividadeDTO.IsNewActivity)
             {
                 ParseAtividade(segmentos);
@@ -160,8 +161,8 @@ namespace DomL.Business.Activities
                             }
                             break;
 
-                            default:
-                                throw new ArgumentOutOfRangeException();
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
 
                     string consolidatedActivity = activity.ConsolidateActivity();
