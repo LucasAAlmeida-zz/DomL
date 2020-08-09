@@ -12,7 +12,10 @@ namespace DomL.Business.Activities
 {
     public abstract class MultipleDayActivity : Activity
     {
+        public string DeQuem { get; set; }
         public DateTime DiaTermino { get; set; }
+        public string Nota { get; set; }
+        public Classification Classificacao { get; set; }
 
         public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
         {
@@ -102,18 +105,20 @@ namespace DomL.Business.Activities
 
         private static void EscreverNoArquivo(string filePath, List<Activity> allCategoryActivities)
         {
+            List<MultipleDayActivity> activities = allCategoryActivities.Cast<MultipleDayActivity>().ToList();
+
             using (var file = new StreamWriter(filePath)) {
-                foreach (MultipleDayActivity activity in allCategoryActivities) {
+                foreach (MultipleDayActivity activity in activities) {
                     switch (activity.Classificacao) {
                         case Classification.Unica:
                             activity.DiaTermino = activity.Dia;
                             break;
 
                         case Classification.Comeco:
-                            Activity atividadeTermino = allCategoryActivities.FirstOrDefault(a => a.Classificacao == Classification.Termino && Util.IsEqualTitle(a.Assunto, activity.Assunto));
+                            var atividadeTermino = activities.FirstOrDefault(a => a.Classificacao == Classification.Termino && Util.IsEqualTitle(a.Assunto, activity.Assunto));
                             if (atividadeTermino != null) {
                                 activity.DiaTermino = atividadeTermino.Dia;
-                                activity.Valor = atividadeTermino.Valor;
+                                activity.Nota = atividadeTermino.Nota;
                                 activity.Descricao = string.IsNullOrWhiteSpace(activity.Descricao) ? atividadeTermino.Descricao : activity.Descricao + ", " + atividadeTermino.Descricao;
                             }
                             break;
@@ -123,7 +128,7 @@ namespace DomL.Business.Activities
                             activity.Dia = DateTime.MinValue;
 
                             //Pra não fazer duas vezes a mesma atividade
-                            Activity atividadeComeco = allCategoryActivities.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Util.IsEqualTitle(a.Assunto, activity.Assunto));
+                            Activity atividadeComeco = activities.FirstOrDefault(a => a.Classificacao == Classification.Comeco && Util.IsEqualTitle(a.Assunto, activity.Assunto));
                             if (atividadeComeco != null) {
                                 continue;
                             }
@@ -139,13 +144,25 @@ namespace DomL.Business.Activities
             }
         }
 
+        public static int CountBegun(Category category, IEnumerable<Activity> atividades)
+        {
+            var activities = atividades.Where(a => a.Categoria == category).Cast<MultipleDayActivity>();
+            return activities.Count(a => a.Classificacao == Classification.Comeco);
+        }
+
+        public static int CountEnded(Category category, IEnumerable<Activity> atividades)
+        {
+            var activities = atividades.Where(a => a.Categoria == category).Cast<MultipleDayActivity>();
+            return activities.Count(a => a.Classificacao == Classification.Termino || a.Classificacao == Classification.Unica);
+        }
+
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
-            // (Categoria); (De Quem); (Assunto); (Valor)
+            // (Categoria); (De Quem); (Assunto); (Nota)
             // (Categoria); (De Quem); (Assunto); (Classificação) Começo
-            // (Categoria); (De Quem); (Assunto); (Valor); (Descrição)
-            // (Categoria); (De Quem); (Assunto); (Classificação) Termino; (Valor)
-            // (Categoria); (De Quem); (Assunto); (Classificação) Termino; (Valor); (Descrição)
+            // (Categoria); (De Quem); (Assunto); (Nota); (Descrição)
+            // (Categoria); (De Quem); (Assunto); (Classificação) Termino; (Nota)
+            // (Categoria); (De Quem); (Assunto); (Classificação) Termino; (Nota); (Descrição)
 
             this.DeQuem = segmentos[1];
             this.Assunto = segmentos[2];
@@ -156,21 +173,21 @@ namespace DomL.Business.Activities
                     if (segmentoToLower == "comeco" || segmentoToLower == "começo") {
                         classificacao = segmentoToLower;
                     } else {
-                        this.Valor = segmentos[3];
+                        this.Nota = segmentos[3];
                     }
                     break;
                 case 5:
                     if (segmentoToLower == "termino" || segmentoToLower == "término") {
                         classificacao = segmentoToLower;
-                        this.Valor = segmentos[4];
+                        this.Nota = segmentos[4];
                     } else {
-                        this.Valor = segmentos[3];
+                        this.Nota = segmentos[3];
                         this.Descricao = segmentos[4];
                     }
                     break;
                 case 6:
                     classificacao = segmentos[3].ToLower();
-                    this.Valor = segmentos[4];
+                    this.Nota = segmentos[4];
                     this.Descricao = segmentos[5];
                     break;
                 default:
@@ -193,7 +210,7 @@ namespace DomL.Business.Activities
                     throw new Exception("what");
             }
 
-            if (this.Classificacao != Classification.Comeco && this.Valor != "-" && !int.TryParse(this.Valor, out _)) {
+            if (this.Classificacao != Classification.Comeco && this.Nota != "-" && !int.TryParse(this.Nota, out _)) {
                 throw new Exception("what");
             }
         }
@@ -202,7 +219,7 @@ namespace DomL.Business.Activities
         {
             this.DeQuem = segmentos[2];
             this.Assunto = segmentos[3];
-            this.Valor = segmentos[4];
+            this.Nota = segmentos[4];
             this.Descricao = segmentos[5];
         }
 
@@ -210,7 +227,7 @@ namespace DomL.Business.Activities
         {
             var dataInicio = this.Dia != DateTime.MinValue ? Util.GetDiaMes(this.Dia) : "??/??";
             var dataTermino = this.DiaTermino != DateTime.MinValue ? Util.GetDiaMes(this.DiaTermino) : "??/??";
-            return dataInicio + "\t" + dataTermino + "\t" + this.DeQuem + "\t" + this.Assunto + "\t" + this.Valor + "\t" + this.Descricao;
+            return dataInicio + "\t" + dataTermino + "\t" + this.DeQuem + "\t" + this.Assunto + "\t" + this.Nota + "\t" + this.Descricao;
         }
     }
 }

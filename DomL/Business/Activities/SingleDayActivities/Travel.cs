@@ -7,6 +7,8 @@ namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Travel : SingleDayActivity
     {
+        public string MeioTransporte { get; set; }
+
         public Travel(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
         {
             this.Categoria = Category.Travel;
@@ -14,8 +16,8 @@ namespace DomL.Business.Activities.SingleDayActivities
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
-            //VIAGEM; (Assunto) De onde pra onde; (MeioTransporte) Meio de transporte
-            //VIAGEM; (Assunto) De onde pra onde; (MeioTransporte) Meio de transporte; (Descrição) o que aconteceu
+            //VIAGEM; (Assunto) De onde pra onde; (MeioTransporte)
+            //VIAGEM; (Assunto) De onde pra onde; (MeioTransporte); (Descrição) o que aconteceu
 
             this.Assunto = segmentos[1];
             this.MeioTransporte = segmentos[2];

@@ -2,6 +2,7 @@
 using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DomL.Business.Activities
 {
@@ -19,14 +20,6 @@ namespace DomL.Business.Activities
         public string Assunto { get; set; }
         public string Descricao { get; set; }
         public bool IsInBlocoEspecial { get; set; }
-        public string Companhia { get; set; }
-
-        public Classification Classificacao { get; set; }
-
-        public string DeQuem { get; set; }
-        public string MeioTransporte { get; set; }
-        public string Valor { get; set; }
-
         public string FullLine { get; set; }
 
         protected abstract void ParseAtividade(IReadOnlyList<string> segmentos);

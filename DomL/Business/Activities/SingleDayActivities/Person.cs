@@ -7,6 +7,8 @@ namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Person : SingleDayActivity
     {
+        public string Origem { get; set; }
+
         public Person(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
         {
             this.Categoria = Category.Person;
@@ -14,16 +16,16 @@ namespace DomL.Business.Activities.SingleDayActivities
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
-            //PESSOA; (Assunto) Nome da Pessoa; (DeQuem) Origem conheci (amigo de x, furry, etc); (Descrição) Coisas pra me lembrar
+            //PESSOA; (Assunto) Nome da Pessoa; (Origem) De onde conheci (amigo de x, furry, etc); (Descrição) Coisas pra me lembrar
 
             this.Assunto = segmentos[1];
-            this.DeQuem = segmentos[2];
+            this.Origem = segmentos[2];
             this.Descricao = segmentos[3];
         }
 
         protected override string ConsolidateActivity()
         {
-            return Util.GetDiaMes(this.Dia) + "\t" + this.Assunto + "\t" + this.DeQuem + "\t" + this.Descricao;
+            return Util.GetDiaMes(this.Dia) + "\t" + this.Assunto + "\t" + this.Origem + "\t" + this.Descricao;
         }
 
     }

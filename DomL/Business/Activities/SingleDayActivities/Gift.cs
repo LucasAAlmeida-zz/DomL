@@ -7,6 +7,8 @@ namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Gift : SingleDayActivity
     {
+        public string DeQuem { get; set; }
+
         public Gift(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
         {
             this.Categoria = Category.Gift;

@@ -344,34 +344,33 @@ namespace DomL
             string filePath = BASE_DIR_PATH + "ResumoAno.txt";
             using (var file = new StreamWriter(filePath))
             {
-                // ReSharper disable once JoinDeclarationAndInitializer
                 int numero;
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Game && af.Classificacao == Classification.Comeco);
+                numero = MultipleDayActivity.CountBegun(Category.Game, this._atividadesFull);
                 file.WriteLine("Jogos começados:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Game && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = MultipleDayActivity.CountEnded(Category.Game, this._atividadesFull);
                 file.WriteLine("Jogos terminados:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Movie && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
-                file.WriteLine("Filmes assistidos:\t" + numero);
-
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Series && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = MultipleDayActivity.CountEnded(Category.Series, this._atividadesFull);
                 file.WriteLine("Temporadas de séries assistidas:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Book && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = MultipleDayActivity.CountEnded(Category.Book, this._atividadesFull);
                 file.WriteLine("Livros lidos:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Comic && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = MultipleDayActivity.CountEnded(Category.Comic, this._atividadesFull);
                 file.WriteLine("K Páginas de comics lidos:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Travel);
+                numero = SingleDayActivity.Count(Category.Movie, this._atividadesFull);
+                file.WriteLine("Filmes assistidos:\t" + numero);
+
+                numero = SingleDayActivity.Count(Category.Movie, this._atividadesFull);
                 file.WriteLine("Viagens feitas:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Person);
+                numero = SingleDayActivity.Count(Category.Movie, this._atividadesFull);
                 file.WriteLine("Pessoas novas conhecidas:\t" + numero);
 
-                numero = this._atividadesFull.Count(af => af.Categoria == Category.Purchase);
+                numero = SingleDayActivity.Count(Category.Movie, this._atividadesFull);
                 file.WriteLine("Compras notáveis:\t" + numero);
             }
         }

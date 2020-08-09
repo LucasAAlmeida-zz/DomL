@@ -7,6 +7,9 @@ namespace DomL.Business.Activities.SingleDayActivities
 {
     public class Purchase : SingleDayActivity
     {
+        public string Loja { get; set; }
+        public string Valor { get; set; }
+
         public Purchase(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
         {
             this.Categoria = Category.Purchase;
@@ -14,10 +17,10 @@ namespace DomL.Business.Activities.SingleDayActivities
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
-            //COMPRA; (De Quem) Loja; (Assunto) O que comprei; (Valor) Quanto custou
-            //COMPRA; (De Quem) Loja; (Assunto) O que comprei; (Valor) Quanto custou; (Descrição) Misc
+            //COMPRA; (Loja); (Assunto) O que comprei; (Valor) Quanto custou
+            //COMPRA; (Loja); (Assunto) O que comprei; (Valor) Quanto custou; (Descrição) Misc
 
-            this.DeQuem = segmentos[1];
+            this.Loja = segmentos[1];
             this.Assunto = segmentos[2];
             this.Valor = segmentos[3];
             if (segmentos.Count == 5)
@@ -28,7 +31,7 @@ namespace DomL.Business.Activities.SingleDayActivities
 
         protected override string ConsolidateActivity()
         {
-            return Util.GetDiaMes(this.Dia) + "\t" + this.DeQuem + "\t" + this.Assunto + "\t" + this.Valor + "\t" + this.Descricao;
+            return Util.GetDiaMes(this.Dia) + "\t" + this.Loja + "\t" + this.Assunto + "\t" + this.Valor + "\t" + this.Descricao;
         }
     }
 }

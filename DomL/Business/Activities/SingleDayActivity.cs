@@ -5,7 +5,9 @@ using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace DomL.Business.Activities
 {
@@ -26,6 +28,11 @@ namespace DomL.Business.Activities
             EscreverNoArquivo(filePath, allCategoryActivities);
 
             return allCategoryActivities;
+        }
+
+        public static int Count(Category category, List<Activity> activities)
+        {
+            return activities.Count(a => a.Categoria == category);
         }
 
         private static List<Activity> GetAtividadesVelhas(string filePath, int year, Category category)
