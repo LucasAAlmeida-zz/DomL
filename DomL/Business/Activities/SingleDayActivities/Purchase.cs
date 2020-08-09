@@ -1,4 +1,5 @@
-﻿using DomL.Business.Utils.DTOs;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace DomL.Business.Activities.SingleDayActivities
     {
         public Purchase(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
         {
-            Categoria = Category.Purchase;
+            this.Categoria = Category.Purchase;
         }
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
@@ -16,19 +17,18 @@ namespace DomL.Business.Activities.SingleDayActivities
             //COMPRA; (De Quem) Loja; (Assunto) O que comprei; (Valor) Quanto custou
             //COMPRA; (De Quem) Loja; (Assunto) O que comprei; (Valor) Quanto custou; (Descrição) Misc
 
-            DeQuem = segmentos[1];
-            Assunto = segmentos[2];
-            Valor = segmentos[3];
+            this.DeQuem = segmentos[1];
+            this.Assunto = segmentos[2];
+            this.Valor = segmentos[3];
             if (segmentos.Count == 5)
             {
-                Descricao = segmentos[4];
+                this.Descricao = segmentos[4];
             }
         }
 
         protected override string ConsolidateActivity()
         {
-            string diaMes = Dia.Day.ToString("00") + "/" + Dia.Month.ToString("00");
-            return diaMes + "\t" + DeQuem + "\t" + Assunto + "\t" + Valor + "\t" + Descricao;
+            return Util.GetDiaMes(this.Dia) + "\t" + this.DeQuem + "\t" + this.Assunto + "\t" + this.Valor + "\t" + this.Descricao;
         }
     }
 }

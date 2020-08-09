@@ -25,26 +25,26 @@ namespace DomL
 
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            MesTb.Text = (DateTime.Now.Month - 1).ToString();
-            AnoTb.Text = DateTime.Now.Year.ToString();
+            this.MesTb.Text = (DateTime.Now.Month - 1).ToString();
+            this.AnoTb.Text = DateTime.Now.Year.ToString();
         }
 
         private void CategorizarButton_Click(object sender, RoutedEventArgs e)
         {
-            _atividades = new List<Activity>();
+            this._atividades = new List<Activity>();
 
             try
             {
-                ClassificaAtividades();
-                EscreverAtividadesDoMesEmArquivo();
-                ConsolidaAtividadesImportantesEmArquivo();
-                GeraEstatisticas();
+                this.ClassificaAtividades();
+                this.EscreverAtividadesDoMesEmArquivo();
+                this.ConsolidaAtividadesImportantesEmArquivo();
+                this.GeraEstatisticas();
             }
             catch (Exception exception)
             {
-                MessageLabel2.Content = exception.Message;
+                this.MessageLabel2.Content = exception.Message;
                 Console.Write(exception);
             }
         }
@@ -52,7 +52,7 @@ namespace DomL
         #region Classifica
         private void ClassificaAtividades()
         {
-            var atividadesDiaString = Regex.Split(AtividadesTextBox.Text, "\r\n");
+            var atividadesDiaString = Regex.Split(this.AtividadesTextBox.Text, "\r\n");
             var atividadeString = "";
             var isBlocoEspecial = false;
 
@@ -70,7 +70,7 @@ namespace DomL
 
                     if (IsNewDay(atividadeString, out int dia))
                     {
-                        diaDT = new DateTime(int.Parse(AnoTb.Text), int.Parse(MesTb.Text), dia);
+                        diaDT = new DateTime(int.Parse(this.AnoTb.Text), int.Parse(this.MesTb.Text), dia);
                         continue;
                     }
 
@@ -90,83 +90,83 @@ namespace DomL
                     {
                         case "AUTO":
                         case "CARRO":
-                            _atividades.Add(new Auto(atividadeDTO, segmentos));
+                            this._atividades.Add(new Auto(atividadeDTO, segmentos));
                             break;
 
                         case "DOOM":
                         case "DESGRACA":
                         case "DESGRAÇA":
-                            _atividades.Add(new Doom(atividadeDTO, segmentos));
+                            this._atividades.Add(new Doom(atividadeDTO, segmentos));
                             break;
 
                         case "GIFT":
                         case "PRESENTE":
-                            _atividades.Add(new Gift(atividadeDTO, segmentos));
+                            this._atividades.Add(new Gift(atividadeDTO, segmentos));
                             break;
                         
                         case "SAUDE":
                         case "HEALTH":
-                            _atividades.Add(new Health(atividadeDTO, segmentos));
+                            this._atividades.Add(new Health(atividadeDTO, segmentos));
                             break;
 
                         case "PESSOA":
-                            _atividades.Add(new Person(atividadeDTO, segmentos));
+                            this._atividades.Add(new Person(atividadeDTO, segmentos));
                             break;
                         
                         case "PET":
                         case "ANIMAL":
-                            _atividades.Add(new Pet(atividadeDTO, segmentos));
+                            this._atividades.Add(new Pet(atividadeDTO, segmentos));
                             break;
 
                         case "PLAY":
-                            _atividades.Add(new Play(atividadeDTO, segmentos));
+                            this._atividades.Add(new Play(atividadeDTO, segmentos));
                             break;
 
                         case "COMPRA":
-                            _atividades.Add(new Purchase(atividadeDTO, segmentos));
+                            this._atividades.Add(new Purchase(atividadeDTO, segmentos));
                             break;
 
                         case "VIAGEM":
                         case "TRIP":
-                            _atividades.Add(new Travel(atividadeDTO, segmentos));
+                            this._atividades.Add(new Travel(atividadeDTO, segmentos));
                             break;
 
                         case "WORK":
-                            _atividades.Add(new Work(atividadeDTO, segmentos));
+                            this._atividades.Add(new Work(atividadeDTO, segmentos));
                             break;
 
                         // -----
 
                         case "LIVRO":
                         case "BOOK":
-                            _atividades.Add(new Book(atividadeDTO, segmentos));
+                            this._atividades.Add(new Book(atividadeDTO, segmentos));
                             break;
 
                         case "COMIC":
                         case "MANGA":
-                            _atividades.Add(new Comic(atividadeDTO, segmentos));
+                            this._atividades.Add(new Comic(atividadeDTO, segmentos));
                             break;
                         
                         case "JOGO":
                         case "GAME":
-                            _atividades.Add(new Game(atividadeDTO, segmentos));
+                            this._atividades.Add(new Game(atividadeDTO, segmentos));
                             break;
 
                         case "FILME":
                         case "MOVIE":
                         case "CINEMA":
-                            _atividades.Add(new Movie(atividadeDTO, segmentos));
+                            this._atividades.Add(new Movie(atividadeDTO, segmentos));
                             break;
 
                         case "SERIE":
                         case "DESENHO":
                         case "ANIME":
                         case "CARTOON":
-                            _atividades.Add(new Series(atividadeDTO, segmentos));
+                            this._atividades.Add(new Series(atividadeDTO, segmentos));
                             break;
 
                         case "WATCH":
-                            _atividades.Add(new Watch(atividadeDTO, segmentos));
+                            this._atividades.Add(new Watch(atividadeDTO, segmentos));
                             break;
 
                         default:
@@ -178,7 +178,7 @@ namespace DomL
                             Event evento = new Event(atividadeDTO, segmentos);
                             if (evento.IsInBlocoEspecial || evento.shouldSave)
                             {
-                                _atividades.Add(evento);
+                                this._atividades.Add(evento);
                             }
                             break;
                     }
@@ -187,7 +187,7 @@ namespace DomL
             }
             catch (Exception e)
             {
-                MessageLabel.Content = "Deu ruim no dia " + diaDT.Day + ", atividade: " + atividadeString;
+                this.MessageLabel.Content = "Deu ruim no dia " + diaDT.Day + ", atividade: " + atividadeString;
                 throw e;
             }
         }
@@ -203,7 +203,7 @@ namespace DomL
         #region Escrever Mes
         private void EscreverAtividadesDoMesEmArquivo()
         {
-            string mes = _atividades.First().Dia.Month.ToString("00");
+            string mes = this._atividades.First().Dia.Month.ToString("00");
             string filePath = BASE_DIR_PATH + "AtividadesMes\\AtividadesMes" + mes + ".txt";
             var fi = new FileInfo(filePath);
             if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null)
@@ -215,7 +215,7 @@ namespace DomL
             {
                 var jaPulouLinha = true;
                 int dia = 0;
-                foreach (Activity atividade in _atividades)
+                foreach (Activity atividade in this._atividades)
                 {
                     string diaStr = atividade.Dia.Day.ToString("00");
                     string mesStr = atividade.Dia.Month.ToString("00");
@@ -274,14 +274,14 @@ namespace DomL
 
                 }
             }
-            MessageLabel.Content = "Mês consolidado com sucesso";
+            this.MessageLabel.Content = "Mês consolidado com sucesso";
         }
         #endregion
 
         #region Consolida Atividades
         private void ConsolidaAtividadesImportantesEmArquivo()
         {
-            _atividadesFull = new List<Activity>();
+            this._atividadesFull = new List<Activity>();
 
             string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas\\";
             var fi = new FileInfo(fileDir);
@@ -290,50 +290,50 @@ namespace DomL
                 Directory.CreateDirectory(fi.DirectoryName);
             }
 
-            int year = int.Parse(AnoTb.Text);
+            int year = int.Parse(this.AnoTb.Text);
 
-            ConsolidateSingleDayActivityCategory(Category.Auto, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Doom, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Gift, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Health, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Person, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Pet, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Play, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Purchase, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Travel, fileDir, year);
-            ConsolidateSingleDayActivityCategory(Category.Work, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Auto, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Doom, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Gift, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Health, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Person, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Pet, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Play, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Purchase, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Travel, fileDir, year);
+            this.ConsolidateSingleDayActivityCategory(Category.Work, fileDir, year);
 
-            ConsolidateMultipleDayActivityCategory(Category.Game, fileDir, year);
-            ConsolidateMultipleDayActivityCategory(Category.Watch, fileDir, year);
-            ConsolidateMultipleDayActivityCategory(Category.Movie, fileDir, year);
-            ConsolidateMultipleDayActivityCategory(Category.Series, fileDir, year);
-            ConsolidateMultipleDayActivityCategory(Category.Book, fileDir, year);
-            ConsolidateMultipleDayActivityCategory(Category.Comic, fileDir, year);
-            ConsolidateMultipleDayActivityCategory(Category.Course, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Game, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Watch, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Movie, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Series, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Book, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Comic, fileDir, year);
+            this.ConsolidateMultipleDayActivityCategory(Category.Course, fileDir, year);
 
-            ConsolidateSpecialActivityCategory(fileDir, year);
+            this.ConsolidateSpecialActivityCategory(fileDir, year);
 
-            MessageLabel.Content = "Atividades Importantes Consolidadas";
-            MessageLabel2.Content = "";
+            this.MessageLabel.Content = "Atividades Importantes Consolidadas";
+            this.MessageLabel2.Content = "";
         }
 
         private void ConsolidateSingleDayActivityCategory(Category category, string fileDir, int ano)
         {
-            var newCategoryActivities = _atividades.Where(a => a.Categoria == category).ToList();
+            var newCategoryActivities = this._atividades.Where(a => a.Categoria == category).ToList();
             var allCategoryActivities = SingleDayActivity.Consolidate(category, newCategoryActivities, fileDir, ano);
-            _atividadesFull.AddRange(allCategoryActivities);
+            this._atividadesFull.AddRange(allCategoryActivities);
         }
 
         private void ConsolidateMultipleDayActivityCategory(Category category, string fileDir, int ano)
         {
-            var newCategoryActivities = _atividades.Where(a => a.Categoria == category).ToList();
+            var newCategoryActivities = this._atividades.Where(a => a.Categoria == category).ToList();
             var allCategoryActivities = MultipleDayActivity.Consolidate(category, newCategoryActivities, fileDir, ano);
-            _atividadesFull.AddRange(allCategoryActivities);
+            this._atividadesFull.AddRange(allCategoryActivities);
         }
 
         private void ConsolidateSpecialActivityCategory(string fileDir, int ano)
         {
-            var newCategoryActivities = _atividades.Where(a => a.Categoria == Category.Event || a.IsInBlocoEspecial).ToList();
+            var newCategoryActivities = this._atividades.Where(a => a.Categoria == Category.Event || a.IsInBlocoEspecial).ToList();
             SpecialActivity.Consolidate(newCategoryActivities, fileDir, ano);
         }
         #endregion
@@ -347,31 +347,31 @@ namespace DomL
                 // ReSharper disable once JoinDeclarationAndInitializer
                 int numero;
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Game && af.Classificacao == Classification.Comeco);
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Game && af.Classificacao == Classification.Comeco);
                 file.WriteLine("Jogos começados:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Game && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Game && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
                 file.WriteLine("Jogos terminados:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Movie && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Movie && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
                 file.WriteLine("Filmes assistidos:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Series && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Series && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
                 file.WriteLine("Temporadas de séries assistidas:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Book && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Book && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
                 file.WriteLine("Livros lidos:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Comic && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Comic && (af.Classificacao == Classification.Termino || af.Classificacao == Classification.Unica));
                 file.WriteLine("K Páginas de comics lidos:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Travel);
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Travel);
                 file.WriteLine("Viagens feitas:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Person);
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Person);
                 file.WriteLine("Pessoas novas conhecidas:\t" + numero);
 
-                numero = _atividadesFull.Count(af => af.Categoria == Category.Purchase);
+                numero = this._atividadesFull.Count(af => af.Categoria == Category.Purchase);
                 file.WriteLine("Compras notáveis:\t" + numero);
             }
         }

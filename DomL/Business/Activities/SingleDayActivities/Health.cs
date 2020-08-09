@@ -1,4 +1,5 @@
-﻿using DomL.Business.Utils.DTOs;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
 
@@ -8,7 +9,7 @@ namespace DomL.Business.Activities.SingleDayActivities
     {
         public Health(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
         {
-            Categoria = Category.Health;
+            this.Categoria = Category.Health;
         }
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
@@ -18,20 +19,19 @@ namespace DomL.Business.Activities.SingleDayActivities
 
             if (segmentos.Count == 2)
             {
-                Descricao = segmentos[1];
+                this.Descricao = segmentos[1];
             }
             else
             {
-                Assunto = segmentos[1];
-                Descricao = segmentos[2];
+                this.Assunto = segmentos[1];
+                this.Descricao = segmentos[2];
             }
         }
 
         protected override string ConsolidateActivity()
         {
-            string diaMes = Dia.Day.ToString("00") + "/" + Dia.Month.ToString("00");
-            string assunto = !string.IsNullOrWhiteSpace(Assunto) ? Assunto : "-";
-            return diaMes + "\t" + assunto + "\t" + Descricao;
+            string assunto = !string.IsNullOrWhiteSpace(this.Assunto) ? this.Assunto : "-";
+            return Util.GetDiaMes(this.Dia) + "\t" + assunto + "\t" + this.Descricao;
         }
 
     }

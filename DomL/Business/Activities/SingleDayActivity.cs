@@ -13,7 +13,7 @@ namespace DomL.Business.Activities
     {
         public SingleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
         {
-            ParseAtividade(segmentos);
+            this.ParseAtividade(segmentos);
         }
 
         public static List<Activity> Consolidate(Category category, List<Activity> newCategoryActivities, string fileDir, int ano)
@@ -23,7 +23,7 @@ namespace DomL.Business.Activities
             atividadesVelhas.AddRange(Util.GetAtividadesToAdd(newCategoryActivities, atividadesVelhas));
             
             var allCategoryActivities = atividadesVelhas; 
-            EscreverNoArquivo(filePath, allCategoryActivities, category);
+            EscreverNoArquivo(filePath, allCategoryActivities);
 
             return allCategoryActivities;
         }
@@ -42,42 +42,22 @@ namespace DomL.Business.Activities
                         line = line.Replace("\t", ";");
                         var segmentos = Regex.Split(line, ";");
 
-                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(segmentos[0], year, category);
+                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(segmentos[0], year);
 
                         switch (category)
                         {
-                            case Category.Auto:
-                                atividadesVelhas.Add(new Auto(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Doom:
-                                atividadesVelhas.Add(new Doom(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Gift:
-                                atividadesVelhas.Add(new Gift(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Health:
-                                atividadesVelhas.Add(new Health(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Person:
-                                atividadesVelhas.Add(new Person(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Pet:
-                                atividadesVelhas.Add(new Pet(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Play:
-                                atividadesVelhas.Add(new Play(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Purchase:
-                                atividadesVelhas.Add(new Purchase(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Travel:
-                                atividadesVelhas.Add(new Travel(atividadeVelhaDTO, segmentos));
-                                break;
-                            case Category.Work:
-                                atividadesVelhas.Add(new Work(atividadeVelhaDTO, segmentos));
-                                break;
-                            default:
-                                throw new Exception("what");
+                            case Category.Auto:     atividadesVelhas.Add(new Auto(atividadeVelhaDTO, segmentos));       break;
+                            case Category.Doom:     atividadesVelhas.Add(new Doom(atividadeVelhaDTO, segmentos));       break;
+                            case Category.Gift:     atividadesVelhas.Add(new Gift(atividadeVelhaDTO, segmentos));       break;
+                            case Category.Health:   atividadesVelhas.Add(new Health(atividadeVelhaDTO, segmentos));     break;
+                            case Category.Movie:    atividadesVelhas.Add(new Movie(atividadeVelhaDTO, segmentos));      break;
+                            case Category.Person:   atividadesVelhas.Add(new Person(atividadeVelhaDTO, segmentos));     break;
+                            case Category.Pet:      atividadesVelhas.Add(new Pet(atividadeVelhaDTO, segmentos));        break;
+                            case Category.Play:     atividadesVelhas.Add(new Play(atividadeVelhaDTO, segmentos));       break;
+                            case Category.Purchase: atividadesVelhas.Add(new Purchase(atividadeVelhaDTO, segmentos));   break;
+                            case Category.Travel:   atividadesVelhas.Add(new Travel(atividadeVelhaDTO, segmentos));     break;
+                            case Category.Work:     atividadesVelhas.Add(new Work(atividadeVelhaDTO, segmentos));       break;
+                            default:                throw new Exception("what");
                         }
                     }
                 }
@@ -86,7 +66,7 @@ namespace DomL.Business.Activities
             return atividadesVelhas;
         }
 
-        private static void EscreverNoArquivo(string filePath, List<Activity> allAtividadesCategoria, Category category)
+        private static void EscreverNoArquivo(string filePath, List<Activity> allAtividadesCategoria)
         {
             using (var file = new StreamWriter(filePath))
             {

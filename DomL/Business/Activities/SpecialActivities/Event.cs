@@ -15,28 +15,23 @@ namespace DomL.Business.Activities.SpecialActivities
 
         protected override void ParseAtividade(IReadOnlyList<string> segmentos)
         {
-            Descricao = segmentos[0];
-            FullLine = Descricao;
+            this.Descricao = segmentos[0];
+            this.FullLine = this.Descricao;
 
-            if (Descricao.StartsWith("*"))
-            {
-                Descricao = Descricao.Substring(1);
-                shouldSave = true;
-            }
-            else if (Descricao.StartsWith("<"))
-            {
-                IsInBlocoEspecial = true;
-            }
-            else if (Descricao.StartsWith("---"))
-            {
-                IsInBlocoEspecial = false;
+            if (this.Descricao.StartsWith("*")) {
+                this.Descricao = this.Descricao.Substring(1);
+                this.shouldSave = true;
+            } else if (this.Descricao.StartsWith("<")) {
+                this.IsInBlocoEspecial = true;
+            } else if (this.Descricao.StartsWith("---")) {
+                this.IsInBlocoEspecial = false;
             }
         }
 
         protected override void ParseAtividadeVelha(string[] segmentos)
         {
-            Descricao = segmentos[1];
-            FullLine = Descricao;
+            this.Descricao = segmentos[1];
+            this.FullLine = this.Descricao;
         }
 
         public new static void Consolidate(List<Activity> newEventActivities, string fileDir, int year)
@@ -52,16 +47,13 @@ namespace DomL.Business.Activities.SpecialActivities
         {
             var atividadesVelhas = new List<Activity>();
 
-            if (File.Exists(filePath))
-            {
-                using (var reader = new StreamReader(filePath))
-                {
+            if (File.Exists(filePath)) {
+                using (var reader = new StreamReader(filePath)) {
                     string line;
-                    while ((line = reader.ReadLine()) != null)
-                    {
+                    while ((line = reader.ReadLine()) != null) {
                         var segmentos = Regex.Split(line, "\t");
 
-                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(segmentos[0], year, Category.Event);
+                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(segmentos[0], year);
 
                         atividadesVelhas.Add(new Event(atividadeVelhaDTO, segmentos));
                     }
@@ -73,14 +65,9 @@ namespace DomL.Business.Activities.SpecialActivities
 
         private static void EscreverNoArquivo(string filePath, List<Activity> allAtividadesCategoria)
         {
-            using (var file = new StreamWriter(filePath))
-            {
-                foreach (Event atividade in allAtividadesCategoria)
-                {
-                    string dia = atividade.Dia.Day.ToString("00") + "/" + atividade.Dia.Month.ToString("00");
-
-                    if (atividade.IsInBlocoEspecial && !atividade.FullLine.StartsWith("<"))
-                    {
+            using (var file = new StreamWriter(filePath)) {
+                foreach (Event atividade in allAtividadesCategoria) {
+                    if (atividade.IsInBlocoEspecial && !atividade.FullLine.StartsWith("<")) {
                         continue;
                     }
 
@@ -92,8 +79,7 @@ namespace DomL.Business.Activities.SpecialActivities
 
         protected override string ConsolidateActivity()
         {
-            string diaMes = Dia.Day.ToString("00") + "/" + Dia.Month.ToString("00");
-            return diaMes + "\t" + FullLine;
+            return Util.GetDiaMes(this.Dia) + "\t" + this.FullLine;
         }
     }
 }

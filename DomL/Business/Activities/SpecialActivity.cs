@@ -10,14 +10,14 @@ namespace DomL.Business.Activities
     {
         public SpecialActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
         {
-            Classificacao = atividadeDTO.Classificacao;
+            this.Classificacao = atividadeDTO.Classificacao;
             if (atividadeDTO.IsNewActivity)
             {
-                ParseAtividade(segmentos);
+                this.ParseAtividade(segmentos);
             }
             else
             {
-                ParseAtividadeVelha(segmentos);
+                this.ParseAtividadeVelha(segmentos);
             }
         }
 

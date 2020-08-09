@@ -41,7 +41,7 @@ namespace DomL.Business.Activities.SpecialActivities
                             diaMesStr = segmentos[0];
                         }
 
-                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(diaMesStr, year, Category.Event);
+                        ActivityDTO atividadeVelhaDTO = Util.GetAtividadeVelha(diaMesStr, year);
                         atividadesVelhas.Add(new Event(atividadeVelhaDTO, segmentos));
 
                         line = reader.ReadLine();

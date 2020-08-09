@@ -9,7 +9,7 @@ namespace DomL.Business.Utils
 {
     public class Util
     {
-        public static ActivityDTO GetAtividadeVelha(string diaMes, int year, Category categoria, Classification classification = Classification.Unica)
+        public static ActivityDTO GetAtividadeVelha(string diaMes, int year, Classification classification = Classification.Unica)
         {
             if (!int.TryParse(diaMes.Substring(0, 2), out int dia))
             {
@@ -45,6 +45,11 @@ namespace DomL.Business.Utils
             string titulo1Limpo = titulo1.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").ToLower();
             string titulo2Limpo = titulo2.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").ToLower();
             return titulo1Limpo == titulo2Limpo;
+        }
+
+        public static string GetDiaMes(DateTime date)
+        {
+            return date.Day.ToString("00") + "/" + date.Month.ToString("00");
         }
     }
 }

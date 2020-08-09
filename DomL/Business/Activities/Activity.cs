@@ -9,9 +9,9 @@ namespace DomL.Business.Activities
     {
         public Activity(ActivityDTO atividadeDTO)
         {
-            Dia = atividadeDTO.Dia;
-            IsInBlocoEspecial = atividadeDTO.IsInBlocoEspecial;
-            FullLine = atividadeDTO.FullLine;
+            this.Dia = atividadeDTO.Dia;
+            this.IsInBlocoEspecial = atividadeDTO.IsInBlocoEspecial;
+            this.FullLine = atividadeDTO.FullLine;
         }
 
         public DateTime Dia { get; set; }
