@@ -2,11 +2,15 @@
 using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
+    [Table("Movie")]
     public class Movie : SingleDayActivity
     {
+        [Required]
         public string Nota { get; set; }
 
         public Movie(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) 

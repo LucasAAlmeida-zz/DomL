@@ -35,15 +35,12 @@ namespace DomL
         {
             this._atividades = new List<Activity>();
 
-            try
-            {
+            try {
                 this.ClassificaAtividades();
                 this.EscreverAtividadesDoMesEmArquivo();
                 this.ConsolidaAtividadesImportantesEmArquivo();
                 this.GeraEstatisticas();
-            }
-            catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 this.MessageLabel2.Content = exception.Message;
                 Console.Write(exception);
             }
@@ -55,27 +52,27 @@ namespace DomL
             var atividadesDiaString = Regex.Split(this.AtividadesTextBox.Text, "\r\n");
             var atividadeString = "";
             var isBlocoEspecial = false;
+            var ordem = 0;
 
             var diaDT = new DateTime();
-            try
-            {
-                for (var linha = 0; linha < atividadesDiaString.Length; linha++)
-                {
+            try {
+                for (var linha = 0; linha < atividadesDiaString.Length; linha++) {
                     atividadeString = atividadesDiaString[linha];
 
-                    if (string.IsNullOrWhiteSpace(atividadeString))
-                    {
+                    if (string.IsNullOrWhiteSpace(atividadeString)) {
                         continue;
                     }
 
-                    if (IsNewDay(atividadeString, out int dia))
-                    {
+                    if (IsNewDay(atividadeString, out int dia)) {
                         diaDT = new DateTime(int.Parse(this.AnoTb.Text), int.Parse(this.MesTb.Text), dia);
+                        ordem = 0;
                         continue;
                     }
 
-                    var atividadeDTO = new ActivityDTO
-                    {
+                    ordem++;
+
+                    var atividadeDTO = new ActivityDTO {
+                        DayOrder = ordem,
                         Dia = diaDT,
                         FullLine = atividadeString,
                         IsInBlocoEspecial = isBlocoEspecial,
@@ -86,8 +83,7 @@ namespace DomL
                     string categoria = segmentos[0];
 
                     #region switch de categoria
-                    switch (categoria)
-                    {
+                    switch (categoria) {
                         case "AUTO":
                         case "CARRO":
                             this._atividades.Add(new Auto(atividadeDTO, segmentos));
@@ -103,7 +99,7 @@ namespace DomL
                         case "PRESENTE":
                             this._atividades.Add(new Gift(atividadeDTO, segmentos));
                             break;
-                        
+
                         case "SAUDE":
                         case "HEALTH":
                             this._atividades.Add(new Health(atividadeDTO, segmentos));
@@ -112,7 +108,7 @@ namespace DomL
                         case "PESSOA":
                             this._atividades.Add(new Person(atividadeDTO, segmentos));
                             break;
-                        
+
                         case "PET":
                         case "ANIMAL":
                             this._atividades.Add(new Pet(atividadeDTO, segmentos));
@@ -146,7 +142,7 @@ namespace DomL
                         case "MANGA":
                             this._atividades.Add(new Comic(atividadeDTO, segmentos));
                             break;
-                        
+
                         case "JOGO":
                         case "GAME":
                             this._atividades.Add(new Game(atividadeDTO, segmentos));
@@ -170,23 +166,19 @@ namespace DomL
                             break;
 
                         default:
-                            if (segmentos[0].StartsWith("<"))
-                            {
+                            if (segmentos[0].StartsWith("<")) {
                                 isBlocoEspecial = !isBlocoEspecial;
                             }
 
                             Event evento = new Event(atividadeDTO, segmentos);
-                            if (evento.IsInBlocoEspecial || evento.shouldSave)
-                            {
+                            if (evento.IsInBlocoEspecial || evento.shouldSave) {
                                 this._atividades.Add(evento);
                             }
                             break;
                     }
                     #endregion
                 }
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 this.MessageLabel.Content = "Deu ruim no dia " + diaDT.Day + ", atividade: " + atividadeString;
                 throw e;
             }
@@ -206,65 +198,48 @@ namespace DomL
             string mes = this._atividades.First().Dia.Month.ToString("00");
             string filePath = BASE_DIR_PATH + "AtividadesMes\\AtividadesMes" + mes + ".txt";
             var fi = new FileInfo(filePath);
-            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null)
-            {
+            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
                 Directory.CreateDirectory(fi.DirectoryName);
             }
 
-            using (var file = new StreamWriter(filePath))
-            {
+            using (var file = new StreamWriter(filePath)) {
                 var jaPulouLinha = true;
                 int dia = 0;
-                foreach (Activity atividade in this._atividades)
-                {
+                foreach (Activity atividade in this._atividades) {
                     string diaStr = atividade.Dia.Day.ToString("00");
                     string mesStr = atividade.Dia.Month.ToString("00");
                     string diaSemana = atividade.Dia.DayOfWeek.ToString().Substring(0, 3);
                     string descricao = atividade.FullLine;
 
-                    if (atividade.IsInBlocoEspecial)
-                    {
-                        if (atividade.FullLine.StartsWith("<"))
-                        {
-                            if (!atividade.FullLine.StartsWith("<END>") && !atividade.FullLine.StartsWith("<FIM>"))
-                            {
+                    if (atividade.IsInBlocoEspecial) {
+                        if (atividade.FullLine.StartsWith("<")) {
+                            if (!atividade.FullLine.StartsWith("<END>") && !atividade.FullLine.StartsWith("<FIM>")) {
                                 // Tag de começo de bloco especial
                                 file.WriteLine("");
                                 file.WriteLine(diaStr + "/" + mesStr + "\t" + diaSemana + "\t" + descricao);
-                            }
-                            else
-                            {
+                            } else {
                                 // Tag de fim de bloco especial
                                 file.WriteLine("\t\t" + descricao);
                                 file.WriteLine("");
                             }
-                        }
-                        else
-                        {
-                            if (atividade.Dia.Day != dia)
-                            {
+                        } else {
+                            if (atividade.Dia.Day != dia) {
                                 // atividade novo dia dentro de bloco especial
                                 dia = atividade.Dia.Day;
                                 file.WriteLine(diaStr + "/" + mesStr + "\t" + diaSemana + "\t" + descricao);
-                            }
-                            else
-                            {
+                            } else {
                                 // atividade mesmo dia dentro de bloco especial
                                 file.WriteLine("\t\t" + descricao);
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         // atividade fora de bloco especial
-                        if (atividade.Dia.Day != dia)
-                        {
+                        if (atividade.Dia.Day != dia) {
                             jaPulouLinha = false;
                             dia = atividade.Dia.Day;
                         }
 
-                        if ((atividade.Dia.DayOfWeek == DayOfWeek.Monday || atividade.Dia.DayOfWeek == DayOfWeek.Saturday) && !jaPulouLinha)
-                        {
+                        if ((atividade.Dia.DayOfWeek == DayOfWeek.Monday || atividade.Dia.DayOfWeek == DayOfWeek.Saturday) && !jaPulouLinha) {
                             file.WriteLine("");
                             jaPulouLinha = true;
                         }
@@ -285,8 +260,7 @@ namespace DomL
 
             string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas\\";
             var fi = new FileInfo(fileDir);
-            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null)
-            {
+            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
                 Directory.CreateDirectory(fi.DirectoryName);
             }
 
@@ -342,8 +316,7 @@ namespace DomL
         private void GeraEstatisticas()
         {
             string filePath = BASE_DIR_PATH + "ResumoAno.txt";
-            using (var file = new StreamWriter(filePath))
-            {
+            using (var file = new StreamWriter(filePath)) {
                 int numero;
 
                 numero = MultipleDayActivity.CountBegun(Category.Game, this._atividadesFull);

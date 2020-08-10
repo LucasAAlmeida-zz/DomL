@@ -2,9 +2,11 @@
 using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
+    [Table("Health")]
     public class Health : SingleDayActivity
     {
         public Health(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)

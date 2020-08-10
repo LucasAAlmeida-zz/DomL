@@ -2,11 +2,15 @@
 using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
+    [Table("Travel")]
     public class Travel : SingleDayActivity
     {
+        [Required]
         public string MeioTransporte { get; set; }
 
         public Travel(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)

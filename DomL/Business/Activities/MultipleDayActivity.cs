@@ -4,6 +4,8 @@ using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -12,9 +14,15 @@ namespace DomL.Business.Activities
 {
     public abstract class MultipleDayActivity : Activity
     {
+        [Required]
+        [MaxLength(50)]
         public string DeQuem { get; set; }
-        public DateTime DiaTermino { get; set; }
-        public string Nota { get; set; }
+
+        public new DateTime? Dia { get; set; }
+        public DateTime? DiaTermino { get; set; }
+        public int Nota { get; set; }
+        
+        [NotMapped]
         public Classification Classificacao { get; set; }
 
         public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
@@ -173,21 +181,21 @@ namespace DomL.Business.Activities
                     if (segmentoToLower == "comeco" || segmentoToLower == "começo") {
                         classificacao = segmentoToLower;
                     } else {
-                        this.Nota = segmentos[3];
+                        this.Nota = int.Parse(segmentos[3]);
                     }
                     break;
                 case 5:
                     if (segmentoToLower == "termino" || segmentoToLower == "término") {
                         classificacao = segmentoToLower;
-                        this.Nota = segmentos[4];
+                        this.Nota = int.Parse(segmentos[4]);
                     } else {
-                        this.Nota = segmentos[3];
+                        this.Nota = int.Parse(segmentos[3]);
                         this.Descricao = segmentos[4];
                     }
                     break;
                 case 6:
                     classificacao = segmentos[3].ToLower();
-                    this.Nota = segmentos[4];
+                    this.Nota = int.Parse(segmentos[4]);
                     this.Descricao = segmentos[5];
                     break;
                 default:
@@ -209,24 +217,20 @@ namespace DomL.Business.Activities
                 default:
                     throw new Exception("what");
             }
-
-            if (this.Classificacao != Classification.Comeco && this.Nota != "-" && !int.TryParse(this.Nota, out _)) {
-                throw new Exception("what");
-            }
         }
 
         protected void ParseAtividadeVelha(string[] segmentos)
         {
             this.DeQuem = segmentos[2];
             this.Assunto = segmentos[3];
-            this.Nota = segmentos[4];
+            this.Nota = int.Parse(segmentos[4]);
             this.Descricao = segmentos[5];
         }
 
         protected override string ConsolidateActivity()
         {
-            var dataInicio = this.Dia != DateTime.MinValue ? Util.GetDiaMes(this.Dia) : "??/??";
-            var dataTermino = this.DiaTermino != DateTime.MinValue ? Util.GetDiaMes(this.DiaTermino) : "??/??";
+            var dataInicio = this.Dia != null ? Util.GetDiaMes(this.Dia.Value) : "??/??";
+            var dataTermino = this.DiaTermino != null ? Util.GetDiaMes(this.DiaTermino.Value) : "??/??";
             return dataInicio + "\t" + dataTermino + "\t" + this.DeQuem + "\t" + this.Assunto + "\t" + this.Nota + "\t" + this.Descricao;
         }
     }

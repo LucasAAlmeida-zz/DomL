@@ -2,12 +2,17 @@
 using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
+    [Table("Purchase")]
     public class Purchase : SingleDayActivity
     {
+        [Required]
         public string Loja { get; set; }
+        [Required]
         public string Valor { get; set; }
 
         public Purchase(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)

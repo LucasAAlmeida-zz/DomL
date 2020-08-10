@@ -99,12 +99,21 @@
     <Compile Include="Business\Activities\SingleDayActivities\Purchase.cs" />
     <Compile Include="Business\Activities\MultipleDayActivities\Game.cs" />
     <Compile Include="Business\Activities\SingleDayActivities\Work.cs" />
+    <Compile Include="DataAccess\BookRepository.cs" />
+    <Compile Include="DataAccess\DomLContext.cs" />
+    <Compile Include="DataAccess\Repository.cs" />
+    <Compile Include="DataAccess\UnitOfWork.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202008100103514_InitialModel.cs" />
+    <Compile Include="Migrations\202008100103514_InitialModel.designer.cs">
+      <DependentUpon>202008100103514_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -118,11 +127,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202008100103514_InitialModel.resx">
+      <DependentUpon>202008100103514_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include=".editorconfig" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
