@@ -65,7 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Presentation\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -76,10 +76,9 @@
     <Compile Include="Business\Activities\Activity.cs" />
     <Compile Include="Business\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Activities\SingleDayActivity.cs" />
-    <Compile Include="Business\Activities\SpecialActivity.cs" />
+    <Compile Include="Business\ActivityBlock.cs" />
     <Compile Include="Business\Utils\DTOs\ActivityDTO.cs" />
-    <Compile Include="Business\Activities\SpecialActivities\SpecialEvent.cs" />
-    <Compile Include="Business\Activities\SpecialActivities\Event.cs" />
+    <Compile Include="Business\Activities\SingleDayActivities\Event.cs" />
     <Compile Include="Business\Activities\SingleDayActivities\Play.cs" />
     <Compile Include="Business\Activities\MultipleDayActivities\Comic.cs" />
     <Compile Include="Business\Activities\SingleDayActivities\Doom.cs" />
@@ -99,11 +98,28 @@
     <Compile Include="Business\Activities\SingleDayActivities\Purchase.cs" />
     <Compile Include="Business\Activities\MultipleDayActivities\Game.cs" />
     <Compile Include="Business\Activities\SingleDayActivities\Work.cs" />
-    <Compile Include="DataAccess\BookRepository.cs" />
+    <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
+    <Compile Include="DataAccess\Repositories\EventRepository.cs" />
+    <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
+    <Compile Include="DataAccess\Repositories\WorkRepository.cs" />
+    <Compile Include="DataAccess\Repositories\TravelRepository.cs" />
+    <Compile Include="DataAccess\Repositories\PurchaseRepository.cs" />
+    <Compile Include="DataAccess\Repositories\PlayRepository.cs" />
+    <Compile Include="DataAccess\Repositories\PetRepository.cs" />
+    <Compile Include="DataAccess\Repositories\PersonRepository.cs" />
+    <Compile Include="DataAccess\Repositories\MovieRepository.cs" />
+    <Compile Include="DataAccess\Repositories\HealthRepository.cs" />
+    <Compile Include="DataAccess\Repositories\GiftRepository.cs" />
+    <Compile Include="DataAccess\Repositories\AutoRepository.cs" />
+    <Compile Include="DataAccess\Repositories\WatchRepository.cs" />
+    <Compile Include="DataAccess\Repositories\SeriesRepository.cs" />
+    <Compile Include="DataAccess\Repositories\GameRepository.cs" />
+    <Compile Include="DataAccess\Repositories\ComicRepository.cs" />
+    <Compile Include="DataAccess\Repositories\BookRepository.cs" />
     <Compile Include="DataAccess\DomLContext.cs" />
-    <Compile Include="DataAccess\Repository.cs" />
+    <Compile Include="DataAccess\Repositories\BaseRepository.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Presentation\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

@@ -1,5 +1,4 @@
 ﻿using DomL.Business.Utils.DTOs;
-using DomL.Business.Utils.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,30 +13,29 @@ namespace DomL.Business.Activities
         [Required]
         public int DayOrder { get; set; }
 
-        public DateTime Dia { get; set; }
+        [Required]
+        public DateTime Date { get; set; }
 
         [MaxLength(50)]
-        public string Assunto { get; set; }
+        public string Subject { get; set; }
 
         [MaxLength(255)]
-        public string Descricao { get; set; }
-        
-        [NotMapped]
-        public Category Categoria { get; set; }
-        [NotMapped]
-        public bool IsInBlocoEspecial { get; set; }
-        [NotMapped]
-        public string FullLine { get; set; }
+        public string Description { get; set; }
+
+        public int? ActivityBlockId { get; set; }
+
+        [ForeignKey("ActivityBlockId")]
+        public ActivityBlock ActivityBlock { get; set; }
 
         public Activity(ActivityDTO atividadeDTO)
         {
             this.DayOrder = atividadeDTO.DayOrder;
-            this.Dia = atividadeDTO.Dia;
-            this.IsInBlocoEspecial = atividadeDTO.IsInBlocoEspecial;
-            this.FullLine = atividadeDTO.FullLine;
+            this.Date = atividadeDTO.Dia;
+            this.ActivityBlockId = atividadeDTO.ActivityBlockId;
         }
 
-        protected abstract void ParseAtividade(IReadOnlyList<string> segmentos);
-        protected abstract string ConsolidateActivity();
+        protected abstract void PopulateActivity(IReadOnlyList<string> segments);
+        public abstract string ParseToString();
+        public abstract void Save();
     }
 }

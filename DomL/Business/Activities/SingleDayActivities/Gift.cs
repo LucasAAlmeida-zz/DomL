@@ -1,9 +1,10 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
-using DomL.Business.Utils.Enums;
+using DomL.DataAccess;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -13,27 +14,58 @@ namespace DomL.Business.Activities.SingleDayActivities
         [Required]
         public string DeQuem { get; set; }
 
-        public Gift(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos)
-        {
-            this.Categoria = Category.Gift;
-        }
+        public Gift(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
 
-        protected override void ParseAtividade(IReadOnlyList<string> segmentos)
+        protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
             //GIFT; (Assunto) O que ganhei; (DeQuem) De quem ganhei o presente
             //GIFT; (Assunto) O que ganhei; (DeQuem) De quem ganhei o presente; (Descrição) o que aconteceu
 
-            this.Assunto = segmentos[1];
+            this.Subject = segmentos[1];
             this.DeQuem = segmentos[2];
             if (segmentos.Count == 4)
             {
-                this.Descricao = segmentos[3];
+                this.Description = segmentos[3];
             }
         }
 
-        protected override string ConsolidateActivity()
+        public override void Save()
         {
-            return Util.GetDiaMes(this.Dia) + "\t" + this.Assunto + "\t" + this.DeQuem + "\t" + this.Descricao;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                if (unitOfWork.GiftRepo.Exists(b => b.Date == this.Date)) {
+                    return;
+                }
+
+                unitOfWork.GiftRepo.Add(this);
+                unitOfWork.Complete();
+            }
+        }
+
+        public static IEnumerable<Gift> GetAllFromMes(int mes, int ano)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                return unitOfWork.GiftRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
+            }
+        }
+
+        public static IEnumerable<Gift> GetAllFromAno(int ano)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                return unitOfWork.GiftRepo.Find(b => b.Date.Year == ano);
+            }
+        }
+
+        public override string ParseToString()
+        {
+            return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.DeQuem + "\t" + this.Description;
+        }
+
+        public static void Consolidate(string fileDir, int ano)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allGift = unitOfWork.GiftRepo.Find(b => b.Date.Year == ano).ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Gift.txt", allGift.Cast<SingleDayActivity>().ToList());
+            }
         }
     }
 }

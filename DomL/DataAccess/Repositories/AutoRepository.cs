@@ -1,10 +1,10 @@
-﻿using DomL.Business.Activities.MultipleDayActivities;
+﻿using DomL.Business.Activities.SingleDayActivities;
 
 namespace DomL.DataAccess
 {
-    public class BookRepository : Repository<Book>
+    public class AutoRepository : BaseRepository<Auto>
     {
-        public BookRepository(DomLContext context)
+        public AutoRepository(DomLContext context)
         : base(context)
         {
         }
@@ -13,6 +13,5 @@ namespace DomL.DataAccess
         {
             get { return Context as DomLContext; }
         }
-
     }
 }

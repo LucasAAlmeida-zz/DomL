@@ -4,12 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-public class Repository<TEntity> where TEntity : class
+public class BaseRepository<TEntity> where TEntity : class
 {
     protected readonly DbContext Context;
-    private DbSet<TEntity> _entities;
+    private readonly DbSet<TEntity> _entities;
 
-    public Repository(DbContext context)
+    public BaseRepository(DbContext context)
     {
         Context = context;
         _entities = Context.Set<TEntity>();
@@ -17,8 +17,6 @@ public class Repository<TEntity> where TEntity : class
 
     public TEntity Get(int id)
     {
-        // Here we are working with a DbContext, not PlutoContext. So we don't have DbSets 
-        //such as Courses or Authors, and we need to use the generic Set() method to access them
         return _entities.Find(id);
     }
 
@@ -30,6 +28,11 @@ public class Repository<TEntity> where TEntity : class
     public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
     {
         return _entities.Where(predicate);
+    }
+
+    public bool Exists(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _entities.Any(predicate);
     }
 
     public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
