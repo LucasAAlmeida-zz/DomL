@@ -56,11 +56,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Origem + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int ano)
+        public static void Consolidate(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                var allPerson = unitOfWork.PersonRepo.Find(b => b.Date.Year == ano).ToList();
-                EscreveConsolidadasNoArquivo(fileDir + "Person" + ano + ".txt", allPerson.Cast<SingleDayActivity>().ToList());
+                var allPerson = unitOfWork.PersonRepo.Find(b => b.Date.Year == year).ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Person" + year + ".txt", allPerson.Cast<SingleDayActivity>().ToList());
             }
         }
 

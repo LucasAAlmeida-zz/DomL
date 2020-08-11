@@ -39,11 +39,11 @@ namespace DomL.Business.Activities.MultipleDayActivities
                 return unitOfWork.SeriesRepo.Find(b => b.Date.Year == ano);
             }
         }
-        public static void Consolidate(string fileDir, int ano)
+        public static void Consolidate(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                var allSeries = unitOfWork.SeriesRepo.Find(b => b.Date.Year == ano).ToList();
-                EscreveConsolidadasNoArquivo(fileDir + "Series.txt", allSeries.Cast<MultipleDayActivity>().ToList());
+                var allSeries = unitOfWork.SeriesRepo.Find(b => b.Date.Year == year).ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Series" + year + ".txt", allSeries.Cast<MultipleDayActivity>().ToList());
             }
         }
 

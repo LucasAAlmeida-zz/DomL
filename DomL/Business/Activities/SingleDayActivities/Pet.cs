@@ -51,11 +51,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int ano)
+        public static void Consolidate(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                var allPet = unitOfWork.PetRepo.Find(b => b.Date.Year == ano).ToList();
-                EscreveConsolidadasNoArquivo(fileDir + "Pet" + ano + ".txt", allPet.Cast<SingleDayActivity>().ToList());
+                var allPet = unitOfWork.PetRepo.Find(b => b.Date.Year == year).ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Pet" + year + ".txt", allPet.Cast<SingleDayActivity>().ToList());
             }
         }
     }

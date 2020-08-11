@@ -51,11 +51,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static void Consolidate(string fileDir, int ano)
+        public static void Consolidate(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                var allAutos = unitOfWork.AutoRepo.Find(b => b.Date.Year == ano).ToList();
-                EscreveConsolidadasNoArquivo(fileDir + "Auto.txt", allAutos.Cast<SingleDayActivity>().ToList());
+                var allAutos = unitOfWork.AutoRepo.Find(b => b.Date.Year == year).ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Auto" + year + ".txt", allAutos.Cast<SingleDayActivity>().ToList());
             }
         }
     }

@@ -41,11 +41,11 @@ namespace DomL.Business.Activities.MultipleDayActivities
             }
         }
 
-        public static void Consolidate(string fileDir, int ano)
+        public static void Consolidate(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                var allBooks = unitOfWork.BookRepo.Find(b => b.Date.Year == ano).ToList();
-                EscreveConsolidadasNoArquivo(fileDir + "Book.txt", allBooks.Cast<MultipleDayActivity>().ToList());
+                var allBooks = unitOfWork.BookRepo.Find(b => b.Date.Year == year).ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Book" + year + ".txt", allBooks.Cast<MultipleDayActivity>().ToList());
             }
         }
 

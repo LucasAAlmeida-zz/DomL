@@ -119,6 +119,10 @@
     <Compile Include="DataAccess\DomLContext.cs" />
     <Compile Include="DataAccess\Repositories\BaseRepository.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
+    <Compile Include="Migrations\202008112316419_AddActivityBlockAndEventModels.cs" />
+    <Compile Include="Migrations\202008112316419_AddActivityBlockAndEventModels.designer.cs">
+      <DependentUpon>202008112316419_AddActivityBlockAndEventModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -145,6 +149,9 @@
     </Compile>
     <EmbeddedResource Include="Migrations\202008100103514_InitialModel.resx">
       <DependentUpon>202008100103514_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008112316419_AddActivityBlockAndEventModels.resx">
+      <DependentUpon>202008112316419_AddActivityBlockAndEventModels.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
