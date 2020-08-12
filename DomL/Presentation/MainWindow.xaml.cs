@@ -31,8 +31,9 @@ namespace DomL
             try {
                 this.ClassificaAtividades();
                 this.EscreverAtividadesDoMesEmArquivo();
-                this.EscreverAtividadesConsolidadasEmArquivo();
-                this.EscreveResumoAnoEmArquivo();
+                this.EscreverAtividadesConsolidadasDoAnoEmArquivo();
+                this.EscreveResumoDoAnoEmArquivo();
+                this.EscreverAtividadesConsolidadasOfAllTimeEmArquivo();
             } catch (Exception exception) {
                 this.MessageLabel2.Content = exception.Message;
                 Console.Write(exception);
@@ -200,7 +201,7 @@ namespace DomL
                 Directory.CreateDirectory(fi.DirectoryName);
             }
 
-            var atividades = GetAllAtividadesMesAno(int.Parse(mes), int.Parse(ano));
+            var atividades = GetAllAtividadesMes(int.Parse(mes), int.Parse(ano));
             using (var file = new StreamWriter(filePath)) {
                 foreach (Activity atividade in atividades) {
                     file.WriteLine(atividade.ParseToString());
@@ -209,7 +210,7 @@ namespace DomL
             this.MessageLabel.Content = "Mês consolidado com sucesso";
         }
 
-        private List<Activity> GetAllAtividadesMesAno(int mes, int ano)
+        private List<Activity> GetAllAtividadesMes(int mes, int ano)
         {
             var atividades = new List<Activity>();
 
@@ -231,44 +232,43 @@ namespace DomL
             atividades.AddRange(Travel.GetAllFromMes(mes, ano));
             atividades.AddRange(Work.GetAllFromMes(mes, ano));
 
-            atividades.AddRange(Event.GetImportantFromMesAno(mes, ano));
+            atividades.AddRange(Event.GetImportantFromMes(mes, ano));
 
             return atividades;
         }
         #endregion
 
         #region Consolida Atividades
-        private void EscreverAtividadesConsolidadasEmArquivo()
+        private void EscreverAtividadesConsolidadasDoAnoEmArquivo()
         {
-            string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas\\";
+            int year = int.Parse(this.AnoTb.Text);
+            string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas" + year + "\\";
             var fi = new FileInfo(fileDir);
             if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
                 Directory.CreateDirectory(fi.DirectoryName);
             }
 
-            int year = int.Parse(this.AnoTb.Text);
-
-            Book.Consolidate(fileDir, year);
-            Comic.Consolidate(fileDir, year);
-            Game.Consolidate(fileDir, year);
-            Series.Consolidate(fileDir, year);
-            Watch.Consolidate(fileDir, year);
+            Book.ConsolidateYear(fileDir, year);
+            Comic.ConsolidateYear(fileDir, year);
+            Game.ConsolidateYear(fileDir, year);
+            Series.ConsolidateYear(fileDir, year);
+            Watch.ConsolidateYear(fileDir, year);
             
-            Auto.Consolidate(fileDir, year);
-            Doom.Consolidate(fileDir, year);
-            Gift.Consolidate(fileDir, year);
-            Health.Consolidate(fileDir, year);
-            Movie.Consolidate(fileDir, year);
-            Person.Consolidate(fileDir, year);
-            Pet.Consolidate(fileDir, year);
-            Play.Consolidate(fileDir, year);
-            Purchase.Consolidate(fileDir, year);
-            Travel.Consolidate(fileDir, year);
-            Work.Consolidate(fileDir, year);
+            Auto.ConsolidateYear(fileDir, year);
+            Doom.ConsolidateYear(fileDir, year);
+            Gift.ConsolidateYear(fileDir, year);
+            Health.ConsolidateYear(fileDir, year);
+            Movie.ConsolidateYear(fileDir, year);
+            Person.ConsolidateYear(fileDir, year);
+            Pet.ConsolidateYear(fileDir, year);
+            Play.ConsolidateYear(fileDir, year);
+            Purchase.ConsolidateYear(fileDir, year);
+            Travel.ConsolidateYear(fileDir, year);
+            Work.ConsolidateYear(fileDir, year);
 
-            Event.Consolidate(fileDir, year);
+            Event.ConsolidateYear(fileDir, year);
 
-            ActivityBlock.Consolidate(fileDir, year);
+            ActivityBlock.ConsolidateYear(fileDir, year);
 
             this.MessageLabel.Content = "Atividades Importantes Consolidadas";
             this.MessageLabel2.Content = "";
@@ -276,42 +276,56 @@ namespace DomL
         #endregion
 
         #region Escreve Resumo Ano
-        private void EscreveResumoAnoEmArquivo()
+        private void EscreveResumoDoAnoEmArquivo()
         {
             var ano = int.Parse(this.AnoTb.Text);
 
             string filePath = BASE_DIR_PATH + "ResumoAno.txt";
             using (var file = new StreamWriter(filePath)) {
-                int numero;
-                
-                numero = Game.CountBegunYear(ano);
-                file.WriteLine("Jogos começados:\t" + numero);
-
-                numero = Game.CountEndedYear(ano);
-                file.WriteLine("Jogos terminados:\t" + numero);
-
-                numero = Series.CountEndedYear(ano);
-                file.WriteLine("Temporadas de séries assistidas:\t" + numero);
-
-                numero = Book.CountEndedYear(ano);
-                file.WriteLine("Livros lidos:\t" + numero);
-
-                numero = Comic.CountEndedYear(ano);
-                file.WriteLine("K Páginas de comics lidos:\t" + numero);
-
-                numero = Movie.CountYear(ano);
-                file.WriteLine("Filmes assistidos:\t" + numero);
-
-                numero = Travel.CountYear(ano);
-                file.WriteLine("Viagens feitas:\t" + numero);
-
-                numero = Person.CountYear(ano);
-                file.WriteLine("Pessoas novas conhecidas:\t" + numero);
-
-                numero = Purchase.CountYear(ano);
-                file.WriteLine("Compras notáveis:\t" + numero);
+                file.WriteLine("Jogos começados:\t" + Game.CountBegunYear(ano));
+                file.WriteLine("Jogos terminados:\t" + Game.CountEndedYear(ano));
+                file.WriteLine("Temporadas de séries assistidas:\t" + Series.CountEndedYear(ano));
+                file.WriteLine("Livros lidos:\t" + Book.CountEndedYear(ano));
+                file.WriteLine("K Páginas de comics lidos:\t" + Comic.CountEndedYear(ano));
+                file.WriteLine("Filmes assistidos:\t" + Movie.CountYear(ano));
+                file.WriteLine("Viagens feitas:\t" + Travel.CountYear(ano));
+                file.WriteLine("Pessoas novas conhecidas:\t" + Person.CountYear(ano));
+                file.WriteLine("Compras notáveis:\t" + Purchase.CountYear(ano));
             }
+
+            this.MessageLabel.Content = "Resumo do Ano Terminado";
+            this.MessageLabel2.Content = "";
         }
         #endregion
+
+        private void EscreverAtividadesConsolidadasOfAllTimeEmArquivo()
+        {
+            string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas\\";
+            var fi = new FileInfo(fileDir);
+            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
+                Directory.CreateDirectory(fi.DirectoryName);
+            }
+
+            Book.ConsolidateAll(fileDir);
+            Comic.ConsolidateAll(fileDir);
+            Game.ConsolidateAll(fileDir);
+            Series.ConsolidateAll(fileDir);
+            Watch.ConsolidateAll(fileDir);
+
+            Auto.ConsolidateAll(fileDir);
+            Doom.ConsolidateAll(fileDir);
+            Gift.ConsolidateAll(fileDir);
+            Health.ConsolidateAll(fileDir);
+            Movie.ConsolidateAll(fileDir);
+            Person.ConsolidateAll(fileDir);
+            Pet.ConsolidateAll(fileDir);
+            Play.ConsolidateAll(fileDir);
+            Purchase.ConsolidateAll(fileDir);
+            Travel.ConsolidateAll(fileDir);
+            Work.ConsolidateAll(fileDir);
+
+            this.MessageLabel.Content = "Atividades Consolidadas";
+            this.MessageLabel2.Content = "";
+        }
     }
 }

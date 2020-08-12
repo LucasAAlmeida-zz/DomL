@@ -45,7 +45,7 @@ namespace DomL.Business
             }
         }
 
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allActivitiesInBlocksInYear = unitOfWork.ActivityBlockRepo.GetActivitiesInBlockYear(year).ToList();

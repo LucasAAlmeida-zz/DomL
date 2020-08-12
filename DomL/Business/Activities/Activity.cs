@@ -27,11 +27,13 @@ namespace DomL.Business.Activities
         [ForeignKey("ActivityBlockId")]
         public ActivityBlock ActivityBlock { get; set; }
 
-        public Activity(ActivityDTO atividadeDTO)
+        public Activity(ActivityDTO atividadeDTO, string[] segmentos)
         {
             this.DayOrder = atividadeDTO.DayOrder;
             this.Date = atividadeDTO.Dia;
             this.ActivityBlockId = atividadeDTO.ActivityBlockId;
+
+            this.PopulateActivity(segmentos);
         }
 
         protected abstract void PopulateActivity(IReadOnlyList<string> segments);

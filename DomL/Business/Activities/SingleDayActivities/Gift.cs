@@ -41,6 +41,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
+        public override string ParseToString()
+        {
+            return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.DeQuem + "\t" + this.Description;
+        }
+
         public static IEnumerable<Gift> GetAllFromMes(int mes, int ano)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -48,23 +53,19 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Gift> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.GiftRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
-        public override string ParseToString()
-        {
-            return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.DeQuem + "\t" + this.Description;
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allGift = unitOfWork.GiftRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Gift" + year + ".txt", allGift.Cast<SingleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allGift = unitOfWork.GiftRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Gift.txt", allGift.Cast<SingleDayActivity>().ToList());
             }
         }
     }

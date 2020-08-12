@@ -25,20 +25,6 @@ namespace DomL.Business.Activities.SingleDayActivities
             this.Description = segmentos[3];
         }
 
-        public static IEnumerable<Person> GetAllFromMes(int mes, int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.PersonRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
-            }
-        }
-
-        public static IEnumerable<Person> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.PersonRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
         public override void Save()
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -56,7 +42,21 @@ namespace DomL.Business.Activities.SingleDayActivities
             return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Origem + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int year)
+        public static int CountYear(int ano)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                return unitOfWork.PersonRepo.Find(g => g.Date.Year == ano).Count();
+            }
+        }
+
+        public static IEnumerable<Person> GetAllFromMes(int mes, int ano)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                return unitOfWork.PersonRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
+            }
+        }
+
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allPerson = unitOfWork.PersonRepo.Find(b => b.Date.Year == year).ToList();
@@ -64,10 +64,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static int CountYear(int ano)
+        public static void ConsolidateAll(string fileDir)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.PersonRepo.Find(g => g.Date.Year == ano).Count();
+                var allPerson = unitOfWork.PersonRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Person.txt", allPerson.Cast<SingleDayActivity>().ToList());
             }
         }
     }

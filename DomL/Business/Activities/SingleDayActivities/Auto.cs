@@ -44,18 +44,19 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Auto> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.AutoRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allAutos = unitOfWork.AutoRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Auto" + year + ".txt", allAutos.Cast<SingleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allAutos = unitOfWork.AutoRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Auto.txt", allAutos.Cast<SingleDayActivity>().ToList());
             }
         }
     }

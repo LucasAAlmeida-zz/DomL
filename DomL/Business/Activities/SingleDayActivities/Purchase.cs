@@ -39,13 +39,6 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Purchase> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.PurchaseRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
         public override void Save()
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -63,7 +56,7 @@ namespace DomL.Business.Activities.SingleDayActivities
             return Util.GetDiaMes(this.Date) + "\t" + this.Loja + "\t" + this.Subject + "\t" + this.Valor + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allPurchase = unitOfWork.PurchaseRepo.Find(b => b.Date.Year == year).ToList();
@@ -75,6 +68,14 @@ namespace DomL.Business.Activities.SingleDayActivities
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 return unitOfWork.PurchaseRepo.Find(g => g.Date.Year == ano).Count();
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allPurchase = unitOfWork.PurchaseRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Purchase.txt", allPurchase.Cast<SingleDayActivity>().ToList());
             }
         }
     }

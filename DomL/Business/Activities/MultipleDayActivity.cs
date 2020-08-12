@@ -24,10 +24,7 @@ namespace DomL.Business.Activities
         [NotMapped]
         public DateTime? DiaTermino { get; set; }
 
-        public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO)
-        {
-            this.PopulateActivity(segmentos);
-        }
+        public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -84,9 +81,9 @@ namespace DomL.Business.Activities
             }
         }
 
-        protected static void EscreveConsolidadasNoArquivo(string fileDir, List<MultipleDayActivity> activities)
+        protected static void EscreveConsolidadasNoArquivo(string filePath, List<MultipleDayActivity> activities)
         {
-            using (var file = new StreamWriter(fileDir + "Book.txt")) {
+            using (var file = new StreamWriter(filePath)) {
                 foreach (var activity in activities) {
                     switch (activity.Classificacao) {
                         case Classification.Unica:

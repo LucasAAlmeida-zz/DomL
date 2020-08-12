@@ -40,6 +40,18 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
+        public override string ParseToString()
+        {
+            return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Nota + "\t" + this.Description;
+        }
+
+        public static int CountYear(int ano)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                return unitOfWork.MovieRepo.Find(g => g.Date.Year == ano).Count();
+            }
+        }
+
         public static IEnumerable<Movie> GetAllFromMes(int mes, int ano)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -47,19 +59,7 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Movie> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.MovieRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
-        public override string ParseToString()
-        {
-            return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Nota + "\t" + this.Description;
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allMovie = unitOfWork.MovieRepo.Find(b => b.Date.Year == year).ToList();
@@ -67,10 +67,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static int CountYear(int ano)
+        public static void ConsolidateAll(string fileDir)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.MovieRepo.Find(g => g.Date.Year == ano).Count();
+                var allMovie = unitOfWork.MovieRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Movie.txt", allMovie.Cast<SingleDayActivity>().ToList());
             }
         }
     }

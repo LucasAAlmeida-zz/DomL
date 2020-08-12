@@ -36,13 +36,6 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Travel> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.TravelRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
         public override void Save()
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -60,7 +53,7 @@ namespace DomL.Business.Activities.SingleDayActivities
             return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.MeioTransporte + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allTravel = unitOfWork.TravelRepo.Find(b => b.Date.Year == year).ToList();
@@ -72,6 +65,14 @@ namespace DomL.Business.Activities.SingleDayActivities
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 return unitOfWork.TravelRepo.Find(g => g.Date.Year == ano).Count();
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allTravel = unitOfWork.TravelRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Travel.txt", allTravel.Cast<SingleDayActivity>().ToList());
             }
         }
     }

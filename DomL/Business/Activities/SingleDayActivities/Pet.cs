@@ -39,23 +39,24 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Pet> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.PetRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
         public override string ParseToString()
         {
             return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allPet = unitOfWork.PetRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Pet" + year + ".txt", allPet.Cast<SingleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allPet = unitOfWork.PetRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Pet.txt", allPet.Cast<SingleDayActivity>().ToList());
             }
         }
     }

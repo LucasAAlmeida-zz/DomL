@@ -37,6 +37,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
+        public override string ParseToString()
+        {
+            string assunto = !string.IsNullOrWhiteSpace(this.Subject) ? this.Subject : "-";
+            return Util.GetDiaMes(this.Date) + "\t" + assunto + "\t" + this.Description;
+        }
         public static IEnumerable<Health> GetAllFromMes(int mes, int ano)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -44,24 +49,19 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Health> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.HealthRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
-        public override string ParseToString()
-        {
-            string assunto = !string.IsNullOrWhiteSpace(this.Subject) ? this.Subject : "-";
-            return Util.GetDiaMes(this.Date) + "\t" + assunto + "\t" + this.Description;
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allHealth = unitOfWork.HealthRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Health" + year + ".txt", allHealth.Cast<SingleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allHealth = unitOfWork.HealthRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Health.txt", allHealth.Cast<SingleDayActivity>().ToList());
             }
         }
     }

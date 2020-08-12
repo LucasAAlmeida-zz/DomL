@@ -31,6 +31,11 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
+        public override string ParseToString()
+        {
+            return Util.GetDiaMes(this.Date) + "\t" + this.Description;
+        }
+
         public static IEnumerable<Doom> GetAllFromMes(int mes, int ano)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -38,23 +43,19 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Doom> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.DoomRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
-        public override string ParseToString()
-        {
-            return Util.GetDiaMes(this.Date) + "\t" + this.Description;
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allDoom = unitOfWork.DoomRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Doom" + year + ".txt", allDoom.Cast<SingleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allDoom = unitOfWork.DoomRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Doom.txt", allDoom.Cast<SingleDayActivity>().ToList());
             }
         }
     }

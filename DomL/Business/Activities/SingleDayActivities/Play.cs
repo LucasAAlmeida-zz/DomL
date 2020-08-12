@@ -39,23 +39,24 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Play> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.PlayRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
         public override string ParseToString()
         {
             return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Description;
         }
 
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allPlay = unitOfWork.PlayRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Play" + year + ".txt", allPlay.Cast<SingleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allPlay = unitOfWork.PlayRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Play.txt", allPlay.Cast<SingleDayActivity>().ToList());
             }
         }
     }

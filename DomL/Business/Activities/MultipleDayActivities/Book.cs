@@ -34,18 +34,19 @@ namespace DomL.Business.Activities.MultipleDayActivities
             }
         }
 
-        public static IEnumerable<Book> GetInBlockFromYear(int year)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.BookRepo.Find(b => b.Date.Year == year && b.ActivityBlockId != null);
-            }
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allBooks = unitOfWork.BookRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Book" + year + ".txt", allBooks.Cast<MultipleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allBooks = unitOfWork.BookRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Book.txt", allBooks.Cast<MultipleDayActivity>().ToList());
             }
         }
 

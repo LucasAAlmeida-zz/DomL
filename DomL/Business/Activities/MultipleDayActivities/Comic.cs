@@ -33,18 +33,19 @@ namespace DomL.Business.Activities.MultipleDayActivities
             }
         }
 
-        public static IEnumerable<Comic> GetAllFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.ComicRepo.Find(b => b.Date.Year == ano);
-            }
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allComics = unitOfWork.ComicRepo.Find(b => b.Date.Year == year).ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Comic" + year + ".txt", allComics.Cast<MultipleDayActivity>().ToList());
+            }
+        }
+
+        public static void ConsolidateAll(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allComics = unitOfWork.ComicRepo.GetAll().ToList();
+                EscreveConsolidadasNoArquivo(fileDir + "Comic.txt", allComics.Cast<MultipleDayActivity>().ToList());
             }
         }
 

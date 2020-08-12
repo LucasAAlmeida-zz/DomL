@@ -46,7 +46,12 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Event> GetImportantFromMesAno(int mes, int ano)
+        public override string ParseToString()
+        {
+            return Util.GetDiaMes(this.Date) + "\t" + this.Description;
+        }
+
+        public static IEnumerable<Event> GetImportantFromMes(int mes, int ano)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 return unitOfWork.EventRepo
@@ -57,19 +62,7 @@ namespace DomL.Business.Activities.SingleDayActivities
             }
         }
 
-        public static IEnumerable<Event> GetImportantFromAno(int ano)
-        {
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                return unitOfWork.EventRepo.Find(b => b.Date.Year == ano && (b.IsImportant || b.ActivityBlockId != null));
-            }
-        }
-
-        public override string ParseToString()
-        {
-            return Util.GetDiaMes(this.Date) + "\t" + this.Description;
-        }
-
-        public static void Consolidate(string fileDir, int year)
+        public static void ConsolidateYear(string fileDir, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 var allImportantEvents = unitOfWork.EventRepo.Find(b => b.Date.Year == year && b.IsImportant).ToList();
