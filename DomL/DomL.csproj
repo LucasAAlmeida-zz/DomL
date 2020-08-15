@@ -77,6 +77,8 @@
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
     <Compile Include="Business\Entities\ActivityBlock.cs" />
+    <Compile Include="Business\Services\DomLServices.cs" />
+    <Compile Include="Business\Utils\DomLExceptions.cs" />
     <Compile Include="Business\Utils\DTOs\ActivityDTO.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Event.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Play.cs" />
@@ -167,9 +169,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Business\Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

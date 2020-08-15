@@ -36,7 +36,7 @@
                     <Label Name="MessageLabel"></Label>
                     <Label Name="MessageLabel2"></Label>
                 </StackPanel>
-                <Button Name="CategorizarButton"  Height="30" Width="100" HorizontalAlignment="Right" Margin="10" Content="Categorizar" Click="CategorizarButton_Click"/>
+                <Button Name="SubmeterButton"  Height="30" Width="100" HorizontalAlignment="Right" Margin="10" Content="Submeter" Click="SubmeterButton_Click"/>
             </DockPanel>
         </Grid>
     </DockPanel>
