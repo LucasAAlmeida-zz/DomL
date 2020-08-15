@@ -1,9 +1,4 @@
-﻿using DomL.Business.Activities;
-using DomL.Business.Utils.DTOs;
-using DomL.Business.Utils.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 
 namespace DomL.Business.Utils
 {

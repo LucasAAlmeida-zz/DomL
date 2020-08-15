@@ -73,31 +73,31 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Business\Activities\Activity.cs" />
-    <Compile Include="Business\Activities\MultipleDayActivity.cs" />
-    <Compile Include="Business\Activities\SingleDayActivity.cs" />
-    <Compile Include="Business\ActivityBlock.cs" />
+    <Compile Include="Business\Entities\Activities\Activity.cs" />
+    <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
+    <Compile Include="Business\Entities\ActivityBlock.cs" />
     <Compile Include="Business\Utils\DTOs\ActivityDTO.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Event.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Play.cs" />
-    <Compile Include="Business\Activities\MultipleDayActivities\Comic.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Doom.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Event.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Play.cs" />
+    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Comic.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Doom.cs" />
     <Compile Include="Business\Utils\Enums\Category.cs" />
     <Compile Include="Business\Utils\Enums\Classification.cs" />
     <Compile Include="Business\Utils\Util.cs" />
-    <Compile Include="Business\Activities\MultipleDayActivities\Watch.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Movie.cs" />
-    <Compile Include="Business\Activities\MultipleDayActivities\Series.cs" />
-    <Compile Include="Business\Activities\MultipleDayActivities\Book.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Health.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Travel.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Auto.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Gift.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Person.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Pet.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Purchase.cs" />
-    <Compile Include="Business\Activities\MultipleDayActivities\Game.cs" />
-    <Compile Include="Business\Activities\SingleDayActivities\Work.cs" />
+    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Watch.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Movie.cs" />
+    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Series.cs" />
+    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Book.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Health.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Auto.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Gift.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Person.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Pet.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Purchase.cs" />
+    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Game.cs" />
+    <Compile Include="Business\Entities\Activities\SingleDayActivities\Work.cs" />
     <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
     <Compile Include="DataAccess\Repositories\EventRepository.cs" />
     <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
@@ -167,7 +167,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Business\Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

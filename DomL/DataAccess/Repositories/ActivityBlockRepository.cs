@@ -1,11 +1,7 @@
 ﻿using DomL.Business;
 using DomL.Business.Activities;
-using DomL.Business.Activities.MultipleDayActivities;
-using DomL.Business.Activities.SingleDayActivities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 
 namespace DomL.DataAccess
 {

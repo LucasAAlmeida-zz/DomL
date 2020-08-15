@@ -26,10 +26,6 @@ namespace DomL.DataAccess
         public DbSet<Event> Event { get; set; }
         public DbSet<ActivityBlock> ActivityBlock { get; set; }
 
-        public DomLContext()
-            : base("name=DefaultConnection")
-        {
-
-        }
+        public DomLContext() : base("name=DefaultConnection") { }
     }
 }
