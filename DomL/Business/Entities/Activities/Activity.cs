@@ -16,10 +16,10 @@ namespace DomL.Business.Activities
         [Required]
         public DateTime Date { get; set; }
 
-        [MaxLength(50)]
+        [MaxLength(255)]
         public string Subject { get; set; }
 
-        [MaxLength(255)]
+        [MaxLength(1000)]
         public string Description { get; set; }
 
         public int? ActivityBlockId { get; set; }

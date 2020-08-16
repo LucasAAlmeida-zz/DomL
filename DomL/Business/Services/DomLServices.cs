@@ -15,7 +15,7 @@ namespace DomL.Business.Services
 {
     public class DomLServices
     {
-        const string BASE_DIR_PATH = "D:\\OneDrive\\Desktop\\DomL\\";
+        const string BASE_DIR_PATH = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
 
         public static void ParseAtividadesDoMesEmTextoParaBanco(string atividadesStr, int mes, int ano)
         {

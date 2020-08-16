@@ -133,6 +133,10 @@
     <Compile Include="Migrations\202008161730371_AlterNotaAsNullable.designer.cs">
       <DependentUpon>202008161730371_AlterNotaAsNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008161843246_MoreCharactersToSubjectAndDescription.cs" />
+    <Compile Include="Migrations\202008161843246_MoreCharactersToSubjectAndDescription.designer.cs">
+      <DependentUpon>202008161843246_MoreCharactersToSubjectAndDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -175,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008161730371_AlterNotaAsNullable.resx">
       <DependentUpon>202008161730371_AlterNotaAsNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008161843246_MoreCharactersToSubjectAndDescription.resx">
+      <DependentUpon>202008161843246_MoreCharactersToSubjectAndDescription.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

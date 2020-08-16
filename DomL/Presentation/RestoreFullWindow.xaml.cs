@@ -30,7 +30,8 @@ namespace DomL.Presentation
             try {
                 DomLServices.RestoreBooksFromFile();
             } catch (Exception exception) {
-                
+                this.MessageLabel.Content = exception.Message;
+                Console.WriteLine(exception);
             }
         }
 

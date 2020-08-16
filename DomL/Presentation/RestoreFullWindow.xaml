@@ -7,10 +7,16 @@
         mc:Ignorable="d"
         Title="RestoreFullWindow" Height="450" Width="800">
     <DockPanel>
-        <Button Height="30" Width="100" Margin="10" Content="Book" Click="BookButton_Click"/>
-        <Button Height="30" Width="100" Margin="10" Content="Comic" Click="ComicButton_Click"/>
-        <Button Height="30" Width="100" Margin="10" Content="Game" Click="GameButton_Click"/>
-        <Button Height="30" Width="100" Margin="10" Content="Series" Click="SeriesButton_Click"/>
-        <Button Height="30" Width="100" Margin="10" Content="Watch" Click="WatchButton_Click"/>
+        <StackPanel>
+            <DockPanel>
+                <Button Height="30" Width="100" Margin="10" Content="Book" Click="BookButton_Click"/>
+                <Button Height="30" Width="100" Margin="10" Content="Comic" Click="ComicButton_Click"/>
+                <Button Height="30" Width="100" Margin="10" Content="Game" Click="GameButton_Click"/>
+                <Button Height="30" Width="100" Margin="10" Content="Series" Click="SeriesButton_Click"/>
+                <Button Height="30" Width="100" Margin="10" Content="Watch" Click="WatchButton_Click"/>
+            </DockPanel>
+            <Label Name="MessageLabel"></Label>
+        </StackPanel>
+        
     </DockPanel>
 </Window>
