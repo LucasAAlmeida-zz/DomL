@@ -90,14 +90,17 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
                     // DataInicio; DataFim; (De Quem); (Assunto); (Nota); (Descrição)
 
+                    int? nota = segmentos[4] != "-" ? int.Parse(segmentos[4]) : (int?) null;
+                    string descricao = segmentos[5] != "-" ? segmentos[5] : null;
+
                     if (segmentos[0] == segmentos[1]) {
                         var book = new Book() {
                             Date = DateTime.Parse(segmentos[0]),
                             Classificacao = Classification.Unica,
                             DeQuem = segmentos[2],
                             Subject = segmentos[3],
-                            Nota = int.Parse(segmentos[4]),
-                            Description = segmentos[5],
+                            Nota = nota,
+                            Description = descricao,
 
                             DayOrder = 0,
                         };
@@ -111,8 +114,8 @@ namespace DomL.Business.Activities.MultipleDayActivities
                             Classificacao = Classification.Comeco,
                             DeQuem = segmentos[2],
                             Subject = segmentos[3],
-                            Nota = int.Parse(segmentos[4]),
-                            Description = segmentos[5],
+                            Nota = nota,
+                            Description = descricao,
 
                             DayOrder = 0,
                         };
@@ -125,8 +128,8 @@ namespace DomL.Business.Activities.MultipleDayActivities
                             Classificacao = Classification.Termino,
                             DeQuem = segmentos[2],
                             Subject = segmentos[3],
-                            Nota = int.Parse(segmentos[4]),
-                            Description = segmentos[5],
+                            Nota = nota,
+                            Description = descricao,
 
                             DayOrder = 0,
                         };

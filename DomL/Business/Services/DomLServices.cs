@@ -15,7 +15,7 @@ namespace DomL.Business.Services
 {
     public class DomLServices
     {
-        const string BASE_DIR_PATH = "C:\\Users\\User\\Desktop\\DomL\\";
+        const string BASE_DIR_PATH = "D:\\OneDrive\\Desktop\\DomL\\";
 
         public static void ParseAtividadesDoMesEmTextoParaBanco(string atividadesStr, int mes, int ano)
         {
@@ -281,12 +281,6 @@ namespace DomL.Business.Services
         {
             string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas\\";
 
-            Book.FullRestoreFromFile(fileDir);
-            Comic.FullRestoreFromFile(fileDir);
-            Game.FullRestoreFromFile(fileDir);
-            Series.FullRestoreFromFile(fileDir);
-            Watch.FullRestoreFromFile(fileDir);
-
             Auto.FullRestoreFromFile(fileDir);
             Doom.FullRestoreFromFile(fileDir);
             Gift.FullRestoreFromFile(fileDir);
@@ -298,6 +292,27 @@ namespace DomL.Business.Services
             Purchase.FullRestoreFromFile(fileDir);
             Travel.FullRestoreFromFile(fileDir);
             Work.FullRestoreFromFile(fileDir);
+        }
+
+        public static void RestoreBooksFromFile()
+        {
+            Book.FullRestoreFromFile(BASE_DIR_PATH + "Backup\\");
+        }
+        public static void RestoreComicsFromFile()
+        {
+            Comic.FullRestoreFromFile(BASE_DIR_PATH + "Backup\\");
+        }
+        public static void RestoreGamesFromFile()
+        {
+            Game.FullRestoreFromFile(BASE_DIR_PATH + "Backup\\");
+        }
+        public static void RestoreSeriesFromFile()
+        {
+            Series.FullRestoreFromFile(BASE_DIR_PATH + "Backup\\");
+        }
+        public static void RestoreWatchsFromFile()
+        {
+            Watch.FullRestoreFromFile(BASE_DIR_PATH + "Backup\\");
         }
     }
 }

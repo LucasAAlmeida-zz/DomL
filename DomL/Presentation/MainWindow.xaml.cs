@@ -4,6 +4,7 @@ using DomL.Business.Activities.MultipleDayActivities;
 using DomL.Business.Activities.SingleDayActivities;
 using DomL.Business.Services;
 using DomL.Business.Utils.DTOs;
+using DomL.Presentation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,18 @@ namespace DomL
 
             this.MesTb.Text = (DateTime.Now.Month - 1).ToString();
             this.AnoTb.Text = DateTime.Now.Year.ToString();
+        }
+
+        private void MenuFileExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuViewRestoreFull_Click(object sender, RoutedEventArgs e)
+        {
+            var restoreFullWindow = new RestoreFullWindow();
+            this.Visibility = Visibility.Hidden;
+            restoreFullWindow.Show();
         }
 
         private void SubmeterButton_Click(object sender, RoutedEventArgs e)

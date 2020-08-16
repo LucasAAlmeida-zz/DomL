@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -21,7 +22,7 @@ namespace DomL.Business.Activities
         [Required]
         public Classification Classificacao { get; set; }
 
-        public int Nota { get; set; }
+        public int? Nota { get; set; }
 
         [NotMapped]
         public DateTime? DiaTermino { get; set; }
@@ -106,14 +107,18 @@ namespace DomL.Business.Activities
 
         public override string ParseToString()
         {
-            return Util.GetDiaMes(this.Date) + "\t" + this.Classificacao + "\t" + this.DeQuem + "\t" + this.Subject + "\t" + this.Nota + "\t" + this.Description;
+            var nota = this.Nota != null ? this.Nota.ToString() : "-";
+            var descricao = !string.IsNullOrWhiteSpace(this.Description) ? this.Description : "-";
+            return Util.GetDiaMes(this.Date) + "\t" + this.Classificacao + "\t" + this.DeQuem + "\t" + this.Subject + "\t" + nota + "\t" + descricao;
         }
 
         public string ParseConsolidatedToString()
         {
             var diaComeco = this.Date != DateTime.MinValue ? Util.GetDiaMes(this.Date) : "??/??";
             var diaTermino = this.DiaTermino.HasValue ? Util.GetDiaMes(this.DiaTermino.Value) : "??/??";
-            return diaComeco + "\t" + diaTermino + "\t" + this.DeQuem + "\t" + this.Subject + "\t" + this.Nota + "\t" + this.Description;
+            var nota = this.Nota != null ? this.Nota.ToString() : "-";
+            var descricao = !string.IsNullOrWhiteSpace(this.Description) ? this.Description : "-";
+            return diaComeco + "\t" + diaTermino + "\t" + this.DeQuem + "\t" + this.Subject + "\t" + nota + "\t" + descricao;
         }
     }
 }
