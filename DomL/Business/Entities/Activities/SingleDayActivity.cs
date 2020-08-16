@@ -7,6 +7,7 @@ namespace DomL.Business.Activities
     public abstract class SingleDayActivity : Activity
     {
         public SingleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public SingleDayActivity() { }
 
         public static void EscreveConsolidadasNoArquivo(string filePath, List<SingleDayActivity> atividades)
         {

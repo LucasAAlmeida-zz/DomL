@@ -1,9 +1,12 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -11,6 +14,7 @@ namespace DomL.Business.Activities.SingleDayActivities
     public class Doom : SingleDayActivity
     {
         public Doom(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Doom() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -57,6 +61,42 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allDoom = unitOfWork.DoomRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Doom.txt", allDoom.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allDooms = GetDoomsFromFile(fileDir + "Doom.txt");
+                unitOfWork.DoomRepo.AddRange(allDooms);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Doom> GetDoomsFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var dooms = new List<Doom>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Descrição)
+
+                    var doom = new Doom() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Description = segmentos[1],
+
+                        DayOrder = 0,
+                    };
+                    dooms.Add(doom);
+                }
+            }
+            return dooms;
         }
     }
 }

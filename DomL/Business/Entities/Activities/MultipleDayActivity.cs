@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace DomL.Business.Activities
 {
@@ -25,59 +27,42 @@ namespace DomL.Business.Activities
         public DateTime? DiaTermino { get; set; }
 
         public MultipleDayActivity(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public MultipleDayActivity() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
-            // (Categoria); (De Quem); (Assunto); (Nota)
-            // (Categoria); (De Quem); (Assunto); (Classificação) Começo
-            // (Categoria); (De Quem); (Assunto); (Nota); (Descrição)
-            // (Categoria); (De Quem); (Assunto); (Classificação) Termino; (Nota)
-            // (Categoria); (De Quem); (Assunto); (Classificação) Termino; (Nota); (Descrição)
+            // 4-   (Categoria)  (De Quem)   (Assunto)   (Classificação) C
+            // 5-   (Categoria)  (De Quem)   (Assunto)   (Classificação) C  (Descrição)
+            // 5-   (Categoria)  (De Quem)   (Assunto)   (Classificação) T  (Nota)
+            // 5-   (Categoria)  (De Quem)   (Assunto)   (Classificação) U  (Nota)
+            // 6-   (Categoria)  (De Quem)   (Assunto)   (Classificação) T  (Nota)      (Descrição)
+            // 6-   (Categoria)  (De Quem)   (Assunto)   (Classificação) U  (Nota)      (Descrição)
 
             this.DeQuem = segmentos[1];
             this.Subject = segmentos[2];
+
             string segmentoToLower = segmentos[3].ToLower();
-            string classificacao = "unica";
+            if (segmentoToLower == "comeco" || segmentoToLower == "começo") {
+                this.Classificacao = Classification.Comeco;
+            } else if (segmentoToLower == "termino" || segmentoToLower == "término") {
+                this.Classificacao = Classification.Termino;
+            } else {
+                this.Classificacao = Classification.Unica;
+            }
+
             switch (segmentos.Count) {
-                case 4:
-                    if (segmentoToLower == "comeco" || segmentoToLower == "começo") {
-                        classificacao = segmentoToLower;
-                    } else {
-                        this.Nota = int.Parse(segmentos[3]);
-                    }
-                    break;
                 case 5:
-                    if (segmentoToLower == "termino" || segmentoToLower == "término") {
-                        classificacao = segmentoToLower;
-                        this.Nota = int.Parse(segmentos[4]);
+                    int nota;
+                    if (int.TryParse(segmentos[4], out nota)) {
+                        this.Nota = nota;
                     } else {
-                        this.Nota = int.Parse(segmentos[3]);
                         this.Description = segmentos[4];
                     }
                     break;
                 case 6:
-                    classificacao = segmentos[3].ToLower();
                     this.Nota = int.Parse(segmentos[4]);
                     this.Description = segmentos[5];
                     break;
-                default:
-                    throw new Exception("what");
-            }
-
-            switch (classificacao) {
-                case "comeco":
-                case "começo":
-                    this.Classificacao = Classification.Comeco;
-                    break;
-                case "termino":
-                case "término":
-                    this.Classificacao = Classification.Termino;
-                    break;
-                case "unica":
-                    this.Classificacao = Classification.Unica;
-                    break;
-                default:
-                    throw new Exception("what");
             }
         }
 

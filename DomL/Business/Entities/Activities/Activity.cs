@@ -36,6 +36,8 @@ namespace DomL.Business.Activities
             this.PopulateActivity(segmentos);
         }
 
+        public Activity() { }
+
         protected abstract void PopulateActivity(IReadOnlyList<string> segments);
         public abstract string ParseToString();
         public abstract void Save();

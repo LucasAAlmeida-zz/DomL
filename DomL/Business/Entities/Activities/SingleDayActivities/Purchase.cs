@@ -1,10 +1,13 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -14,9 +17,10 @@ namespace DomL.Business.Activities.SingleDayActivities
         [Required]
         public string Loja { get; set; }
         [Required]
-        public string Valor { get; set; }
+        public int Valor { get; set; }
 
         public Purchase(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Purchase() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -25,7 +29,7 @@ namespace DomL.Business.Activities.SingleDayActivities
 
             this.Loja = segmentos[1];
             this.Subject = segmentos[2];
-            this.Valor = segmentos[3];
+            this.Valor = int.Parse(segmentos[3]);
             if (segmentos.Count == 5)
             {
                 this.Description = segmentos[4];
@@ -77,6 +81,46 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allPurchase = unitOfWork.PurchaseRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Purchase.txt", allPurchase.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allPurchases = GetPurchasesFromFile(fileDir + "Purchase.txt");
+                unitOfWork.PurchaseRepo.AddRange(allPurchases);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Purchase> GetPurchasesFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var purchases = new List<Purchase>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Loja); (Assunto) O que comprei; (Valor) Quanto custou; (Descrição) Misc
+
+
+                    var purchase = new Purchase() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Loja = segmentos[1],
+                        Subject = segmentos[2],
+                        Valor = int.Parse(segmentos[3]),
+                        Description = segmentos[4],
+
+                        DayOrder = 0,
+                    };
+                    purchases.Add(purchase);
+                }
+            }
+            return purchases;
         }
     }
 }

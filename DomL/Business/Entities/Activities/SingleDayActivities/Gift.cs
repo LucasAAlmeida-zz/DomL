@@ -1,10 +1,13 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -15,6 +18,7 @@ namespace DomL.Business.Activities.SingleDayActivities
         public string DeQuem { get; set; }
 
         public Gift(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Gift() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -67,6 +71,44 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allGift = unitOfWork.GiftRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Gift.txt", allGift.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allGifts = GetGiftsFromFile(fileDir + "Gift.txt");
+                unitOfWork.GiftRepo.AddRange(allGifts);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Gift> GetGiftsFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var gifts = new List<Gift>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Assunto) O que ganhei; (DeQuem) De quem ganhei o presente; (Descrição) o que aconteceu
+
+                    var gift = new Gift() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Subject = segmentos[1],
+                        DeQuem = segmentos[2],
+                        Description = segmentos[3],
+
+                        DayOrder = 0,
+                    };
+                    gifts.Add(gift);
+                }
+            }
+            return gifts;
         }
     }
 }

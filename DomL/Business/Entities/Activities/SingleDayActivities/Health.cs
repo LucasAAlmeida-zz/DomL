@@ -1,9 +1,12 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -11,6 +14,7 @@ namespace DomL.Business.Activities.SingleDayActivities
     public class Health : SingleDayActivity
     {
         public Health(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Health() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -63,6 +67,43 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allHealth = unitOfWork.HealthRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Health.txt", allHealth.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allHealths = GetHealthsFromFile(fileDir + "Health.txt");
+                unitOfWork.HealthRepo.AddRange(allHealths);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Health> GetHealthsFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var healths = new List<Health>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Assunto) Especialidade médica; (Descrição) o que aconteceu
+
+                    var health = new Health() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Subject = segmentos[1],
+                        Description = segmentos[2],
+
+                        DayOrder = 0,
+                    };
+                    healths.Add(health);
+                }
+            }
+            return healths;
         }
     }
 }

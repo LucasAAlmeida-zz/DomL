@@ -1,9 +1,12 @@
 ﻿using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.MultipleDayActivities
 {
@@ -11,6 +14,7 @@ namespace DomL.Business.Activities.MultipleDayActivities
     public class Comic : MultipleDayActivity
     {
         public Comic(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Comic() { }
 
         // COMIC|MANGA; (De Quem) Autor; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
 
@@ -58,6 +62,77 @@ namespace DomL.Business.Activities.MultipleDayActivities
                         && g.Date.Year == ano)
                     .Count();
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allComics = GetComicsFromFile(fileDir + "Comic.txt");
+                unitOfWork.ComicRepo.AddRange(allComics);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Comic> GetComicsFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var comics = new List<Comic>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // DataInicio; DataFim; (De Quem); (Assunto); (Nota); (Descrição)
+
+                    if (segmentos[0] == segmentos[1]) {
+                        var comic = new Comic() {
+                            Date = DateTime.Parse(segmentos[0]),
+                            Classificacao = Classification.Unica,
+                            DeQuem = segmentos[2],
+                            Subject = segmentos[3],
+                            Nota = int.Parse(segmentos[4]),
+                            Description = segmentos[5],
+
+                            DayOrder = 0,
+                        };
+                        comics.Add(comic);
+                        continue;
+                    }
+
+                    if (!segmentos[0].StartsWith("??/??")) {
+                        var comic = new Comic() {
+                            Date = DateTime.Parse(segmentos[0]),
+                            Classificacao = Classification.Comeco,
+                            DeQuem = segmentos[2],
+                            Subject = segmentos[3],
+                            Nota = int.Parse(segmentos[4]),
+                            Description = segmentos[5],
+
+                            DayOrder = 0,
+                        };
+                        comics.Add(comic);
+                    }
+
+                    if (!segmentos[1].StartsWith("??/??")) {
+                        var comic = new Comic() {
+                            Date = DateTime.Parse(segmentos[1]),
+                            Classificacao = Classification.Termino,
+                            DeQuem = segmentos[2],
+                            Subject = segmentos[3],
+                            Nota = int.Parse(segmentos[4]),
+                            Description = segmentos[5],
+
+                            DayOrder = 0,
+                        };
+                        comics.Add(comic);
+                    }
+                }
+            }
+            return comics;
         }
     }
 }

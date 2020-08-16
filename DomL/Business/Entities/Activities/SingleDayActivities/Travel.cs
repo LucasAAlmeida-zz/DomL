@@ -1,10 +1,13 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -15,6 +18,7 @@ namespace DomL.Business.Activities.SingleDayActivities
         public string MeioTransporte { get; set; }
 
         public Travel(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Travel() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -74,6 +78,44 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allTravel = unitOfWork.TravelRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Travel.txt", allTravel.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allTravels = GetTravelsFromFile(fileDir + "Travel.txt");
+                unitOfWork.TravelRepo.AddRange(allTravels);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Travel> GetTravelsFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var travels = new List<Travel>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Assunto) De onde pra onde; (MeioTransporte); (Descrição) o que aconteceu
+
+                    var travel = new Travel() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Subject = segmentos[1],
+                        MeioTransporte = segmentos[2],
+                        Description = segmentos[3],
+
+                        DayOrder = 0,
+                    };
+                    travels.Add(travel);
+                }
+            }
+            return travels;
         }
     }
 }

@@ -160,7 +160,6 @@ namespace DomL.Business.Services
             return int.TryParse(firstWord, out dia) && (linha.Contains(" - ") || linha.Contains(" – "));
         }
 
-        //TODO BASE_DIR_PATH devia estar no settings, esse mes e ano podem estar no construtor da classe
         public static void EscreverAtividadesDoMesEmArquivo(int mes, int ano)
         {
             string filePath = BASE_DIR_PATH + "AtividadesMes\\AtividadesMes" + mes + ".txt";
@@ -201,7 +200,7 @@ namespace DomL.Business.Services
 
             atividades.AddRange(Event.GetImportantFromMes(mes, ano));
 
-            return atividades;
+            return atividades.OrderBy(a => a.Date).ThenBy(a => a.DayOrder).ToList();
         }
 
         public static void EscreverAtividadesConsolidadasDoAnoEmArquivo(int year)
@@ -277,5 +276,27 @@ namespace DomL.Business.Services
             Travel.ConsolidateAll(fileDir);
             Work.ConsolidateAll(fileDir);
         }
-    }
+
+        public static void RestoreDatabaseFromFile()
+        {
+            string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas\\";
+
+            Book.FullRestoreFromFile(fileDir);
+            Comic.FullRestoreFromFile(fileDir);
+            Game.FullRestoreFromFile(fileDir);
+            Series.FullRestoreFromFile(fileDir);
+            Watch.FullRestoreFromFile(fileDir);
+
+            Auto.FullRestoreFromFile(fileDir);
+            Doom.FullRestoreFromFile(fileDir);
+            Gift.FullRestoreFromFile(fileDir);
+            Health.FullRestoreFromFile(fileDir);
+            Movie.FullRestoreFromFile(fileDir);
+            Person.FullRestoreFromFile(fileDir);
+            Pet.FullRestoreFromFile(fileDir);
+            Play.FullRestoreFromFile(fileDir);
+            Purchase.FullRestoreFromFile(fileDir);
+            Travel.FullRestoreFromFile(fileDir);
+            Work.FullRestoreFromFile(fileDir);
+        }
 }

@@ -1,10 +1,13 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -15,6 +18,7 @@ namespace DomL.Business.Activities.SingleDayActivities
         public string Origem { get; set; }
 
         public Person(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Person() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -70,6 +74,44 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allPerson = unitOfWork.PersonRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Person.txt", allPerson.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allPersons = GetPersonsFromFile(fileDir + "Person.txt");
+                unitOfWork.PersonRepo.AddRange(allPersons);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Person> GetPersonsFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var persons = new List<Person>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Assunto) Nome da Pessoa; (Origem) De onde conheci (amigo de x, furry, etc); (Descrição) Coisas pra me lembrar
+
+                    var person = new Person() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Subject = segmentos[1],
+                        Origem = segmentos[2],
+                        Description = segmentos[3],
+
+                        DayOrder = 0,
+                    };
+                    persons.Add(person);
+                }
+            }
+            return persons;
         }
     }
 }

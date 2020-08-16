@@ -1,9 +1,12 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -11,12 +14,14 @@ namespace DomL.Business.Activities.SingleDayActivities
     public class Work : SingleDayActivity
     {
         public Work(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Work() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
-            //WORK; (Descrição) O que aconteceu
+            //WORK; (Subject) Qual Trabalho; (Descrição) O que aconteceu
 
-            this.Description = segmentos[1];
+            this.Subject = segmentos[1];
+            this.Description = segmentos[2];
         }
 
         public override void Save()
@@ -64,6 +69,43 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allWork = unitOfWork.WorkRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Work.txt", allWork.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allWorks = GetWorksFromFile(fileDir + "Work.txt");
+                unitOfWork.WorkRepo.AddRange(allWorks);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Work> GetWorksFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var works = new List<Work>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    //WORK; (Subject) Qual Trabalho; (Descrição) O que aconteceu
+
+                    var work = new Work() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Subject = segmentos[1],
+                        Description = segmentos[2],
+
+                        DayOrder = 0,
+                    };
+                    works.Add(work);
+                }
+            }
+            return works;
         }
     }
 }

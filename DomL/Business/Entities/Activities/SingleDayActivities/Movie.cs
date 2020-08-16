@@ -1,10 +1,13 @@
 ﻿using DomL.Business.Utils;
 using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Activities.SingleDayActivities
 {
@@ -15,6 +18,7 @@ namespace DomL.Business.Activities.SingleDayActivities
         public string Nota { get; set; }
 
         public Movie(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
+        public Movie() { }
 
         protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         {
@@ -73,6 +77,44 @@ namespace DomL.Business.Activities.SingleDayActivities
                 var allMovie = unitOfWork.MovieRepo.GetAll().ToList();
                 EscreveConsolidadasNoArquivo(fileDir + "Movie.txt", allMovie.Cast<SingleDayActivity>().ToList());
             }
+        }
+
+        public static void FullRestoreFromFile(string fileDir)
+        {
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var allMovies = GetMoviesFromFile(fileDir + "Movie.txt");
+                unitOfWork.MovieRepo.AddRange(allMovies);
+                unitOfWork.Complete();
+            }
+        }
+
+        private static List<Movie> GetMoviesFromFile(string filePath)
+        {
+            if (!File.Exists(filePath)) {
+                return null;
+            }
+
+            var movies = new List<Movie>();
+            using (var reader = new StreamReader(filePath)) {
+
+                string line;
+                while ((line = reader.ReadLine()) != null) {
+                    var segmentos = Regex.Split(line, "\t");
+
+                    // Data; (Assunto) Título; (Nota); (Descrição) O que achei
+
+                    var movie = new Movie() {
+                        Date = DateTime.Parse(segmentos[0]),
+                        Subject = segmentos[1],
+                        Nota = segmentos[2],
+                        Description = segmentos[3],
+
+                        DayOrder = 0,
+                    };
+                    movies.Add(movie);
+                }
+            }
+            return movies;
         }
     }
 }
