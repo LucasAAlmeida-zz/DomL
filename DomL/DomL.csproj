@@ -125,6 +125,10 @@
     <Compile Include="Migrations\202008112316419_AddActivityBlockAndEventModels.designer.cs">
       <DependentUpon>202008112316419_AddActivityBlockAndEventModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008161530415_ChangeValorTypeToInt.cs" />
+    <Compile Include="Migrations\202008161530415_ChangeValorTypeToInt.designer.cs">
+      <DependentUpon>202008161530415_ChangeValorTypeToInt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -154,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008112316419_AddActivityBlockAndEventModels.resx">
       <DependentUpon>202008112316419_AddActivityBlockAndEventModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008161530415_ChangeValorTypeToInt.resx">
+      <DependentUpon>202008161530415_ChangeValorTypeToInt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
