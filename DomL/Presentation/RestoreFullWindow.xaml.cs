@@ -29,6 +29,7 @@ namespace DomL.Presentation
         {
             try {
                 DomLServices.RestoreBooksFromFile();
+                this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -39,6 +40,7 @@ namespace DomL.Presentation
         {
             try {
                 DomLServices.RestoreComicsFromFile();
+                this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -49,6 +51,7 @@ namespace DomL.Presentation
         {
             try {
                 DomLServices.RestoreGamesFromFile();
+                this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -59,6 +62,7 @@ namespace DomL.Presentation
         {
             try {
                 DomLServices.RestoreSeriesFromFile();
+                this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -69,6 +73,7 @@ namespace DomL.Presentation
         {
             try {
                 DomLServices.RestoreWatchsFromFile();
+                this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
