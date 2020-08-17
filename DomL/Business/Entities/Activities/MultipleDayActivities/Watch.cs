@@ -1,4 +1,5 @@
-﻿using DomL.Business.Utils.DTOs;
+﻿using DomL.Business.Utils;
+using DomL.Business.Utils.DTOs;
 using DomL.Business.Utils.Enums;
 using DomL.DataAccess;
 using System;
@@ -82,54 +83,65 @@ namespace DomL.Business.Activities.MultipleDayActivities
             var watchs = new List<Watch>();
             using (var reader = new StreamReader(filePath)) {
 
-                string line;
-                while ((line = reader.ReadLine()) != null) {
-                    var segmentos = Regex.Split(line, "\t");
+                string line = "";
+                try {
+                    while ((line = reader.ReadLine()) != null) {
+                        if (string.IsNullOrWhiteSpace(line)) {
+                            continue;
+                        }
+                        var segmentos = Regex.Split(line, "\t");
 
-                    // DataInicio; DataFim; (De Quem); (Assunto); (Nota); (Descrição)
+                        // DataInicio; DataFim; (De Quem); (Assunto); (Nota); (Descrição)
 
-                    if (segmentos[0] == segmentos[1]) {
-                        var watch = new Watch() {
-                            Date = DateTime.Parse(segmentos[0]),
-                            Classificacao = Classification.Unica,
-                            DeQuem = segmentos[2],
-                            Subject = segmentos[3],
-                            Nota = int.Parse(segmentos[4]),
-                            Description = segmentos[5],
+                        int? nota = segmentos[4] != "-" ? int.Parse(segmentos[4]) : (int?)null;
+                        string descricao = segmentos[5] != "-" ? segmentos[5] : null;
 
-                            DayOrder = 0,
-                        };
-                        watchs.Add(watch);
-                        continue;
+                        if (segmentos[0] == segmentos[1]) {
+                            var watch = new Watch() {
+                                Date = DateTime.ParseExact(segmentos[0], "dd/MM/yy", null),
+                                Classificacao = Classification.Unica,
+                                DeQuem = segmentos[2],
+                                Subject = segmentos[3],
+                                Nota = nota,
+                                Description = descricao,
+
+                                DayOrder = 0,
+                            };
+                            watchs.Add(watch);
+                            continue;
+                        }
+
+                        if (!segmentos[0].StartsWith("??/??")) {
+                            var watch = new Watch() {
+                                Date = DateTime.ParseExact(segmentos[0], "dd/MM/yy", null),
+                                Classificacao = Classification.Comeco,
+                                DeQuem = segmentos[2],
+                                Subject = segmentos[3],
+                                Nota = nota,
+                                Description = segmentos[1].StartsWith("??/??") ? descricao : null,
+
+                                DayOrder = 0,
+                            };
+                            watchs.Add(watch);
+                        }
+
+                        if (!segmentos[1].StartsWith("??/??")) {
+                            var watch = new Watch() {
+                                Date = DateTime.ParseExact(segmentos[1], "dd/MM/yy", null),
+                                Classificacao = Classification.Termino,
+                                DeQuem = segmentos[2],
+                                Subject = segmentos[3],
+                                Nota = nota,
+                                Description = descricao,
+
+                                DayOrder = 0,
+                            };
+                            watchs.Add(watch);
+                        }
                     }
-
-                    if (!segmentos[0].StartsWith("??/??")) {
-                        var watch = new Watch() {
-                            Date = DateTime.Parse(segmentos[0]),
-                            Classificacao = Classification.Comeco,
-                            DeQuem = segmentos[2],
-                            Subject = segmentos[3],
-                            Nota = int.Parse(segmentos[4]),
-                            Description = segmentos[5],
-
-                            DayOrder = 0,
-                        };
-                        watchs.Add(watch);
-                    }
-
-                    if (!segmentos[1].StartsWith("??/??")) {
-                        var watch = new Watch() {
-                            Date = DateTime.Parse(segmentos[1]),
-                            Classificacao = Classification.Termino,
-                            DeQuem = segmentos[2],
-                            Subject = segmentos[3],
-                            Nota = int.Parse(segmentos[4]),
-                            Description = segmentos[5],
-
-                            DayOrder = 0,
-                        };
-                        watchs.Add(watch);
-                    }
+                } catch (Exception e) {
+                    var msg = "Deu ruim na linha " + line;
+                    throw new ParseException(msg, e);
                 }
             }
             return watchs;
