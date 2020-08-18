@@ -76,10 +76,6 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
         private static List<Watch> GetWatchsFromFile(string filePath)
         {
-            if (!File.Exists(filePath)) {
-                return null;
-            }
-
             var watchs = new List<Watch>();
             using (var reader = new StreamReader(filePath)) {
 

@@ -76,10 +76,6 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
         private static List<Comic> GetComicsFromFile(string filePath)
         {
-            if (!File.Exists(filePath)) {
-                return null;
-            }
-
             var comics = new List<Comic>();
             using (var reader = new StreamReader(filePath)) {
 

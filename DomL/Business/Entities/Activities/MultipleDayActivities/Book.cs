@@ -78,10 +78,6 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
         private static List<Book> GetBooksFromFile(string filePath)
         {
-            if (!File.Exists(filePath)) {
-                return null;
-            }
-
             var books = new List<Book>();
             using (var reader = new StreamReader(filePath)) {
 

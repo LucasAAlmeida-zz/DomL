@@ -76,10 +76,6 @@ namespace DomL.Business.Activities.MultipleDayActivities
 
         private static List<Series> GetSeriessFromFile(string filePath)
         {
-            if (!File.Exists(filePath)) {
-                return null;
-            }
-
             var seriess = new List<Series>();
             using (var reader = new StreamReader(filePath)) {
 
