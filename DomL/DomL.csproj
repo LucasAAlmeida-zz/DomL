@@ -73,10 +73,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Business\Entities\Activities\Activity.cs" />
+    <Compile Include="Business\Entities\Activity.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
-    <Compile Include="Business\Entities\ActivityBlock.cs" />
     <Compile Include="Business\Services\DomLServices.cs" />
     <Compile Include="Business\Utils\DomLExceptions.cs" />
     <Compile Include="Business\Utils\DTOs\ActivityDTO.cs" />
@@ -90,10 +89,10 @@
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Watch.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Movie.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Series.cs" />
-    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Book.cs" />
+    <Compile Include="Business\Entities\Book.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Health.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Auto.cs" />
+    <Compile Include="Business\Entities\Auto.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Gift.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Person.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Pet.cs" />
@@ -120,22 +119,21 @@
     <Compile Include="DataAccess\Repositories\BookRepository.cs" />
     <Compile Include="DataAccess\DomLContext.cs" />
     <Compile Include="DataAccess\Repositories\BaseRepository.cs" />
-    <Compile Include="DataAccess\UnitOfWork.cs" />
-    <Compile Include="Migrations\202008112316419_AddActivityBlockAndEventModels.cs" />
-    <Compile Include="Migrations\202008112316419_AddActivityBlockAndEventModels.designer.cs">
-      <DependentUpon>202008112316419_AddActivityBlockAndEventModels.cs</DependentUpon>
+    <Compile Include="Migrations\202008182129521_ActivityTable.cs" />
+    <Compile Include="Migrations\202008182129521_ActivityTable.designer.cs">
+      <DependentUpon>202008182129521_ActivityTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008161530415_ChangeValorTypeToInt.cs" />
-    <Compile Include="Migrations\202008161530415_ChangeValorTypeToInt.designer.cs">
-      <DependentUpon>202008161530415_ChangeValorTypeToInt.cs</DependentUpon>
+    <Compile Include="Migrations\202008182134443_AutoTables.cs" />
+    <Compile Include="Migrations\202008182134443_AutoTables.designer.cs">
+      <DependentUpon>202008182134443_AutoTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008161730371_AlterNotaAsNullable.cs" />
-    <Compile Include="Migrations\202008161730371_AlterNotaAsNullable.designer.cs">
-      <DependentUpon>202008161730371_AlterNotaAsNullable.cs</DependentUpon>
+    <Compile Include="Migrations\202008182146477_BookTables.cs" />
+    <Compile Include="Migrations\202008182146477_BookTables.designer.cs">
+      <DependentUpon>202008182146477_BookTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008161843246_MoreCharactersToSubjectAndDescription.cs" />
-    <Compile Include="Migrations\202008161843246_MoreCharactersToSubjectAndDescription.designer.cs">
-      <DependentUpon>202008161843246_MoreCharactersToSubjectAndDescription.cs</DependentUpon>
+    <Compile Include="Migrations\202008182151242_RenameTables.cs" />
+    <Compile Include="Migrations\202008182151242_RenameTables.designer.cs">
+      <DependentUpon>202008182151242_RenameTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -147,10 +145,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202008100103514_InitialModel.cs" />
-    <Compile Include="Migrations\202008100103514_InitialModel.designer.cs">
-      <DependentUpon>202008100103514_InitialModel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Presentation\RestoreFullWindow.xaml.cs">
       <DependentUpon>RestoreFullWindow.xaml</DependentUpon>
@@ -168,20 +162,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008100103514_InitialModel.resx">
-      <DependentUpon>202008100103514_InitialModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008182129521_ActivityTable.resx">
+      <DependentUpon>202008182129521_ActivityTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008112316419_AddActivityBlockAndEventModels.resx">
-      <DependentUpon>202008112316419_AddActivityBlockAndEventModels.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008182134443_AutoTables.resx">
+      <DependentUpon>202008182134443_AutoTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008161530415_ChangeValorTypeToInt.resx">
-      <DependentUpon>202008161530415_ChangeValorTypeToInt.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008182146477_BookTables.resx">
+      <DependentUpon>202008182146477_BookTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008161730371_AlterNotaAsNullable.resx">
-      <DependentUpon>202008161730371_AlterNotaAsNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008161843246_MoreCharactersToSubjectAndDescription.resx">
-      <DependentUpon>202008161843246_MoreCharactersToSubjectAndDescription.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008182151242_RenameTables.resx">
+      <DependentUpon>202008182151242_RenameTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

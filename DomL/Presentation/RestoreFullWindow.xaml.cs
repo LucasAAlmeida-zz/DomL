@@ -1,4 +1,4 @@
-﻿using DomL.Business.Services;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace DomL.Presentation
         private void BookButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                DomLServices.RestoreBooksFromFile();
+                //DomLServices.RestoreBooksFromFile();
                 this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -39,7 +39,7 @@ namespace DomL.Presentation
         private void ComicButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                DomLServices.RestoreComicsFromFile();
+                //DomLServices.RestoreComicsFromFile();
                 this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -50,7 +50,7 @@ namespace DomL.Presentation
         private void GameButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                DomLServices.RestoreGamesFromFile();
+                //DomLServices.RestoreGamesFromFile();
                 this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -61,7 +61,7 @@ namespace DomL.Presentation
         private void SeriesButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                DomLServices.RestoreSeriesFromFile();
+                //DomLServices.RestoreSeriesFromFile();
                 this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -72,7 +72,7 @@ namespace DomL.Presentation
         private void WatchButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                DomLServices.RestoreWatchsFromFile();
+                //DomLServices.RestoreWatchsFromFile();
                 this.MessageLabel.Content = "Funcionou";
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;

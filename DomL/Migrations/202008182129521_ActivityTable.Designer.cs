@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class MoreCharactersToSubjectAndDescription : IMigrationMetadata
+    public sealed partial class ActivityTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MoreCharactersToSubjectAndDescription));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ActivityTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008161843246_MoreCharactersToSubjectAndDescription"; }
+            get { return "202008182129521_ActivityTable"; }
         }
         
         string IMigrationMetadata.Source

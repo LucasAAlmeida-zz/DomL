@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class AddActivityBlockAndEventModels : IMigrationMetadata
+    public sealed partial class RenameTables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddActivityBlockAndEventModels));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RenameTables));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008112316419_AddActivityBlockAndEventModels"; }
+            get { return "202008182151242_RenameTables"; }
         }
         
         string IMigrationMetadata.Source

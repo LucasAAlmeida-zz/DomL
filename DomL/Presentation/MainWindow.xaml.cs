@@ -1,8 +1,6 @@
 ﻿using DomL.Business;
-using DomL.Business.Activities;
-using DomL.Business.Activities.MultipleDayActivities;
-using DomL.Business.Activities.SingleDayActivities;
-using DomL.Business.Services;
+
+
 using DomL.Business.Utils.DTOs;
 using DomL.Presentation;
 using System;
@@ -45,20 +43,20 @@ namespace DomL
             var ano = int.Parse(this.AnoTb.Text);
 
             try {
-                DomLServices.ParseAtividadesDoMesEmTextoParaBanco(atividadesString, mes, ano);
-                this.MessageLabel.Content = "Atividades passadas para o banco com sucesso";
+                //DomLServices.ParseAtividadesDoMesEmTextoParaBanco(atividadesString, mes, ano);
+                //this.MessageLabel.Content = "Atividades passadas para o banco com sucesso";
 
-                DomLServices.EscreverAtividadesDoMesEmArquivo(mes, ano);
-                this.MessageLabel.Content = "Atividades do Mes escrito em arquivo com sucesso";
+                //DomLServices.EscreverAtividadesDoMesEmArquivo(mes, ano);
+                //this.MessageLabel.Content = "Atividades do Mes escrito em arquivo com sucesso";
 
-                DomLServices.EscreverAtividadesConsolidadasDoAnoEmArquivo(ano);
-                this.MessageLabel.Content = "Atividades consolidadas do ano escritas em arquivo com sucesso";
+                //DomLServices.EscreverAtividadesConsolidadasDoAnoEmArquivo(ano);
+                //this.MessageLabel.Content = "Atividades consolidadas do ano escritas em arquivo com sucesso";
 
-                DomLServices.EscreveResumoDoAnoEmArquivo(ano);
-                this.MessageLabel.Content = "Resumo do ano escrito em arquivo com sucesso";
+                //DomLServices.EscreveResumoDoAnoEmArquivo(ano);
+                //this.MessageLabel.Content = "Resumo do ano escrito em arquivo com sucesso";
 
-                DomLServices.EscreverAtividadesConsolidadasOfAllTimeEmArquivo();
-                this.MessageLabel.Content = "Todas Atividades consolidadas escritas em arquivo com sucesso";
+                //DomLServices.EscreverAtividadesConsolidadasOfAllTimeEmArquivo();
+                //this.MessageLabel.Content = "Todas Atividades consolidadas escritas em arquivo com sucesso";
             } catch (Exception exception) {
                 this.MessageLabel2.Content = exception.Message;
                 Console.Write(exception);

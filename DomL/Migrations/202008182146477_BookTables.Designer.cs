@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class ChangeValorTypeToInt : IMigrationMetadata
+    public sealed partial class BookTables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangeValorTypeToInt));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(BookTables));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008161530415_ChangeValorTypeToInt"; }
+            get { return "202008182146477_BookTables"; }
         }
         
         string IMigrationMetadata.Source
