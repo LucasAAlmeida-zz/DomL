@@ -1,5 +1,5 @@
 ﻿using DomL.Business.Utils;
-using DomL.Business.Utils.DTOs;
+
 using DomL.Business.Utils.Enums;
 using DomL.DataAccess;
 using System;
@@ -16,7 +16,7 @@ namespace DomL.Business.Entities
     public class Book
     {
         [Key]
-        public int BookId { get; set; }
+        public int Id { get; set; }
         public int AuthorId { get; set; }
         public int SeriesId { get; set; }
         public string Title { get; set; }
@@ -27,6 +27,11 @@ namespace DomL.Business.Entities
         public BookAuthor Author { get; set; }
         [ForeignKey("SeriesId")]
         public BookSeries Series { get; set; }
+
+        public static void Save(string[] segmentos, int id)
+        {
+            throw new NotImplementedException();
+        }
 
 
         //// BOOK; (De Quem) Autor; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
@@ -162,11 +167,11 @@ namespace DomL.Business.Entities
     public class BookActivity
     {
         [Key]
-        public int ActivityId { get; set; }
+        public int Id { get; set; }
         public int BookId { get; set; }
         public string Description { get; set; }
 
-        [ForeignKey("ActivityId")]
+        [ForeignKey("Id")]
         public Activity Activity { get; set; }
         [ForeignKey("BookId")]
         public Book Book { get; set; }
@@ -176,7 +181,7 @@ namespace DomL.Business.Entities
     public class BookAuthor
     {
         [Key]
-        public int AuthorId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 
@@ -184,7 +189,7 @@ namespace DomL.Business.Entities
     public class BookSeries
     {
         [Key]
-        public int SeriesId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

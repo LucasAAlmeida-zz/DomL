@@ -76,9 +76,10 @@
     <Compile Include="Business\Entities\Activity.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
+    <Compile Include="Business\Services\BookService.cs" />
+    <Compile Include="Business\Services\AutoService.cs" />
     <Compile Include="Business\Services\DomLServices.cs" />
     <Compile Include="Business\Utils\DomLExceptions.cs" />
-    <Compile Include="Business\Utils\DTOs\ActivityDTO.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Event.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Play.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Comic.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Game.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Work.cs" />
     <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
+    <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
     <Compile Include="DataAccess\Repositories\EventRepository.cs" />
     <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
     <Compile Include="DataAccess\Repositories\WorkRepository.cs" />
@@ -119,21 +121,9 @@
     <Compile Include="DataAccess\Repositories\BookRepository.cs" />
     <Compile Include="DataAccess\DomLContext.cs" />
     <Compile Include="DataAccess\Repositories\BaseRepository.cs" />
-    <Compile Include="Migrations\202008182129521_ActivityTable.cs" />
-    <Compile Include="Migrations\202008182129521_ActivityTable.designer.cs">
-      <DependentUpon>202008182129521_ActivityTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008182134443_AutoTables.cs" />
-    <Compile Include="Migrations\202008182134443_AutoTables.designer.cs">
-      <DependentUpon>202008182134443_AutoTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008182146477_BookTables.cs" />
-    <Compile Include="Migrations\202008182146477_BookTables.designer.cs">
-      <DependentUpon>202008182146477_BookTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008182151242_RenameTables.cs" />
-    <Compile Include="Migrations\202008182151242_RenameTables.designer.cs">
-      <DependentUpon>202008182151242_RenameTables.cs</DependentUpon>
+    <Compile Include="Migrations\202008190152499_Initial.cs" />
+    <Compile Include="Migrations\202008190152499_Initial.designer.cs">
+      <DependentUpon>202008190152499_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -162,17 +152,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008182129521_ActivityTable.resx">
-      <DependentUpon>202008182129521_ActivityTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008182134443_AutoTables.resx">
-      <DependentUpon>202008182134443_AutoTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008182146477_BookTables.resx">
-      <DependentUpon>202008182146477_BookTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008182151242_RenameTables.resx">
-      <DependentUpon>202008182151242_RenameTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008190152499_Initial.resx">
+      <DependentUpon>202008190152499_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

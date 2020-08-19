@@ -1,7 +1,5 @@
 ﻿using DomL.Business;
-
-
-using DomL.Business.Utils.DTOs;
+using DomL.Business.Services;
 using DomL.Presentation;
 using System;
 using System.Collections.Generic;
@@ -43,8 +41,8 @@ namespace DomL
             var ano = int.Parse(this.AnoTb.Text);
 
             try {
-                //DomLServices.ParseAtividadesDoMesEmTextoParaBanco(atividadesString, mes, ano);
-                //this.MessageLabel.Content = "Atividades passadas para o banco com sucesso";
+                DomLServices.ParseAtividadesDoMesEmTextoParaBanco(atividadesString, mes, ano);
+                this.MessageLabel.Content = "Atividades passadas para o banco com sucesso";
 
                 //DomLServices.EscreverAtividadesDoMesEmArquivo(mes, ano);
                 //this.MessageLabel.Content = "Atividades do Mes escrito em arquivo com sucesso";

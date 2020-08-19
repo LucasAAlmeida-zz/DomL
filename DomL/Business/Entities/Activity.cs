@@ -1,4 +1,6 @@
 ﻿using DomL.Business.Utils.Enums;
+using DomL.DataAccess;
+using DomL.DataAccess.Repositories;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +11,7 @@ namespace DomL.Business.Entities
     public class Activity
     {
         [Key]
-        public int ActivityId { get; set; }
+        public int Id { get; set; }
         public Category Category { get; set; }
         public DateTime Date { get; set; }
         public int DayOrder { get; set; }
@@ -29,13 +31,12 @@ namespace DomL.Business.Entities
     public class ActivityBlock
     {
         [Key]
-        public int ActivityBlockId { get; set; }
+        public int Id { get; set; }
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
-
 
         //public int? Save()
         //{

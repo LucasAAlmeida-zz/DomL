@@ -1,5 +1,4 @@
 ﻿using DomL.Business.Utils;
-using DomL.Business.Utils.DTOs;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -15,13 +14,13 @@ namespace DomL.Business.Entities
     public class Auto
     {
         [Key]
-        public int AutoId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
 
 
         //protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         //{
-        //    //AUTO; (Assunto) Qual automovel; (Descricao) O que Aconteceu
+        //    
 
         //    this.Subject = segmentos[1];
         //    this.Description = segmentos[2];
@@ -109,11 +108,11 @@ namespace DomL.Business.Entities
     public class AutoActivity
     {
         [Key]
-        public int ActivityId { get; set; }
+        public int Id { get; set; }
         public int AutoId { get; set; }
         public string Description { get; set; }
 
-        [ForeignKey("ActivityId")]
+        [ForeignKey("Id")]
         public Activity Activity { get; set; }
         [ForeignKey("AutoId")]
         public Auto Auto { get; set; }
