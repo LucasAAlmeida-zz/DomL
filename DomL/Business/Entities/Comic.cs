@@ -1,5 +1,4 @@
 ﻿using DomL.Business.Utils;
-
 using DomL.Business.Utils.Enums;
 using DomL.DataAccess;
 using System;
@@ -12,65 +11,65 @@ using System.Text.RegularExpressions;
 
 namespace DomL.Business.Entities
 {
-    [Table("Book")]
-    public class Book
+    [Table("ComicVolume")]
+    public class ComicVolume
     {
         [Key]
         public int Id { get; set; }
-        public int AuthorId { get; set; }
         public int SeriesId { get; set; }
-        public string Title { get; set; }
+        public string Chapters { get; set; }
+        public int AuthorId { get; set; }
+        public int TypeId { get; set; }
         public string Score { get; set; }
-        public string NumberInSeries { get; set; }
 
-        [ForeignKey("AuthorId")]
-        public BookAuthor Author { get; set; }
         [ForeignKey("SeriesId")]
-        public BookSeries Series { get; set; }
+        public ComicSeries Series { get; set; }
+        [ForeignKey("AuthorId")]
+        public ComicAuthor Author { get; set; }
+        [ForeignKey("TypeId")]
+        public ComicType Type { get; set; }
 
-
-        //// BOOK; (De Quem) Autor; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
+        
 
         //public override void Save()
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        if (unitOfWork.BookRepo
-        //                .Exists(b => b.Date == this.Date && b.Subject == this.Subject)) {
+        //        if (unitOfWork.ComicRepo.Exists(b => b.Date == this.Date && b.Subject == this.Subject)) {
         //            return;
         //        }
 
-        //        unitOfWork.BookRepo.Add(this);
+        //        unitOfWork.ComicRepo.Add(this);
         //        unitOfWork.Complete();
         //    }
         //}
 
-        //public static IEnumerable<Book> GetAllFromMes(int mes, int ano)
+        //public static IEnumerable<Comic> GetAllFromMes(int mes, int ano)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        return unitOfWork.BookRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
+        //        return unitOfWork.ComicRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
         //    }
         //}
 
         //public static void ConsolidateYear(string fileDir, int year)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allBooks = unitOfWork.BookRepo.Find(b => b.Date.Year == year).ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Book" + year + ".txt", allBooks.Cast<MultipleDayActivity>().ToList());
+        //        var allComics = unitOfWork.ComicRepo.Find(b => b.Date.Year == year).ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Comic" + year + ".txt", allComics.Cast<MultipleDayActivity>().ToList());
         //    }
         //}
 
         //public static void ConsolidateAll(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allBooks = unitOfWork.BookRepo.GetAll().ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Book.txt", allBooks.Cast<MultipleDayActivity>().ToList());
+        //        var allComics = unitOfWork.ComicRepo.GetAll().ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Comic.txt", allComics.Cast<MultipleDayActivity>().ToList());
         //    }
         //}
 
         //public static int CountEndedYear(int ano)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        return unitOfWork.BookRepo
+        //        return unitOfWork.ComicRepo
         //            .Find(g =>
         //                (g.Classificacao == Classification.Termino || g.Classificacao == Classification.Unica)
         //                && g.Date.Year == ano)
@@ -81,15 +80,15 @@ namespace DomL.Business.Entities
         //public static void FullRestoreFromFile(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allBooks = GetBooksFromFile(fileDir + "Book.txt");
-        //        unitOfWork.BookRepo.AddRange(allBooks);
+        //        var allComics = GetComicsFromFile(fileDir + "Comic.txt");
+        //        unitOfWork.ComicRepo.AddRange(allComics);
         //        unitOfWork.Complete();
         //    }
         //}
 
-        //private static List<Book> GetBooksFromFile(string filePath)
+        //private static List<Comic> GetComicsFromFile(string filePath)
         //{
-        //    var books = new List<Book>();
+        //    var comics = new List<Comic>();
         //    using (var reader = new StreamReader(filePath)) {
 
         //        string line = "";
@@ -98,7 +97,6 @@ namespace DomL.Business.Entities
         //                if (string.IsNullOrWhiteSpace(line)) {
         //                    continue;
         //                }
-
         //                var segmentos = Regex.Split(line, "\t");
 
         //                // DataInicio; DataFim; (De Quem); (Assunto); (Nota); (Descrição)
@@ -107,7 +105,7 @@ namespace DomL.Business.Entities
         //                string descricao = segmentos[5] != "-" ? segmentos[5] : null;
 
         //                if (segmentos[0] == segmentos[1]) {
-        //                    var book = new Book() {
+        //                    var comic = new Comic() {
         //                        Date = DateTime.ParseExact(segmentos[0], "dd/MM/yy", null),
         //                        Classificacao = Classification.Unica,
         //                        DeQuem = segmentos[2],
@@ -117,12 +115,12 @@ namespace DomL.Business.Entities
 
         //                        DayOrder = 0,
         //                    };
-        //                    books.Add(book);
+        //                    comics.Add(comic);
         //                    continue;
         //                }
 
         //                if (!segmentos[0].StartsWith("??/??")) {
-        //                    var book = new Book() {
+        //                    var comic = new Comic() {
         //                        Date = DateTime.ParseExact(segmentos[0], "dd/MM/yy", null),
         //                        Classificacao = Classification.Comeco,
         //                        DeQuem = segmentos[2],
@@ -132,11 +130,11 @@ namespace DomL.Business.Entities
 
         //                        DayOrder = 0,
         //                    };
-        //                    books.Add(book);
+        //                    comics.Add(comic);
         //                }
 
         //                if (!segmentos[1].StartsWith("??/??")) {
-        //                    var book = new Book() {
+        //                    var comic = new Comic() {
         //                        Date = DateTime.ParseExact(segmentos[1], "dd/MM/yy", null),
         //                        Classificacao = Classification.Termino,
         //                        DeQuem = segmentos[2],
@@ -146,7 +144,7 @@ namespace DomL.Business.Entities
 
         //                        DayOrder = 0,
         //                    };
-        //                    books.Add(book);
+        //                    comics.Add(comic);
         //                }
         //            }
         //        } catch (Exception e) {
@@ -154,34 +152,42 @@ namespace DomL.Business.Entities
         //            throw new ParseException(msg, e);
         //        }
         //    }
-        //    return books;
+        //    return comics;
         //}
     }
 
-    [Table("BookActivity")]
-    public class BookActivity
+    [Table("ComicActivity")]
+    public class ComicActivity
     {
         [Key]
         public int Id { get; set; }
-        public int BookId { get; set; }
+        public int ComicVolumeId { get; set; }
         public string Description { get; set; }
 
         [ForeignKey("Id")]
         public Activity Activity { get; set; }
-        [ForeignKey("BookId")]
-        public Book Book { get; set; }
+        [ForeignKey("ComicVolumeId")]
+        public ComicVolume ComicVolume { get; set; }
     }
 
-    [Table("BookAuthor")]
-    public class BookAuthor
+    [Table("ComicAuthor")]
+    public class ComicAuthor
     {
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
     }
 
-    [Table("BookSeries")]
-    public class BookSeries
+    [Table("ComicSeries")]
+    public class ComicSeries
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    [Table("ComicType")]
+    public class ComicType
     {
         [Key]
         public int Id { get; set; }

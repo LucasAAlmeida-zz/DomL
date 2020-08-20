@@ -18,18 +18,14 @@ namespace DomL.DataAccess
             return DomLContext.Auto.SingleOrDefault(a => a.Name == name);
         }
 
-        public Auto CreateAuto(Auto auto)
+        public void CreateAuto(Auto auto)
         {
-            auto = DomLContext.Auto.Add(auto);
-            DomLContext.SaveChanges();
-            return auto;
+            DomLContext.Auto.Add(auto);
         }
 
-        public AutoActivity CreateAutoActivity(AutoActivity autoActivity)
+        public void CreateAutoActivity(AutoActivity autoActivity)
         {
-            autoActivity = DomLContext.AutoActivity.Add(autoActivity);
-            DomLContext.SaveChanges();
-            return autoActivity;
+            DomLContext.AutoActivity.Add(autoActivity);
         }
     }
 }

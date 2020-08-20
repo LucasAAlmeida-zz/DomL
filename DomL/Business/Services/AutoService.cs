@@ -1,5 +1,6 @@
 ﻿using DomL.Business.Entities;
 using DomL.DataAccess;
+using DomL.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +18,23 @@ namespace DomL.Business.Services
             var autoName = segmentos[1];
             var description = segmentos[2];
 
-            var autoRepo = new AutoRepository(new DomLContext());
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var auto = unitOfWork.AutoRepo.GetAutoByName(autoName);
+                if (auto == null) {
+                    auto = new Auto() {
+                        Name = autoName
+                    };
+                }
 
-            var auto = autoRepo.GetAutoByName(autoName);
-            if (auto == null) {
-                auto = new Auto() {
-                    Name = autoName
+                var autoActivity = new AutoActivity() {
+                    Activity = activity,
+                    Auto = auto,
+                    Description = description
                 };
-                auto = autoRepo.CreateAuto(auto);
-            }
 
-            var autoActivity = new AutoActivity() {
-                Id = activity.Id,
-                AutoId = auto.Id,
-                Description = description
-            };
-            autoRepo.CreateAutoActivity(autoActivity);
+                unitOfWork.AutoRepo.CreateAutoActivity(autoActivity);
+                unitOfWork.Complete();
+            }
         }
     }
 }

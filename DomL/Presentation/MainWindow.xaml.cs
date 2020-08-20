@@ -35,7 +35,7 @@ namespace DomL
         }
 
         private void SubmeterButton_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             var atividadesString = this.AtividadesTextBox.Text;
             var mes = int.Parse(this.MesTb.Text);
             var ano = int.Parse(this.AnoTb.Text);

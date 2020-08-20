@@ -20,11 +20,9 @@ namespace DomL.Business.Services
 
         public static void ParseAtividadesDoMesEmTextoParaBanco(string atividadesStr, int mes, int ano)
         {
-            var activityRepo = new ActivityRepository(new DomLContext());
-
             var atividadesDiaString = Regex.Split(atividadesStr, "\r\n");
             var atividadeString = "";
-            int? activityBlockId = null;
+            ActivityBlock activityBlock = null;
             var ordem = 0;
 
             var diaDT = new DateTime();
@@ -44,7 +42,7 @@ namespace DomL.Business.Services
                     }
 
                     if (IsLineActivityBlockTag(atividadeString)) {
-                        activityBlockId = GetNewActivityBlockId(atividadeString, activityRepo);
+                        activityBlock = ChangeActivityBlock(atividadeString);
                     }
 
                     var segmentos = Regex.Split(atividadeString, "; ");
@@ -53,13 +51,11 @@ namespace DomL.Business.Services
                     var activity = new Activity() {
                         Date = diaDT,
                         DayOrder = ordem,
-                        ActivityBlockId = activityBlockId,
+                        ActivityBlock = activityBlock,
                         Classification = classificacao
                     };
-
-                    var categoria = GetCategoriaFromFirstSegment(segmentos[0]);
-                    ParseActivityCategory(categoria, segmentos, activity);
-                    activityRepo.CreateActivity(activity);
+                    
+                    ParseActivity(segmentos, activity);
                 }
             } catch (Exception e) {
                 var msg = "Deu ruim no dia " + diaDT.Day + ", atividade: " + atividadeString;
@@ -67,8 +63,9 @@ namespace DomL.Business.Services
             }
         }
 
-        private static void ParseActivityCategory(string categoria, string[] segmentos, Activity activity)
+        private static void ParseActivity(string[] segmentos, Activity activity)
         {
+            var categoria = GetCategoriaFromFirstSegment(segmentos[0]);
             switch (categoria) {
                 case "AUTO":
                 case "CARRO":
@@ -133,10 +130,11 @@ namespace DomL.Business.Services
                     BookService.SaveFromRawLine(segmentos, activity);
                     break;
 
-                    //case "COMIC":
-                    //case "MANGA":
-                    //    new Comic(atividadeDTO, segmentos).Save();
-                    //    break;
+                case "COMIC":
+                case "MANGA":
+                    activity.Category = Category.Comic;
+                    ComicService.SaveFromRawLine(segmentos, activity);
+                    break;
 
                     //case "JOGO":
                     //case "GAME":
@@ -176,7 +174,7 @@ namespace DomL.Business.Services
             return IsComeco(segments[1]) ? Classification.Comeco : Classification.Termino;
         }
 
-        private static int? GetNewActivityBlockId(string atividadeString, ActivityRepository activityRepo)
+        private static ActivityBlock ChangeActivityBlock(string atividadeString)
         {
             if (atividadeString == "<END>") {
                 return null;
@@ -186,7 +184,7 @@ namespace DomL.Business.Services
             var activityBlock = new ActivityBlock() {
                 Name = activityBlockName
             };
-            return activityRepo.CreateActivityBlock(activityBlock).Id;
+            return activityBlock;
         }
 
         private static bool IsLineActivityBlockTag(string line)

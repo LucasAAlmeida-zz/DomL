@@ -1,6 +1,7 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Utils.Enums;
 using DomL.DataAccess;
+using DomL.Presentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,51 +14,53 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawLine(string[] segmentos, Activity activity)
         {
-            // BOOK; Author Name; Series Name; Title; Number In Series; Score; Description
+            // BOOK; Title; Author Name; Series Name; Number In Series; Score; Description
 
-            var authorName = segmentos[1];
-            var seriesName = segmentos[2];
-            var bookTitle = segmentos[3];
-            var numberInSeries = int.Parse(segmentos[4]);
-            var score = int.Parse(segmentos[5]);
-            var description = segmentos[6];
+            segmentos[0] = "";
+            var bookWindow = new BookWindow(segmentos);
+            bookWindow.ShowDialog();
 
-            var bookRepo = new BookRepository(new DomLContext());
+            var bookTitle = (string) bookWindow.TitleCB.SelectedItem;
+            var authorName = (string) bookWindow.AuthorCB.SelectedItem;
+            var seriesName = (string) bookWindow.SeriesCB.SelectedItem;
+            var numberInSeries = (string) bookWindow.NumberCB.SelectedItem;
+            var score = (string) bookWindow.ScoreCB.SelectedItem;
+            var description = (string) bookWindow.DescriptionCB.SelectedItem;
 
-            var author = bookRepo.GetAuthorByName(authorName);
-            if (author == null) {
-                author = new BookAuthor() {
-                    Name = authorName
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var author = unitOfWork.BookRepo.GetAuthorByName(authorName);
+                if (author == null) {
+                    author = new BookAuthor() {
+                        Name = authorName
+                    };
+                }
+
+                var series = unitOfWork.BookRepo.GetSeriesByName(seriesName);
+                if (series == null) {
+                    series = new BookSeries() {
+                        Name = seriesName
+                    };
+                }
+
+                var book = unitOfWork.BookRepo.GetBookByTitle(bookTitle);
+                if (book == null) {
+                    book = new Book() {
+                        AuthorId = author.Id,
+                        SeriesId = series.Id,
+                        Title = bookTitle,
+                        NumberInSeries = numberInSeries,
+                        Score = score,
+                    };
+                }
+
+                var bookActivity = new BookActivity() {
+                    Id = activity.Id,
+                    BookId = book.Id,
+                    Description = description
                 };
-                author = bookRepo.CreateAuthor(author);
-            }
 
-            var series = bookRepo.GetSeriesByName(seriesName);
-            if (series == null) {
-                series = new BookSeries() {
-                    Name = seriesName
-                };
-                series = bookRepo.CreateSeries(series);
+                unitOfWork.BookRepo.CreateBookActivity(bookActivity);
             }
-
-            var book = bookRepo.GetBookByTitle(bookTitle);
-            if (book == null) {
-                book = new Book() {
-                    AuthorId = author.Id,
-                    SeriesId = series.Id,
-                    Title = bookTitle,
-                    NumberInSeries = numberInSeries,
-                    Score = score,
-                };
-                book = bookRepo.CreateBook(book);
-            }
-
-            var bookActivity = new BookActivity() {
-                Id = activity.Id,
-                BookId = book.Id,
-                Description = description
-            };
-            bookRepo.CreateBookActivity(bookActivity);
         }
     }
 }
