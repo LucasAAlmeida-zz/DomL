@@ -81,20 +81,31 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedDoomActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedBookActivityDTO.cs" />
     <Compile Include="Business\Entities\Activity.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
+    <Compile Include="Business\Entities\MediaType.cs" />
+    <Compile Include="Business\Entities\Person.cs" />
+    <Compile Include="Business\Entities\Series.cs" />
+    <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\DoomService.cs" />
     <Compile Include="Business\Services\ComicService.cs" />
     <Compile Include="Business\Services\BookService.cs" />
     <Compile Include="Business\Services\AutoService.cs" />
     <Compile Include="Business\Services\DomLServices.cs" />
+    <Compile Include="Business\Services\MediaTypeService.cs" />
+    <Compile Include="Business\Services\PersonService.cs" />
+    <Compile Include="Business\Services\SeriesService.cs" />
     <Compile Include="Business\Utils\DomLExceptions.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Event.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Play.cs" />
     <Compile Include="Business\Entities\Comic.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Doom.cs" />
-    <Compile Include="Business\Utils\Enums\Category.cs" />
-    <Compile Include="Business\Utils\Enums\Classification.cs" />
+    <Compile Include="Business\Entities\Doom.cs" />
     <Compile Include="Business\Utils\Util.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Watch.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Movie.cs" />
@@ -113,6 +124,7 @@
     <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
     <Compile Include="DataAccess\Repositories\EventRepository.cs" />
     <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
+    <Compile Include="DataAccess\Repositories\MediaTypeRepository.cs" />
     <Compile Include="DataAccess\Repositories\WorkRepository.cs" />
     <Compile Include="DataAccess\Repositories\TravelRepository.cs" />
     <Compile Include="DataAccess\Repositories\PurchaseRepository.cs" />
@@ -131,13 +143,29 @@
     <Compile Include="DataAccess\DomLContext.cs" />
     <Compile Include="DataAccess\Repositories\BaseRepository.cs" />
     <Compile Include="DataAccess\UnitOfWork.cs" />
-    <Compile Include="Migrations\202008190152499_Initial.cs" />
-    <Compile Include="Migrations\202008190152499_Initial.designer.cs">
-      <DependentUpon>202008190152499_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202008211916434_Initial.cs" />
+    <Compile Include="Migrations\202008211916434_Initial.designer.cs">
+      <DependentUpon>202008211916434_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008201145305_ComicTables.cs" />
-    <Compile Include="Migrations\202008201145305_ComicTables.designer.cs">
-      <DependentUpon>202008201145305_ComicTables.cs</DependentUpon>
+    <Compile Include="Migrations\202008211918376_SeedCategoryTable.cs" />
+    <Compile Include="Migrations\202008211918376_SeedCategoryTable.designer.cs">
+      <DependentUpon>202008211918376_SeedCategoryTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008211930117_SeedStatusTable.cs" />
+    <Compile Include="Migrations\202008211930117_SeedStatusTable.designer.cs">
+      <DependentUpon>202008211930117_SeedStatusTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008212001149_NullableColumns.cs" />
+    <Compile Include="Migrations\202008212001149_NullableColumns.designer.cs">
+      <DependentUpon>202008212001149_NullableColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008212324182_AddOriginalLineToActivityTable.cs" />
+    <Compile Include="Migrations\202008212324182_AddOriginalLineToActivityTable.designer.cs">
+      <DependentUpon>202008212324182_AddOriginalLineToActivityTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008222132359_ChangeStatusNames.cs" />
+    <Compile Include="Migrations\202008222132359_ChangeStatusNames.designer.cs">
+      <DependentUpon>202008222132359_ChangeStatusNames.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\ComicWindow.xaml.cs">
       <DependentUpon>ComicWindow.xaml</DependentUpon>
@@ -172,11 +200,23 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008190152499_Initial.resx">
-      <DependentUpon>202008190152499_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008211916434_Initial.resx">
+      <DependentUpon>202008211916434_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008201145305_ComicTables.resx">
-      <DependentUpon>202008201145305_ComicTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008211918376_SeedCategoryTable.resx">
+      <DependentUpon>202008211918376_SeedCategoryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008211930117_SeedStatusTable.resx">
+      <DependentUpon>202008211930117_SeedStatusTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008212001149_NullableColumns.resx">
+      <DependentUpon>202008212001149_NullableColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008212324182_AddOriginalLineToActivityTable.resx">
+      <DependentUpon>202008212324182_AddOriginalLineToActivityTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008222132359_ChangeStatusNames.resx">
+      <DependentUpon>202008222132359_ChangeStatusNames.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

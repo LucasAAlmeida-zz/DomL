@@ -1,32 +1,38 @@
-﻿using DomL.Business.Utils;
-
-using DomL.Business.Utils.Enums;
-using DomL.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace DomL.Business.Entities
 {
+    [Table("BookActivity")]
+    public class BookActivity
+    {
+        [Key]
+        [ForeignKey("Activity")]
+        public int Id { get; set; }
+        [ForeignKey("Book")]
+        public int BookId { get; set; }
+
+        public string Description { get; set; }
+
+        public virtual Activity Activity { get; set; }
+        public virtual Book Book { get; set; }
+    }
+
     [Table("Book")]
     public class Book
     {
         [Key]
         public int Id { get; set; }
-        public int AuthorId { get; set; }
-        public int SeriesId { get; set; }
         public string Title { get; set; }
-        public string Score { get; set; }
+        public int? AuthorId { get; set; }
+        public int? SeriesId { get; set; }
         public string NumberInSeries { get; set; }
+        public string Score { get; set; }
 
         [ForeignKey("AuthorId")]
-        public BookAuthor Author { get; set; }
+        public Person Author { get; set; }
         [ForeignKey("SeriesId")]
-        public BookSeries Series { get; set; }
+        public Series Series { get; set; }
 
 
         //// BOOK; (De Quem) Autor; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
@@ -156,35 +162,5 @@ namespace DomL.Business.Entities
         //    }
         //    return books;
         //}
-    }
-
-    [Table("BookActivity")]
-    public class BookActivity
-    {
-        [Key]
-        public int Id { get; set; }
-        public int BookId { get; set; }
-        public string Description { get; set; }
-
-        [ForeignKey("Id")]
-        public Activity Activity { get; set; }
-        [ForeignKey("BookId")]
-        public Book Book { get; set; }
-    }
-
-    [Table("BookAuthor")]
-    public class BookAuthor
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    [Table("BookSeries")]
-    public class BookSeries
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

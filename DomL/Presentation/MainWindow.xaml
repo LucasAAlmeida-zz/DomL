@@ -27,11 +27,11 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Margin="5">
                         <Label Content="Mês"/>
-                        <TextBox Name="MesTb"/>
+                        <TextBox Name="MonthTb"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1" Margin="5">
                         <Label Content="Ano"/>
-                        <TextBox Name="AnoTb"/>
+                        <TextBox Name="YearTb"/>
                     </StackPanel>
                 </Grid>
                 <Label DockPanel.Dock="Top" Name="AtividadeLabel" Content="Atividades do dia" />

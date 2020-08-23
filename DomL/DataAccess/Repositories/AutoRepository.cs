@@ -1,5 +1,4 @@
 ﻿using DomL.Business.Entities;
-using System;
 using System.Linq;
 
 namespace DomL.DataAccess
@@ -16,11 +15,6 @@ namespace DomL.DataAccess
         public Auto GetAutoByName(string name)
         {
             return DomLContext.Auto.SingleOrDefault(a => a.Name == name);
-        }
-
-        public void CreateAuto(Auto auto)
-        {
-            DomLContext.Auto.Add(auto);
         }
 
         public void CreateAutoActivity(AutoActivity autoActivity)

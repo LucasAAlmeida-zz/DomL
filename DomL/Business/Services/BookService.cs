@@ -1,24 +1,19 @@
-﻿using DomL.Business.Entities;
-using DomL.Business.Utils.Enums;
-using DomL.DataAccess;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.Presentation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DomL.Business.Services
 {
     public class BookService
     {
-        public static void SaveFromRawLine(string[] segmentos, Activity activity)
+        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
-            // BOOK; Title; Author Name; Series Name; Number In Series; Score; Description
-
-            segmentos[0] = "";
-            var bookWindow = new BookWindow(segmentos);
-            bookWindow.ShowDialog();
+            // BOOK (Classification); Title; (Author Name); (Series Name); (Number In Series); (Score); (Description)
+            segments[0] = "";
+            var bookWindow = new BookWindow(segments);
+            //bookWindow.ShowDialog();
 
             var bookTitle = (string) bookWindow.TitleCB.SelectedItem;
             var authorName = (string) bookWindow.AuthorCB.SelectedItem;
@@ -27,40 +22,68 @@ namespace DomL.Business.Services
             var score = (string) bookWindow.ScoreCB.SelectedItem;
             var description = (string) bookWindow.DescriptionCB.SelectedItem;
 
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                var author = unitOfWork.BookRepo.GetAuthorByName(authorName);
-                if (author == null) {
-                    author = new BookAuthor() {
-                        Name = authorName
-                    };
-                }
+            Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
+            Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
 
-                var series = unitOfWork.BookRepo.GetSeriesByName(seriesName);
-                if (series == null) {
-                    series = new BookSeries() {
-                        Name = seriesName
-                    };
-                }
+            Book book = GetOrCreateBook(bookTitle, author, series, numberInSeries, score, unitOfWork);
+            CreateBookActivity(activity, book, description, unitOfWork);
+        }
 
-                var book = unitOfWork.BookRepo.GetBookByTitle(bookTitle);
-                if (book == null) {
-                    book = new Book() {
-                        AuthorId = author.Id,
-                        SeriesId = series.Id,
-                        Title = bookTitle,
-                        NumberInSeries = numberInSeries,
-                        Score = score,
-                    };
-                }
+        private static void CreateBookActivity(Activity activity, Book book, string description, UnitOfWork unitOfWork)
+        {
+            var bookActivity = new BookActivity() {
+                Activity = activity,
+                Book = book,
+                Description = description
+            };
 
-                var bookActivity = new BookActivity() {
-                    Id = activity.Id,
-                    BookId = book.Id,
-                    Description = description
+            activity.BookActivity = bookActivity;
+            activity.PairActivity(unitOfWork);
+
+            unitOfWork.BookRepo.CreateBookActivity(bookActivity);
+        }
+
+        private static Book GetOrCreateBook(string bookTitle, Person author, Series series, string numberInSeries, string score, UnitOfWork unitOfWork)
+        {
+            var book = unitOfWork.BookRepo.GetBookByTitle(bookTitle);
+
+            if (book == null) {
+                book = new Book() {
+                    Author = author,
+                    Series = series,
+                    Title = bookTitle,
+                    NumberInSeries = numberInSeries,
+                    Score = score,
                 };
-
-                unitOfWork.BookRepo.CreateBookActivity(bookActivity);
+                unitOfWork.BookRepo.Add(book);
             }
+
+            return book;
+        }
+
+        public static string GetString(Activity activity, int kindOfString)
+        {
+            var consolidatedInfo = new ConsolidatedBookActivityDTO(activity);
+            switch (kindOfString) {
+                case 0:     return consolidatedInfo.GetInfoForMonthRecap();
+                case 1:     return consolidatedInfo.GetInfoForYearRecap();
+                case 2:     return consolidatedInfo.GetInfoForBackup();
+                default:    return "";
+            }
+        }
+
+        public static IEnumerable<Activity> GetStartingActivity(List<Activity> previousStartingActivities, Activity activity)
+        {
+            var book = activity.BookActivity.Book;
+            return previousStartingActivities.Where(u =>
+                u.CategoryId == ActivityCategory.BOOK
+                && IsSameBook(u.BookActivity.Book, book)
+            );
+        }
+
+        private static bool IsSameBook(Book book1, Book book2)
+        {
+            return book1.Title == book2.Title;
         }
     }
 }

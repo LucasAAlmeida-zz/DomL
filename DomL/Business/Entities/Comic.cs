@@ -1,16 +1,23 @@
-﻿using DomL.Business.Utils;
-using DomL.Business.Utils.Enums;
-using DomL.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace DomL.Business.Entities
 {
+    [Table("ComicActivity")]
+    public class ComicActivity
+    {
+        [Key]
+        [ForeignKey("Activity")]
+        public int Id { get; set; }
+        [ForeignKey("ComicVolume")]
+        public int ComicVolumeId { get; set; }
+
+        public string Description { get; set; }
+
+        public virtual Activity Activity { get; set; }
+        public virtual ComicVolume ComicVolume { get; set; }
+    }
+
     [Table("ComicVolume")]
     public class ComicVolume
     {
@@ -18,16 +25,16 @@ namespace DomL.Business.Entities
         public int Id { get; set; }
         public int SeriesId { get; set; }
         public string Chapters { get; set; }
-        public int AuthorId { get; set; }
-        public int TypeId { get; set; }
+        public int? AuthorId { get; set; }
+        public int? TypeId { get; set; }
         public string Score { get; set; }
 
         [ForeignKey("SeriesId")]
-        public ComicSeries Series { get; set; }
+        public Series Series { get; set; }
         [ForeignKey("AuthorId")]
-        public ComicAuthor Author { get; set; }
+        public Person Author { get; set; }
         [ForeignKey("TypeId")]
-        public ComicType Type { get; set; }
+        public MediaType Type { get; set; }
 
         
 
@@ -154,43 +161,5 @@ namespace DomL.Business.Entities
         //    }
         //    return comics;
         //}
-    }
-
-    [Table("ComicActivity")]
-    public class ComicActivity
-    {
-        [Key]
-        public int Id { get; set; }
-        public int ComicVolumeId { get; set; }
-        public string Description { get; set; }
-
-        [ForeignKey("Id")]
-        public Activity Activity { get; set; }
-        [ForeignKey("ComicVolumeId")]
-        public ComicVolume ComicVolume { get; set; }
-    }
-
-    [Table("ComicAuthor")]
-    public class ComicAuthor
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    [Table("ComicSeries")]
-    public class ComicSeries
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    [Table("ComicType")]
-    public class ComicType
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 }

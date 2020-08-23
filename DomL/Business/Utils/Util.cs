@@ -1,19 +1,30 @@
 ﻿using System;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Utils
 {
     public class Util
     {
-        public static bool IsEqualTitle(string titulo1, string titulo2)
+        public static bool IsEqualString(string string1, string string2)
         {
-            string titulo1Limpo = titulo1.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower();
-            string titulo2Limpo = titulo2.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower();
-            return titulo1Limpo == titulo2Limpo;
+            string rExp = @"[^\w\d]";
+            var string1Limpa = Regex.Replace(string1, rExp, "").ToLower().Replace("the", "");
+            var string2Limpa = Regex.Replace(string2, rExp, "").ToLower().Replace("the", "");
+            return string1Limpa == string2Limpa;
         }
 
-        public static string GetDiaMes(DateTime date)
+        public static string GetFormatedDate(DateTime date)
         {
-            return date.Day.ToString("00") + "/" + date.Month.ToString("00");
+            return date.ToString("yyyy/MM/dd");
+        }
+
+        public static void CreateDirectory(string filePath)
+        {
+            var fi = new FileInfo(filePath);
+            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
+                Directory.CreateDirectory(fi.DirectoryName);
+            }
         }
     }
 }

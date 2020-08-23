@@ -1,190 +1,61 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Utils;
 
-using DomL.Business.Utils.Enums;
 using DomL.DataAccess;
-using DomL.DataAccess.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace DomL.Business.Services
 {
     public class DomLServices
     {
-        //const string BASE_DIR_PATH = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
+        const string BASE_DIR_PATH = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
 
-        public static void ParseAtividadesDoMesEmTextoParaBanco(string atividadesStr, int mes, int ano)
+        #region SaveFromRawMonthText
+        public static void SaveFromRawMonthText(string rawMonthText, int month, int year)
         {
-            var atividadesDiaString = Regex.Split(atividadesStr, "\r\n");
-            var atividadeString = "";
-            ActivityBlock activityBlock = null;
-            var ordem = 0;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                unitOfWork.ActivityRepo.DeleteAllFromMonth(month, year);
+                unitOfWork.Complete();
+            }
 
-            var diaDT = new DateTime();
-            try {
-                for (var linha = 0; linha < atividadesDiaString.Length; linha++) {
-                    atividadeString = atividadesDiaString[linha];
-                    ordem++;
+            ActivityBlock currentActivityBlock = null;
+            var date = new DateTime(year, month, 1);
+            var dayOrder = 0;
 
-                    if (IsLineBlank(atividadeString)) {
+            var activityRawLines = Regex.Split(rawMonthText, "\r\n");
+            foreach(var rawLine in activityRawLines) {
+                try {
+                    if (IsLineBlank(rawLine)) {
                         continue;
                     }
 
-                    if (IsLineNewDay(atividadeString, out int dia)) {
-                        diaDT = new DateTime(ano, mes, dia);
-                        ordem = 0;
+                    if (IsLineNewDay(rawLine, out int dia)) {
+                        date = new DateTime(year, month, dia);
+                        dayOrder = 0;
                         continue;
                     }
 
-                    if (IsLineActivityBlockTag(atividadeString)) {
-                        activityBlock = ChangeActivityBlock(atividadeString);
+                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                        if (IsLineActivityBlockTag(rawLine)) {
+                            currentActivityBlock = ActivityService.ChangeActivityBlock(rawLine, unitOfWork);
+                            continue;
+                        }
+                        Activity activity = ActivityService.Create(date, dayOrder, rawLine, currentActivityBlock, unitOfWork);
+                        activity.SaveFromRawLine(rawLine, unitOfWork);
+
+                        unitOfWork.Complete();
                     }
 
-                    var segmentos = Regex.Split(atividadeString, "; ");
-
-                    var classificacao = GetClassificacaoFromFirstSegment(segmentos[0]);
-                    var activity = new Activity() {
-                        Date = diaDT,
-                        DayOrder = ordem,
-                        ActivityBlock = activityBlock,
-                        Classification = classificacao
-                    };
-                    
-                    ParseActivity(segmentos, activity);
+                    dayOrder++;
+                } catch (Exception e) {
+                    var msg = "Deu ruim no dia " + date.Day + ", atividade: " + rawLine;
+                    throw new ParseException(msg, e);
                 }
-            } catch (Exception e) {
-                var msg = "Deu ruim no dia " + diaDT.Day + ", atividade: " + atividadeString;
-                throw new ParseException(msg, e);
             }
-        }
-
-        private static void ParseActivity(string[] segmentos, Activity activity)
-        {
-            var categoria = GetCategoriaFromFirstSegment(segmentos[0]);
-            switch (categoria) {
-                case "AUTO":
-                case "CARRO":
-                    activity.Category = Category.Auto;
-                    AutoService.SaveFromRawLine(segmentos, activity);
-                    break;
-
-                //case "DOOM":
-                //case "DESGRACA":
-                //case "DESGRAÇA":
-                //    activity.Category = Category.Doom;
-                //    new Doom(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "GIFT":
-                //case "PRESENTE":
-                //    new Gift(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "SAUDE":
-                //case "HEALTH":
-                //    new Health(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "FILME":
-                //case "MOVIE":
-                //case "CINEMA":
-                //    new Movie(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "PESSOA":
-                //    new Person(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "PET":
-                //case "ANIMAL":
-                //    new Pet(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "PLAY":
-                //    new Play(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "COMPRA":
-                //    new Purchase(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "VIAGEM":
-                //case "TRIP":
-                //    new Travel(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //case "WORK":
-                //    new Work(atividadeDTO, segmentos).Save();
-                //    break;
-
-                //// -----
-
-                case "LIVRO":
-                case "BOOK":
-                    activity.Category = Category.Book;
-                    BookService.SaveFromRawLine(segmentos, activity);
-                    break;
-
-                case "COMIC":
-                case "MANGA":
-                    activity.Category = Category.Comic;
-                    ComicService.SaveFromRawLine(segmentos, activity);
-                    break;
-
-                    //case "JOGO":
-                    //case "GAME":
-                    //    new Game(atividadeDTO, segmentos).Save();
-                    //    break;
-
-                    //case "SERIE":
-                    //case "DESENHO":
-                    //case "ANIME":
-                    //case "CARTOON":
-                    //    new Series(atividadeDTO, segmentos).Save();
-                    //    break;
-
-                    //case "WATCH":
-                    //    new Watch(atividadeDTO, segmentos).Save();
-                    //    break;
-
-                    //default:
-                    //    new Event(atividadeDTO, segmentos).Save();
-                    //    break;
-            }
-        }
-
-        private static string GetCategoriaFromFirstSegment(string firstSegment)
-        {
-            return Regex.Split(firstSegment, " ")[0];
-        }
-
-        private static Classification GetClassificacaoFromFirstSegment(string firstSegment)
-        {
-            var segments = Regex.Split(firstSegment, " ");
-
-            if (segments.Length == 1) {
-                return Classification.Unica;
-            }
- 
-            return IsComeco(segments[1]) ? Classification.Comeco : Classification.Termino;
-        }
-
-        private static ActivityBlock ChangeActivityBlock(string atividadeString)
-        {
-            if (atividadeString == "<END>") {
-                return null;
-            } 
-            
-            var activityBlockName = atividadeString.Substring(1, atividadeString.Length - 2);
-            var activityBlock = new ActivityBlock() {
-                Name = activityBlockName
-            };
-            return activityBlock;
         }
 
         private static bool IsLineActivityBlockTag(string line)
@@ -197,91 +68,136 @@ namespace DomL.Business.Services
             return string.IsNullOrWhiteSpace(line) || line.StartsWith("---");
         }
 
-        private static bool IsComeco(string word)
-        {
-            return word.ToLower() == "comeco" || word.ToLower() == "começo";
-        }
-
         private static bool IsLineNewDay(string linha, out int dia)
         {
             int indexPrimeiroEspaco = linha.IndexOf(" ", StringComparison.Ordinal);
             string firstWord = (indexPrimeiroEspaco != -1) ? linha.Substring(0, indexPrimeiroEspaco) : linha;
             return int.TryParse(firstWord, out dia) && (linha.Contains(" - ") || linha.Contains(" – "));
         }
+        #endregion
 
-        //        public static void EscreverAtividadesDoMesEmArquivo(int mes, int ano)
-        //        {
-        //            string filePath = BASE_DIR_PATH + "AtividadesMes\\AtividadesMes" + mes + ".txt";
-        //            var fi = new FileInfo(filePath);
-        //            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
-        //                Directory.CreateDirectory(fi.DirectoryName);
-        //            }
+        #region WriteMonthRecapFile
+        public static void WriteMonthRecapFile(int month, int year)
+        {
+            string filePath = BASE_DIR_PATH + "MonthRecap\\Month" + month.ToString("00") + "Recap.txt";
+            Util.CreateDirectory(filePath);
 
-        //            var atividades = GetAllAtividadesMes(mes, ano);
-        //            using (var file = new StreamWriter(filePath)) {
-        //                foreach (Activity atividade in atividades) {
-        //                    file.WriteLine(atividade.ParseToString());
-        //                }
+            List<Activity> monthActivities;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                monthActivities = unitOfWork.ActivityRepo.GetAllInclusiveFromMonth(month, year);
+            }
+            
+            using (var file = new StreamWriter(filePath)) {
+                foreach (Activity activity in monthActivities) {
+                    string activityString = activity.GetString(0);
+                    if (!string.IsNullOrWhiteSpace(activityString)) {
+                        file.WriteLine(activityString);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        public static void WriteYearRecapFiles(int year)
+        {
+            string fileDir = BASE_DIR_PATH + "Year" + year + "Recap\\";
+            Util.CreateDirectory(fileDir);
+
+            List<Activity> yearActivities;
+            List<ActivityCategory> categories;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                yearActivities = unitOfWork.ActivityRepo.GetAllInclusiveFromYear(year);
+                categories = unitOfWork.ActivityRepo.GetAllCategories();
+            }
+
+            foreach(var category in categories) {
+                var filePath = fileDir + category.Name + year + ".txt";
+                WriteRecapFile(category.Id, filePath, yearActivities);
+            }
+            WriteStatisticsFile(fileDir, yearActivities);
+        }
+
+        public static void WriteRecapFiles()
+        {
+            string fileDir = BASE_DIR_PATH + "Recap\\";
+            Util.CreateDirectory(fileDir);
+
+            List<Activity> activities;
+            List<ActivityCategory> categories;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                activities = unitOfWork.ActivityRepo.GetAllInclusive();
+                categories = unitOfWork.ActivityRepo.GetAllCategories();
+            }
+
+            foreach (var category in categories) {
+                var filePath = fileDir + category.Name + ".txt";
+                WriteRecapFile(category.Id, filePath, activities);
+            }
+            WriteStatisticsFile(fileDir, activities);
+        }
+
+        private static void WriteRecapFile(int categoryId, string filePath, List<Activity> activities)
+        {
+            var categoryActivities = activities.Where(u => u.CategoryId == categoryId).ToList();
+
+            if (categoryActivities.Count == 0) {
+                return;
+            }
+
+            using (var file = new StreamWriter(filePath)) {
+                foreach (var activity in categoryActivities) {
+                    string activityString = activity.GetString(1);
+                    if (!string.IsNullOrWhiteSpace(activityString)) {
+                        file.WriteLine(activityString);
+                    }
+                }
+            }
+        }
+
+        private static void WriteStatisticsFile(string fileDir, List<Activity> activities)
+        {
+            using (var file = new StreamWriter(fileDir + "Statistics.txt")) {
+
+                file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME));
+                file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME));
+                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SERIES));
+                file.WriteLine("Livros lidos:\t" + CountFinished(activities, ActivityCategory.BOOK));
+                file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, ActivityCategory.COMIC));
+                file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, ActivityCategory.MOVIE));
+                file.WriteLine("Viagens feitas:\t" + CountFinished(activities, ActivityCategory.TRAVEL));
+                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, ActivityCategory.PERSON));
+                file.WriteLine("Compras notáveis:\t" + CountFinished(activities, ActivityCategory.PURCHASE));
+            }
+        }
+
+        private static int CountStarted(List<Activity> activities, int categoryId)
+        {
+            return activities.Count(u => u.CategoryId == categoryId && u.StatusId != ActivityStatus.FINISH);
+        }
+
+        private static int CountFinished(List<Activity> activities, int categoryId)
+        {
+            return activities.Count(u => u.CategoryId == categoryId && u.StatusId != ActivityStatus.START);
+        }
+
+        //private static void WriteRecapFile(int categoryId, string fileDir, List<Activity> yearActivities)
+        //{
+        //    var activities = yearActivities.Where(u => u.CategoryId == categoryId).ToList();
+
+        //    if (activities.Count == 0) {
+        //        return;
+        //    }
+
+        //    var categoryName = activities.First().Category.Name;
+        //    using (var file = new StreamWriter(fileDir + categoryName + ".txt")) {
+        //        foreach (var activity in activities) {
+        //            string activityString = activity.GetString(1);
+        //            if (!string.IsNullOrWhiteSpace(activityString)) {
+        //                file.WriteLine(activityString);
         //            }
         //        }
-
-        //        private static List<Activity> GetAllAtividadesMes(int mes, int ano)
-        //        {
-        //            var atividades = new List<Activity>();
-
-        //            atividades.AddRange(Book.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Comic.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Game.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Series.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Watch.GetAllFromMes(mes, ano));
-
-        //            atividades.AddRange(Auto.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Doom.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Gift.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Health.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Movie.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Person.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Pet.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Play.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Purchase.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Travel.GetAllFromMes(mes, ano));
-        //            atividades.AddRange(Work.GetAllFromMes(mes, ano));
-
-        //            atividades.AddRange(Event.GetImportantFromMes(mes, ano));
-
-        //            return atividades.OrderBy(a => a.Date).ThenBy(a => a.DayOrder).ToList();
-        //        }
-
-        //        public static void EscreverAtividadesConsolidadasDoAnoEmArquivo(int year)
-        //        {
-        //            string fileDir = BASE_DIR_PATH + "AtividadesConsolidadas" + year + "\\";
-        //            var fi = new FileInfo(fileDir);
-        //            if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
-        //                Directory.CreateDirectory(fi.DirectoryName);
-        //            }
-
-        //            Book.ConsolidateYear(fileDir, year);
-        //            Comic.ConsolidateYear(fileDir, year);
-        //            Game.ConsolidateYear(fileDir, year);
-        //            Series.ConsolidateYear(fileDir, year);
-        //            Watch.ConsolidateYear(fileDir, year);
-
-        //            Auto.ConsolidateYear(fileDir, year);
-        //            Doom.ConsolidateYear(fileDir, year);
-        //            Gift.ConsolidateYear(fileDir, year);
-        //            Health.ConsolidateYear(fileDir, year);
-        //            Movie.ConsolidateYear(fileDir, year);
-        //            Person.ConsolidateYear(fileDir, year);
-        //            Pet.ConsolidateYear(fileDir, year);
-        //            Play.ConsolidateYear(fileDir, year);
-        //            Purchase.ConsolidateYear(fileDir, year);
-        //            Travel.ConsolidateYear(fileDir, year);
-        //            Work.ConsolidateYear(fileDir, year);
-
-        //            Event.ConsolidateYear(fileDir, year);
-
-        //            ActivityBlock.ConsolidateYear(fileDir, year);
-        //        }
+        //    }
+        //}
 
         //        public static void EscreveResumoDoAnoEmArquivo(int year)
         //        {

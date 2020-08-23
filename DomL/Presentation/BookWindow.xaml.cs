@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace DomL.Presentation
 {
@@ -41,8 +30,8 @@ namespace DomL.Presentation
             this.DescriptionCB.ItemsSource = segmentos;
 
             this.TitleCB.SelectedItem = segmentos[1];
-            this.AuthorCB.SelectedItem = segmentos[2];
 
+            this.AuthorCB.SelectedItem = segmentos.Length > 2 ? segmentos[2] : null;
             this.SeriesCB.SelectedItem = segmentos.Length > 3 ? segmentos[3] : null;
             this.NumberCB.SelectedItem = segmentos.Length > 4 ? segmentos[4] : null;
             this.ScoreCB.SelectedItem = segmentos.Length > 5 ? segmentos[5] : null;

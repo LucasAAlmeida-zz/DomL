@@ -3,112 +3,99 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Entities
 {
-    [Table("AutoActivity")]
-    public class AutoActivity
+    [Table("DoomActivity")]
+    public class DoomActivity
     {
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
-        [ForeignKey("Auto")]
-        public int AutoId { get; set; }
 
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual Auto Auto { get; set; }
-    }
-
-    [Table("Auto")]
-    public class Auto
-    {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }
 
 
         //protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         //{
-        //    
+        //    // DOOM; (Descrição)
 
-        //    this.Subject = segmentos[1];
-        //    this.Description = segmentos[2];
+        //    this.Description = segmentos[1];
         //}
 
         //public override void Save()
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        if (unitOfWork.AutoRepo.Exists(b => b.Date == this.Date)) {
+        //        if (unitOfWork.DoomRepo.Exists(b => b.Date == this.Date)) {
         //            return;
         //        }
 
-        //        unitOfWork.AutoRepo.Add(this);
+        //        unitOfWork.DoomRepo.Add(this);
         //        unitOfWork.Complete();
         //    }
         //}
 
         //public override string ParseToString()
         //{
-        //    return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Description;
+        //    return Util.GetDiaMes(this.Date) + "\t" + this.Description;
         //}
 
-        //public static IEnumerable<Auto> GetAllFromMes(int mes, int ano)
+        //public static IEnumerable<Doom> GetAllFromMes(int mes, int ano)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        return unitOfWork.AutoRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
+        //        return unitOfWork.DoomRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
         //    }
         //}
 
         //public static void ConsolidateYear(string fileDir, int year)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allAutos = unitOfWork.AutoRepo.Find(b => b.Date.Year == year).ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Auto" + year + ".txt", allAutos.Cast<SingleDayActivity>().ToList());
+        //        var allDoom = unitOfWork.DoomRepo.Find(b => b.Date.Year == year).ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Doom" + year + ".txt", allDoom.Cast<SingleDayActivity>().ToList());
         //    }
         //}
 
         //public static void ConsolidateAll(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allAutos = unitOfWork.AutoRepo.GetAll().ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Auto.txt", allAutos.Cast<SingleDayActivity>().ToList());
+        //        var allDoom = unitOfWork.DoomRepo.GetAll().ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Doom.txt", allDoom.Cast<SingleDayActivity>().ToList());
         //    }
         //}
 
         //public static void FullRestoreFromFile(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allAutos = GetAutosFromFile(fileDir + "Auto.txt");
-        //        unitOfWork.AutoRepo.AddRange(allAutos);
+        //        var allDooms = GetDoomsFromFile(fileDir + "Doom.txt");
+        //        unitOfWork.DoomRepo.AddRange(allDooms);
         //        unitOfWork.Complete();
         //    }
         //}
 
-        //private static List<Auto> GetAutosFromFile(string filePath)
+        //private static List<Doom> GetDoomsFromFile(string filePath)
         //{
         //    if (!File.Exists(filePath)) {
         //        return null;
         //    }
 
-        //    var autos = new List<Auto>();
+        //    var dooms = new List<Doom>();
         //    using (var reader = new StreamReader(filePath)) {
 
         //        string line;
         //        while ((line = reader.ReadLine()) != null) {
         //            var segmentos = Regex.Split(line, "\t");
 
-        //            // Data; (Assunto) Qual automovel; (Descricao) O que Aconteceu
+        //            // Data; (Descrição)
 
-        //            var auto = new Auto() {
+        //            var doom = new Doom() {
         //                Date = DateTime.Parse(segmentos[0]),
-        //                Subject = segmentos[1],
-        //                Description = segmentos[2],
+        //                Description = segmentos[1],
 
         //                DayOrder = 0,
         //            };
-        //            autos.Add(auto);
+        //            dooms.Add(doom);
         //        }
         //    }
-        //    return autos;
+        //    return dooms;
         //}
     }
 }

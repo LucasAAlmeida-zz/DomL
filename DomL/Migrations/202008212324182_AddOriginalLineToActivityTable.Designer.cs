@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class ComicTables : IMigrationMetadata
+    public sealed partial class AddOriginalLineToActivityTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ComicTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddOriginalLineToActivityTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008201145305_ComicTables"; }
+            get { return "202008212324182_AddOriginalLineToActivityTable"; }
         }
         
         string IMigrationMetadata.Source
