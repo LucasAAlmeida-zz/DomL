@@ -102,7 +102,6 @@ namespace DomL.Business.Entities
 
         //0 - month kind
         //1 - recap kind
-        //2 - backup kind
         public string GetString(int kindOfString)
         {
             var consolidated = "";

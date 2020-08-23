@@ -76,15 +76,14 @@ namespace DomL.DataAccess.Repositories
             DomLContext.ActivityBlock.Add(activityBlock);
         }
 
-        public List<Activity> GetPreviousStartingActivities(DateTime Date)
+        public IQueryable<Activity> GetPreviousStartingActivities(DateTime Date)
         {
             return GetAllQueryableInclusive()
                 .Where(u => 
                     u.Status.Id == ActivityStatus.START
-                    && u.Date < Date
+                    && u.Date <= Date
                     && u.PairedActivityId == null
-                )
-                .ToList();
+                );
         }
 
         public List<ActivityCategory> GetAllCategories()

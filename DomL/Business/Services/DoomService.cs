@@ -34,23 +34,17 @@ namespace DomL.Business.Services
             switch (kindOfString) {
                 case 0:     return consolidatedInfo.GetInfoForMonthRecap();
                 case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                case 2:     return consolidatedInfo.GetInfoForYearRecap();
                 default:    return "";
             }
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(List<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var description = activity.DoomActivity.Description;
             return previousStartingActivities.Where(u =>
                 u.CategoryId == ActivityCategory.DOOM
-                && IsSameDoom(u.DoomActivity.Description, description)
+                && u.DoomActivity.Description == description
             );
-        }
-
-        private static bool IsSameDoom(string description1, string description2)
-        {
-            return description1 == description2;
         }
     }
 }

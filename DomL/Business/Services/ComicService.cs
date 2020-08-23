@@ -26,7 +26,7 @@ namespace DomL.Business.Services
             Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
             MediaType type = MediaTypeService.GetOrCreateByName(typeName, unitOfWork);
 
-            ComicVolume comicVolume = GetOrCreateComicVolume(series, chapters, author, type, score, unitOfWork);
+            ComicVolume comicVolume = GetOrUpdateOrCreateComicVolume(series, chapters, author, type, score, unitOfWork);
             CreateComicActivity(activity, comicVolume, description, unitOfWork);
         }
 
@@ -44,9 +44,9 @@ namespace DomL.Business.Services
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
 
-        private static ComicVolume GetOrCreateComicVolume(Series series, string chapters, Person author, MediaType type, string score, UnitOfWork unitOfWork)
+        private static ComicVolume GetOrUpdateOrCreateComicVolume(Series series, string chapters, Person author, MediaType type, string score, UnitOfWork unitOfWork)
         {
-            var comicVolume = unitOfWork.ComicRepo.GetComicVolumeByChapters(chapters);
+            var comicVolume = unitOfWork.ComicRepo.GetComicVolumeBySeriesNameAndChapters(series.Name, chapters);
 
             if (comicVolume == null) {
                 comicVolume = new ComicVolume() {
@@ -57,6 +57,9 @@ namespace DomL.Business.Services
                     Score = score,
                 };
                 unitOfWork.ComicRepo.Add(comicVolume);
+            } else {
+                comicVolume.Author = comicVolume.Author ?? author;
+                comicVolume.Type = comicVolume.Type ?? type;
             }
 
             return comicVolume;
@@ -68,23 +71,17 @@ namespace DomL.Business.Services
             switch (kindOfString) {
                 case 0:     return consolidatedInfo.GetInfoForMonthRecap();
                 case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                case 2:     return consolidatedInfo.GetInfoForYearRecap();
                 default:    return "";
             }
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(List<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var comicVolume = activity.ComicActivity.ComicVolume;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.COMIC
-                && IsSameComicVolume(u.ComicActivity.ComicVolume, comicVolume)
+                && u.ComicActivity.ComicVolume.Series.Name == comicVolume.Series.Name && u.ComicActivity.ComicVolume.Chapters == comicVolume.Chapters
             );
-        }
-
-        private static bool IsSameComicVolume(ComicVolume comicVolume1, ComicVolume comicVolume2)
-        {
-            return comicVolume1.SeriesId == comicVolume2.SeriesId && comicVolume1.Chapters == comicVolume2.Chapters;
         }
     }
 }

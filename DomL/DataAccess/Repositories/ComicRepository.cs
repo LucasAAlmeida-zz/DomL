@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using System.Linq;
 
 namespace DomL.DataAccess
@@ -12,9 +13,14 @@ namespace DomL.DataAccess
             get { return Context as DomLContext; }
         }
 
-        public ComicVolume GetComicVolumeByChapters(string chapters)
+        public ComicVolume GetComicVolumeBySeriesNameAndChapters(string seriesName, string chapters)
         {
-            return DomLContext.ComicVolume.SingleOrDefault(u => u.Chapters == chapters);
+            var cleanSeriesName = Util.CleanString(seriesName);
+            return DomLContext.ComicVolume.SingleOrDefault(u => 
+                u.Series.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                == cleanSeriesName
+                && u.Chapters == chapters
+            );
         }
 
         public void CreateComicActivity(ComicActivity comicActivity)

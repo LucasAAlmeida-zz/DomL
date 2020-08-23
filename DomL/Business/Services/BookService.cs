@@ -25,7 +25,7 @@ namespace DomL.Business.Services
             Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
             Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
 
-            Book book = GetOrCreateBook(bookTitle, author, series, numberInSeries, score, unitOfWork);
+            Book book = GetOrUpdateOrCreateBook(bookTitle, author, series, numberInSeries, score, unitOfWork);
             CreateBookActivity(activity, book, description, unitOfWork);
         }
 
@@ -43,7 +43,7 @@ namespace DomL.Business.Services
             unitOfWork.BookRepo.CreateBookActivity(bookActivity);
         }
 
-        private static Book GetOrCreateBook(string bookTitle, Person author, Series series, string numberInSeries, string score, UnitOfWork unitOfWork)
+        private static Book GetOrUpdateOrCreateBook(string bookTitle, Person author, Series series, string numberInSeries, string score, UnitOfWork unitOfWork)
         {
             var book = unitOfWork.BookRepo.GetBookByTitle(bookTitle);
 
@@ -56,6 +56,9 @@ namespace DomL.Business.Services
                     Score = score,
                 };
                 unitOfWork.BookRepo.Add(book);
+            } else {
+                book.Author = book.Author ?? author;
+                book.Series = book.Series ?? series;
             }
 
             return book;
@@ -67,23 +70,17 @@ namespace DomL.Business.Services
             switch (kindOfString) {
                 case 0:     return consolidatedInfo.GetInfoForMonthRecap();
                 case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                case 2:     return consolidatedInfo.GetInfoForBackup();
                 default:    return "";
             }
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(List<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var book = activity.BookActivity.Book;
             return previousStartingActivities.Where(u =>
                 u.CategoryId == ActivityCategory.BOOK
-                && IsSameBook(u.BookActivity.Book, book)
+                && u.BookActivity.Book.Title == book.Title
             );
-        }
-
-        private static bool IsSameBook(Book book1, Book book2)
-        {
-            return book1.Title == book2.Title;
         }
     }
 }
