@@ -11,7 +11,11 @@ namespace DomL.Business.Services
                 return null;
             }
 
-            Person person = unitOfWork.PersonRepo.SingleOrDefault(u => Util.IsEqualString(u.Name, personName));
+            var cleanPersonName = Util.CleanString(personName);
+            Person person = unitOfWork.PersonRepo.SingleOrDefault(u =>
+                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                == cleanPersonName
+            );
 
             if (person == null) {
                 person = new Person() {

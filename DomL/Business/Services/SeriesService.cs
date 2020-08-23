@@ -11,7 +11,11 @@ namespace DomL.Business.Services
                 return null;
             }
 
-            var series = unitOfWork.SeriesRepo.SingleOrDefault(u => Util.IsEqualString(u.Name, seriesName));
+            var cleanSeriesName = Util.CleanString(seriesName);
+            var series = unitOfWork.SeriesRepo.SingleOrDefault(u =>
+                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                == cleanSeriesName
+            );
 
             if (series == null) {
                 series = new Series() {

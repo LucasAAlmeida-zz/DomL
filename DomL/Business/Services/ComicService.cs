@@ -84,7 +84,7 @@ namespace DomL.Business.Services
 
         private static bool IsSameComicVolume(ComicVolume comicVolume1, ComicVolume comicVolume2)
         {
-            return comicVolume1.Series.Name == comicVolume2.Series.Name && comicVolume1.Chapters == comicVolume2.Chapters;
+            return comicVolume1.SeriesId == comicVolume2.SeriesId && comicVolume1.Chapters == comicVolume2.Chapters;
         }
     }
 }

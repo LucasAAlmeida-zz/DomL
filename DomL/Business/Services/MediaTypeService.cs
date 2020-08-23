@@ -11,7 +11,11 @@ namespace DomL.Business.Services
                 return null;
             }
 
-            MediaType mediaType = unitOfWork.MediaTypeRepo.SingleOrDefault(u => Util.IsEqualString(u.Name, mediaTypeName));
+            var cleanMediaTypeName = Util.CleanString(mediaTypeName);
+            MediaType mediaType = unitOfWork.MediaTypeRepo.SingleOrDefault(u => 
+                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                == cleanMediaTypeName
+            );
 
             if (mediaType == null) {
                 mediaType = new MediaType() {

@@ -14,6 +14,11 @@ namespace DomL.Business.Utils
             return string1Limpa == string2Limpa;
         }
 
+        public static string CleanString(string value)
+        {
+            return Regex.Replace(value, @"[^\w\d]", "").ToLower().Replace("the", "");
+        }
+
         public static string GetFormatedDate(DateTime date)
         {
             return date.ToString("yyyy/MM/dd");
