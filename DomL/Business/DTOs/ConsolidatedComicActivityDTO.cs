@@ -21,26 +21,22 @@ namespace DomL.Business.DTOs
             AuthorName = (comicVolume.Author != null) ? comicVolume.Author.Name : "-";
             Type = (comicVolume.Type != null) ? comicVolume.Type.Name : "-";
             Score = (!string.IsNullOrWhiteSpace(comicVolume.Score)) ? comicVolume.Score : "-";
-            Description = comicActivity.Description;
+            Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
         }
 
-        public string GetInfoForMonthRecap()
+        public override string GetInfoForMonthRecap()
         {
             // Date; Category; Status; Title; Series Name; Chapters; Author Name; Type; Score; Description
             return this.GetActivityInfoForMonthRecap() + "\t" + this.GetComicInfo();
         }
 
-        public string GetInfoForYearRecap()
+        protected override string GetInfoForYearRecapChild()
         {
-            if (this.Status == "START" && !this.PairedDate.StartsWith("??")) {
-                return "";
-            }
-
             // Date Started; Date Finished; Title; Author Name; Series Name; Number In Series; Score; Description
             return this.GetActivityInfoForYearRecap() + "\t" + this.GetComicInfo();
         }
 
-        public string GetInfoForBackup()
+        public override string GetInfoForBackup()
         {
             // Category; Date; DayOrder; Status; Activity Block Name;
             // Title; Author Name; Series Name; Number In Series; Score; Description

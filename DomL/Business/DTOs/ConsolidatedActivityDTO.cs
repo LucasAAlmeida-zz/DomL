@@ -3,7 +3,7 @@ using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedActivityDTO
+    public abstract class ConsolidatedActivityDTO
     {
         public string Category;
         public string Date;
@@ -48,5 +48,17 @@ namespace DomL.Business.DTOs
             return Category + "\t" + Date + "\t" + DayOrder
                 + "\t" + Status + "\t" + ActivityBlockName;
         }
+
+        public string GetInfoForYearRecap()
+        {
+            if (this.Status == "START" && !this.PairedDate.StartsWith("??")) {
+                return "";
+            }
+            return GetInfoForYearRecapChild();
+        }
+
+        public abstract string GetInfoForMonthRecap();
+        protected abstract string GetInfoForYearRecapChild();
+        public abstract string GetInfoForBackup();
     }
 }

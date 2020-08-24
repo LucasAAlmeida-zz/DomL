@@ -13,23 +13,19 @@ namespace DomL.Business.DTOs
             Description = doomActivity.Description;
         }
 
-        public string GetInfoForMonthRecap()
+        public override string GetInfoForMonthRecap()
         {
             // Date; Category; Description
             return this.GetActivityInfoForMonthRecap() + "\t" + this.GetDoomInfo();
         }
 
-        public string GetInfoForYearRecap()
+        protected override string GetInfoForYearRecapChild()
         {
-            if (this.Status == "START" && !this.PairedDate.StartsWith("??")) {
-                return "";
-            }
-
             // Date; Description
             return this.GetActivityInfoForYearRecap() + "\t" + this.GetDoomInfo();
         }
 
-        public string GetInfoForBackup()
+        public override string GetInfoForBackup()
         {
             // Category; Date; Day Order; Status; Activity Block Name;
             // Description
