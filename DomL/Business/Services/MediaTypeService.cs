@@ -1,5 +1,7 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DomL.Business.Services
 {
@@ -11,11 +13,7 @@ namespace DomL.Business.Services
                 return null;
             }
 
-            var cleanMediaTypeName = Util.CleanString(mediaTypeName);
-            MediaType mediaType = unitOfWork.MediaTypeRepo.SingleOrDefault(u => 
-                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                == cleanMediaTypeName
-            );
+            var mediaType = GetByName(mediaTypeName, unitOfWork);
 
             if (mediaType == null) {
                 mediaType = new MediaType() {
@@ -25,6 +23,16 @@ namespace DomL.Business.Services
             }
 
             return mediaType;
+        }
+
+        public static List<MediaType> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.MediaTypeRepo.GetAll().ToList();
+        }
+
+        public static MediaType GetByName(string typeName, UnitOfWork unitOfWork)
+        {
+            return unitOfWork.MediaTypeRepo.GetByName(typeName);
         }
     }
 }

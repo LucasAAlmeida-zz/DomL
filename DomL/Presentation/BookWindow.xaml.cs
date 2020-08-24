@@ -4,6 +4,7 @@ using DomL.Business.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,10 +18,9 @@ namespace DomL.Presentation
     {
         private readonly UnitOfWork UnitOfWork;
 
-        public BookWindow(string[] segmentos, Activity activity, UnitOfWork unitOfWork)
+        public BookWindow(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
             InitializeComponent();
-            DataContext = this;
 
             this.UnitOfWork = unitOfWork;
 
@@ -29,8 +29,8 @@ namespace DomL.Presentation
                 "Category:\t" + activity.Category.Name + "\n" +
                 "Status:\t\t" + activity.Status.Name;
 
-            for (int index = 1; index < segmentos.Length; index++) {
-                var segmento = segmentos[index];
+            for (int index = 1; index < segments.Length; index++) {
+                var segmento = segments[index];
                 var dynLabel = new TextBox {
                     Text = segmento,
                     IsReadOnly = true,
@@ -40,25 +40,25 @@ namespace DomL.Presentation
                 this.SegmentosStack.Children.Add(dynLabel);
             }
 
-            var authorNames = new List<string>(segmentos);
+            var authorNames = new List<string>(segments);
             authorNames.AddRange(PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList());
 
-            var seriesNames = new List<string>(segmentos);
+            var seriesNames = new List<string>(segments);
             seriesNames.AddRange(SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList());
 
-            this.TitleCB.ItemsSource = segmentos;
+            this.TitleCB.ItemsSource = segments;
             this.AuthorCB.ItemsSource = authorNames;
             this.SeriesCB.ItemsSource = seriesNames;
-            this.NumberCB.ItemsSource = segmentos;
-            this.ScoreCB.ItemsSource = segmentos;
-            this.DescriptionCB.ItemsSource = segmentos;
+            this.NumberCB.ItemsSource = segments;
+            this.ScoreCB.ItemsSource = segments;
+            this.DescriptionCB.ItemsSource = segments;
 
-            this.TitleCB.SelectedItem = segmentos[1];
-            this.AuthorCB.SelectedItem = segmentos.Length > 2 ? segmentos[2] : null;
-            this.SeriesCB.SelectedItem = segmentos.Length > 3 ? segmentos[3] : null;
-            this.NumberCB.SelectedItem = segmentos.Length > 4 ? segmentos[4] : null;
-            this.ScoreCB.SelectedItem = segmentos.Length > 5 ? segmentos[5] : null;
-            this.DescriptionCB.SelectedItem = segmentos.Length > 6 ? segmentos[6] : null;
+            this.TitleCB.SelectedItem = segments[1];
+            this.AuthorCB.SelectedItem = segments.Length > 2 ? segments[2] : null;
+            this.SeriesCB.SelectedItem = segments.Length > 3 ? segments[3] : null;
+            this.NumberCB.SelectedItem = segments.Length > 4 ? segments[4] : null;
+            this.ScoreCB.SelectedItem = segments.Length > 5 ? segments[5] : null;
+            this.DescriptionCB.SelectedItem = segments.Length > 6 ? segments[6] : null;
 
             this.TitleCB_LostFocus(null, null);
             this.AuthorCB_LostFocus(null, null);
@@ -77,13 +77,15 @@ namespace DomL.Presentation
             }
 
             var title = this.TitleCB.Text;
-            var book = BookService.GetByTitle(title, this.UnitOfWork);
 
-            if (book == null) {
-                Util.ChangeToNew(this.TitleInfoLb);
+            if (string.IsNullOrWhiteSpace(title)) {
+                this.SeriesInfoLb.Content = "";
                 return;
             }
-            Util.ChangeToExists(this.TitleInfoLb);
+
+            var book = BookService.GetByTitle(title, this.UnitOfWork);
+
+            Util.ChangeInfoLabel(book, this.TitleInfoLb);
 
             if (book.Author != null) {
                 this.AuthorCB.Text = book.Author.Name;
@@ -100,34 +102,38 @@ namespace DomL.Presentation
 
         private void AuthorCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.TitleCB.IsKeyboardFocusWithin) {
+            if (this.AuthorCB.IsKeyboardFocusWithin) {
                 return;
             }
 
             var authorName = this.AuthorCB.Text;
-            var author = PersonService.GetByName(authorName, this.UnitOfWork);
 
-            if (author == null) {
-                Util.ChangeToNew(this.AuthorInfoLb);
+            if (string.IsNullOrWhiteSpace(authorName)) {
+                this.SeriesInfoLb.Content = "";
                 return;
             }
-            Util.ChangeToExists(this.AuthorInfoLb);
+
+            var author = PersonService.GetByName(authorName, this.UnitOfWork);
+
+            Util.ChangeInfoLabel(author, this.AuthorInfoLb);
         }
 
         private void SeriesCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.TitleCB.IsKeyboardFocusWithin) {
+            if (this.SeriesCB.IsKeyboardFocusWithin) {
                 return;
             }
 
             var seriesName = this.SeriesCB.Text;
-            var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
 
-            if (series == null) {
-                Util.ChangeToNew(this.SeriesInfoLb);
+            if (string.IsNullOrWhiteSpace(seriesName)) {
+                this.SeriesInfoLb.Content = "";
                 return;
             }
-            Util.ChangeToExists(this.SeriesInfoLb);
+
+            var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
+
+            Util.ChangeInfoLabel(series, this.SeriesInfoLb);
         }
     }
 }

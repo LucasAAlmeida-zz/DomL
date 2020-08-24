@@ -168,6 +168,10 @@
     <Compile Include="Migrations\202008222132359_ChangeStatusNames.designer.cs">
       <DependentUpon>202008222132359_ChangeStatusNames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.cs" />
+    <Compile Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.designer.cs">
+      <DependentUpon>202008242220128_MandatoryDescriptionInDoomAndAuto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\ComicWindow.xaml.cs">
       <DependentUpon>ComicWindow.xaml</DependentUpon>
     </Compile>
@@ -218,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008222132359_ChangeStatusNames.resx">
       <DependentUpon>202008222132359_ChangeStatusNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.resx">
+      <DependentUpon>202008242220128_MandatoryDescriptionInDoomAndAuto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -37,6 +37,15 @@ namespace DomL.Business.Utils
             }
         }
 
+        public static void ChangeInfoLabel(object instance, Label infoLabel)
+        {
+            if (instance == null) {
+                ChangeToNew(infoLabel);
+                return;
+            }
+            ChangeToExists(infoLabel);
+        }
+
         public static void ChangeToNew(Label label)
         {
             label.Content = "New";

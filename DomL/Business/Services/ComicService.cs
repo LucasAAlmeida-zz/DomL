@@ -13,7 +13,7 @@ namespace DomL.Business.Services
         {
             // COMIC (Classification); Series Name; Chapters; (Author Name); (Media Type Name); (Score); (Description)
             segments[0] = "";
-            var comicWindow = new ComicWindow(segments);
+            var comicWindow = new ComicWindow(segments, activity, unitOfWork);
 
             if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
                 comicWindow.ShowDialog();
