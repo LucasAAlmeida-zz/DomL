@@ -1,5 +1,7 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using System.Linq;
+using System.Data.Entity;
 
 namespace DomL.DataAccess
 {
@@ -14,7 +16,14 @@ namespace DomL.DataAccess
 
         public Book GetBookByTitle(string title)
         {
-            return DomLContext.Book.SingleOrDefault(b => b.Title == title);
+            var cleanTitle = Util.CleanString(title);
+            return DomLContext.Book
+                .Include(u => u.Author)
+                .Include(u => u.Series)
+                .SingleOrDefault(u =>
+                    u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                    == cleanTitle
+                );
         }
 
         public void CreateBookActivity(BookActivity bookActivity)

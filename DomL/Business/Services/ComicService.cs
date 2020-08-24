@@ -2,6 +2,7 @@
 using DomL.Business.Entities;
 using DomL.Presentation;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace DomL.Business.Services
@@ -13,7 +14,10 @@ namespace DomL.Business.Services
             // COMIC (Classification); Series Name; Chapters; (Author Name); (Media Type Name); (Score); (Description)
             segments[0] = "";
             var comicWindow = new ComicWindow(segments);
-            //comicWindow.ShowDialog();
+
+            if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
+                comicWindow.ShowDialog();
+            }
 
             var seriesName = (string) comicWindow.SeriesCB.SelectedItem;
             var chapters = (string) comicWindow.ChaptersCB.SelectedItem;
@@ -58,8 +62,8 @@ namespace DomL.Business.Services
                 };
                 unitOfWork.ComicRepo.Add(comicVolume);
             } else {
-                comicVolume.Author = comicVolume.Author ?? author;
-                comicVolume.Type = comicVolume.Type ?? type;
+                comicVolume.Author = author ?? comicVolume.Author;
+                comicVolume.Type = type ?? comicVolume.Type;
             }
 
             return comicVolume;

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace DomL.Business.Utils
 {
@@ -16,7 +18,10 @@ namespace DomL.Business.Utils
 
         public static string CleanString(string value)
         {
-            return Regex.Replace(value, @"[^\w\d]", "").ToLower().Replace("the", "");
+            if (string.IsNullOrWhiteSpace(value)) {
+                return null;
+            }
+            return value.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "");
         }
 
         public static string GetFormatedDate(DateTime date)
@@ -30,6 +35,18 @@ namespace DomL.Business.Utils
             if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
                 Directory.CreateDirectory(fi.DirectoryName);
             }
+        }
+
+        public static void ChangeToNew(Label label)
+        {
+            label.Content = "New";
+            label.Foreground = Brushes.DarkGreen;
+        }
+
+        public static void ChangeToExists(Label label)
+        {
+            label.Content = "Exists";
+            label.Foreground = Brushes.Goldenrod;
         }
     }
 }

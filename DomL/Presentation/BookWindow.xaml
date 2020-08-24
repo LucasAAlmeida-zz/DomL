@@ -5,51 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DomL.Presentation"
         mc:Ignorable="d"
-        Height="310" Width="700"
+        SizeToContent="WidthAndHeight"
         Title="Input" WindowStartupLocation="CenterScreen">
-    <Grid Margin="10">
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="250" />
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Name="SegmentosStack" Grid.Column="0" Grid.Row="0" />
+        <StackPanel Name="SegmentosStack" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Margin="5">
+            <Label Name="InfoMessage"/>
+            <Label Content="Segments:" Margin="0,5,0,0" />
+        </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="0">
-            <DockPanel Margin="5">
-                <Label Content="Title:"/>
-                <ComboBox Name="TitleCB" IsEditable="True" />
+        <StackPanel Grid.Column="1" Grid.Row="0" Margin="5" Grid.RowSpan="2">
+            <DockPanel Margin="5" >
+                <Label Content="Title:" Width="90" />
+                <ComboBox Name="TitleCB" IsEditable="True" Width="300" LostFocus="TitleCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="TitleInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Author:"/>
-                <ComboBox Name="AuthorCB" IsEditable="True" />
-            </DockPanel>
-            <DockPanel>
-                <Label Content="Series:"/>
-                <ComboBox Name="SeriesCB" IsEditable="True" />
+                <Label Content="Author:" Width="90" />
+                <ComboBox Name="AuthorCB" IsEditable="True" Width="300" LostFocus="AuthorCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="AuthorInfoLb" Margin="5,0" Width="40"/>
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Number:"/>
-                <ComboBox Name="NumberCB" IsEditable="True" />
+                <Label Content="Series:" Width="90" />
+                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="SeriesInfoLb" Margin="5,0" Width="40"/>
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Score:"/>
-                <ComboBox Name="ScoreCB" IsEditable="True" />
+                <Label Content="Number:" Width="90" />
+                <ComboBox Name="NumberCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="NumberInfoLb" Margin="5,0" Width="40"/>
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Description:"/>
-                <ComboBox Name="DescriptionCB" IsEditable="True" />
+                <Label Content="Score:" Width="90" />
+                <ComboBox Name="ScoreCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="ScoreInfoLb" Margin="5,0" Width="40"/>
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Description:" Width="90" />
+                <ComboBox Name="DescriptionCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="DescriptionInfoLb" Margin="5,0" Width="40"/>
             </DockPanel>
         </StackPanel>
 
-        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Margin="5">
-            <WrapPanel HorizontalAlignment="Right">
-                <Button Name ="BtnDialogOk" IsDefault="True" Click="BtnDialogOk_Click" MinWidth="60">_Ok</Button>
-            </WrapPanel>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="5">
+            <Button HorizontalAlignment="Right" Name ="BtnDialogOk" IsDefault="True" Click="BtnDialogOk_Click" MinWidth="60">_Ok</Button>
         </StackPanel>
     </Grid>
 </Window>

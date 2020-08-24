@@ -1,5 +1,8 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Utils;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 
 namespace DomL.Business.Services
 {
@@ -11,11 +14,7 @@ namespace DomL.Business.Services
                 return null;
             }
 
-            var cleanPersonName = Util.CleanString(personName);
-            Person person = unitOfWork.PersonRepo.SingleOrDefault(u =>
-                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                == cleanPersonName
-            );
+            var person = GetByName(personName, unitOfWork);
 
             if (person == null) {
                 person = new Person() {
@@ -25,6 +24,16 @@ namespace DomL.Business.Services
             }
 
             return person;
+        }
+
+        public static List<Person> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.PersonRepo.GetAll().ToList();
+        }
+
+        public static Person GetByName(string personName, UnitOfWork unitOfWork)
+        {
+            return unitOfWork.PersonRepo.GetByName(personName);
         }
     }
 }

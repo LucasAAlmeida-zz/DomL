@@ -1,5 +1,7 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DomL.Business.Services
 {
@@ -11,11 +13,7 @@ namespace DomL.Business.Services
                 return null;
             }
 
-            var cleanSeriesName = Util.CleanString(seriesName);
-            var series = unitOfWork.SeriesRepo.SingleOrDefault(u =>
-                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                == cleanSeriesName
-            );
+            var series = GetByName(seriesName, unitOfWork);
 
             if (series == null) {
                 series = new Series() {
@@ -25,6 +23,16 @@ namespace DomL.Business.Services
             }
 
             return series;
+        }
+
+        public static List<Series> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.SeriesRepo.GetAll().ToList();
+        }
+
+        public static Series GetByName(string seriesName, UnitOfWork unitOfWork)
+        {
+            return unitOfWork.SeriesRepo.GetByName(seriesName);
         }
     }
 }

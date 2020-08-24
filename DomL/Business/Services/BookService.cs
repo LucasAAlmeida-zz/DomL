@@ -1,8 +1,10 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.DataAccess;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
 
 namespace DomL.Business.Services
 {
@@ -12,8 +14,11 @@ namespace DomL.Business.Services
         {
             // BOOK (Classification); Title; (Author Name); (Series Name); (Number In Series); (Score); (Description)
             segments[0] = "";
-            var bookWindow = new BookWindow(segments);
-            //bookWindow.ShowDialog();
+            var bookWindow = new BookWindow(segments, activity, unitOfWork);
+
+            if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
+                bookWindow.ShowDialog();
+            }
 
             var bookTitle = (string) bookWindow.TitleCB.SelectedItem;
             var authorName = (string) bookWindow.AuthorCB.SelectedItem;
@@ -57,11 +62,16 @@ namespace DomL.Business.Services
                 };
                 unitOfWork.BookRepo.Add(book);
             } else {
-                book.Author = book.Author ?? author;
-                book.Series = book.Series ?? series;
+                book.Author = author ?? book.Author;
+                book.Series = series ?? book.Series;
             }
 
             return book;
+        }
+
+        public static Book GetByTitle(string title, UnitOfWork unitOfWork)
+        {
+            return unitOfWork.BookRepo.GetBookByTitle(title);
         }
 
         public static string GetString(Activity activity, int kindOfString)
