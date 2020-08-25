@@ -35,6 +35,7 @@ namespace DomL.Business.Entities
         public virtual BookActivity BookActivity { get; set; }
         public virtual ComicActivity ComicActivity { get; set; }
         public virtual DoomActivity DoomActivity { get; set; }
+        public virtual EventActivity EventActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
@@ -44,6 +45,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.BOOK:     BookService.SaveFromRawSegments(segments, this, unitOfWork);    break;
                 case ActivityCategory.COMIC:    ComicService.SaveFromRawSegments(segments, this, unitOfWork);   break;
                 case ActivityCategory.DOOM:     DoomService.SaveFromRawSegments(segments, this, unitOfWork);    break;
+                case ActivityCategory.EVENT:    EventService.SaveFromRawSegments(segments, this, unitOfWork);    break;
                 //case ActivityCategory.GIFT:     new Gift(atividadeDTO, segmentos).Save(); break;
                 //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
                 //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
@@ -110,19 +112,20 @@ namespace DomL.Business.Entities
                 case ActivityCategory.BOOK:     consolidated = BookService.GetString(this, kindOfString);    break;
                 case ActivityCategory.COMIC:    consolidated = ComicService.GetString(this, kindOfString);   break;
                 case ActivityCategory.DOOM:     consolidated = DoomService.GetString(this, kindOfString);    break;
-                //case ActivityCategory.GIFT:     T": new Gift(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PERSON:   SON": new Person(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PET:      ": new Pet(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PLAY:     Y": new Play(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PURCHASE: CHASE": new Purchase(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.TRAVEL:   VEL": new Travel(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.WORK:     K": new Work(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.GAME:     E": new Game(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.SERIES:   IES": new Series(atividadeDTO, segmentos).Save(); break;
-                //default:                        CH": new Watch(atividadeDTO, segmentos).Save(); break;
-                //new Event(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.EVENT:    consolidated = EventService.GetString(this, kindOfString);   break;
+                    //case ActivityCategory.GIFT:     T": new Gift(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PERSON:   SON": new Person(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PET:      ": new Pet(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PLAY:     Y": new Play(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PURCHASE: CHASE": new Purchase(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.TRAVEL:   VEL": new Travel(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.WORK:     K": new Work(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.GAME:     E": new Game(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.SERIES:   IES": new Series(atividadeDTO, segmentos).Save(); break;
+                    //default:                        CH": new Watch(atividadeDTO, segmentos).Save(); break;
+                    //new Event(atividadeDTO, segmentos).Save(); break;
             }
             return consolidated;
         }

@@ -21,12 +21,12 @@ namespace DomL.DataAccess
 
         public DbSet<DoomActivity> DoomActivity { get; set; }
 
+        public DbSet<EventActivity> EventActivity { get; set; }
+
         public DbSet<Person> Person { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<MediaType> MediaType { get; set; }
         
-
-
         public DomLContext() : base("name=DefaultConnection") { }
     }
 }

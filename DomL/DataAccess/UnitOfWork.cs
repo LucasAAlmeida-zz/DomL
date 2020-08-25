@@ -12,6 +12,7 @@ public class UnitOfWork : IDisposable
     public BookRepository BookRepo { get; private set; }
     public ComicRepository ComicRepo { get; private set; }
     public DoomRepository DoomRepo { get; private set; }
+    public EventRepository EventRepo { get; private set; }
 
     public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
@@ -27,6 +28,7 @@ public class UnitOfWork : IDisposable
         BookRepo = new BookRepository(_context);
         ComicRepo = new ComicRepository(_context);
         DoomRepo = new DoomRepository(_context);
+        EventRepo = new EventRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);

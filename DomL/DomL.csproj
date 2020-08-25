@@ -83,6 +83,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedEventActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedDoomActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
@@ -90,10 +91,12 @@
     <Compile Include="Business\Entities\Activity.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
+    <Compile Include="Business\Entities\Event.cs" />
     <Compile Include="Business\Entities\MediaType.cs" />
     <Compile Include="Business\Entities\Person.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\EventService.cs" />
     <Compile Include="Business\Services\DoomService.cs" />
     <Compile Include="Business\Services\ComicService.cs" />
     <Compile Include="Business\Services\BookService.cs" />
@@ -172,6 +175,10 @@
     <Compile Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.designer.cs">
       <DependentUpon>202008242220128_MandatoryDescriptionInDoomAndAuto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008250034582_EventActivityTable.cs" />
+    <Compile Include="Migrations\202008250034582_EventActivityTable.designer.cs">
+      <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\ComicWindow.xaml.cs">
       <DependentUpon>ComicWindow.xaml</DependentUpon>
     </Compile>
@@ -225,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.resx">
       <DependentUpon>202008242220128_MandatoryDescriptionInDoomAndAuto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008250034582_EventActivityTable.resx">
+      <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

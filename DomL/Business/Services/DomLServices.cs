@@ -39,6 +39,7 @@ namespace DomL.Business.Services
                         continue;
                     }
 
+                    dayOrder++;
                     using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                         if (IsLineActivityBlockTag(rawLine)) {
                             currentActivityBlock = ActivityService.ChangeActivityBlock(rawLine, unitOfWork);
@@ -50,7 +51,6 @@ namespace DomL.Business.Services
                         unitOfWork.Complete();
                     }
 
-                    dayOrder++;
                 } catch (Exception e) {
                     var msg = "Deu ruim no dia " + date.Day + ", atividade: " + rawLine;
                     throw new ParseException(msg, e);

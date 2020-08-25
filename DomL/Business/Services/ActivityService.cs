@@ -1,5 +1,6 @@
 ﻿using DomL.Business.Entities;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace DomL.Business.Services
@@ -8,10 +9,8 @@ namespace DomL.Business.Services
     {
         public static Activity Create(DateTime date, int dayOrder, string activityRawLine, ActivityBlock activityBlock, UnitOfWork unitOfWork)
         {
-            var segments = Regex.Split(activityRawLine, "; ");
-
-            var status = GetStatusFromFirstSegment(segments[0], unitOfWork);
-            var category = GetCategoryFromFirstSegment(segments[0], unitOfWork);
+            var status = GetStatusFromRawLine(activityRawLine, unitOfWork);
+            var category = GetCategoryFromRawLine(activityRawLine, unitOfWork);
 
             var activity = new Activity() {
                 Date = date,
@@ -40,16 +39,23 @@ namespace DomL.Business.Services
             return activityBlock;
         }
 
-        private static ActivityCategory GetCategoryFromFirstSegment(string firstSegment, UnitOfWork unitOfWork)
+        private static ActivityCategory GetCategoryFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
-            var categoryName = Regex.Split(firstSegment, " ")[0];
+            var segments = Regex.Split(rawLine, "; ");
+            
+            if (segments.Count() == 1) {
+                return unitOfWork.ActivityRepo.GetCategoryByName("EVENT");
+            }
+
+            var categoryName = Regex.Split(segments[0], " ")[0];
             var category = unitOfWork.ActivityRepo.GetCategoryByName(categoryName);
             return category ?? unitOfWork.ActivityRepo.GetCategoryByName("EVENT");
         }
 
-        private static ActivityStatus GetStatusFromFirstSegment(string firstSegment, UnitOfWork unitOfWork)
+        private static ActivityStatus GetStatusFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
-            var segments = Regex.Split(firstSegment, " ");
+            var segments = Regex.Split(rawLine, "; ");
+            segments = Regex.Split(segments[0], " ");
 
             string statusName;
             if (segments.Length == 1) {
