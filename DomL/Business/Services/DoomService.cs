@@ -23,7 +23,7 @@ namespace DomL.Business.Services
             };
 
             activity.DoomActivity = doomActivity;
-            activity.PairActivity(unitOfWork);
+            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.DoomRepo.CreateDoomActivity(doomActivity);
         }

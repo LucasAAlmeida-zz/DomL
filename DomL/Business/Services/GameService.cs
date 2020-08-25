@@ -51,7 +51,7 @@ namespace DomL.Business.Services
                     Publisher = publisher,
                     Score = score,
                 };
-                unitOfWork.GameRepo.Add(game);
+                unitOfWork.GameRepo.CreateGame(game);
             } else {
                 game.Series = series ?? game.Series;
                 game.Director = director ?? game.Director;
@@ -70,7 +70,7 @@ namespace DomL.Business.Services
             };
 
             activity.GameActivity = gameActivity;
-            activity.PairActivity(unitOfWork);
+            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.GameRepo.CreateGameActivity(gameActivity);
         }

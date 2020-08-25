@@ -46,6 +46,7 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.DoomActivity)
                 .Include(u => u.EventActivity)
                 .Include(u => u.GameActivity).Include(u => u.GameActivity.Game).Include(u => u.GameActivity.Game.Platform).Include(u => u.GameActivity.Game.Series).Include(u => u.GameActivity.Game.Director).Include(u => u.GameActivity.Game.Publisher)
+                .Include(u => u.GiftActivity).Include(u => u.GiftActivity.Person)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 
@@ -61,6 +62,7 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.DoomActivity)
                     .Include(u => u.EventActivity)
                     .Include(u => u.GameActivity)
+                    .Include(u => u.GiftActivity)
                     .Where(u => u.Date.Month == month && u.Date.Year == year)
             );
         }

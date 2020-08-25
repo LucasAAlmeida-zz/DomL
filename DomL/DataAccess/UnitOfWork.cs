@@ -14,6 +14,7 @@ public class UnitOfWork : IDisposable
     public DoomRepository DoomRepo { get; private set; }
     public EventRepository EventRepo { get; private set; }
     public GameRepository GameRepo { get; private set; }
+    public GiftRepository GiftRepo { get; private set; }
 
     public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
@@ -33,6 +34,7 @@ public class UnitOfWork : IDisposable
         DoomRepo = new DoomRepository(_context);
         EventRepo = new EventRepository(_context);
         GameRepo = new GameRepository(_context);
+        GiftRepo = new GiftRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);

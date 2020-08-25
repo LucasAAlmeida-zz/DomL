@@ -14,6 +14,7 @@ namespace DomL.Business.Services
             var description = segments[2];
 
             Auto auto = GetOrCreateAuto(autoName, unitOfWork);
+
             CreateAutoActivity(activity, auto, description, unitOfWork);
         }
 
@@ -26,7 +27,7 @@ namespace DomL.Business.Services
             };
 
             activity.AutoActivity = autoActivity;
-            activity.PairActivity(unitOfWork);
+            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.AutoRepo.CreateAutoActivity(autoActivity);
         }
@@ -39,7 +40,7 @@ namespace DomL.Business.Services
                 auto = new Auto() {
                     Name = autoName
                 };
-                unitOfWork.AutoRepo.Add(auto);
+                unitOfWork.AutoRepo.CreateAuto(auto);
             }
 
             return auto;

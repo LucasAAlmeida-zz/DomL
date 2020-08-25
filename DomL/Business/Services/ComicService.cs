@@ -43,7 +43,7 @@ namespace DomL.Business.Services
             };
 
             activity.ComicActivity = comicActivity;
-            activity.PairActivity(unitOfWork);
+            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
@@ -60,7 +60,7 @@ namespace DomL.Business.Services
                     Type = type,
                     Score = score,
                 };
-                unitOfWork.ComicRepo.Add(comicVolume);
+                unitOfWork.ComicRepo.CreateComicVolume(comicVolume);
             } else {
                 comicVolume.Author = author ?? comicVolume.Author;
                 comicVolume.Type = type ?? comicVolume.Type;

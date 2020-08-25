@@ -30,7 +30,7 @@ namespace DomL.Business.Services
             };
 
             activity.EventActivity = eventActivity;
-            activity.PairActivity(unitOfWork);
+            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.EventRepo.CreateEventActivity(eventActivity);
         }

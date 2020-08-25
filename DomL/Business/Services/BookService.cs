@@ -42,7 +42,7 @@ namespace DomL.Business.Services
             };
 
             activity.BookActivity = bookActivity;
-            activity.PairActivity(unitOfWork);
+            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.BookRepo.CreateBookActivity(bookActivity);
         }
@@ -59,7 +59,7 @@ namespace DomL.Business.Services
                     NumberInSeries = numberInSeries,
                     Score = score,
                 };
-                unitOfWork.BookRepo.Add(book);
+                unitOfWork.BookRepo.CreateBook(book);
             } else {
                 book.Author = author ?? book.Author;
                 book.Series = series ?? book.Series;

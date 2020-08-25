@@ -17,7 +17,8 @@ namespace DomL.Business.DTOs
         {
             // Date Started; Date Finished;
             // Description
-            return DatesStartAndFinish + "\t" + Description;
+            return DatesStartAndFinish
+                + "\t" + Description;
         }
     }
 }

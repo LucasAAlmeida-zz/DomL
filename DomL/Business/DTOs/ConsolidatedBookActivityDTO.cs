@@ -28,8 +28,8 @@ namespace DomL.Business.DTOs
         {
             // Date Started; Date Finished;
             // Title; Author Name; Series Name; Number In Series; Score; Description
-            return DatesStartAndFinish + "\t"
-                + Title + "\t" + AuthorName
+            return DatesStartAndFinish
+                + "\t" + Title + "\t" + AuthorName
                 + "\t" + SeriesName + "\t" + NumberInSeries
                 + "\t" + Score + "\t" + Description;
         }

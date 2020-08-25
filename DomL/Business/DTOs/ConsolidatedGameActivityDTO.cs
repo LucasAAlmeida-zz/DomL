@@ -32,7 +32,8 @@ namespace DomL.Business.DTOs
         {
             // Date Started; Date Finished;
             // Title; Platform Name; Series Name; Number In Series; Director Name; Publisher Name; Score; Description
-            return DatesStartAndFinish + "\t" + Title + "\t" + PlatformName
+            return DatesStartAndFinish
+                + "\t" + Title + "\t" + PlatformName
                 + "\t" + SeriesName + "\t" + NumberInSeries
                 + "\t" + DirectorName + "\t" + PublisherName
                 + "\t" + Score + "\t" + Description;

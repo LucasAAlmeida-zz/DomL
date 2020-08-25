@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace DomL.DataAccess
 {
-    public class GameRepository : BaseRepository<Game>
+    public class GameRepository : BaseRepository<GameActivity>
     {
         public GameRepository(DomLContext context) : base(context) { }
 
@@ -48,6 +48,11 @@ namespace DomL.DataAccess
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanTitle
                 );
+        }
+
+        public void CreateGame(Game game)
+        {
+            DomLContext.Game.Add(game);
         }
     }
 }

@@ -18,8 +18,10 @@ namespace DomL.Business.DTOs
 
         public string GetInfoForYearRecap()
         {
-            // Date Started; Date Finished; Auto Name; Description
-            return DatesStartAndFinish + "\t" + AutoName + "\t" + Description;
+            // Date Started; Date Finished;
+            // Auto Name; Description
+            return DatesStartAndFinish
+                + "\t" + AutoName + "\t" + Description;
         }
     }
 }

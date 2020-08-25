@@ -28,7 +28,8 @@ namespace DomL.Business.DTOs
         {
             // Date Started; Date Finished;
             // Series Name; Chapters; Author Name; Media Type Name; Score; Description
-            return DatesStartAndFinish + "\t" + SeriesName + "\t" + Chapters
+            return DatesStartAndFinish
+                + "\t" + SeriesName + "\t" + Chapters
                 + "\t" + AuthorName + "\t" + Type
                 + "\t" + Score + "\t" + Description;
         }

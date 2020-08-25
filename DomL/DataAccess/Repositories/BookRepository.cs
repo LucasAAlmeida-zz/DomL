@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace DomL.DataAccess
 {
-    public class BookRepository : BaseRepository<Book>
+    public class BookRepository : BaseRepository<BookActivity>
     {
         public BookRepository(DomLContext context) : base(context) { }
 
@@ -29,6 +29,11 @@ namespace DomL.DataAccess
         public void CreateBookActivity(BookActivity bookActivity)
         {
             DomLContext.BookActivity.Add(bookActivity);
+        }
+
+        public void CreateBook(Book book)
+        {
+            DomLContext.Book.Add(book);
         }
     }
 }

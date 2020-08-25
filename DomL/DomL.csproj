@@ -87,6 +87,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedGiftActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedGameActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedEventActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedDoomActivityDTO.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\GiftService.cs" />
     <Compile Include="Business\Services\GameService.cs" />
     <Compile Include="Business\Services\EventService.cs" />
     <Compile Include="Business\Services\DoomService.cs" />
@@ -125,7 +127,7 @@
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Health.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
     <Compile Include="Business\Entities\Auto.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Gift.cs" />
+    <Compile Include="Business\Entities\Gift.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Person.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Pet.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Purchase.cs" />
@@ -193,6 +195,10 @@
     <Compile Include="Migrations\202008251540361_GameTables.designer.cs">
       <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008251954368_GiftTable.cs" />
+    <Compile Include="Migrations\202008251954368_GiftTable.designer.cs">
+      <DependentUpon>202008251954368_GiftTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
@@ -255,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008251540361_GameTables.resx">
       <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008251954368_GiftTable.resx">
+      <DependentUpon>202008251954368_GiftTable.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,9 +1,10 @@
 ﻿using DomL.Business.Entities;
+using System;
 using System.Linq;
 
 namespace DomL.DataAccess
 {
-    public class AutoRepository : BaseRepository<Auto>
+    public class AutoRepository : BaseRepository<AutoActivity>
     {
         public AutoRepository(DomLContext context) : base(context) { }
 
@@ -20,6 +21,11 @@ namespace DomL.DataAccess
         public void CreateAutoActivity(AutoActivity autoActivity)
         {
             DomLContext.AutoActivity.Add(autoActivity);
+        }
+
+        public void CreateAuto(Auto auto)
+        {
+            DomLContext.Auto.Add(auto);
         }
     }
 }
