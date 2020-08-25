@@ -1,6 +1,5 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
-using DomL.DataAccess;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +19,12 @@ namespace DomL.Business.Services
                 bookWindow.ShowDialog();
             }
 
-            var bookTitle = (string) bookWindow.TitleCB.SelectedItem;
-            var authorName = (string) bookWindow.AuthorCB.SelectedItem;
-            var seriesName = (string) bookWindow.SeriesCB.SelectedItem;
-            var numberInSeries = (string) bookWindow.NumberCB.SelectedItem;
-            var score = (string) bookWindow.ScoreCB.SelectedItem;
-            var description = (string) bookWindow.DescriptionCB.SelectedItem;
+            var bookTitle = bookWindow.TitleCB.Text;
+            var authorName = bookWindow.AuthorCB.Text;
+            var seriesName = bookWindow.SeriesCB.Text;
+            var numberInSeries = bookWindow.NumberCB.Text;
+            var score = bookWindow.ScoreCB.Text;
+            var description = bookWindow.DescriptionCB.Text;
 
             Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
             Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
@@ -71,17 +70,10 @@ namespace DomL.Business.Services
 
         public static Book GetByTitle(string title, UnitOfWork unitOfWork)
         {
-            return unitOfWork.BookRepo.GetBookByTitle(title);
-        }
-
-        public static string GetString(Activity activity, int kindOfString)
-        {
-            var consolidatedInfo = new ConsolidatedBookActivityDTO(activity);
-            switch (kindOfString) {
-                case 0:     return consolidatedInfo.GetInfoForMonthRecap();
-                case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                default:    return "";
+            if (string.IsNullOrWhiteSpace(title)) {
+                return null;
             }
+            return unitOfWork.BookRepo.GetBookByTitle(title);
         }
 
         public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)

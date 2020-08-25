@@ -45,6 +45,7 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.ComicActivity).Include(u => u.ComicActivity.ComicVolume).Include(u => u.ComicActivity.ComicVolume.Author).Include(u => u.ComicActivity.ComicVolume.Series).Include(u => u.ComicActivity.ComicVolume.Type)
                 .Include(u => u.DoomActivity)
                 .Include(u => u.EventActivity)
+                .Include(u => u.GameActivity).Include(u => u.GameActivity.Game).Include(u => u.GameActivity.Game.Platform).Include(u => u.GameActivity.Game.Series).Include(u => u.GameActivity.Game.Director).Include(u => u.GameActivity.Game.Publisher)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 
@@ -59,6 +60,7 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.ComicActivity)
                     .Include(u => u.DoomActivity)
                     .Include(u => u.EventActivity)
+                    .Include(u => u.GameActivity)
                     .Where(u => u.Date.Month == month && u.Date.Year == year)
             );
         }

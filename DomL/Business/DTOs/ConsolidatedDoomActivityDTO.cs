@@ -13,28 +13,11 @@ namespace DomL.Business.DTOs
             Description = doomActivity.Description;
         }
 
-        public override string GetInfoForMonthRecap()
+        public string GetInfoForYearRecap()
         {
-            // Date; Category; Description
-            return this.GetActivityInfoForMonthRecap() + "\t" + this.GetDoomInfo();
-        }
-
-        protected override string GetInfoForYearRecapChild()
-        {
-            // Date; Description
-            return this.GetActivityInfoForYearRecap() + "\t" + this.GetDoomInfo();
-        }
-
-        public override string GetInfoForBackup()
-        {
-            // Category; Date; Day Order; Status; Activity Block Name;
+            // Date Started; Date Finished;
             // Description
-            return this.GetActivityInfoForBackup() + "\t" + this.GetDoomInfo();
-        }
-
-        private string GetDoomInfo()
-        {
-            return Description;
+            return DatesStartAndFinish + "\t" + Description;
         }
     }
 }

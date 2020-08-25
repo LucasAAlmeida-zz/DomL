@@ -33,6 +33,7 @@ namespace DomL.Business.Entities
         public Person Author { get; set; }
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }
+    }
 
 
         //// BOOK; (De Quem) Autor; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei
@@ -162,5 +163,4 @@ namespace DomL.Business.Entities
         //    }
         //    return books;
         //}
-    }
 }

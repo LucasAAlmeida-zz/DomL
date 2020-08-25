@@ -1,4 +1,4 @@
-﻿<Window x:Class="DomL.Presentation.ComicWindow"
+﻿<Window x:Class="DomL.Presentation.GameWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -24,24 +24,34 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
             <DockPanel Margin="5">
+                <Label Content="Title:" Width="90" />
+                <ComboBox Name="TitleCB" IsEditable="True" Width="300" LostFocus="TitleCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="TitleInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Platform:" Width="90" />
+                <ComboBox Name="PlatformCB" IsEditable="True" Width="300" LostFocus="PlatformCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="PlatformInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
                 <Label Content="Series:" Width="90" />
                 <ComboBox Name="SeriesCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
                 <Label Name="SeriesInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Chapters:" Width="90" />
-                <ComboBox Name="ChaptersCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
-                <Label Name="ChaptersInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Number:" Width="90" />
+                <ComboBox Name="NumberCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="NumberInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Author:" Width="90" />
-                <ComboBox Name="AuthorCB" IsEditable="True" Width="300" LostFocus="AuthorCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="AuthorInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Director:" Width="90" />
+                <ComboBox Name="DirectorCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="DirectorInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Type:" Width="90" />
-                <ComboBox Name="TypeCB" IsEditable="True" Width="300" LostFocus="TypeCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="TypeInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Publisher:" Width="90" />
+                <ComboBox Name="PublisherCB" IsEditable="True" Width="300" LostFocus="PublisherCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="PublisherInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Score:" Width="90" />

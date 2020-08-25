@@ -16,28 +16,10 @@ namespace DomL.Business.DTOs
             Description = autoActivity.Description;
         }
 
-        public override string GetInfoForMonthRecap()
+        public string GetInfoForYearRecap()
         {
-            // Date; Category; Auto Name; Description
-            return this.GetActivityInfoForMonthRecap() + "\t" + this.GetAutoInfo();
-        }
-
-        protected override string GetInfoForYearRecapChild()
-        {
-            // Date; Auto Name; Description
-            return this.GetActivityInfoForYearRecap() + "\t" + this.GetAutoInfo();
-        }
-
-        public override string GetInfoForBackup()
-        {
-            // Category; Date; Day Order; Status; Activity Block Name;
-            // Auto Name; Description
-            return this.GetActivityInfoForBackup() + "\t" + this.GetAutoInfo();
-        }
-
-        private string GetAutoInfo()
-        {
-            return AutoName + "\t" + Description;
+            // Date Started; Date Finished; Auto Name; Description
+            return DatesStartAndFinish + "\t" + AutoName + "\t" + Description;
         }
     }
 }

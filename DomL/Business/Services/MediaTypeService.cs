@@ -1,5 +1,4 @@
 ﻿using DomL.Business.Entities;
-using DomL.Business.Utils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,6 +31,9 @@ namespace DomL.Business.Services
 
         public static MediaType GetByName(string typeName, UnitOfWork unitOfWork)
         {
+            if (string.IsNullOrWhiteSpace(typeName)) {
+                return null;
+            }
             return unitOfWork.MediaTypeRepo.GetByName(typeName);
         }
     }

@@ -15,38 +15,14 @@ namespace DomL.Business.DTOs
             IsImportant = eventActivity.IsImportant;
         }
 
-        public override string GetInfoForMonthRecap()
-        {
-            if (ActivityBlockName == "-" && !IsImportant) {
-                return "";
-            }
-
-            // Date; Category; Description
-            return this.GetActivityInfoForMonthRecap() + "\t" + this.GetEventInfo();
-        }
-
-        protected override string GetInfoForYearRecapChild()
+        public string GetInfoForYearRecap()
         {
             if (!IsImportant) {
                 return "";
             }
-
-            // Date; Description
-            return this.GetActivityInfoForYearRecap() + "\t" + this.GetEventInfo();
-        }
-
-        public override string GetInfoForBackup()
-        {
-            // Category; Date; Day Order; Status; Activity Block Name;
+            // Date Started; Date Finished;
             // Description
-            // IsImportant
-            var isImportant = IsImportant ? "Important" : "Not Important";
-            return this.GetActivityInfoForBackup() + "\t" + this.GetEventInfo() + "\t" + isImportant;
-        }
-
-        private string GetEventInfo()
-        {
-            return Description;
+            return DatesStartAndFinish + "\t" + Description;
         }
     }
 }

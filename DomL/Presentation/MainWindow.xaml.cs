@@ -31,7 +31,8 @@ namespace DomL
         }
 
         private void SubmeterButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
+            this.MessageLabel.Content = "";
             var atividadesString = this.AtividadesTextBox.Text;
             var month = int.Parse(this.MonthTb.Text);
             var year = int.Parse(this.YearTb.Text);

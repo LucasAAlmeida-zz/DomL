@@ -1,8 +1,6 @@
 ﻿using DomL.Business.Entities;
-using DomL.Business.Utils;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Documents;
 
 namespace DomL.Business.Services
 {
@@ -33,6 +31,9 @@ namespace DomL.Business.Services
 
         public static Person GetByName(string personName, UnitOfWork unitOfWork)
         {
+            if (string.IsNullOrWhiteSpace(personName)) {
+                return null;
+            }
             return unitOfWork.PersonRepo.GetByName(personName);
         }
     }

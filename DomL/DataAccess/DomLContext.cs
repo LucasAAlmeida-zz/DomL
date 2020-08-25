@@ -23,10 +23,15 @@ namespace DomL.DataAccess
 
         public DbSet<EventActivity> EventActivity { get; set; }
 
+        public DbSet<GameActivity> GameActivity { get; set; }
+        public DbSet<Game> Game { get; set; }
+
         public DbSet<Person> Person { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<MediaType> MediaType { get; set; }
-        
+        public DbSet<Company> Company { get; set; }
+        public DbSet<Franchise> Franchise { get; set; }
+
         public DomLContext() : base("name=DefaultConnection") { }
     }
 }

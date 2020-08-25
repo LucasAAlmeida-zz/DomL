@@ -2,24 +2,25 @@
 using DomL.Business.Utils;
 using System.Linq;
 
-namespace DomL.DataAccess.Repositories
+namespace DomL.DataAccess
 {
-    public class MediaTypeRepository : BaseRepository<MediaType>
+    public class FranchiseRepository : BaseRepository<Franchise>
     {
-        public MediaTypeRepository(DomLContext context) : base(context) { }
+        public FranchiseRepository(DomLContext context) : base(context) { }
 
         public DomLContext DomLContext
         {
             get { return Context as DomLContext; }
         }
 
-        public MediaType GetByName(string typeName)
+        public Franchise GetByName(string franchiseName)
         {
-            var cleanTypeName = Util.CleanString(typeName);
-            return DomLContext.MediaType.SingleOrDefault(u =>
+            var cleanFranchiseName = Util.CleanString(franchiseName);
+            return DomLContext.Franchise.SingleOrDefault(u =>
                 u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                == cleanTypeName
+                == cleanFranchiseName
             );
         }
     }
+
 }

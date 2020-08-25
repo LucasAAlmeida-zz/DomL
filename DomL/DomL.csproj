@@ -66,6 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Presentation\GameWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\ComicWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,19 +87,23 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedGameActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedEventActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedDoomActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedBookActivityDTO.cs" />
+    <Compile Include="Business\Entities\Company.cs" />
     <Compile Include="Business\Entities\Activity.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
     <Compile Include="Business\Entities\Event.cs" />
     <Compile Include="Business\Entities\MediaType.cs" />
     <Compile Include="Business\Entities\Person.cs" />
+    <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\GameService.cs" />
     <Compile Include="Business\Services\EventService.cs" />
     <Compile Include="Business\Services\DoomService.cs" />
     <Compile Include="Business\Services\ComicService.cs" />
@@ -106,7 +114,6 @@
     <Compile Include="Business\Services\PersonService.cs" />
     <Compile Include="Business\Services\SeriesService.cs" />
     <Compile Include="Business\Utils\DomLExceptions.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Event.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Play.cs" />
     <Compile Include="Business\Entities\Comic.cs" />
     <Compile Include="Business\Entities\Doom.cs" />
@@ -122,13 +129,15 @@
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Person.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Pet.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Purchase.cs" />
-    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Game.cs" />
+    <Compile Include="Business\Entities\Game.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Work.cs" />
     <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
     <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
     <Compile Include="DataAccess\Repositories\EventRepository.cs" />
     <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
     <Compile Include="DataAccess\Repositories\MediaTypeRepository.cs" />
+    <Compile Include="DataAccess\Repositories\CompanyRepository.cs" />
+    <Compile Include="DataAccess\Repositories\FranchiseRepository.cs" />
     <Compile Include="DataAccess\Repositories\WorkRepository.cs" />
     <Compile Include="DataAccess\Repositories\TravelRepository.cs" />
     <Compile Include="DataAccess\Repositories\PurchaseRepository.cs" />
@@ -178,6 +187,14 @@
     <Compile Include="Migrations\202008250034582_EventActivityTable.cs" />
     <Compile Include="Migrations\202008250034582_EventActivityTable.designer.cs">
       <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Business\Services\CompanyService.cs" />
+    <Compile Include="Migrations\202008251540361_GameTables.cs" />
+    <Compile Include="Migrations\202008251540361_GameTables.designer.cs">
+      <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\GameWindow.xaml.cs">
+      <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\ComicWindow.xaml.cs">
       <DependentUpon>ComicWindow.xaml</DependentUpon>
@@ -235,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008250034582_EventActivityTable.resx">
       <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008251540361_GameTables.resx">
+      <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

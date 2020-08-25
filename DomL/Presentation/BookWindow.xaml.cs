@@ -1,13 +1,10 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Services;
 using DomL.Business.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.RightsManagement;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace DomL.Presentation
 {
@@ -77,15 +74,39 @@ namespace DomL.Presentation
             }
 
             var title = this.TitleCB.Text;
+            var book = BookService.GetByTitle(title, this.UnitOfWork);
+            Util.ChangeInfoLabel(title, book, this.TitleInfoLb);
 
-            if (string.IsNullOrWhiteSpace(title)) {
-                this.SeriesInfoLb.Content = "";
+            UpdateOptionalComboBoxes(book);
+        }
+
+        private void AuthorCB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (this.AuthorCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var book = BookService.GetByTitle(title, this.UnitOfWork);
+            var authorName = this.AuthorCB.Text;
+            var author = PersonService.GetByName(authorName, this.UnitOfWork);
+            Util.ChangeInfoLabel(authorName, author, this.AuthorInfoLb);
+        }
 
-            Util.ChangeInfoLabel(book, this.TitleInfoLb);
+        private void SeriesCB_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (this.SeriesCB.IsKeyboardFocusWithin) {
+                return;
+            }
+
+            var seriesName = this.SeriesCB.Text;
+            var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
+            Util.ChangeInfoLabel(seriesName, series, this.SeriesInfoLb);
+        }
+
+        private void UpdateOptionalComboBoxes(Book book)
+        {
+            if (book == null) {
+                return;
+            }
 
             if (book.Author != null) {
                 this.AuthorCB.Text = book.Author.Name;
@@ -98,42 +119,7 @@ namespace DomL.Presentation
             }
 
             this.NumberCB.Text = book.NumberInSeries ?? this.NumberCB.Text;
-        }
-
-        private void AuthorCB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (this.AuthorCB.IsKeyboardFocusWithin) {
-                return;
-            }
-
-            var authorName = this.AuthorCB.Text;
-
-            if (string.IsNullOrWhiteSpace(authorName)) {
-                this.SeriesInfoLb.Content = "";
-                return;
-            }
-
-            var author = PersonService.GetByName(authorName, this.UnitOfWork);
-
-            Util.ChangeInfoLabel(author, this.AuthorInfoLb);
-        }
-
-        private void SeriesCB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (this.SeriesCB.IsKeyboardFocusWithin) {
-                return;
-            }
-
-            var seriesName = this.SeriesCB.Text;
-
-            if (string.IsNullOrWhiteSpace(seriesName)) {
-                this.SeriesInfoLb.Content = "";
-                return;
-            }
-
-            var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
-
-            Util.ChangeInfoLabel(series, this.SeriesInfoLb);
+            this.ScoreCB.Text = book.Score ?? this.ScoreCB.Text;
         }
     }
 }

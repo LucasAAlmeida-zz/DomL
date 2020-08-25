@@ -89,7 +89,7 @@ namespace DomL.Business.Services
             
             using (var file = new StreamWriter(filePath)) {
                 foreach (Activity activity in monthActivities) {
-                    string activityString = activity.GetString(0);
+                    string activityString = activity.GetInfoForMonthRecap();
                     if (!string.IsNullOrWhiteSpace(activityString)) {
                         file.WriteLine(activityString);
                     }
@@ -146,7 +146,7 @@ namespace DomL.Business.Services
 
             using (var file = new StreamWriter(filePath)) {
                 foreach (var activity in categoryActivities) {
-                    string activityString = activity.GetString(1);
+                    string activityString = activity.GetInfoForYearRecap();
                     if (!string.IsNullOrWhiteSpace(activityString)) {
                         file.WriteLine(activityString);
                     }

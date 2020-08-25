@@ -24,28 +24,12 @@ namespace DomL.Business.DTOs
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
         }
 
-        public override string GetInfoForMonthRecap()
+        public string GetInfoForYearRecap()
         {
-            // Date; Category; Status; Title; Author Name; Series Name; Number In Series; Score; Description
-            return this.GetActivityInfoForMonthRecap() + "\t" + this.GetBookInfo();
-        }
-
-        protected override string GetInfoForYearRecapChild()
-        {
-            // Date Started; Date Finished; Title; Author Name; Series Name; Number In Series; Score; Description
-            return this.GetActivityInfoForYearRecap() + "\t" + this.GetBookInfo();
-        }
-
-        public override string GetInfoForBackup()
-        {
-            // Category; Date; DayOrder; Status; Activity Block Name;
+            // Date Started; Date Finished;
             // Title; Author Name; Series Name; Number In Series; Score; Description
-            return this.GetActivityInfoForBackup() + "\t" + this.GetBookInfo();
-        }
-
-        private string GetBookInfo()
-        {
-            return Title + "\t" + AuthorName
+            return DatesStartAndFinish + "\t"
+                + Title + "\t" + AuthorName
                 + "\t" + SeriesName + "\t" + NumberInSeries
                 + "\t" + Score + "\t" + Description;
         }

@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Entities
 {
-    [Table("Series")]
-    public class Series
+    [Table("Franchise")]
+    public class Franchise
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int? FranchiseId { get; set; }
+        public int? CreatorId { get; set; }
 
-        [ForeignKey("FranchiseId")]
-        public Franchise Franchise { get; set;}
+        [ForeignKey("CreatorId")]
+        public Person Creator { get; set; }
     }
 }

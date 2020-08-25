@@ -1,6 +1,7 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Utils;
 using System.Linq;
+using System.Data.Entity;
 
 namespace DomL.DataAccess
 {
@@ -16,11 +17,15 @@ namespace DomL.DataAccess
         public ComicVolume GetComicVolumeBySeriesNameAndChapters(string seriesName, string chapters)
         {
             var cleanSeriesName = Util.CleanString(seriesName);
-            return DomLContext.ComicVolume.SingleOrDefault(u => 
-                u.Series.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                == cleanSeriesName
-                && u.Chapters == chapters
-            );
+            return DomLContext.ComicVolume
+                .Include(u => u.Author)
+                .Include(u => u.Series)
+                .Include(u => u.Type)
+                .SingleOrDefault(u => 
+                    u.Series.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                    == cleanSeriesName
+                    && u.Chapters == chapters
+                );
         }
 
         public void CreateComicActivity(ComicActivity comicActivity)

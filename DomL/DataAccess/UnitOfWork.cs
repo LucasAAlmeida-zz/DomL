@@ -13,10 +13,13 @@ public class UnitOfWork : IDisposable
     public ComicRepository ComicRepo { get; private set; }
     public DoomRepository DoomRepo { get; private set; }
     public EventRepository EventRepo { get; private set; }
+    public GameRepository GameRepo { get; private set; }
 
     public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
     public MediaTypeRepository MediaTypeRepo { get; internal set; }
+    public CompanyRepository CompanyRepo { get; internal set; }
+    public FranchiseRepository FranchiseRepo { get; internal set; }
 
     public UnitOfWork(DomLContext context)
     {
@@ -29,10 +32,13 @@ public class UnitOfWork : IDisposable
         ComicRepo = new ComicRepository(_context);
         DoomRepo = new DoomRepository(_context);
         EventRepo = new EventRepository(_context);
+        GameRepo = new GameRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);
         MediaTypeRepo = new MediaTypeRepository(_context);
+        CompanyRepo = new CompanyRepository(_context);
+        FranchiseRepo = new FranchiseRepository(_context);
     }
 
 

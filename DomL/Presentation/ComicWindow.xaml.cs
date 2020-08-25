@@ -77,14 +77,10 @@ namespace DomL.Presentation
             }
 
             var seriesName = this.SeriesCB.Text;
-
-            if (string.IsNullOrWhiteSpace(seriesName)) {
-                this.SeriesInfoLb.Content = "";
-                return;
-            }
-
             var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
-            Util.ChangeInfoLabel(series, this.SeriesInfoLb);
+            Util.ChangeInfoLabel(seriesName, series, this.SeriesInfoLb);
+
+            UpdateOptionalComboBoxes(seriesName, this.ChaptersCB.Text);
         }
 
         private void AuthorCB_LostFocus(object sender, RoutedEventArgs e)
@@ -94,14 +90,8 @@ namespace DomL.Presentation
             }
 
             var authorName = this.AuthorCB.Text;
-            
-            if (string.IsNullOrWhiteSpace(authorName)) {
-                this.AuthorInfoLb.Content = "";
-                return;
-            }
-
             var author = PersonService.GetByName(authorName, this.UnitOfWork);
-            Util.ChangeInfoLabel(author, this.AuthorInfoLb);
+            Util.ChangeInfoLabel(authorName, author, this.AuthorInfoLb);
         }
 
         private void TypeCB_LostFocus(object sender, RoutedEventArgs e)
@@ -111,14 +101,33 @@ namespace DomL.Presentation
             }
 
             var typeName = this.TypeCB.Text;
+            var mediaType = MediaTypeService.GetByName(typeName, this.UnitOfWork);
+            Util.ChangeInfoLabel(typeName, mediaType, this.TypeInfoLb);
+        }
 
-            if (string.IsNullOrWhiteSpace(typeName)) {
-                this.TypeInfoLb.Content = "";
+        private void UpdateOptionalComboBoxes(string seriesName, string chapters)
+        {
+            if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(chapters)) {
                 return;
             }
 
-            var mediaType = MediaTypeService.GetByName(typeName, this.UnitOfWork);
-            Util.ChangeInfoLabel(mediaType, this.TypeInfoLb);
+            var comicVolume = ComicService.GetComicVolumeBySeriesNameAndChapters(seriesName, chapters, this.UnitOfWork);
+
+            if (comicVolume == null) {
+                return;
+            }
+
+            if (comicVolume.Author != null) {
+                this.AuthorCB.Text = comicVolume.Author.Name;
+                this.AuthorCB_LostFocus(null, null);
+            }
+
+            if (comicVolume.Type != null) {
+                this.TypeCB.Text = comicVolume.Type.Name;
+                this.TypeCB_LostFocus(null, null);
+            }
+
+            this.ScoreCB.Text = comicVolume.Score ?? this.ScoreCB.Text;
         }
     }
 }

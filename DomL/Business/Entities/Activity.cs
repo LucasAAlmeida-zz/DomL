@@ -1,4 +1,5 @@
-﻿using DomL.Business.Services;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,6 +37,7 @@ namespace DomL.Business.Entities
         public virtual ComicActivity ComicActivity { get; set; }
         public virtual DoomActivity DoomActivity { get; set; }
         public virtual EventActivity EventActivity { get; set; }
+        public virtual GameActivity GameActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
@@ -45,19 +47,20 @@ namespace DomL.Business.Entities
                 case ActivityCategory.BOOK:     BookService.SaveFromRawSegments(segments, this, unitOfWork);    break;
                 case ActivityCategory.COMIC:    ComicService.SaveFromRawSegments(segments, this, unitOfWork);   break;
                 case ActivityCategory.DOOM:     DoomService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                case ActivityCategory.EVENT:    EventService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                //case ActivityCategory.GIFT:     new Gift(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PERSON:   new Person(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PET:      new Pet(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PLAY:     new Play(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PURCHASE: new Purchase(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.GAME:     new Game(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.SERIES:   new Series(atividadeDTO, segmentos).Save(); break;
-                //default:                        new Event(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.EVENT:    EventService.SaveFromRawSegments(segments, this, unitOfWork);   break;
+                case ActivityCategory.GAME:     GameService.SaveFromRawSegments(segments, this, unitOfWork);    break;
+                    //case ActivityCategory.GIFT:     new Gift(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PERSON:   new Person(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PET:      new Pet(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PLAY:     new Play(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PURCHASE: new Purchase(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.GAME:     new Game(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.SERIES:   new Series(atividadeDTO, segmentos).Save(); break;
+                    //default:                        new Event(atividadeDTO, segmentos).Save(); break;
             }
         }
 
@@ -85,6 +88,8 @@ namespace DomL.Business.Entities
                 case ActivityCategory.BOOK:     pcsa = BookService.GetStartingActivity(psa, this);  break;
                 case ActivityCategory.COMIC:    pcsa = ComicService.GetStartingActivity(psa, this); break;
                 case ActivityCategory.DOOM:     pcsa = DoomService.GetStartingActivity(psa, this);  break;
+                case ActivityCategory.EVENT:     pcsa = EventService.GetStartingActivity(psa, this);  break;
+                case ActivityCategory.GAME:     pcsa = GameService.GetStartingActivity(psa, this);  break;
                     //case ActivityCategory.GIFT:     T": new Gift(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
@@ -102,17 +107,30 @@ namespace DomL.Business.Entities
             return pcsa.OrderByDescending(u => u.Date).FirstOrDefault();
         }
 
-        //0 - month kind
-        //1 - recap kind
-        public string GetString(int kindOfString)
+        public string GetInfoForMonthRecap()
         {
-            var consolidated = "";
+            var consolidated = new ConsolidatedActivityDTO(this);
+
+            if (this.CategoryId == ActivityCategory.EVENT && this.ActivityBlock == null && !this.EventActivity.IsImportant) {
+                return "";
+            }
+
+            return consolidated.GetInfoForMonthRecap();
+        }
+
+        public string GetInfoForYearRecap()
+        {
+            if (this.StatusId == ActivityStatus.START && this.PairedActivity != null) {
+                return "";
+            }
+
             switch (this.Category.Id) {
-                case ActivityCategory.AUTO:     consolidated = AutoService.GetString(this, kindOfString);    break;
-                case ActivityCategory.BOOK:     consolidated = BookService.GetString(this, kindOfString);    break;
-                case ActivityCategory.COMIC:    consolidated = ComicService.GetString(this, kindOfString);   break;
-                case ActivityCategory.DOOM:     consolidated = DoomService.GetString(this, kindOfString);    break;
-                case ActivityCategory.EVENT:    consolidated = EventService.GetString(this, kindOfString);   break;
+                case ActivityCategory.AUTO:     return new ConsolidatedAutoActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.BOOK:     return new ConsolidatedBookActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.COMIC:    return new ConsolidatedComicActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.DOOM:     return new ConsolidatedDoomActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.EVENT:    return new ConsolidatedEventActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.GAME:     return new ConsolidatedGameActivityDTO(this).GetInfoForYearRecap();
                     //case ActivityCategory.GIFT:     T": new Gift(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
@@ -127,7 +145,7 @@ namespace DomL.Business.Entities
                     //default:                        CH": new Watch(atividadeDTO, segmentos).Save(); break;
                     //new Event(atividadeDTO, segmentos).Save(); break;
             }
-            return consolidated;
+            return "";
         }
     }
 

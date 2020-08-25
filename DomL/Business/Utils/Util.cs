@@ -37,25 +37,21 @@ namespace DomL.Business.Utils
             }
         }
 
-        public static void ChangeInfoLabel(object instance, Label infoLabel)
+        public static void ChangeInfoLabel(string instanceName, object instance, Label infoLabel)
         {
-            if (instance == null) {
-                ChangeToNew(infoLabel);
+            if (string.IsNullOrWhiteSpace(instanceName)) {
+                infoLabel.Content = "";
                 return;
             }
-            ChangeToExists(infoLabel);
-        }
 
-        public static void ChangeToNew(Label label)
-        {
-            label.Content = "New";
-            label.Foreground = Brushes.DarkGreen;
-        }
+            if (instance == null) {
+                infoLabel.Content = "New";
+                infoLabel.Foreground = Brushes.DarkGreen;
+                return;
+            }
 
-        public static void ChangeToExists(Label label)
-        {
-            label.Content = "Exists";
-            label.Foreground = Brushes.Goldenrod;
+            infoLabel.Content = "Exists";
+            infoLabel.Foreground = Brushes.Goldenrod;
         }
     }
 }

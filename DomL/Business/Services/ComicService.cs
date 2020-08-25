@@ -19,12 +19,12 @@ namespace DomL.Business.Services
                 comicWindow.ShowDialog();
             }
 
-            var seriesName = (string) comicWindow.SeriesCB.SelectedItem;
-            var chapters = (string) comicWindow.ChaptersCB.SelectedItem;
-            var authorName = (string) comicWindow.AuthorCB.SelectedItem;
-            var typeName = (string) comicWindow.TypeCB.SelectedItem;
-            var score = (string) comicWindow.ScoreCB.SelectedItem;
-            var description = (string) comicWindow.DescriptionCB.SelectedItem;
+            var seriesName = comicWindow.SeriesCB.Text;
+            var chapters = comicWindow.ChaptersCB.Text;
+            var authorName = comicWindow.AuthorCB.Text;
+            var typeName = comicWindow.TypeCB.Text;
+            var score = comicWindow.ScoreCB.Text;
+            var description = comicWindow.DescriptionCB.Text;
                 
             Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
             Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
@@ -50,7 +50,7 @@ namespace DomL.Business.Services
 
         private static ComicVolume GetOrUpdateOrCreateComicVolume(Series series, string chapters, Person author, MediaType type, string score, UnitOfWork unitOfWork)
         {
-            var comicVolume = unitOfWork.ComicRepo.GetComicVolumeBySeriesNameAndChapters(series.Name, chapters);
+            var comicVolume = GetComicVolumeBySeriesNameAndChapters(series.Name, chapters, unitOfWork);
 
             if (comicVolume == null) {
                 comicVolume = new ComicVolume() {
@@ -69,14 +69,12 @@ namespace DomL.Business.Services
             return comicVolume;
         }
 
-        public static string GetString(Activity activity, int kindOfString)
+        public static ComicVolume GetComicVolumeBySeriesNameAndChapters(string seriesName, string chapters, UnitOfWork unitOfWork)
         {
-            var consolidatedInfo = new ConsolidatedComicActivityDTO(activity);
-            switch (kindOfString) {
-                case 0:     return consolidatedInfo.GetInfoForMonthRecap();
-                case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                default:    return "";
+            if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(chapters)) {
+                return null;
             }
+            return unitOfWork.ComicRepo.GetComicVolumeBySeriesNameAndChapters(seriesName, chapters);
         }
 
         public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)

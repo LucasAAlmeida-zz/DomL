@@ -35,16 +35,6 @@ namespace DomL.Business.Services
             unitOfWork.EventRepo.CreateEventActivity(eventActivity);
         }
 
-        public static string GetString(Activity activity, int kindOfString)
-        {
-            var consolidatedInfo = new ConsolidatedEventActivityDTO(activity);
-            switch (kindOfString) {
-                case 0:     return consolidatedInfo.GetInfoForMonthRecap();
-                case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                default:    return "";
-            }
-        }
-
         public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var description = activity.EventActivity.Description;

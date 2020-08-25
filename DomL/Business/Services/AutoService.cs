@@ -45,16 +45,6 @@ namespace DomL.Business.Services
             return auto;
         }
 
-        public static string GetString(Activity activity, int kindOfString)
-        {
-            var consolidatedInfo = new ConsolidatedAutoActivityDTO(activity);
-            switch (kindOfString) {
-                case 0:     return consolidatedInfo.GetInfoForMonthRecap();
-                case 1:     return consolidatedInfo.GetInfoForYearRecap();
-                default:    return "";
-            }
-        }
-
         public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var auto = activity.AutoActivity.Auto;
