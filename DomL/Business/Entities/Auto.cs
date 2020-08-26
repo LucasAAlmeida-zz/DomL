@@ -23,8 +23,9 @@ namespace DomL.Business.Entities
     {
         [Key]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
-
+    }
 
         //protected override void PopulateActivity(IReadOnlyList<string> segmentos)
         //{
@@ -110,5 +111,4 @@ namespace DomL.Business.Entities
         //    }
         //    return autos;
         //}
-    }
 }

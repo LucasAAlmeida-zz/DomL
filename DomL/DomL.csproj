@@ -87,6 +87,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedHealthActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedGiftActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedGameActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedEventActivityDTO.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\HealthService.cs" />
     <Compile Include="Business\Services\GiftService.cs" />
     <Compile Include="Business\Services\GameService.cs" />
     <Compile Include="Business\Services\EventService.cs" />
@@ -124,7 +126,7 @@
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Movie.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Series.cs" />
     <Compile Include="Business\Entities\Book.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Health.cs" />
+    <Compile Include="Business\Entities\Health.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
     <Compile Include="Business\Entities\Auto.cs" />
     <Compile Include="Business\Entities\Gift.cs" />
@@ -199,6 +201,14 @@
     <Compile Include="Migrations\202008251954368_GiftTable.designer.cs">
       <DependentUpon>202008251954368_GiftTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008252244477_HealthTables.cs" />
+    <Compile Include="Migrations\202008252244477_HealthTables.designer.cs">
+      <DependentUpon>202008252244477_HealthTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs" />
+    <Compile Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.designer.cs">
+      <DependentUpon>202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
@@ -264,6 +274,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008251954368_GiftTable.resx">
       <DependentUpon>202008251954368_GiftTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008252244477_HealthTables.resx">
+      <DependentUpon>202008252244477_HealthTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.resx">
+      <DependentUpon>202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

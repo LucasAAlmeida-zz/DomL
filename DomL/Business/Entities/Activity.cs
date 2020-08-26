@@ -39,6 +39,7 @@ namespace DomL.Business.Entities
         public virtual EventActivity EventActivity { get; set; }
         public virtual GameActivity GameActivity { get; set; }
         public virtual GiftActivity GiftActivity { get; set; }
+        public virtual HealthActivity HealthActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
@@ -51,15 +52,16 @@ namespace DomL.Business.Entities
                 case ActivityCategory.EVENT:    EventService.SaveFromRawSegments(segments, this, unitOfWork);   break;
                 case ActivityCategory.GAME:     GameService.SaveFromRawSegments(segments, this, unitOfWork);    break;
                 case ActivityCategory.GIFT:     GiftService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PERSON:   new Person(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PET:      new Pet(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PLAY:     new Play(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.PURCHASE: new Purchase(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
-                //case ActivityCategory.SERIES:   new Series(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.HEALTH:   HealthService.SaveFromRawSegments(segments, this, unitOfWork);  break;
+                    //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PERSON:   new Person(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PET:      new Pet(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PLAY:     new Play(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.PURCHASE: new Purchase(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
+                    //case ActivityCategory.SERIES:   new Series(atividadeDTO, segmentos).Save(); break;
             }
         }
 
@@ -90,6 +92,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.EVENT:    pcsa = EventService.GetStartingActivity(psa, this); break;
                 case ActivityCategory.GAME:     pcsa = GameService.GetStartingActivity(psa, this);  break;
                 case ActivityCategory.GIFT:     pcsa = GiftService.GetStartingActivity(psa, this);  break;
+                case ActivityCategory.HEALTH:   pcsa = HealthService.GetStartingActivity(psa, this);  break;
                     //case ActivityCategory.GIFT:     T": new Gift(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
@@ -132,6 +135,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.EVENT:    return new ConsolidatedEventActivityDTO(this).GetInfoForYearRecap();
                 case ActivityCategory.GAME:     return new ConsolidatedGameActivityDTO(this).GetInfoForYearRecap();
                 case ActivityCategory.GIFT:     return new ConsolidatedGiftActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.HEALTH:     return new ConsolidatedHealthActivityDTO(this).GetInfoForYearRecap();
                     //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.PERSON:   SON": new Person(atividadeDTO, segmentos).Save(); break;

@@ -15,12 +15,14 @@ namespace DomL.Business.DTOs
             OriginalLine = activity.OriginalLine;
             Date = Util.GetFormatedDate(activity.Date);
 
+            var pairedDate = (activity.PairedActivity != null) ? Util.GetFormatedDate(activity.PairedActivity.Date) : "????/??/??";
+
             if (activity.StatusId == ActivityStatus.SINGLE) {
                 DatesStartAndFinish = "----------\t" + Date;
             } else if (activity.StatusId == ActivityStatus.START) {
-                DatesStartAndFinish = Date + "\t" + "????/??/??";
+                DatesStartAndFinish = Date + "\t" + pairedDate;
             } else if (activity.StatusId == ActivityStatus.FINISH) {
-                DatesStartAndFinish = "????/??/??" + "\t" + Date;
+                DatesStartAndFinish = pairedDate + "\t" + Date;
             }
         }
 

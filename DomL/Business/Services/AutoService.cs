@@ -13,9 +13,23 @@ namespace DomL.Business.Services
             var autoName = segments[1];
             var description = segments[2];
 
-            Auto auto = GetOrCreateAuto(autoName, unitOfWork);
+            Auto auto = GetOrCreateAutoByName(autoName, unitOfWork);
 
             CreateAutoActivity(activity, auto, description, unitOfWork);
+        }
+
+        private static Auto GetOrCreateAutoByName(string autoName, UnitOfWork unitOfWork)
+        {
+            var auto = unitOfWork.AutoRepo.GetAutoByName(autoName);
+
+            if (auto == null) {
+                auto = new Auto() {
+                    Name = autoName
+                };
+                unitOfWork.AutoRepo.CreateAuto(auto);
+            }
+
+            return auto;
         }
 
         private static void CreateAutoActivity(Activity activity, Auto auto, string description, UnitOfWork unitOfWork)
@@ -30,20 +44,6 @@ namespace DomL.Business.Services
             activity.PairUpActivity(unitOfWork);
 
             unitOfWork.AutoRepo.CreateAutoActivity(autoActivity);
-        }
-
-        private static Auto GetOrCreateAuto(string autoName, UnitOfWork unitOfWork)
-        {
-            var auto = unitOfWork.AutoRepo.GetAutoByName(autoName);
-            
-            if (auto == null) {
-                auto = new Auto() {
-                    Name = autoName
-                };
-                unitOfWork.AutoRepo.CreateAuto(auto);
-            }
-
-            return auto;
         }
 
         public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)

@@ -15,6 +15,7 @@ public class UnitOfWork : IDisposable
     public EventRepository EventRepo { get; private set; }
     public GameRepository GameRepo { get; private set; }
     public GiftRepository GiftRepo { get; private set; }
+    public HealthRepository HealthRepo { get; private set; }
 
     public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
@@ -35,6 +36,7 @@ public class UnitOfWork : IDisposable
         EventRepo = new EventRepository(_context);
         GameRepo = new GameRepository(_context);
         GiftRepo = new GiftRepository(_context);
+        HealthRepo = new HealthRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);
