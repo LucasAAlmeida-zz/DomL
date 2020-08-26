@@ -43,6 +43,7 @@ namespace DomL.Business.Entities
         public virtual MovieActivity MovieActivity { get; set; }
         public virtual PetActivity PetActivity { get; set; }
         public virtual MeetActivity MeetActivity { get; set; }
+        public virtual PlayActivity PlayActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
@@ -59,6 +60,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.MOVIE:    MovieService.SaveFromRawSegments(segments, this, unitOfWork);   break;
                 case ActivityCategory.PET:      PetService.SaveFromRawSegments(segments, this, unitOfWork);     break;
                 case ActivityCategory.MEET:     MeetService.SaveFromRawSegments(segments, this, unitOfWork);     break;
+                case ActivityCategory.PLAY:     PlayService.SaveFromRawSegments(segments, this, unitOfWork);     break;
                     //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.PERSON:   new Person(atividadeDTO, segmentos).Save(); break;
@@ -146,6 +148,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.MOVIE:    return new ConsolidatedMovieActivityDTO(this).GetInfoForYearRecap();
                 case ActivityCategory.PET:      return new ConsolidatedPetActivityDTO(this).GetInfoForYearRecap();
                 case ActivityCategory.MEET:     return new ConsolidatedMeetActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.PLAY:     return new ConsolidatedPlayActivityDTO(this).GetInfoForYearRecap();
                     //case ActivityCategory.PERSON:   SON": new Person(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.PLAY:     Y": new Play(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.PURCHASE: CHASE": new Purchase(atividadeDTO, segmentos).Save(); break;

@@ -3,16 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Entities
 {
-    [Table("MeetActivity")]
-    public class MeetActivity
+    [Table("PlayActivity")]
+    public class PlayActivity
     {
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
         [ForeignKey("Person")]
         public int PersonId { get; set; }
-        [Required]
-        public string Origin { get; set; }
         [Required]
         public string Description { get; set; }
 
@@ -31,11 +29,11 @@ namespace DomL.Business.Entities
         //public override void Save()
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        if (unitOfWork.MeetRepo.Exists(b => b.Date == this.Date)) {
+        //        if (unitOfWork.PlayRepo.Exists(b => b.Date == this.Date)) {
         //            return;
         //        }
 
-        //        unitOfWork.MeetRepo.Add(this);
+        //        unitOfWork.PlayRepo.Add(this);
         //        unitOfWork.Complete();
         //    }
         //}
@@ -45,63 +43,63 @@ namespace DomL.Business.Entities
         //    return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Description;
         //}
 
-        //public static IEnumerable<Meet> GetAllFromMes(int mes, int ano)
+        //public static IEnumerable<Play> GetAllFromMes(int mes, int ano)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        return unitOfWork.MeetRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
+        //        return unitOfWork.PlayRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
         //    }
         //}
 
         //public static void ConsolidateYear(string fileDir, int year)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allMeets = unitOfWork.MeetRepo.Find(b => b.Date.Year == year).ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Meet" + year + ".txt", allMeets.Cast<SingleDayActivity>().ToList());
+        //        var allPlays = unitOfWork.PlayRepo.Find(b => b.Date.Year == year).ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Play" + year + ".txt", allPlays.Cast<SingleDayActivity>().ToList());
         //    }
         //}
 
         //public static void ConsolidateAll(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allMeets = unitOfWork.MeetRepo.GetAll().ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Meet.txt", allMeets.Cast<SingleDayActivity>().ToList());
+        //        var allPlays = unitOfWork.PlayRepo.GetAll().ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Play.txt", allPlays.Cast<SingleDayActivity>().ToList());
         //    }
         //}
 
         //public static void FullRestoreFromFile(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allMeets = GetMeetsFromFile(fileDir + "Meet.txt");
-        //        unitOfWork.MeetRepo.AddRange(allMeets);
+        //        var allPlays = GetPlaysFromFile(fileDir + "Play.txt");
+        //        unitOfWork.PlayRepo.AddRange(allPlays);
         //        unitOfWork.Complete();
         //    }
         //}
 
-        //private static List<Meet> GetMeetsFromFile(string filePath)
+        //private static List<Play> GetPlaysFromFile(string filePath)
         //{
         //    if (!File.Exists(filePath)) {
         //        return null;
         //    }
 
-        //    var meets = new List<Meet>();
+        //    var plays = new List<Play>();
         //    using (var reader = new StreamReader(filePath)) {
 
         //        string line;
         //        while ((line = reader.ReadLine()) != null) {
         //            var segmentos = Regex.Split(line, "\t");
 
-        //            // Data; (Assunto) Qual meetmovel; (Descricao) O que Aconteceu
+        //            // Data; (Assunto) Qual playmovel; (Descricao) O que Aconteceu
 
-        //            var meet = new Meet() {
+        //            var play = new Play() {
         //                Date = DateTime.Parse(segmentos[0]),
         //                Subject = segmentos[1],
         //                Description = segmentos[2],
 
         //                DayOrder = 0,
         //            };
-        //            meets.Add(meet);
+        //            plays.Add(play);
         //        }
         //    }
-        //    return meets;
+        //    return plays;
         //}
 }

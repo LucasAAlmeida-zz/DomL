@@ -14,16 +14,17 @@ namespace DomL.Business.Services
             var origin = segments[2];
             var description = segments[3];
 
-            Person person = PersonService.GetOrCreateByNameAndOrigin(personName, origin, unitOfWork);
+            Person person = PersonService.CreatePerson(personName, unitOfWork);
 
-            CreateMeetActivity(activity, person, description, unitOfWork);
+            CreateMeetActivity(activity, person, origin, description, unitOfWork);
         }
 
-        private static void CreateMeetActivity(Activity activity, Person person, string description, UnitOfWork unitOfWork)
+        private static void CreateMeetActivity(Activity activity, Person person, string origin, string description, UnitOfWork unitOfWork)
         {
             var meetActivity = new MeetActivity() {
                 Activity = activity,
                 Person = person,
+                Origin = origin,
                 Description = description
             };
 

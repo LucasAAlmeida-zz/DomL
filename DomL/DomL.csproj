@@ -91,6 +91,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedPlayActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedMeetActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedPetActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedMovieActivityDTO.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedBookActivityDTO.cs" />
+    <Compile Include="Business\Entities\Play.cs" />
     <Compile Include="Business\Entities\Meet.cs" />
     <Compile Include="Business\Entities\Pet.cs" />
     <Compile Include="Business\Entities\Company.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\PlayService.cs" />
     <Compile Include="Business\Services\MeetService.cs" />
     <Compile Include="Business\Services\PetService.cs" />
     <Compile Include="Business\Services\MovieService.cs" />
@@ -232,6 +235,14 @@
     <Compile Include="Migrations\202008261335270_MeetTables.designer.cs">
       <DependentUpon>202008261335270_MeetTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008261419499_PlayTable.cs" />
+    <Compile Include="Migrations\202008261419499_PlayTable.designer.cs">
+      <DependentUpon>202008261419499_PlayTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008261512435_OriginWithinMeetActivity.cs" />
+    <Compile Include="Migrations\202008261512435_OriginWithinMeetActivity.designer.cs">
+      <DependentUpon>202008261512435_OriginWithinMeetActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\MovieWindow.xaml.cs">
       <DependentUpon>MovieWindow.xaml</DependentUpon>
     </Compile>
@@ -315,6 +326,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008261335270_MeetTables.resx">
       <DependentUpon>202008261335270_MeetTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261419499_PlayTable.resx">
+      <DependentUpon>202008261419499_PlayTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261512435_OriginWithinMeetActivity.resx">
+      <DependentUpon>202008261512435_OriginWithinMeetActivity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

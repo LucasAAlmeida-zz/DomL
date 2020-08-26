@@ -39,6 +39,8 @@ namespace DomL.DataAccess
 
         public DbSet<MeetActivity> MeetActivity { get; set; }
 
+        public DbSet<PlayActivity> PlayActivity { get; set; }
+
         public DbSet<Person> Person { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<MediaType> MediaType { get; set; }

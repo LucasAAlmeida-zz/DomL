@@ -14,7 +14,7 @@ namespace DomL.Business.DTOs
             var person = meetActivity.Person;
 
             PersonName = person.Name;
-            Origin = person.Origin;
+            Origin = meetActivity.Origin;
             Description = meetActivity.Description;
         }
 
