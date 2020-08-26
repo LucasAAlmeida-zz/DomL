@@ -22,11 +22,11 @@ namespace DomL.Business.Services
             var title = gameWindow.TitleCB.Text;
             var platformName = gameWindow.PlatformCB.Text;
             var seriesName = gameWindow.SeriesCB.Text;
-            var numberInSeries = gameWindow.NumberCB.Text;
+            var numberInSeries = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
             var directorName = gameWindow.DirectorCB.Text;
             var publisherName = gameWindow.PublisherCB.Text;
-            var score = gameWindow.ScoreCB.Text;
-            var description = gameWindow.DescriptionCB.Text;
+            var score = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.ScoreCB.Text : null;
+            var description = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.DescriptionCB.Text : null;
                 
             MediaType platform = MediaTypeService.GetOrCreateByName(platformName, unitOfWork);
             Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);

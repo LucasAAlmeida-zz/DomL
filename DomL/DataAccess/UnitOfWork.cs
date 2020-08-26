@@ -16,6 +16,9 @@ public class UnitOfWork : IDisposable
     public GameRepository GameRepo { get; private set; }
     public GiftRepository GiftRepo { get; private set; }
     public HealthRepository HealthRepo { get; private set; }
+    public MovieRepository MovieRepo { get; private set; }
+    public PetRepository PetRepo { get; private set; }
+    public MeetRepository MeetRepo { get; private set; }
 
     public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
@@ -37,6 +40,9 @@ public class UnitOfWork : IDisposable
         GameRepo = new GameRepository(_context);
         GiftRepo = new GiftRepository(_context);
         HealthRepo = new HealthRepository(_context);
+        MovieRepo = new MovieRepository(_context);
+        PetRepo = new PetRepository(_context);
+        MeetRepo = new MeetRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);

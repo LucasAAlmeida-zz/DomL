@@ -48,6 +48,9 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.GameActivity).Include(u => u.GameActivity.Game).Include(u => u.GameActivity.Game.Platform).Include(u => u.GameActivity.Game.Series).Include(u => u.GameActivity.Game.Director).Include(u => u.GameActivity.Game.Publisher)
                 .Include(u => u.GiftActivity).Include(u => u.GiftActivity.Person)
                 .Include(u => u.HealthActivity).Include(u => u.HealthActivity.Specialty)
+                .Include(u => u.MovieActivity).Include(u => u.MovieActivity.Movie).Include(u => u.MovieActivity.Movie.Director).Include(u => u.MovieActivity.Movie.Series)
+                .Include(u => u.PetActivity).Include(u => u.PetActivity.Pet)
+                .Include(u => u.MeetActivity).Include(u => u.MeetActivity.Person)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 
@@ -65,6 +68,9 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.GameActivity)
                     .Include(u => u.GiftActivity)
                     .Include(u => u.HealthActivity)
+                    .Include(u => u.MovieActivity)
+                    .Include(u => u.PetActivity)
+                    .Include(u => u.MeetActivity)
                     .Where(u => u.Date.Month == month && u.Date.Year == year)
             );
         }

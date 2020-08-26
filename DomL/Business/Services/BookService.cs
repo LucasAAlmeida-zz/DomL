@@ -22,14 +22,15 @@ namespace DomL.Business.Services
             var bookTitle = bookWindow.TitleCB.Text;
             var authorName = bookWindow.AuthorCB.Text;
             var seriesName = bookWindow.SeriesCB.Text;
-            var numberInSeries = bookWindow.NumberCB.Text;
-            var score = bookWindow.ScoreCB.Text;
-            var description = bookWindow.DescriptionCB.Text;
+            var numberInSeries = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
+            var score = (!string.IsNullOrWhiteSpace(bookWindow.ScoreCB.Text)) ? bookWindow.ScoreCB.Text : null;
+            var description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
 
             Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
             Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
 
             Book book = GetOrUpdateOrCreateBook(bookTitle, author, series, numberInSeries, score, unitOfWork);
+
             CreateBookActivity(activity, book, description, unitOfWork);
         }
 

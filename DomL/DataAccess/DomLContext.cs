@@ -31,6 +31,13 @@ namespace DomL.DataAccess
         public DbSet<HealthActivity> HealthActivity { get; set; }
         public DbSet<MedicalSpecialty> MedicalSpecialty { get; set; }
 
+        public DbSet<MovieActivity> MovieActivity { get; set; }
+        public DbSet<Movie> Movie { get; set; }
+
+        public DbSet<PetActivity> PetActivity { get; set; }
+        public DbSet<Pet> Pet { get; set; }
+
+        public DbSet<MeetActivity> MeetActivity { get; set; }
 
         public DbSet<Person> Person { get; set; }
         public DbSet<Series> Series { get; set; }

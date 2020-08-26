@@ -66,6 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Presentation\MovieWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -87,6 +91,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedMeetActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedPetActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedMovieActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedHealthActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedGiftActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedGameActivityDTO.cs" />
@@ -95,6 +102,8 @@
     <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedBookActivityDTO.cs" />
+    <Compile Include="Business\Entities\Meet.cs" />
+    <Compile Include="Business\Entities\Pet.cs" />
     <Compile Include="Business\Entities\Company.cs" />
     <Compile Include="Business\Entities\Activity.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
@@ -105,6 +114,9 @@
     <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\MeetService.cs" />
+    <Compile Include="Business\Services\PetService.cs" />
+    <Compile Include="Business\Services\MovieService.cs" />
     <Compile Include="Business\Services\HealthService.cs" />
     <Compile Include="Business\Services\GiftService.cs" />
     <Compile Include="Business\Services\GameService.cs" />
@@ -123,20 +135,21 @@
     <Compile Include="Business\Entities\Doom.cs" />
     <Compile Include="Business\Utils\Util.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Watch.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Movie.cs" />
+    <Compile Include="Business\Entities\Movie.cs" />
     <Compile Include="Business\Entities\Activities\MultipleDayActivities\Series.cs" />
     <Compile Include="Business\Entities\Book.cs" />
     <Compile Include="Business\Entities\Health.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
     <Compile Include="Business\Entities\Auto.cs" />
     <Compile Include="Business\Entities\Gift.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Person.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Pet.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Purchase.cs" />
     <Compile Include="Business\Entities\Game.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Work.cs" />
     <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
     <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
+    <Compile Include="DataAccess\Repositories\MeetRepository.cs" />
+    <Compile Include="DataAccess\Repositories\PetRepository.cs" />
+    <Compile Include="DataAccess\Repositories\MovieRepository.cs" />
     <Compile Include="DataAccess\Repositories\EventRepository.cs" />
     <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
     <Compile Include="DataAccess\Repositories\MediaTypeRepository.cs" />
@@ -146,9 +159,7 @@
     <Compile Include="DataAccess\Repositories\TravelRepository.cs" />
     <Compile Include="DataAccess\Repositories\PurchaseRepository.cs" />
     <Compile Include="DataAccess\Repositories\PlayRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PetRepository.cs" />
     <Compile Include="DataAccess\Repositories\PersonRepository.cs" />
-    <Compile Include="DataAccess\Repositories\MovieRepository.cs" />
     <Compile Include="DataAccess\Repositories\HealthRepository.cs" />
     <Compile Include="DataAccess\Repositories\GiftRepository.cs" />
     <Compile Include="DataAccess\Repositories\AutoRepository.cs" />
@@ -208,6 +219,21 @@
     <Compile Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs" />
     <Compile Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.designer.cs">
       <DependentUpon>202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008260039341_MovieTables.cs" />
+    <Compile Include="Migrations\202008260039341_MovieTables.designer.cs">
+      <DependentUpon>202008260039341_MovieTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008260220365_PetTables.cs" />
+    <Compile Include="Migrations\202008260220365_PetTables.designer.cs">
+      <DependentUpon>202008260220365_PetTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008261335270_MeetTables.cs" />
+    <Compile Include="Migrations\202008261335270_MeetTables.designer.cs">
+      <DependentUpon>202008261335270_MeetTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\MovieWindow.xaml.cs">
+      <DependentUpon>MovieWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
@@ -280,6 +306,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.resx">
       <DependentUpon>202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260039341_MovieTables.resx">
+      <DependentUpon>202008260039341_MovieTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008260220365_PetTables.resx">
+      <DependentUpon>202008260220365_PetTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261335270_MeetTables.resx">
+      <DependentUpon>202008261335270_MeetTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

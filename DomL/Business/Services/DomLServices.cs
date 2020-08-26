@@ -165,7 +165,7 @@ namespace DomL.Business.Services
                 file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, ActivityCategory.COMIC));
                 file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, ActivityCategory.MOVIE));
                 file.WriteLine("Viagens feitas:\t" + CountFinished(activities, ActivityCategory.TRAVEL));
-                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, ActivityCategory.PERSON));
+                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, ActivityCategory.MEET));
                 file.WriteLine("Compras notáveis:\t" + CountFinished(activities, ActivityCategory.PURCHASE));
             }
         }

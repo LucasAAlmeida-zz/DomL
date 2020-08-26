@@ -23,8 +23,8 @@ namespace DomL.Business.Services
             var chapters = comicWindow.ChaptersCB.Text;
             var authorName = comicWindow.AuthorCB.Text;
             var typeName = comicWindow.TypeCB.Text;
-            var score = comicWindow.ScoreCB.Text;
-            var description = comicWindow.DescriptionCB.Text;
+            var score = (!string.IsNullOrWhiteSpace(comicWindow.ScoreCB.Text)) ? comicWindow.ScoreCB.Text : null;
+            var description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
                 
             Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
             Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);

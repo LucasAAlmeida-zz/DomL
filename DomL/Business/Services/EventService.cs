@@ -30,18 +30,8 @@ namespace DomL.Business.Services
             };
 
             activity.EventActivity = eventActivity;
-            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.EventRepo.CreateEventActivity(eventActivity);
-        }
-
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
-        {
-            var description = activity.EventActivity.Description;
-            return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.EVENT
-                && u.EventActivity.Description == description
-            );
         }
     }
 }

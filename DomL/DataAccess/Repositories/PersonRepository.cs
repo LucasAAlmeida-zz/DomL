@@ -21,6 +21,18 @@ namespace DomL.DataAccess
                 == cleanPersonName
             );
         }
+
+        internal Person GetByNameAndOrigin(string personName, string origin)
+        {
+            var cleanPersonName = Util.CleanString(personName);
+            var cleanOrigin = Util.CleanString(origin);
+            return DomLContext.Person.SingleOrDefault(u =>
+                u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                == cleanPersonName
+                && u.Origin.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                == cleanOrigin
+            );
+        }
     }
 
 }
