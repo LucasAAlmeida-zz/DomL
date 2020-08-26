@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedMovieActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedMovieDTO : ConsolidatedActivityDTO
     {
         public string Title;
         public string DirectorName;
@@ -11,7 +11,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedMovieActivityDTO(Activity activity) : base(activity)
+        public ConsolidatedMovieDTO(Activity activity) : base(activity)
         {
             var movieActivity = activity.MovieActivity;
             var movie = movieActivity.Movie;

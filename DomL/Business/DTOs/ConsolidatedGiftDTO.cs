@@ -2,14 +2,14 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedGiftActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedGiftDTO : ConsolidatedActivityDTO
     {
         public string PersonName;
         public string IsToOrFrom;
         public string Gift;
         public string Description;
 
-        public ConsolidatedGiftActivityDTO(Activity activity) : base(activity)
+        public ConsolidatedGiftDTO(Activity activity) : base(activity)
         {
             var giftActivity = activity.GiftActivity;
 

@@ -2,11 +2,11 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedDoomActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedDoomDTO : ConsolidatedActivityDTO
     {
         public string Description;
 
-        public ConsolidatedDoomActivityDTO(Activity activity) : base(activity)
+        public ConsolidatedDoomDTO(Activity activity) : base(activity)
         {
             var doomActivity = activity.DoomActivity;
 

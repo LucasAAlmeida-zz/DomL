@@ -95,34 +95,39 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedShowActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedPurchaseActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedPlayActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedMeetActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedPetActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedMovieActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedHealthActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedGiftActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedGameActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedEventActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedDoomActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedBookActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedTravelDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedShowDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedPurchaseDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedPlayDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedMeetDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedPetDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedMovieDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedHealthDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedGiftDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedGameDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedEventDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedDoomDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedComicDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedAutoDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedBookDTO.cs" />
+    <Compile Include="Business\Entities\Travel.cs" />
+    <Compile Include="Business\Entities\Transport.cs" />
+    <Compile Include="Business\Entities\Location.cs" />
     <Compile Include="Business\Entities\Show.cs" />
     <Compile Include="Business\Entities\Play.cs" />
     <Compile Include="Business\Entities\Meet.cs" />
     <Compile Include="Business\Entities\Pet.cs" />
     <Compile Include="Business\Entities\Company.cs" />
     <Compile Include="Business\Entities\Activity.cs" />
-    <Compile Include="Business\Entities\Activities\MultipleDayActivity.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivity.cs" />
     <Compile Include="Business\Entities\Event.cs" />
     <Compile Include="Business\Entities\MediaType.cs" />
     <Compile Include="Business\Entities\Person.cs" />
     <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\LocationService.cs" />
+    <Compile Include="Business\Services\TravelService.cs" />
+    <Compile Include="Business\Services\TransportService.cs" />
     <Compile Include="Business\Services\ShowService.cs" />
     <Compile Include="Business\Services\PurchaseService.cs" />
     <Compile Include="Business\Services\PlayService.cs" />
@@ -142,22 +147,16 @@
     <Compile Include="Business\Services\PersonService.cs" />
     <Compile Include="Business\Services\SeriesService.cs" />
     <Compile Include="Business\Utils\DomLExceptions.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Play.cs" />
     <Compile Include="Business\Entities\Comic.cs" />
     <Compile Include="Business\Entities\Doom.cs" />
     <Compile Include="Business\Utils\Util.cs" />
-    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Watch.cs" />
     <Compile Include="Business\Entities\Movie.cs" />
-    <Compile Include="Business\Entities\Activities\MultipleDayActivities\Series.cs" />
     <Compile Include="Business\Entities\Book.cs" />
     <Compile Include="Business\Entities\Health.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
     <Compile Include="Business\Entities\Auto.cs" />
     <Compile Include="Business\Entities\Gift.cs" />
     <Compile Include="Business\Entities\Purchase.cs" />
     <Compile Include="Business\Entities\Game.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Work.cs" />
-    <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
     <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
     <Compile Include="DataAccess\Repositories\ShowRepository.cs" />
     <Compile Include="DataAccess\Repositories\MeetRepository.cs" />
@@ -168,7 +167,8 @@
     <Compile Include="DataAccess\Repositories\MediaTypeRepository.cs" />
     <Compile Include="DataAccess\Repositories\CompanyRepository.cs" />
     <Compile Include="DataAccess\Repositories\FranchiseRepository.cs" />
-    <Compile Include="DataAccess\Repositories\WorkRepository.cs" />
+    <Compile Include="DataAccess\Repositories\LocationRepository.cs" />
+    <Compile Include="DataAccess\Repositories\TransportRepository.cs" />
     <Compile Include="DataAccess\Repositories\TravelRepository.cs" />
     <Compile Include="DataAccess\Repositories\PurchaseRepository.cs" />
     <Compile Include="DataAccess\Repositories\PlayRepository.cs" />
@@ -176,7 +176,6 @@
     <Compile Include="DataAccess\Repositories\HealthRepository.cs" />
     <Compile Include="DataAccess\Repositories\GiftRepository.cs" />
     <Compile Include="DataAccess\Repositories\AutoRepository.cs" />
-    <Compile Include="DataAccess\Repositories\WatchRepository.cs" />
     <Compile Include="DataAccess\Repositories\SeriesRepository.cs" />
     <Compile Include="DataAccess\Repositories\GameRepository.cs" />
     <Compile Include="DataAccess\Repositories\ComicRepository.cs" />
@@ -260,6 +259,10 @@
     <Compile Include="Migrations\202008261820434_ShowTables.cs" />
     <Compile Include="Migrations\202008261820434_ShowTables.designer.cs">
       <DependentUpon>202008261820434_ShowTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008262021182_TravelTables.cs" />
+    <Compile Include="Migrations\202008262021182_TravelTables.designer.cs">
+      <DependentUpon>202008262021182_TravelTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Presentation\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
@@ -359,6 +362,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008261820434_ShowTables.resx">
       <DependentUpon>202008261820434_ShowTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008262021182_TravelTables.resx">
+      <DependentUpon>202008262021182_TravelTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -2,12 +2,12 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedAutoActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedAutoDTO : ConsolidatedActivityDTO
     {
         public string AutoName;
         public string Description;
 
-        public ConsolidatedAutoActivityDTO(Activity activity) : base(activity)
+        public ConsolidatedAutoDTO(Activity activity) : base(activity)
         {
             var autoActivity = activity.AutoActivity;
             var auto = autoActivity.Auto;

@@ -2,12 +2,12 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedHealthActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedHealthDTO : ConsolidatedActivityDTO
     {
         public string MedicalSpecialtyName;
         public string Description;
 
-        public ConsolidatedHealthActivityDTO(Activity activity) : base(activity)
+        public ConsolidatedHealthDTO(Activity activity) : base(activity)
         {
             var healthActivity = activity.HealthActivity;
             var specialty = healthActivity.Specialty;

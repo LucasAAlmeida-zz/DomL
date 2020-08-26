@@ -46,6 +46,7 @@ namespace DomL.Business.Entities
         public virtual PlayActivity PlayActivity { get; set; }
         public virtual PurchaseActivity PurchaseActivity { get; set; }
         public virtual ShowActivity ShowActivity { get; set; }
+        public virtual TravelActivity TravelActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
@@ -65,6 +66,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.PLAY:     PlayService.SaveFromRawSegments(segments, this, unitOfWork);        break;
                 case ActivityCategory.PURCHASE: PurchaseService.SaveFromRawSegments(segments, this, unitOfWork);    break;
                 case ActivityCategory.SHOW:     ShowService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.TRAVEL:   TravelService.SaveFromRawSegments(segments, this, unitOfWork);      break;
                     //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
             }
@@ -99,7 +101,6 @@ namespace DomL.Business.Entities
                 case ActivityCategory.MOVIE:    pcsa = MovieService.GetStartingActivities(psa, this);     break;
                 case ActivityCategory.PET:      pcsa = PetService.GetStartingActivities(psa, this);       break;
                 case ActivityCategory.SHOW:     pcsa = ShowService.GetStartingActivities(psa, this);     break;
-                    //case ActivityCategory.TRAVEL:   VEL": new Travel(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.WORK:     K": new Work(atividadeDTO, segmentos).Save(); break;
             }
             return pcsa.OrderByDescending(u => u.Date).FirstOrDefault();
@@ -123,20 +124,21 @@ namespace DomL.Business.Entities
             }
 
             switch (this.Category.Id) {
-                case ActivityCategory.AUTO:     return new ConsolidatedAutoActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.BOOK:     return new ConsolidatedBookActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.COMIC:    return new ConsolidatedComicActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.DOOM:     return new ConsolidatedDoomActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.EVENT:    return new ConsolidatedEventActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.GAME:     return new ConsolidatedGameActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.GIFT:     return new ConsolidatedGiftActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.HEALTH:   return new ConsolidatedHealthActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.MOVIE:    return new ConsolidatedMovieActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.PET:      return new ConsolidatedPetActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.MEET:     return new ConsolidatedMeetActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.PLAY:     return new ConsolidatedPlayActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.PURCHASE: return new ConsolidatedPurchaseActivityDTO(this).GetInfoForYearRecap();
-                case ActivityCategory.SHOW:     return new ConsolidatedShowActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.AUTO:     return new ConsolidatedAutoDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.BOOK:     return new ConsolidatedBookDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.COMIC:    return new ConsolidatedComicDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.DOOM:     return new ConsolidatedDoomDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.EVENT:    return new ConsolidatedEventDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.GAME:     return new ConsolidatedGameDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.GIFT:     return new ConsolidatedGiftDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.HEALTH:   return new ConsolidatedHealthDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.MOVIE:    return new ConsolidatedMovieDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.PET:      return new ConsolidatedPetDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.MEET:     return new ConsolidatedMeetDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.PLAY:     return new ConsolidatedPlayDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.PURCHASE: return new ConsolidatedPurchaseDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.SHOW:     return new ConsolidatedShowDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.TRAVEL:   return new ConsolidatedTravelDTO(this).GetInfoForYearRecap();
                     //case ActivityCategory.TRAVEL:   VEL": new Travel(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.WORK:     K": new Work(atividadeDTO, segmentos).Save(); break;
             }

@@ -22,11 +22,14 @@ public class UnitOfWork : IDisposable
     public PlayRepository PlayRepo { get; private set; }
     public PurchaseRepository PurchaseRepo { get; private set; }
     public ShowRepository ShowRepo { get; private set; }
+    public TravelRepository TravelRepo { get; private set; }
 
-    public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
-    public MediaTypeRepository MediaTypeRepo { get; internal set; }
     public CompanyRepository CompanyRepo { get; internal set; }
+    public LocationRepository LocationRepo { get; internal set; }
+    public TransportRepository TransportRepo { get; internal set; }
+    public MediaTypeRepository MediaTypeRepo { get; internal set; }
+    public SeriesRepository SeriesRepo { get; private set; }
     public FranchiseRepository FranchiseRepo { get; internal set; }
 
     public UnitOfWork(DomLContext context)
@@ -49,11 +52,14 @@ public class UnitOfWork : IDisposable
         PlayRepo = new PlayRepository(_context);
         PurchaseRepo = new PurchaseRepository(_context);
         ShowRepo = new ShowRepository(_context);
+        TravelRepo = new TravelRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);
         MediaTypeRepo = new MediaTypeRepository(_context);
         CompanyRepo = new CompanyRepository(_context);
+        LocationRepo = new LocationRepository(_context);
+        TransportRepo = new TransportRepository(_context);
         FranchiseRepo = new FranchiseRepository(_context);
     }
 

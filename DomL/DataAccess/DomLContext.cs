@@ -46,11 +46,15 @@ namespace DomL.DataAccess
         public DbSet<ShowActivity> ShowActivity { get; set; }
         public DbSet<ShowSeason> ShowSeason { get; set; }
 
+        public DbSet<TravelActivity> TravelActivity { get; set; }
+
         public DbSet<Person> Person { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<MediaType> MediaType { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<Franchise> Franchise { get; set; }
+        public DbSet<Location> Location { get; set; }
+        public DbSet<Transport> Transport { get; set; }
 
         public DomLContext() : base("name=DefaultConnection") { }
     }

@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedShowActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedShowDTO : ConsolidatedActivityDTO
     {
         public string SeriesName;
         public string Season;
@@ -11,7 +11,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedShowActivityDTO(Activity activity) : base (activity)
+        public ConsolidatedShowDTO(Activity activity) : base (activity)
         {
             var showActivity = activity.ShowActivity;
             var showSeason = showActivity.ShowSeason;

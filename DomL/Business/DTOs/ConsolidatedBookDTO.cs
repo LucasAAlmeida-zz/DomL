@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedBookActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedBookDTO : ConsolidatedActivityDTO
     {
         public string Title;
         public string AuthorName;
@@ -11,7 +11,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedBookActivityDTO(Activity activity) : base(activity)
+        public ConsolidatedBookDTO(Activity activity) : base(activity)
         {
             var bookActivity = activity.BookActivity;
             var book = bookActivity.Book;

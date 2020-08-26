@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedGameActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedGameDTO : ConsolidatedActivityDTO
     {
         public string Title;
         public string PlatformName;
@@ -13,7 +13,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedGameActivityDTO(Activity activity) : base (activity)
+        public ConsolidatedGameDTO(Activity activity) : base (activity)
         {
             var gameActivity = activity.GameActivity;
             var game = gameActivity.Game;

@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedComicActivityDTO : ConsolidatedActivityDTO
+    public class ConsolidatedComicDTO : ConsolidatedActivityDTO
     {
         public string SeriesName;
         public string Chapters;
@@ -11,7 +11,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedComicActivityDTO(Activity activity) : base (activity)
+        public ConsolidatedComicDTO(Activity activity) : base (activity)
         {
             var comicActivity = activity.ComicActivity;
             var comicVolume = comicActivity.ComicVolume;
