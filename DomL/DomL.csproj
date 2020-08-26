@@ -66,27 +66,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Presentation\ShowWindow.xaml">
+    <Page Include="Activity\Categories\Show\ShowWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\MovieWindow.xaml">
+    <Page Include="Activity\Categories\Movie\MovieWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\GameWindow.xaml">
+    <Page Include="Activity\Categories\Game\GameWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\ComicWindow.xaml">
+    <Page Include="Activity\Categories\Comic\ComicWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\BookWindow.xaml">
+    <Page Include="Activity\Categories\Book\BookWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Presentation\MainWindow.xaml">
+    <Page Include="DomL\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -94,95 +94,95 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedTravelDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedShowDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedPurchaseDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedPlayDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedMeetDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedPetDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedMovieDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedHealthDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedGiftDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedGameDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedEventDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedDoomDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedComicDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedAutoDTO.cs" />
-    <Compile Include="Business\DTOs\ConsolidatedBookDTO.cs" />
-    <Compile Include="Business\Entities\Travel.cs" />
-    <Compile Include="Business\Entities\Transport.cs" />
-    <Compile Include="Business\Entities\Location.cs" />
-    <Compile Include="Business\Entities\Show.cs" />
-    <Compile Include="Business\Entities\Play.cs" />
-    <Compile Include="Business\Entities\Meet.cs" />
-    <Compile Include="Business\Entities\Pet.cs" />
-    <Compile Include="Business\Entities\Company.cs" />
-    <Compile Include="Business\Entities\Activity.cs" />
-    <Compile Include="Business\Entities\Event.cs" />
-    <Compile Include="Business\Entities\MediaType.cs" />
-    <Compile Include="Business\Entities\Person.cs" />
-    <Compile Include="Business\Entities\Franchise.cs" />
-    <Compile Include="Business\Entities\Series.cs" />
-    <Compile Include="Business\Services\ActivityService.cs" />
-    <Compile Include="Business\Services\LocationService.cs" />
-    <Compile Include="Business\Services\TravelService.cs" />
-    <Compile Include="Business\Services\TransportService.cs" />
-    <Compile Include="Business\Services\ShowService.cs" />
-    <Compile Include="Business\Services\PurchaseService.cs" />
-    <Compile Include="Business\Services\PlayService.cs" />
-    <Compile Include="Business\Services\MeetService.cs" />
-    <Compile Include="Business\Services\PetService.cs" />
-    <Compile Include="Business\Services\MovieService.cs" />
-    <Compile Include="Business\Services\HealthService.cs" />
-    <Compile Include="Business\Services\GiftService.cs" />
-    <Compile Include="Business\Services\GameService.cs" />
-    <Compile Include="Business\Services\EventService.cs" />
-    <Compile Include="Business\Services\DoomService.cs" />
-    <Compile Include="Business\Services\ComicService.cs" />
-    <Compile Include="Business\Services\BookService.cs" />
-    <Compile Include="Business\Services\AutoService.cs" />
-    <Compile Include="Business\Services\DomLServices.cs" />
-    <Compile Include="Business\Services\MediaTypeService.cs" />
-    <Compile Include="Business\Services\PersonService.cs" />
-    <Compile Include="Business\Services\SeriesService.cs" />
-    <Compile Include="Business\Utils\DomLExceptions.cs" />
-    <Compile Include="Business\Entities\Comic.cs" />
-    <Compile Include="Business\Entities\Doom.cs" />
-    <Compile Include="Business\Utils\Util.cs" />
-    <Compile Include="Business\Entities\Movie.cs" />
-    <Compile Include="Business\Entities\Book.cs" />
-    <Compile Include="Business\Entities\Health.cs" />
-    <Compile Include="Business\Entities\Auto.cs" />
-    <Compile Include="Business\Entities\Gift.cs" />
-    <Compile Include="Business\Entities\Purchase.cs" />
-    <Compile Include="Business\Entities\Game.cs" />
-    <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
-    <Compile Include="DataAccess\Repositories\ShowRepository.cs" />
-    <Compile Include="DataAccess\Repositories\MeetRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PetRepository.cs" />
-    <Compile Include="DataAccess\Repositories\MovieRepository.cs" />
-    <Compile Include="DataAccess\Repositories\EventRepository.cs" />
-    <Compile Include="DataAccess\Repositories\DoomRepository.cs" />
-    <Compile Include="DataAccess\Repositories\MediaTypeRepository.cs" />
-    <Compile Include="DataAccess\Repositories\CompanyRepository.cs" />
-    <Compile Include="DataAccess\Repositories\FranchiseRepository.cs" />
-    <Compile Include="DataAccess\Repositories\LocationRepository.cs" />
-    <Compile Include="DataAccess\Repositories\TransportRepository.cs" />
-    <Compile Include="DataAccess\Repositories\TravelRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PurchaseRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PlayRepository.cs" />
-    <Compile Include="DataAccess\Repositories\PersonRepository.cs" />
-    <Compile Include="DataAccess\Repositories\HealthRepository.cs" />
-    <Compile Include="DataAccess\Repositories\GiftRepository.cs" />
-    <Compile Include="DataAccess\Repositories\AutoRepository.cs" />
-    <Compile Include="DataAccess\Repositories\SeriesRepository.cs" />
-    <Compile Include="DataAccess\Repositories\GameRepository.cs" />
-    <Compile Include="DataAccess\Repositories\ComicRepository.cs" />
-    <Compile Include="DataAccess\Repositories\BookRepository.cs" />
-    <Compile Include="DataAccess\DomLContext.cs" />
-    <Compile Include="DataAccess\Repositories\BaseRepository.cs" />
-    <Compile Include="DataAccess\UnitOfWork.cs" />
+    <Compile Include="Activity\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Activity\Categories\Travel\ConsolidatedTravelDTO.cs" />
+    <Compile Include="Activity\Categories\Show\ConsolidatedShowDTO.cs" />
+    <Compile Include="Activity\Categories\Purchase\ConsolidatedPurchaseDTO.cs" />
+    <Compile Include="Activity\Categories\Play\ConsolidatedPlayDTO.cs" />
+    <Compile Include="Activity\Categories\Meet\ConsolidatedMeetDTO.cs" />
+    <Compile Include="Activity\Categories\Pet\ConsolidatedPetDTO.cs" />
+    <Compile Include="Activity\Categories\Movie\ConsolidatedMovieDTO.cs" />
+    <Compile Include="Activity\Categories\Health\ConsolidatedHealthDTO.cs" />
+    <Compile Include="Activity\Categories\Gift\ConsolidatedGiftDTO.cs" />
+    <Compile Include="Activity\Categories\Game\ConsolidatedGameDTO.cs" />
+    <Compile Include="Activity\Categories\Event\ConsolidatedEventDTO.cs" />
+    <Compile Include="Activity\Categories\Doom\ConsolidatedDoomDTO.cs" />
+    <Compile Include="Activity\Categories\Comic\ConsolidatedComicDTO.cs" />
+    <Compile Include="Activity\Categories\Auto\ConsolidatedAutoDTO.cs" />
+    <Compile Include="Activity\Categories\Book\ConsolidatedBookDTO.cs" />
+    <Compile Include="Activity\Categories\Travel\Travel.cs" />
+    <Compile Include="Activity\Helpers\Transport\Transport.cs" />
+    <Compile Include="Activity\Helpers\Location\Location.cs" />
+    <Compile Include="Activity\Categories\Show\Show.cs" />
+    <Compile Include="Activity\Categories\Play\Play.cs" />
+    <Compile Include="Activity\Categories\Meet\Meet.cs" />
+    <Compile Include="Activity\Categories\Pet\Pet.cs" />
+    <Compile Include="Activity\Helpers\Company\Company.cs" />
+    <Compile Include="Activity\Activity.cs" />
+    <Compile Include="Activity\Categories\Event\Event.cs" />
+    <Compile Include="Activity\Helpers\MediaType\MediaType.cs" />
+    <Compile Include="Activity\Helpers\Person\Person.cs" />
+    <Compile Include="Activity\Helpers\Franchise\Franchise.cs" />
+    <Compile Include="Activity\Helpers\Series\Series.cs" />
+    <Compile Include="Activity\ActivityService.cs" />
+    <Compile Include="Activity\Helpers\Location\LocationService.cs" />
+    <Compile Include="Activity\Categories\Travel\TravelService.cs" />
+    <Compile Include="Activity\Helpers\Transport\TransportService.cs" />
+    <Compile Include="Activity\Categories\Show\ShowService.cs" />
+    <Compile Include="Activity\Categories\Purchase\PurchaseService.cs" />
+    <Compile Include="Activity\Categories\Play\PlayService.cs" />
+    <Compile Include="Activity\Categories\Meet\MeetService.cs" />
+    <Compile Include="Activity\Categories\Pet\PetService.cs" />
+    <Compile Include="Activity\Categories\Movie\MovieService.cs" />
+    <Compile Include="Activity\Categories\Health\HealthService.cs" />
+    <Compile Include="Activity\Categories\Gift\GiftService.cs" />
+    <Compile Include="Activity\Categories\Game\GameService.cs" />
+    <Compile Include="Activity\Categories\Event\EventService.cs" />
+    <Compile Include="Activity\Categories\Doom\DoomService.cs" />
+    <Compile Include="Activity\Categories\Comic\ComicService.cs" />
+    <Compile Include="Activity\Categories\Book\BookService.cs" />
+    <Compile Include="Activity\Categories\Auto\AutoService.cs" />
+    <Compile Include="DomL\DomLServices.cs" />
+    <Compile Include="Activity\Helpers\MediaType\MediaTypeService.cs" />
+    <Compile Include="Activity\Helpers\Person\PersonService.cs" />
+    <Compile Include="Activity\Helpers\Series\SeriesService.cs" />
+    <Compile Include="DomL\DomLExceptions.cs" />
+    <Compile Include="Activity\Categories\Comic\Comic.cs" />
+    <Compile Include="Activity\Categories\Doom\Doom.cs" />
+    <Compile Include="DomL\Util.cs" />
+    <Compile Include="Activity\Categories\Movie\Movie.cs" />
+    <Compile Include="Activity\Categories\Book\Book.cs" />
+    <Compile Include="Activity\Categories\Health\Health.cs" />
+    <Compile Include="Activity\Categories\Auto\Auto.cs" />
+    <Compile Include="Activity\Categories\Gift\Gift.cs" />
+    <Compile Include="Activity\Categories\Purchase\Purchase.cs" />
+    <Compile Include="Activity\Categories\Game\Game.cs" />
+    <Compile Include="Activity\ActivityRepository.cs" />
+    <Compile Include="Activity\Categories\Show\ShowRepository.cs" />
+    <Compile Include="Activity\Categories\Meet\MeetRepository.cs" />
+    <Compile Include="Activity\Categories\Pet\PetRepository.cs" />
+    <Compile Include="Activity\Categories\Movie\MovieRepository.cs" />
+    <Compile Include="Activity\Categories\Event\EventRepository.cs" />
+    <Compile Include="Activity\Categories\Doom\DoomRepository.cs" />
+    <Compile Include="Activity\Helpers\MediaType\MediaTypeRepository.cs" />
+    <Compile Include="Activity\Helpers\Company\CompanyRepository.cs" />
+    <Compile Include="Activity\Helpers\Franchise\FranchiseRepository.cs" />
+    <Compile Include="Activity\Helpers\Location\LocationRepository.cs" />
+    <Compile Include="Activity\Helpers\Transport\TransportRepository.cs" />
+    <Compile Include="Activity\Categories\Travel\TravelRepository.cs" />
+    <Compile Include="Activity\Categories\Purchase\PurchaseRepository.cs" />
+    <Compile Include="Activity\Categories\Play\PlayRepository.cs" />
+    <Compile Include="Activity\Helpers\Person\PersonRepository.cs" />
+    <Compile Include="Activity\Categories\Health\HealthRepository.cs" />
+    <Compile Include="Activity\Categories\Gift\GiftRepository.cs" />
+    <Compile Include="Activity\Categories\Auto\AutoRepository.cs" />
+    <Compile Include="Activity\Helpers\Series\SeriesRepository.cs" />
+    <Compile Include="Activity\Categories\Game\GameRepository.cs" />
+    <Compile Include="Activity\Categories\Comic\ComicRepository.cs" />
+    <Compile Include="Activity\Categories\Book\BookRepository.cs" />
+    <Compile Include="DomL\DomLContext.cs" />
+    <Compile Include="DomL\BaseRepository.cs" />
+    <Compile Include="DomL\UnitOfWork.cs" />
     <Compile Include="Migrations\202008211916434_Initial.cs" />
     <Compile Include="Migrations\202008211916434_Initial.designer.cs">
       <DependentUpon>202008211916434_Initial.cs</DependentUpon>
@@ -215,7 +215,7 @@
     <Compile Include="Migrations\202008250034582_EventActivityTable.designer.cs">
       <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Business\Services\CompanyService.cs" />
+    <Compile Include="Activity\Helpers\Company\CompanyService.cs" />
     <Compile Include="Migrations\202008251540361_GameTables.cs" />
     <Compile Include="Migrations\202008251540361_GameTables.designer.cs">
       <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
@@ -264,33 +264,33 @@
     <Compile Include="Migrations\202008262021182_TravelTables.designer.cs">
       <DependentUpon>202008262021182_TravelTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\ShowWindow.xaml.cs">
+    <Compile Include="Activity\Categories\Show\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\MovieWindow.xaml.cs">
+    <Compile Include="Activity\Categories\Movie\MovieWindow.xaml.cs">
       <DependentUpon>MovieWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\GameWindow.xaml.cs">
+    <Compile Include="Activity\Categories\Game\GameWindow.xaml.cs">
       <DependentUpon>GameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\ComicWindow.xaml.cs">
+    <Compile Include="Activity\Categories\Comic\ComicWindow.xaml.cs">
       <DependentUpon>ComicWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\BookWindow.xaml.cs">
+    <Compile Include="Activity\Categories\Book\BookWindow.xaml.cs">
       <DependentUpon>BookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\MainWindow.xaml.cs">
+    <Compile Include="DomL\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Presentation\RestoreFullWindow.xaml">
+    <Page Include="DomL\RestoreFullWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Presentation\RestoreFullWindow.xaml.cs">
+    <Compile Include="DomL\RestoreFullWindow.xaml.cs">
       <DependentUpon>RestoreFullWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
