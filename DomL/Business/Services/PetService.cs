@@ -46,7 +46,7 @@ namespace DomL.Business.Services
             unitOfWork.PetRepo.CreatePetActivity(petActivity);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var pet = activity.PetActivity.Pet;
             return previousStartingActivities.Where(u =>

@@ -40,18 +40,20 @@ namespace DomL.DataAccess.Repositories
             return DomLContext.Activity
                 .Include(u => u.Category)
                 .Include(u => u.Status)
-                .Include(u => u.AutoActivity).Include(u => u.AutoActivity.Auto)
-                .Include(u => u.BookActivity).Include(u => u.BookActivity.Book).Include(u => u.BookActivity.Book.Author).Include(u => u.BookActivity.Book.Series)
-                .Include(u => u.ComicActivity).Include(u => u.ComicActivity.ComicVolume).Include(u => u.ComicActivity.ComicVolume.Author).Include(u => u.ComicActivity.ComicVolume.Series).Include(u => u.ComicActivity.ComicVolume.Type)
+                .Include(u => u.AutoActivity.Auto)
+                .Include(u => u.BookActivity.Book.Author).Include(u => u.BookActivity.Book.Series)
+                .Include(u => u.ComicActivity.ComicVolume.Author).Include(u => u.ComicActivity.ComicVolume.Series).Include(u => u.ComicActivity.ComicVolume.Type)
                 .Include(u => u.DoomActivity)
                 .Include(u => u.EventActivity)
-                .Include(u => u.GameActivity).Include(u => u.GameActivity.Game).Include(u => u.GameActivity.Game.Platform).Include(u => u.GameActivity.Game.Series).Include(u => u.GameActivity.Game.Director).Include(u => u.GameActivity.Game.Publisher)
-                .Include(u => u.GiftActivity).Include(u => u.GiftActivity.Person)
-                .Include(u => u.HealthActivity).Include(u => u.HealthActivity.Specialty)
-                .Include(u => u.MovieActivity).Include(u => u.MovieActivity.Movie).Include(u => u.MovieActivity.Movie.Director).Include(u => u.MovieActivity.Movie.Series)
-                .Include(u => u.PetActivity).Include(u => u.PetActivity.Pet)
-                .Include(u => u.MeetActivity).Include(u => u.MeetActivity.Person)
-                .Include(u => u.PlayActivity).Include(u => u.PlayActivity.Person)
+                .Include(u => u.GameActivity.Game.Platform).Include(u => u.GameActivity.Game.Series).Include(u => u.GameActivity.Game.Director).Include(u => u.GameActivity.Game.Publisher)
+                .Include(u => u.GiftActivity.Person)
+                .Include(u => u.HealthActivity.Specialty)
+                .Include(u => u.MovieActivity.Movie.Director).Include(u => u.MovieActivity.Movie.Series)
+                .Include(u => u.PetActivity.Pet)
+                .Include(u => u.MeetActivity.Person)
+                .Include(u => u.PlayActivity.Person)
+                .Include(u => u.PurchaseActivity.Store)
+                .Include(u => u.ShowActivity.ShowSeason.Director).Include(u => u.ShowActivity.ShowSeason.Series).Include(u => u.ShowActivity.ShowSeason.Type)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 
@@ -73,6 +75,8 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.PetActivity)
                     .Include(u => u.MeetActivity)
                     .Include(u => u.PlayActivity)
+                    .Include(u => u.PurchaseActivity)
+                    .Include(u => u.ShowActivity)
                     .Where(u => u.Date.Month == month && u.Date.Year == year)
             );
         }

@@ -77,7 +77,7 @@ namespace DomL.Business.Services
             return unitOfWork.ComicRepo.GetComicVolumeBySeriesNameAndChapters(seriesName, chapters);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var comicVolume = activity.ComicActivity.ComicVolume;
             return previousStartingActivities.Where(u => 

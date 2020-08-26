@@ -28,7 +28,7 @@ namespace DomL.Business.Services
             unitOfWork.DoomRepo.CreateDoomActivity(doomActivity);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var description = activity.DoomActivity.Description;
             return previousStartingActivities.Where(u =>

@@ -20,6 +20,8 @@ public class UnitOfWork : IDisposable
     public PetRepository PetRepo { get; private set; }
     public MeetRepository MeetRepo { get; private set; }
     public PlayRepository PlayRepo { get; private set; }
+    public PurchaseRepository PurchaseRepo { get; private set; }
+    public ShowRepository ShowRepo { get; private set; }
 
     public SeriesRepository SeriesRepo { get; private set; }
     public PersonRepository PersonRepo { get; private set; }
@@ -45,6 +47,8 @@ public class UnitOfWork : IDisposable
         PetRepo = new PetRepository(_context);
         MeetRepo = new MeetRepository(_context);
         PlayRepo = new PlayRepository(_context);
+        PurchaseRepo = new PurchaseRepository(_context);
+        ShowRepo = new ShowRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);

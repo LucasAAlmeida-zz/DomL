@@ -160,7 +160,7 @@ namespace DomL.Business.Services
 
                 file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME));
                 file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME));
-                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SERIES));
+                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SHOW));
                 file.WriteLine("Livros lidos:\t" + CountFinished(activities, ActivityCategory.BOOK));
                 file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, ActivityCategory.COMIC));
                 file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, ActivityCategory.MOVIE));

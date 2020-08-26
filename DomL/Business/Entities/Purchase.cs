@@ -1,4 +1,26 @@
-﻿//using DomL.Business.Utils;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DomL.Business.Entities
+{
+    [Table("PurchaseActivity")]
+    public class PurchaseActivity
+    {
+        [Key]
+        [ForeignKey("Activity")]
+        public int Id { get; set; }
+        [ForeignKey("Store")]
+        public int StoreId { get; set; }
+        [Required]
+        public string Product { get; set; }
+        public int Value { get; set;}
+        public string Description { get; set; }
+
+        public virtual Activity Activity { get; set; }
+        public virtual Company Store { get; set; }
+    }
+}
+//using DomL.Business.Utils;
 //using DomL.Business.Utils.DTOs;
 //using DomL.DataAccess;
 //using System;

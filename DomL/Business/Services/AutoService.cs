@@ -46,7 +46,7 @@ namespace DomL.Business.Services
             unitOfWork.AutoRepo.CreateAutoActivity(autoActivity);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var auto = activity.AutoActivity.Auto;
             return previousStartingActivities.Where(u =>

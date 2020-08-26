@@ -75,7 +75,7 @@ namespace DomL.Business.Services
             unitOfWork.GameRepo.CreateGameActivity(gameActivity);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var game = activity.GameActivity.Game;
             return previousStartingActivities.Where(u => 

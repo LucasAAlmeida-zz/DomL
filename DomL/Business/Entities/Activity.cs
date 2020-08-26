@@ -44,32 +44,29 @@ namespace DomL.Business.Entities
         public virtual PetActivity PetActivity { get; set; }
         public virtual MeetActivity MeetActivity { get; set; }
         public virtual PlayActivity PlayActivity { get; set; }
+        public virtual PurchaseActivity PurchaseActivity { get; set; }
+        public virtual ShowActivity ShowActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
             var segments = Regex.Split(rawLine, "; ");
             switch (this.Category.Id) {
-                case ActivityCategory.AUTO:     AutoService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                case ActivityCategory.BOOK:     BookService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                case ActivityCategory.COMIC:    ComicService.SaveFromRawSegments(segments, this, unitOfWork);   break;
-                case ActivityCategory.DOOM:     DoomService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                case ActivityCategory.EVENT:    EventService.SaveFromRawSegments(segments, this, unitOfWork);   break;
-                case ActivityCategory.GAME:     GameService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                case ActivityCategory.GIFT:     GiftService.SaveFromRawSegments(segments, this, unitOfWork);    break;
-                case ActivityCategory.HEALTH:   HealthService.SaveFromRawSegments(segments, this, unitOfWork);  break;
-                case ActivityCategory.MOVIE:    MovieService.SaveFromRawSegments(segments, this, unitOfWork);   break;
-                case ActivityCategory.PET:      PetService.SaveFromRawSegments(segments, this, unitOfWork);     break;
-                case ActivityCategory.MEET:     MeetService.SaveFromRawSegments(segments, this, unitOfWork);     break;
-                case ActivityCategory.PLAY:     PlayService.SaveFromRawSegments(segments, this, unitOfWork);     break;
-                    //case ActivityCategory.HEALTH:   new Health(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.MOVIE:    new Movie(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PERSON:   new Person(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PET:      new Pet(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PLAY:     new Play(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PURCHASE: new Purchase(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.AUTO:     AutoService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.BOOK:     BookService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.COMIC:    ComicService.SaveFromRawSegments(segments, this, unitOfWork);       break;
+                case ActivityCategory.DOOM:     DoomService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.EVENT:    EventService.SaveFromRawSegments(segments, this, unitOfWork);       break;
+                case ActivityCategory.GAME:     GameService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.GIFT:     GiftService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.HEALTH:   HealthService.SaveFromRawSegments(segments, this, unitOfWork);      break;
+                case ActivityCategory.MOVIE:    MovieService.SaveFromRawSegments(segments, this, unitOfWork);       break;
+                case ActivityCategory.PET:      PetService.SaveFromRawSegments(segments, this, unitOfWork);         break;
+                case ActivityCategory.MEET:     MeetService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.PLAY:     PlayService.SaveFromRawSegments(segments, this, unitOfWork);        break;
+                case ActivityCategory.PURCHASE: PurchaseService.SaveFromRawSegments(segments, this, unitOfWork);    break;
+                case ActivityCategory.SHOW:     ShowService.SaveFromRawSegments(segments, this, unitOfWork);        break;
                     //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.SERIES:   new Series(atividadeDTO, segmentos).Save(); break;
             }
         }
 
@@ -93,28 +90,17 @@ namespace DomL.Business.Entities
 
             IEnumerable<Activity> pcsa = null; // Previous Category Starting Activities
             switch (this.Category.Id) {
-                case ActivityCategory.AUTO:     pcsa = AutoService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.BOOK:     pcsa = BookService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.COMIC:    pcsa = ComicService.GetStartingActivity(psa, this); break;
-                case ActivityCategory.DOOM:     pcsa = DoomService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.GAME:     pcsa = GameService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.GIFT:     pcsa = GiftService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.HEALTH:   pcsa = HealthService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.MOVIE:    pcsa = MovieService.GetStartingActivity(psa, this);  break;
-                case ActivityCategory.PET:      pcsa = PetService.GetStartingActivity(psa, this);  break;
-                    //case ActivityCategory.GIFT:     T": new Gift(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.HEALTH:   LTH": new Health(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.MOVIE:    IE": new Movie(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PERSON:   SON": new Person(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PET:      ": new Pet(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PLAY:     Y": new Play(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PURCHASE: CHASE": new Purchase(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.AUTO:     pcsa = AutoService.GetStartingActivities(psa, this);      break;
+                case ActivityCategory.BOOK:     pcsa = BookService.GetStartingActivities(psa, this);      break;
+                case ActivityCategory.COMIC:    pcsa = ComicService.GetStartingActivities(psa, this);     break;
+                case ActivityCategory.DOOM:     pcsa = DoomService.GetStartingActivities(psa, this);      break;
+                case ActivityCategory.GAME:     pcsa = GameService.GetStartingActivities(psa, this);      break;
+                case ActivityCategory.HEALTH:   pcsa = HealthService.GetStartingActivities(psa, this);    break;
+                case ActivityCategory.MOVIE:    pcsa = MovieService.GetStartingActivities(psa, this);     break;
+                case ActivityCategory.PET:      pcsa = PetService.GetStartingActivities(psa, this);       break;
+                case ActivityCategory.SHOW:     pcsa = ShowService.GetStartingActivities(psa, this);     break;
                     //case ActivityCategory.TRAVEL:   VEL": new Travel(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.WORK:     K": new Work(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.GAME:     E": new Game(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.SERIES:   IES": new Series(atividadeDTO, segmentos).Save(); break;
-                    //default:                        CH": new Watch(atividadeDTO, segmentos).Save(); break;
-                    //new Event(atividadeDTO, segmentos).Save(); break;
             }
             return pcsa.OrderByDescending(u => u.Date).FirstOrDefault();
         }
@@ -149,12 +135,10 @@ namespace DomL.Business.Entities
                 case ActivityCategory.PET:      return new ConsolidatedPetActivityDTO(this).GetInfoForYearRecap();
                 case ActivityCategory.MEET:     return new ConsolidatedMeetActivityDTO(this).GetInfoForYearRecap();
                 case ActivityCategory.PLAY:     return new ConsolidatedPlayActivityDTO(this).GetInfoForYearRecap();
-                    //case ActivityCategory.PERSON:   SON": new Person(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PLAY:     Y": new Play(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.PURCHASE: CHASE": new Purchase(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.PURCHASE: return new ConsolidatedPurchaseActivityDTO(this).GetInfoForYearRecap();
+                case ActivityCategory.SHOW:     return new ConsolidatedShowActivityDTO(this).GetInfoForYearRecap();
                     //case ActivityCategory.TRAVEL:   VEL": new Travel(atividadeDTO, segmentos).Save(); break;
                     //case ActivityCategory.WORK:     K": new Work(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.SERIES:   IES": new Series(atividadeDTO, segmentos).Save(); break;
             }
             return "";
         }
@@ -218,7 +202,7 @@ namespace DomL.Business.Entities
         public const int TRAVEL = 12;
         public const int WORK = 13;
         public const int GAME = 14;
-        public const int SERIES = 15;
+        public const int SHOW = 15;
         public const int EVENT = 17;
     }
 

@@ -57,7 +57,7 @@ namespace DomL.Business.Services
             unitOfWork.HealthRepo.CreateHealthActivity(healthActivity);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var healthActivity = activity.HealthActivity;
             return previousStartingActivities.Where(u =>

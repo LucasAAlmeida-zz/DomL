@@ -77,7 +77,7 @@ namespace DomL.Business.Services
             return unitOfWork.BookRepo.GetBookByTitle(title);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var book = activity.BookActivity.Book;
             return previousStartingActivities.Where(u =>

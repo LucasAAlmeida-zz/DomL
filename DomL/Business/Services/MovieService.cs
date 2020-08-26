@@ -76,7 +76,7 @@ namespace DomL.Business.Services
             return unitOfWork.MovieRepo.GetMovieByTitle(title);
         }
 
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
+        public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var movie = activity.MovieActivity.Movie;
             return previousStartingActivities.Where(u =>

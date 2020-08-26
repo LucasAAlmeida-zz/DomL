@@ -66,6 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Presentation\ShowWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\MovieWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,6 +95,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Business\DTOs\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedShowActivityDTO.cs" />
+    <Compile Include="Business\DTOs\ConsolidatedPurchaseActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedPlayActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedMeetActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedPetActivityDTO.cs" />
@@ -103,6 +109,7 @@
     <Compile Include="Business\DTOs\ConsolidatedComicActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedAutoActivityDTO.cs" />
     <Compile Include="Business\DTOs\ConsolidatedBookActivityDTO.cs" />
+    <Compile Include="Business\Entities\Show.cs" />
     <Compile Include="Business\Entities\Play.cs" />
     <Compile Include="Business\Entities\Meet.cs" />
     <Compile Include="Business\Entities\Pet.cs" />
@@ -116,6 +123,8 @@
     <Compile Include="Business\Entities\Franchise.cs" />
     <Compile Include="Business\Entities\Series.cs" />
     <Compile Include="Business\Services\ActivityService.cs" />
+    <Compile Include="Business\Services\ShowService.cs" />
+    <Compile Include="Business\Services\PurchaseService.cs" />
     <Compile Include="Business\Services\PlayService.cs" />
     <Compile Include="Business\Services\MeetService.cs" />
     <Compile Include="Business\Services\PetService.cs" />
@@ -145,11 +154,12 @@
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Travel.cs" />
     <Compile Include="Business\Entities\Auto.cs" />
     <Compile Include="Business\Entities\Gift.cs" />
-    <Compile Include="Business\Entities\Activities\SingleDayActivities\Purchase.cs" />
+    <Compile Include="Business\Entities\Purchase.cs" />
     <Compile Include="Business\Entities\Game.cs" />
     <Compile Include="Business\Entities\Activities\SingleDayActivities\Work.cs" />
     <Compile Include="DataAccess\Repositories\ActivityBlockRepository.cs" />
     <Compile Include="DataAccess\Repositories\ActivityRepository.cs" />
+    <Compile Include="DataAccess\Repositories\ShowRepository.cs" />
     <Compile Include="DataAccess\Repositories\MeetRepository.cs" />
     <Compile Include="DataAccess\Repositories\PetRepository.cs" />
     <Compile Include="DataAccess\Repositories\MovieRepository.cs" />
@@ -243,6 +253,17 @@
     <Compile Include="Migrations\202008261512435_OriginWithinMeetActivity.designer.cs">
       <DependentUpon>202008261512435_OriginWithinMeetActivity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008261708457_PurchaseTable.cs" />
+    <Compile Include="Migrations\202008261708457_PurchaseTable.designer.cs">
+      <DependentUpon>202008261708457_PurchaseTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008261820434_ShowTables.cs" />
+    <Compile Include="Migrations\202008261820434_ShowTables.designer.cs">
+      <DependentUpon>202008261820434_ShowTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\ShowWindow.xaml.cs">
+      <DependentUpon>ShowWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\MovieWindow.xaml.cs">
       <DependentUpon>MovieWindow.xaml</DependentUpon>
     </Compile>
@@ -332,6 +353,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008261512435_OriginWithinMeetActivity.resx">
       <DependentUpon>202008261512435_OriginWithinMeetActivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261708457_PurchaseTable.resx">
+      <DependentUpon>202008261708457_PurchaseTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008261820434_ShowTables.resx">
+      <DependentUpon>202008261820434_ShowTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

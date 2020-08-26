@@ -31,18 +31,8 @@ namespace DomL.Business.Services
             };
 
             activity.GiftActivity = giftActivity;
-            activity.PairUpActivity(unitOfWork);
 
             unitOfWork.GiftRepo.CreateGiftActivity(giftActivity);
-        }
-
-        public static IEnumerable<Activity> GetStartingActivity(IQueryable<Activity> previousStartingActivities, Activity activity)
-        {
-            var gift = activity.GiftActivity.Gift;
-            return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.GIFT
-                && u.GiftActivity.Gift == gift
-            );
         }
     }
 }
