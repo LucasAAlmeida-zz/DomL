@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DomL.DataAccess
 {
-    public class PetRepository : BaseRepository<PetActivity>
+    public class PetRepository : DomLRepository<PetActivity>
     {
         public PetRepository(DomLContext context) : base(context) { }
 

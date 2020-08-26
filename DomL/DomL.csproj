@@ -86,7 +86,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DomL\MainWindow.xaml">
+    <Page Include="DomL\DomLWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -181,7 +181,7 @@
     <Compile Include="Activity\Categories\Comic\ComicRepository.cs" />
     <Compile Include="Activity\Categories\Book\BookRepository.cs" />
     <Compile Include="DomL\DomLContext.cs" />
-    <Compile Include="DomL\BaseRepository.cs" />
+    <Compile Include="DomL\DomLRepository.cs" />
     <Compile Include="DomL\UnitOfWork.cs" />
     <Compile Include="Migrations\202008211916434_Initial.cs" />
     <Compile Include="Migrations\202008211916434_Initial.designer.cs">
@@ -279,8 +279,8 @@
     <Compile Include="Activity\Categories\Book\BookWindow.xaml.cs">
       <DependentUpon>BookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DomL\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="DomL\DomLWindow.xaml.cs">
+      <DependentUpon>DomLWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="DomL\RestoreFullWindow.xaml">

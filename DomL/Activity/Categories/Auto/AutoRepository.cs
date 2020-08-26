@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DomL.DataAccess
 {
-    public class AutoRepository : BaseRepository<AutoActivity>
+    public class AutoRepository : DomLRepository<AutoActivity>
     {
         public AutoRepository(DomLContext context) : base(context) { }
 

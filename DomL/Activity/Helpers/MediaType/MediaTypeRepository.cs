@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DomL.DataAccess.Repositories
 {
-    public class MediaTypeRepository : BaseRepository<MediaType>
+    public class MediaTypeRepository : DomLRepository<MediaType>
     {
         public MediaTypeRepository(DomLContext context) : base(context) { }
 

@@ -157,7 +157,6 @@ namespace DomL.Business.Services
         private static void WriteStatisticsFile(string fileDir, List<Activity> activities)
         {
             using (var file = new StreamWriter(fileDir + "Statistics.txt")) {
-
                 file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME));
                 file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME));
                 file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SHOW));

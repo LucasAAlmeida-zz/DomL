@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace DomL.DataAccess
 {
-    public class ComicRepository : BaseRepository<ComicActivity>
+    public class ComicRepository : DomLRepository<ComicActivity>
     {
         public ComicRepository(DomLContext context) : base(context) { }
 

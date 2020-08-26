@@ -2,7 +2,7 @@
 
 namespace DomL.DataAccess
 {
-    public class EventRepository : BaseRepository<EventActivity>
+    public class EventRepository : DomLRepository<EventActivity>
     {
         public EventRepository(DomLContext context) : base(context) { }
 

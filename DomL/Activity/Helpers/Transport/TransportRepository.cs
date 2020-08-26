@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DomL.DataAccess
 {
-    public class TransportRepository : BaseRepository<Transport>
+    public class TransportRepository : DomLRepository<Transport>
     {
         public TransportRepository(DomLContext context) : base(context) { }
 

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DomL.DataAccess
 {
-    public class SeriesRepository : BaseRepository<Series>
+    public class SeriesRepository : DomLRepository<Series>
     {
         public SeriesRepository(DomLContext context) : base(context) { }
 

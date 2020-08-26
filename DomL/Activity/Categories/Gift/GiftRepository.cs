@@ -3,7 +3,7 @@ using System;
 
 namespace DomL.DataAccess
 {
-    public class GiftRepository : BaseRepository<GiftActivity>
+    public class GiftRepository : DomLRepository<GiftActivity>
     {
         public GiftRepository(DomLContext context) : base(context) { }
 

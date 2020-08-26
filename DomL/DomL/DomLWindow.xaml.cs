@@ -6,11 +6,11 @@ using System.Windows;
 namespace DomL
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DomLWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class DomLWindow
     {
-        public MainWindow()
+        public DomLWindow()
         {
             this.InitializeComponent();
 

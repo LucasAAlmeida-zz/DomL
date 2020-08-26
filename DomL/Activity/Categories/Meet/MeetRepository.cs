@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DomL.DataAccess
 {
-    public class MeetRepository : BaseRepository<MeetActivity>
+    public class MeetRepository : DomLRepository<MeetActivity>
     {
         public MeetRepository(DomLContext context) : base(context) { }
 

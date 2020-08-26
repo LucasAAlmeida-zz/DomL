@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace DomL.DataAccess
 {
-    public class ShowRepository : BaseRepository<ShowActivity>
+    public class ShowRepository : DomLRepository<ShowActivity>
     {
         public ShowRepository(DomLContext context) : base(context) { }
 

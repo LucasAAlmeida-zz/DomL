@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DomL.DataAccess.Repositories
 {
-    public class ActivityRepository : BaseRepository<Activity>
+    public class ActivityRepository : DomLRepository<Activity>
     {
         public ActivityRepository(DomLContext context) : base(context) { }
 

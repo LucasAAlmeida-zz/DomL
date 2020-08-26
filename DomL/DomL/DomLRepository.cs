@@ -4,12 +4,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 
-public class BaseRepository<TEntity> where TEntity : class
+public class DomLRepository<TEntity> where TEntity : class
 {
     protected readonly DbContext Context;
     private readonly DbSet<TEntity> _entities;
 
-    public BaseRepository(DbContext context)
+    public DomLRepository(DbContext context)
     {
         Context = context;
         _entities = Context.Set<TEntity>();

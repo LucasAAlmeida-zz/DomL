@@ -2,7 +2,7 @@
 
 namespace DomL.DataAccess
 {
-    public class DoomRepository : BaseRepository<DoomActivity>
+    public class DoomRepository : DomLRepository<DoomActivity>
     {
         public DoomRepository(DomLContext context) : base(context) { }
 

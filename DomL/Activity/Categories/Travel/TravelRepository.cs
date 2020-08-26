@@ -3,7 +3,7 @@ using System;
 
 namespace DomL.DataAccess
 {
-    public class TravelRepository : BaseRepository<TravelActivity>
+    public class TravelRepository : DomLRepository<TravelActivity>
     {
         public TravelRepository(DomLContext context) : base(context) { }
 
