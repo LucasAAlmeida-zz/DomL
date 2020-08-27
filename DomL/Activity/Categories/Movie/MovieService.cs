@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +41,7 @@ namespace DomL.Business.Services
             };
 
             activity.MovieActivity = movieActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.MovieRepo.CreateMovieActivity(movieActivity);
         }
@@ -80,7 +79,7 @@ namespace DomL.Business.Services
         {
             var movie = activity.MovieActivity.Movie;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.MOVIE
+                u.CategoryId == ActivityCategory.MOVIE_ID
                 && u.MovieActivity.Movie.Title == movie.Title
             );
         }

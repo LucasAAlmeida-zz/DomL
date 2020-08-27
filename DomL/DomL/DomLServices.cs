@@ -14,7 +14,6 @@ namespace DomL.Business.Services
     {
         const string BASE_DIR_PATH = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
 
-        #region SaveFromRawMonthText
         public static void SaveFromRawMonthText(string rawMonthText, int month, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
@@ -29,24 +28,28 @@ namespace DomL.Business.Services
             var activityRawLines = Regex.Split(rawMonthText, "\r\n");
             foreach(var rawLine in activityRawLines) {
                 try {
-                    if (IsLineBlank(rawLine)) {
-                        continue;
-                    }
-
-                    if (IsLineNewDay(rawLine, out int dia)) {
-                        date = new DateTime(year, month, dia);
-                        dayOrder = 0;
-                        continue;
-                    }
-
-                    dayOrder++;
                     using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        if (IsLineActivityBlockTag(rawLine)) {
+                        if (Util.IsLineBlank(rawLine)) {
+                            continue;
+                        }
+
+                        if (Util.IsLineNewDay(rawLine, out int dia)) {
+                            date = new DateTime(year, month, dia);
+                            dayOrder = 0;
+                            continue;
+                        }
+
+                        if (Util.IsLineActivityBlockTag(rawLine)) {
                             currentActivityBlock = ActivityService.ChangeActivityBlock(rawLine, unitOfWork);
                             continue;
                         }
-                        Activity activity = ActivityService.Create(date, dayOrder, rawLine, currentActivityBlock, unitOfWork);
-                        activity.SaveFromRawLine(rawLine, unitOfWork);
+
+                        var status = ActivityService.GetStatus(rawLine, unitOfWork);
+                        var category = ActivityService.GetCategory(rawLine, unitOfWork);
+
+                        dayOrder++;
+                        Activity activity = ActivityService.Create(date, dayOrder, status, category, currentActivityBlock, rawLine, unitOfWork);
+                        ActivityService.SaveFromRawLine(activity, rawLine, unitOfWork);
 
                         unitOfWork.Complete();
                     }
@@ -58,25 +61,6 @@ namespace DomL.Business.Services
             }
         }
 
-        private static bool IsLineActivityBlockTag(string line)
-        {
-            return line.StartsWith("<");
-        }
-
-        private static bool IsLineBlank(string line)
-        {
-            return string.IsNullOrWhiteSpace(line) || line.StartsWith("---");
-        }
-
-        private static bool IsLineNewDay(string linha, out int dia)
-        {
-            int indexPrimeiroEspaco = linha.IndexOf(" ", StringComparison.Ordinal);
-            string firstWord = (indexPrimeiroEspaco != -1) ? linha.Substring(0, indexPrimeiroEspaco) : linha;
-            return int.TryParse(firstWord, out dia) && (linha.Contains(" - ") || linha.Contains(" – "));
-        }
-        #endregion
-
-        #region WriteMonthRecapFile
         public static void WriteMonthRecapFile(int month, int year)
         {
             string filePath = BASE_DIR_PATH + "MonthRecap\\Month" + month.ToString("00") + "Recap.txt";
@@ -89,14 +73,13 @@ namespace DomL.Business.Services
             
             using (var file = new StreamWriter(filePath)) {
                 foreach (Activity activity in monthActivities) {
-                    string activityString = activity.GetInfoForMonthRecap();
+                    string activityString = ActivityService.GetInfoForMonthRecap(activity);
                     if (!string.IsNullOrWhiteSpace(activityString)) {
                         file.WriteLine(activityString);
                     }
                 }
             }
         }
-        #endregion
 
         public static void WriteYearRecapFiles(int year)
         {
@@ -146,7 +129,7 @@ namespace DomL.Business.Services
 
             using (var file = new StreamWriter(filePath)) {
                 foreach (var activity in categoryActivities) {
-                    string activityString = activity.GetInfoForYearRecap();
+                    string activityString = ActivityService.GetInfoForYearRecap(activity);
                     if (!string.IsNullOrWhiteSpace(activityString)) {
                         file.WriteLine(activityString);
                     }
@@ -157,15 +140,15 @@ namespace DomL.Business.Services
         private static void WriteStatisticsFile(string fileDir, List<Activity> activities)
         {
             using (var file = new StreamWriter(fileDir + "Statistics.txt")) {
-                file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME));
-                file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME));
-                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SHOW));
-                file.WriteLine("Livros lidos:\t" + CountFinished(activities, ActivityCategory.BOOK));
-                file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, ActivityCategory.COMIC));
-                file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, ActivityCategory.MOVIE));
-                file.WriteLine("Viagens feitas:\t" + CountFinished(activities, ActivityCategory.TRAVEL));
-                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, ActivityCategory.MEET));
-                file.WriteLine("Compras notáveis:\t" + CountFinished(activities, ActivityCategory.PURCHASE));
+                file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME_ID));
+                file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME_ID));
+                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SHOW_ID));
+                file.WriteLine("Livros lidos:\t" + CountFinished(activities, ActivityCategory.BOOK_ID));
+                file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, ActivityCategory.COMIC_ID));
+                file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, ActivityCategory.MOVIE_ID));
+                file.WriteLine("Viagens feitas:\t" + CountFinished(activities, ActivityCategory.TRAVEL_ID));
+                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, ActivityCategory.MEET_ID));
+                file.WriteLine("Compras notáveis:\t" + CountFinished(activities, ActivityCategory.PURCHASE_ID));
             }
         }
 

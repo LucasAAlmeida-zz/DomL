@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Configuration;
@@ -70,7 +69,7 @@ namespace DomL.Business.Services
             };
 
             activity.GameActivity = gameActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.GameRepo.CreateGameActivity(gameActivity);
         }
@@ -79,7 +78,7 @@ namespace DomL.Business.Services
         {
             var game = activity.GameActivity.Game;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.GAME
+                u.CategoryId == ActivityCategory.GAME_ID
                 && u.GameActivity.Game.Title == game.Title && u.GameActivity.Game.Platform.Name == game.Platform.Name
             );
         }

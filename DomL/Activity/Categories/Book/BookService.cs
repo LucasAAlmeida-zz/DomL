@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +42,7 @@ namespace DomL.Business.Services
             };
 
             activity.BookActivity = bookActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.BookRepo.CreateBookActivity(bookActivity);
         }
@@ -81,7 +80,7 @@ namespace DomL.Business.Services
         {
             var book = activity.BookActivity.Book;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.BOOK
+                u.CategoryId == ActivityCategory.BOOK_ID
                 && u.BookActivity.Book.Title == book.Title
             );
         }

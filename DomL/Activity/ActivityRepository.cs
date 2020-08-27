@@ -15,6 +15,16 @@ namespace DomL.DataAccess.Repositories
             get { return Context as DomLContext; }
         }
 
+        public IQueryable<Activity> GetPreviousStartingActivities(DateTime Date)
+        {
+            return GetAllQueryableInclusive()
+                .Where(u =>
+                    u.Status.Id == ActivityStatus.START
+                    && u.Date <= Date
+                    && u.PairedActivityId == null
+                );
+        }
+
         public List<Activity> GetAllInclusiveFromMonth(int month, int year)
         {
             return GetAllQueryableInclusive()
@@ -85,34 +95,24 @@ namespace DomL.DataAccess.Repositories
             );
         }
 
-        public ActivityCategory GetCategoryByName(string categoryName)
-        {
-            return DomLContext.ActivityCategory.SingleOrDefault(u => u.Name == categoryName);
-        }
-
-        public ActivityStatus GetStatusByName(string statusName)
-        {
-            return DomLContext.ActivityStatus.SingleOrDefault(u => u.Name == statusName);
-        }
-
         public void CreateActivityBlock(ActivityBlock activityBlock)
         {
             DomLContext.ActivityBlock.Add(activityBlock);
         }
 
-        public IQueryable<Activity> GetPreviousStartingActivities(DateTime Date)
+        public ActivityCategory GetCategoryByName(string categoryName)
         {
-            return GetAllQueryableInclusive()
-                .Where(u => 
-                    u.Status.Id == ActivityStatus.START
-                    && u.Date <= Date
-                    && u.PairedActivityId == null
-                );
+            return DomLContext.ActivityCategory.SingleOrDefault(u => u.Name == categoryName);
         }
 
         public List<ActivityCategory> GetAllCategories()
         {
             return DomLContext.ActivityCategory.ToList();
+        }
+        
+        public ActivityStatus GetStatusByName(string statusName)
+        {
+            return DomLContext.ActivityStatus.SingleOrDefault(u => u.Name == statusName);
         }
     }
 }

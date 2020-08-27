@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Configuration;
@@ -43,7 +42,7 @@ namespace DomL.Business.Services
             };
 
             activity.ComicActivity = comicActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
@@ -81,7 +80,7 @@ namespace DomL.Business.Services
         {
             var comicVolume = activity.ComicActivity.ComicVolume;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.COMIC
+                u.CategoryId == ActivityCategory.COMIC_ID
                 && u.ComicActivity.ComicVolume.Series.Name == comicVolume.Series.Name && u.ComicActivity.ComicVolume.Chapters == comicVolume.Chapters
             );
         }

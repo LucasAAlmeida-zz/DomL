@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +26,7 @@ namespace DomL.Business.Services
             };
 
             activity.WorkActivity = workActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.WorkRepo.CreateWorkActivity(workActivity);
         }
@@ -36,7 +35,7 @@ namespace DomL.Business.Services
         {
             var work = activity.WorkActivity.Work;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.WORK
+                u.CategoryId == ActivityCategory.WORK_ID
                 && u.WorkActivity.Work.Name == work.Name
             );
         }

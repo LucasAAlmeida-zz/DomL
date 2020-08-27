@@ -53,5 +53,22 @@ namespace DomL.Business.Utils
             infoLabel.Content = "Exists";
             infoLabel.Foreground = Brushes.Goldenrod;
         }
+
+        public static bool IsLineActivityBlockTag(string line)
+        {
+            return line.StartsWith("<");
+        }
+
+        public static bool IsLineBlank(string line)
+        {
+            return string.IsNullOrWhiteSpace(line) || line.StartsWith("---");
+        }
+
+        public static bool IsLineNewDay(string linha, out int dia)
+        {
+            int indexPrimeiroEspaco = linha.IndexOf(" ", StringComparison.Ordinal);
+            string firstWord = (indexPrimeiroEspaco != -1) ? linha.Substring(0, indexPrimeiroEspaco) : linha;
+            return int.TryParse(firstWord, out dia) && (linha.Contains(" - ") || linha.Contains(" – "));
+        }
     }
 }

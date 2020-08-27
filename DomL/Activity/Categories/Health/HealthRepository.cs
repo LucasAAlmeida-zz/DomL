@@ -1,6 +1,5 @@
 ﻿
 using DomL.Business.Entities;
-using System.Linq;
 
 namespace DomL.DataAccess
 {

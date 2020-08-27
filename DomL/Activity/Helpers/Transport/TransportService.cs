@@ -1,6 +1,4 @@
 ﻿using DomL.Business.Entities;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DomL.Business.Services
 {

@@ -1,7 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DomL.Business.Entities;
 
 namespace DomL.Business.Services
 {

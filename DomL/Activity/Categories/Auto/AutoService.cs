@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +26,7 @@ namespace DomL.Business.Services
             };
 
             activity.AutoActivity = autoActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.AutoRepo.CreateAutoActivity(autoActivity);
         }
@@ -36,7 +35,7 @@ namespace DomL.Business.Services
         {
             var auto = activity.AutoActivity.Auto;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.AUTO
+                u.CategoryId == ActivityCategory.AUTO_ID
                 && u.AutoActivity.Auto.Name == auto.Name
             );
         }

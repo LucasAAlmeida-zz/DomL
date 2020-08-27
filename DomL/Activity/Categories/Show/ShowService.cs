@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using DomL.Presentation;
 using System.Collections.Generic;
 using System.Configuration;
@@ -43,7 +42,7 @@ namespace DomL.Business.Services
             };
 
             activity.ShowActivity = showActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.ShowRepo.CreateShowActivity(showActivity);
         }
@@ -81,7 +80,7 @@ namespace DomL.Business.Services
         {
             var showSeason = activity.ShowActivity.ShowSeason;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.SHOW
+                u.CategoryId == ActivityCategory.SHOW_ID
                 && u.ShowActivity.ShowSeason.Series.Name == showSeason.Series.Name && u.ShowActivity.ShowSeason.Season == showSeason.Season
             );
         }

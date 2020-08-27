@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +22,7 @@ namespace DomL.Business.Services
             };
 
             activity.DoomActivity = doomActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.DoomRepo.CreateDoomActivity(doomActivity);
         }
@@ -32,7 +31,7 @@ namespace DomL.Business.Services
         {
             var description = activity.DoomActivity.Description;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.DOOM
+                u.CategoryId == ActivityCategory.DOOM_ID
                 && u.DoomActivity.Description == description
             );
         }

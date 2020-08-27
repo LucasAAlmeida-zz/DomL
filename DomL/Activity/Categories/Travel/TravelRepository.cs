@@ -1,5 +1,4 @@
 ﻿using DomL.Business.Entities;
-using System;
 
 namespace DomL.DataAccess
 {

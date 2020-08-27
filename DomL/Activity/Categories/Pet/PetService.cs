@@ -1,5 +1,4 @@
-﻿using DomL.Business.DTOs;
-using DomL.Business.Entities;
+﻿using DomL.Business.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +26,7 @@ namespace DomL.Business.Services
             };
 
             activity.PetActivity = petActivity;
-            activity.PairUpActivity(unitOfWork);
+            ActivityService.PairUpWithStartingActivity(activity, unitOfWork);
 
             unitOfWork.PetRepo.CreatePetActivity(petActivity);
         }
@@ -36,7 +35,7 @@ namespace DomL.Business.Services
         {
             var pet = activity.PetActivity.Pet;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.AUTO
+                u.CategoryId == ActivityCategory.AUTO_ID
                 && u.PetActivity.Pet.Name == pet.Name
             );
         }
