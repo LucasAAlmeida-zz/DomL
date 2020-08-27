@@ -11,39 +11,21 @@ namespace DomL.Business.Services
         public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
             // HEALTH; (Medical Specialty Name); Description
-            string medicalSpecialtyName = null;
+            string specialtyName = null;
             string description;
             if (segments.Length == 2) {
                 description = segments[1];
             } else {
-                medicalSpecialtyName = segments[1];
+                specialtyName = segments[1];
                 description = segments[2];
             }
 
-            MedicalSpecialty specialty = GetOrCreateMedicalSpecialtyByName(medicalSpecialtyName, unitOfWork);
+            Company specialty = CompanyService.GetOrCreateByName(specialtyName, unitOfWork);
 
             CreateHealthActivity(activity, specialty, description, unitOfWork);
         }
 
-        private static MedicalSpecialty GetOrCreateMedicalSpecialtyByName(string medicalSpecialtyName, UnitOfWork unitOfWork)
-        {
-            if (string.IsNullOrWhiteSpace(medicalSpecialtyName)) {
-                return null;
-            }
-
-            var specialty = unitOfWork.HealthRepo.GetMedicalSpecialtyByName(medicalSpecialtyName);
-
-            if (specialty == null) {
-                specialty = new MedicalSpecialty() {
-                    Name = medicalSpecialtyName
-                };
-                unitOfWork.HealthRepo.CreateMedicalSpecialty(specialty);
-            }
-
-            return specialty;
-        }
-
-        private static void CreateHealthActivity(Activity activity, MedicalSpecialty specialty, string description, UnitOfWork unitOfWork)
+        private static void CreateHealthActivity(Activity activity, Company specialty, string description, UnitOfWork unitOfWork)
         {
             var healthActivity = new HealthActivity() {
                 Activity = activity,

@@ -47,6 +47,7 @@ namespace DomL.Business.Entities
         public virtual PurchaseActivity PurchaseActivity { get; set; }
         public virtual ShowActivity ShowActivity { get; set; }
         public virtual TravelActivity TravelActivity { get; set; }
+        public virtual WorkActivity WorkActivity { get; set; }
 
         public void SaveFromRawLine(string rawLine, UnitOfWork unitOfWork)
         {
@@ -67,8 +68,7 @@ namespace DomL.Business.Entities
                 case ActivityCategory.PURCHASE: PurchaseService.SaveFromRawSegments(segments, this, unitOfWork);    break;
                 case ActivityCategory.SHOW:     ShowService.SaveFromRawSegments(segments, this, unitOfWork);        break;
                 case ActivityCategory.TRAVEL:   TravelService.SaveFromRawSegments(segments, this, unitOfWork);      break;
-                    //case ActivityCategory.TRAVEL:   new Travel(atividadeDTO, segmentos).Save(); break;
-                    //case ActivityCategory.WORK:     new Work(atividadeDTO, segmentos).Save(); break;
+                case ActivityCategory.WORK:     WorkService.SaveFromRawSegments(segments, this, unitOfWork);        break;
             }
         }
 

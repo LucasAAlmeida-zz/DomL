@@ -23,6 +23,7 @@ public class UnitOfWork : IDisposable
     public PurchaseRepository PurchaseRepo { get; private set; }
     public ShowRepository ShowRepo { get; private set; }
     public TravelRepository TravelRepo { get; private set; }
+    public WorkRepository WorkRepo { get; private set; }
 
     public PersonRepository PersonRepo { get; private set; }
     public CompanyRepository CompanyRepo { get; internal set; }
@@ -53,6 +54,7 @@ public class UnitOfWork : IDisposable
         PurchaseRepo = new PurchaseRepository(_context);
         ShowRepo = new ShowRepository(_context);
         TravelRepo = new TravelRepository(_context);
+        WorkRepo = new WorkRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
         PersonRepo = new PersonRepository(_context);

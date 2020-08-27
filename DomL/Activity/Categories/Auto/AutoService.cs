@@ -13,26 +13,12 @@ namespace DomL.Business.Services
             var autoName = segments[1];
             var description = segments[2];
 
-            Auto auto = GetOrCreateAutoByName(autoName, unitOfWork);
+            Transport auto = TransportService.GetOrCreateByName(autoName, unitOfWork);
 
             CreateAutoActivity(activity, auto, description, unitOfWork);
         }
 
-        private static Auto GetOrCreateAutoByName(string autoName, UnitOfWork unitOfWork)
-        {
-            var auto = unitOfWork.AutoRepo.GetAutoByName(autoName);
-
-            if (auto == null) {
-                auto = new Auto() {
-                    Name = autoName
-                };
-                unitOfWork.AutoRepo.CreateAuto(auto);
-            }
-
-            return auto;
-        }
-
-        private static void CreateAutoActivity(Activity activity, Auto auto, string description, UnitOfWork unitOfWork)
+        private static void CreateAutoActivity(Activity activity, Transport auto, string description, UnitOfWork unitOfWork)
         {
             var autoActivity = new AutoActivity() {
                 Activity = activity,

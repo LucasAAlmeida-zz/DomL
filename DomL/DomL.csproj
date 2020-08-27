@@ -90,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Activity\Categories\Work\Work.cs" />
+    <Compile Include="Activity\Categories\Work\WorkRepository.cs" />
+    <Compile Include="Activity\Categories\Work\WorkService.cs" />
+    <Compile Include="Activity\Categories\Work\ConsolidatedWorkDTO.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -183,87 +187,7 @@
     <Compile Include="DomL\DomLContext.cs" />
     <Compile Include="DomL\DomLRepository.cs" />
     <Compile Include="DomL\UnitOfWork.cs" />
-    <Compile Include="Migrations\202008211916434_Initial.cs" />
-    <Compile Include="Migrations\202008211916434_Initial.designer.cs">
-      <DependentUpon>202008211916434_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008211918376_SeedCategoryTable.cs" />
-    <Compile Include="Migrations\202008211918376_SeedCategoryTable.designer.cs">
-      <DependentUpon>202008211918376_SeedCategoryTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008211930117_SeedStatusTable.cs" />
-    <Compile Include="Migrations\202008211930117_SeedStatusTable.designer.cs">
-      <DependentUpon>202008211930117_SeedStatusTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008212001149_NullableColumns.cs" />
-    <Compile Include="Migrations\202008212001149_NullableColumns.designer.cs">
-      <DependentUpon>202008212001149_NullableColumns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008212324182_AddOriginalLineToActivityTable.cs" />
-    <Compile Include="Migrations\202008212324182_AddOriginalLineToActivityTable.designer.cs">
-      <DependentUpon>202008212324182_AddOriginalLineToActivityTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008222132359_ChangeStatusNames.cs" />
-    <Compile Include="Migrations\202008222132359_ChangeStatusNames.designer.cs">
-      <DependentUpon>202008222132359_ChangeStatusNames.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.cs" />
-    <Compile Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.designer.cs">
-      <DependentUpon>202008242220128_MandatoryDescriptionInDoomAndAuto.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008250034582_EventActivityTable.cs" />
-    <Compile Include="Migrations\202008250034582_EventActivityTable.designer.cs">
-      <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Activity\Helpers\Company\CompanyService.cs" />
-    <Compile Include="Migrations\202008251540361_GameTables.cs" />
-    <Compile Include="Migrations\202008251540361_GameTables.designer.cs">
-      <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008251954368_GiftTable.cs" />
-    <Compile Include="Migrations\202008251954368_GiftTable.designer.cs">
-      <DependentUpon>202008251954368_GiftTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008252244477_HealthTables.cs" />
-    <Compile Include="Migrations\202008252244477_HealthTables.designer.cs">
-      <DependentUpon>202008252244477_HealthTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs" />
-    <Compile Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.designer.cs">
-      <DependentUpon>202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008260039341_MovieTables.cs" />
-    <Compile Include="Migrations\202008260039341_MovieTables.designer.cs">
-      <DependentUpon>202008260039341_MovieTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008260220365_PetTables.cs" />
-    <Compile Include="Migrations\202008260220365_PetTables.designer.cs">
-      <DependentUpon>202008260220365_PetTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008261335270_MeetTables.cs" />
-    <Compile Include="Migrations\202008261335270_MeetTables.designer.cs">
-      <DependentUpon>202008261335270_MeetTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008261419499_PlayTable.cs" />
-    <Compile Include="Migrations\202008261419499_PlayTable.designer.cs">
-      <DependentUpon>202008261419499_PlayTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008261512435_OriginWithinMeetActivity.cs" />
-    <Compile Include="Migrations\202008261512435_OriginWithinMeetActivity.designer.cs">
-      <DependentUpon>202008261512435_OriginWithinMeetActivity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008261708457_PurchaseTable.cs" />
-    <Compile Include="Migrations\202008261708457_PurchaseTable.designer.cs">
-      <DependentUpon>202008261708457_PurchaseTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008261820434_ShowTables.cs" />
-    <Compile Include="Migrations\202008261820434_ShowTables.designer.cs">
-      <DependentUpon>202008261820434_ShowTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008262021182_TravelTables.cs" />
-    <Compile Include="Migrations\202008262021182_TravelTables.designer.cs">
-      <DependentUpon>202008262021182_TravelTables.cs</DependentUpon>
-    </Compile>
     <Compile Include="Activity\Categories\Show\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
     </Compile>
@@ -289,6 +213,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\202008262325328_Initial.cs" />
+    <Compile Include="Migrations\202008262325328_Initial.designer.cs">
+      <DependentUpon>202008262325328_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008270048321_WorkTables.cs" />
+    <Compile Include="Migrations\202008270048321_WorkTables.designer.cs">
+      <DependentUpon>202008270048321_WorkTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="DomL\RestoreFullWindow.xaml.cs">
       <DependentUpon>RestoreFullWindow.xaml</DependentUpon>
@@ -306,65 +238,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008211916434_Initial.resx">
-      <DependentUpon>202008211916434_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008262325328_Initial.resx">
+      <DependentUpon>202008262325328_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008211918376_SeedCategoryTable.resx">
-      <DependentUpon>202008211918376_SeedCategoryTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008211930117_SeedStatusTable.resx">
-      <DependentUpon>202008211930117_SeedStatusTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008212001149_NullableColumns.resx">
-      <DependentUpon>202008212001149_NullableColumns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008212324182_AddOriginalLineToActivityTable.resx">
-      <DependentUpon>202008212324182_AddOriginalLineToActivityTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008222132359_ChangeStatusNames.resx">
-      <DependentUpon>202008222132359_ChangeStatusNames.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008242220128_MandatoryDescriptionInDoomAndAuto.resx">
-      <DependentUpon>202008242220128_MandatoryDescriptionInDoomAndAuto.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008250034582_EventActivityTable.resx">
-      <DependentUpon>202008250034582_EventActivityTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008251540361_GameTables.resx">
-      <DependentUpon>202008251540361_GameTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008251954368_GiftTable.resx">
-      <DependentUpon>202008251954368_GiftTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008252244477_HealthTables.resx">
-      <DependentUpon>202008252244477_HealthTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008252352086_RequiredNamesInAutoAndMedicalSpecialty.resx">
-      <DependentUpon>202008252352086_RequiredNamesInAutoAndMedicalSpecialty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008260039341_MovieTables.resx">
-      <DependentUpon>202008260039341_MovieTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008260220365_PetTables.resx">
-      <DependentUpon>202008260220365_PetTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008261335270_MeetTables.resx">
-      <DependentUpon>202008261335270_MeetTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008261419499_PlayTable.resx">
-      <DependentUpon>202008261419499_PlayTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008261512435_OriginWithinMeetActivity.resx">
-      <DependentUpon>202008261512435_OriginWithinMeetActivity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008261708457_PurchaseTable.resx">
-      <DependentUpon>202008261708457_PurchaseTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008261820434_ShowTables.resx">
-      <DependentUpon>202008261820434_ShowTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008262021182_TravelTables.resx">
-      <DependentUpon>202008262021182_TravelTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008270048321_WorkTables.resx">
+      <DependentUpon>202008270048321_WorkTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

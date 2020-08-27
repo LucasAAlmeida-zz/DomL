@@ -13,26 +13,12 @@ namespace DomL.Business.Services
             var petName = segments[1];
             var description = segments[2];
 
-            Pet pet = GetOrCreatePetByName(petName, unitOfWork);
+            Person pet = PersonService.GetOrCreateByName(petName, unitOfWork);
 
             CreatePetActivity(activity, pet, description, unitOfWork);
         }
 
-        private static Pet GetOrCreatePetByName(string petName, UnitOfWork unitOfWork)
-        {
-            var pet = unitOfWork.PetRepo.GetPetByName(petName);
-
-            if (pet == null) {
-                pet = new Pet() {
-                    Name = petName
-                };
-                unitOfWork.PetRepo.CreatePet(pet);
-            }
-
-            return pet;
-        }
-
-        private static void CreatePetActivity(Activity activity, Pet pet, string description, UnitOfWork unitOfWork)
+        private static void CreatePetActivity(Activity activity, Person pet, string description, UnitOfWork unitOfWork)
         {
             var petActivity = new PetActivity() {
                 Activity = activity,

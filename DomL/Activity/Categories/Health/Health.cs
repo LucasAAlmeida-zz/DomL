@@ -23,17 +23,9 @@ namespace DomL.Business.Entities
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual MedicalSpecialty Specialty { get; set; }
+        public virtual Company Specialty { get; set; }
     }
 
-    [Table("MedicalSpecialty")]
-    public class MedicalSpecialty
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-    }
     //    public Health(ActivityDTO atividadeDTO, string[] segmentos) : base(atividadeDTO, segmentos) { }
     //    public Health() { }
 

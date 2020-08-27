@@ -15,16 +15,7 @@ namespace DomL.Business.Entities
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual Pet Pet { get; set; }
-    }
-
-    [Table("Pet")]
-    public class Pet
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
+        public virtual Person Pet { get; set; }
     }
 
         //protected override void PopulateActivity(IReadOnlyList<string> segmentos)

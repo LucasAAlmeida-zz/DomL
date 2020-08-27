@@ -55,6 +55,7 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.PurchaseActivity.Store)
                 .Include(u => u.ShowActivity.ShowSeason.Director).Include(u => u.ShowActivity.ShowSeason.Series).Include(u => u.ShowActivity.ShowSeason.Type)
                 .Include(u => u.TravelActivity.Transport).Include(u => u.TravelActivity.Origin).Include(u => u.TravelActivity.Destination)
+                .Include(u => u.WorkActivity.Work)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 
@@ -79,6 +80,7 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.PurchaseActivity)
                     .Include(u => u.ShowActivity)
                     .Include(u => u.TravelActivity)
+                    .Include(u => u.WorkActivity)
                     .Where(u => u.Date.Month == month && u.Date.Year == year)
             );
         }

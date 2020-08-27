@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class SeedCategoryTable : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SeedCategoryTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008211918376_SeedCategoryTable"; }
+            get { return "202008262325328_Initial"; }
         }
         
         string IMigrationMetadata.Source

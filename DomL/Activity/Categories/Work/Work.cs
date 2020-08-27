@@ -3,19 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DomL.Business.Entities
 {
-    [Table("AutoActivity")]
-    public class AutoActivity
+    [Table("WorkActivity")]
+    public class WorkActivity
     {
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
-        [ForeignKey("Auto")]
-        public int AutoId { get; set; }
+        [ForeignKey("Work")]
+        public int WorkId { get; set; }
         [Required]
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual Transport Auto { get; set; }
+        public virtual Company Work { get; set; }
     }
 
         //protected override void PopulateActivity(IReadOnlyList<string> segmentos)
@@ -29,11 +29,11 @@ namespace DomL.Business.Entities
         //public override void Save()
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        if (unitOfWork.AutoRepo.Exists(b => b.Date == this.Date)) {
+        //        if (unitOfWork.WorkRepo.Exists(b => b.Date == this.Date)) {
         //            return;
         //        }
 
-        //        unitOfWork.AutoRepo.Add(this);
+        //        unitOfWork.WorkRepo.Add(this);
         //        unitOfWork.Complete();
         //    }
         //}
@@ -43,63 +43,63 @@ namespace DomL.Business.Entities
         //    return Util.GetDiaMes(this.Date) + "\t" + this.Subject + "\t" + this.Description;
         //}
 
-        //public static IEnumerable<Auto> GetAllFromMes(int mes, int ano)
+        //public static IEnumerable<Work> GetAllFromMes(int mes, int ano)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        return unitOfWork.AutoRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
+        //        return unitOfWork.WorkRepo.Find(b => b.Date.Month == mes && b.Date.Year == ano);
         //    }
         //}
 
         //public static void ConsolidateYear(string fileDir, int year)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allAutos = unitOfWork.AutoRepo.Find(b => b.Date.Year == year).ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Auto" + year + ".txt", allAutos.Cast<SingleDayActivity>().ToList());
+        //        var allWorks = unitOfWork.WorkRepo.Find(b => b.Date.Year == year).ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Work" + year + ".txt", allWorks.Cast<SingleDayActivity>().ToList());
         //    }
         //}
 
         //public static void ConsolidateAll(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allAutos = unitOfWork.AutoRepo.GetAll().ToList();
-        //        EscreveConsolidadasNoArquivo(fileDir + "Auto.txt", allAutos.Cast<SingleDayActivity>().ToList());
+        //        var allWorks = unitOfWork.WorkRepo.GetAll().ToList();
+        //        EscreveConsolidadasNoArquivo(fileDir + "Work.txt", allWorks.Cast<SingleDayActivity>().ToList());
         //    }
         //}
 
         //public static void FullRestoreFromFile(string fileDir)
         //{
         //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-        //        var allAutos = GetAutosFromFile(fileDir + "Auto.txt");
-        //        unitOfWork.AutoRepo.AddRange(allAutos);
+        //        var allWorks = GetWorksFromFile(fileDir + "Work.txt");
+        //        unitOfWork.WorkRepo.AddRange(allWorks);
         //        unitOfWork.Complete();
         //    }
         //}
 
-        //private static List<Auto> GetAutosFromFile(string filePath)
+        //private static List<Work> GetWorksFromFile(string filePath)
         //{
         //    if (!File.Exists(filePath)) {
         //        return null;
         //    }
 
-        //    var autos = new List<Auto>();
+        //    var works = new List<Work>();
         //    using (var reader = new StreamReader(filePath)) {
 
         //        string line;
         //        while ((line = reader.ReadLine()) != null) {
         //            var segmentos = Regex.Split(line, "\t");
 
-        //            // Data; (Assunto) Qual automovel; (Descricao) O que Aconteceu
+        //            // Data; (Assunto) Qual workmovel; (Descricao) O que Aconteceu
 
-        //            var auto = new Auto() {
+        //            var work = new Work() {
         //                Date = DateTime.Parse(segmentos[0]),
         //                Subject = segmentos[1],
         //                Description = segmentos[2],
 
         //                DayOrder = 0,
         //            };
-        //            autos.Add(auto);
+        //            works.Add(work);
         //        }
         //    }
-        //    return autos;
+        //    return works;
         //}
 }
