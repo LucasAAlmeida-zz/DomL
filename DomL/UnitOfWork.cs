@@ -32,6 +32,7 @@ public class UnitOfWork : IDisposable
     public MediaTypeRepository MediaTypeRepo { get; internal set; }
     public SeriesRepository SeriesRepo { get; private set; }
     public FranchiseRepository FranchiseRepo { get; internal set; }
+    public ScoreRepository ScoreRepo { get; internal set; }
 
     public UnitOfWork(DomLContext context)
     {
@@ -63,6 +64,7 @@ public class UnitOfWork : IDisposable
         LocationRepo = new LocationRepository(_context);
         TransportRepo = new TransportRepository(_context);
         FranchiseRepo = new FranchiseRepository(_context);
+        ScoreRepo = new ScoreRepository(_context);
     }
 
 

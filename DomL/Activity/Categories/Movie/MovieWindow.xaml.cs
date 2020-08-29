@@ -37,25 +37,48 @@ namespace DomL.Presentation
                 this.SegmentosStack.Children.Add(dynLabel);
             }
 
-            var directorNames = new List<string>(segments);
-            directorNames.AddRange(PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            var titles = BookService.GetAll(unitOfWork).Select(u => u.Title).ToList();
+            var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var numbers = Util.GetDefaultNumberList();
+            var personNames = PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var scoreValues = ScoreService.GetAll(unitOfWork).Select(u => u.Value.ToString()).ToList();
 
-            var seriesNames = new List<string>(segments);
-            seriesNames.AddRange(SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            segments[0] = "";
+            var remainingSegments = segments;
+            var orderedSegments = new string[6];
 
-            this.TitleCB.ItemsSource = segments;
-            this.DirectorCB.ItemsSource = directorNames;
-            this.SeriesCB.ItemsSource = seriesNames;
-            this.NumberCB.ItemsSource = segments;
-            this.ScoreCB.ItemsSource = segments;
-            this.DescriptionCB.ItemsSource = segments;
+            var indexesToAvoid = new int[] { 4 };
 
-            this.TitleCB.SelectedItem = segments[1];
-            this.DirectorCB.SelectedItem = segments.Length > 2 ? segments[2] : null;
-            this.SeriesCB.SelectedItem = segments.Length > 3 ? segments[3] : null;
-            this.NumberCB.SelectedItem = segments.Length > 4 ? segments[4] : null;
-            this.ScoreCB.SelectedItem = segments.Length > 5 ? segments[5] : null;
-            this.DescriptionCB.SelectedItem = segments.Length > 6 ? segments[6] : null;
+            // MOVIE; Title; (Director Name); (Series Name); (Number In Series); (Score); (Description)
+            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[1];
+                if (int.TryParse(searched, out int number)) {
+                    searched = number.ToString("00");
+                }
+
+                if (titles.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
+                } else if (personNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
+                } else if (seriesNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 2, searched, indexesToAvoid);
+                } else if (numbers.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 3, searched, indexesToAvoid);
+                } else if (scoreValues.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 4, searched, indexesToAvoid);
+                } else {
+                    Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
+                }
+
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+            }
+
+            Util.SetComboBox(this.TitleCB, segments, titles, orderedSegments[0]);
+            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[1]);
+            Util.SetComboBox(this.NumberCB, segments, numbers, orderedSegments[2]);
+            Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[3]);
+            Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[4]);
+            Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[5]);
 
             this.TitleCB_LostFocus(null, null);
             this.DirectorCB_LostFocus(null, null);
@@ -119,7 +142,7 @@ namespace DomL.Presentation
             }
 
             this.NumberCB.Text = movie.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.Text = movie.Score ?? this.ScoreCB.Text;
+            this.ScoreCB.SelectedItem = movie.Score ?? this.ScoreCB.SelectedItem;
         }
     }
 }

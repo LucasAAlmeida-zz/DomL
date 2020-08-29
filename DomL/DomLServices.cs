@@ -53,7 +53,6 @@ namespace DomL.Business.Services
 
                         unitOfWork.Complete();
                     }
-
                 } catch (Exception e) {
                     var msg = "Deu ruim no dia " + date.Day + ", atividade: " + rawLine;
                     throw new ParseException(msg, e);

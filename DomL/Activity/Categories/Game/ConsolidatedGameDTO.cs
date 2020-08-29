@@ -24,7 +24,7 @@ namespace DomL.Business.DTOs
             NumberInSeries = game.NumberInSeries ?? "-";
             DirectorName = (game.Director != null) ? game.Director.Name : "-";
             PublisherName = (game.Publisher != null) ? game.Publisher.Name : "-";
-            Score = (!string.IsNullOrWhiteSpace(game.Score)) ? game.Score : "-";
+            Score = (game.Score != null) ? game.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(gameActivity.Description)) ? gameActivity.Description : "-";
         }
 

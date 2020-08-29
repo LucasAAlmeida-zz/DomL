@@ -24,19 +24,20 @@ namespace DomL.Business.Services
             var numberInSeries = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
             var directorName = gameWindow.DirectorCB.Text;
             var publisherName = gameWindow.PublisherCB.Text;
-            var score = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.ScoreCB.Text : null;
-            var description = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.DescriptionCB.Text : null;
-                
-            MediaType platform = MediaTypeService.GetOrCreateByName(platformName, unitOfWork);
-            Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            Person director = PersonService.GetOrCreateByName(directorName, unitOfWork);
-            Company publisher = CompanyService.GetOrCreateByName(publisherName, unitOfWork);
+            var scoreValue = gameWindow.ScoreCB.Text;
+            var description = (!string.IsNullOrWhiteSpace(gameWindow.DescriptionCB.Text)) ? gameWindow.DescriptionCB.Text : null;
+
+            var platform = MediaTypeService.GetByName(platformName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
+            var publisher = CompanyService.GetOrCreateByName(publisherName, unitOfWork);
+            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
 
             Game game = GetOrUpdateOrCreateGame(title, platform, series, numberInSeries, director, publisher, score, unitOfWork);
             CreateGameActivity(activity, game, description, unitOfWork);
         }
 
-        private static Game GetOrUpdateOrCreateGame(string title, MediaType platform, Series series, string numberInSeries, Person director, Company publisher, string score, UnitOfWork unitOfWork)
+        private static Game GetOrUpdateOrCreateGame(string title, MediaType platform, Series series, string numberInSeries, Person director, Company publisher, Score score, UnitOfWork unitOfWork)
         {
             var game = GetGameByTitleAndPlatformName(title, platform.Name, unitOfWork);
 

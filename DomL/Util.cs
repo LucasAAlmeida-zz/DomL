@@ -1,5 +1,10 @@
-﻿using System;
+﻿using DomL.Business.Entities;
+using DomL.Business.Services;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -35,6 +40,69 @@ namespace DomL.Business.Utils
             if (fi.Directory != null && !fi.Directory.Exists && fi.DirectoryName != null) {
                 Directory.CreateDirectory(fi.DirectoryName);
             }
+        }
+
+        public static List<string> GetDefaultSeasonsList()
+        {
+            var list = new List<string>();
+            for (int i = 1; i < 20; i++) {
+                list.Add("S" + i.ToString("00"));
+            }
+            return list;
+        }
+
+        public static List<string> GetDefaultChaptersList()
+        {
+            var list = new List<string>();
+            for (int i = 1; i < 500; i = i + 50) {
+                list.Add(i.ToString("000") + "~" + (i + 50).ToString("000"));
+            }
+            return list;
+        }
+
+        public static List<string> GetDefaultNumberList()
+        {
+            var list = new List<string>();
+            for (int i = 1; i < 30; i++) {
+                list.Add(i.ToString("00"));
+            }
+            return list;
+        }
+
+        public static void SetComboBox(ComboBox comboBox, string[] originalSegments, List<string> nameList, string chosenStr)
+        {
+            var possibleStrings = new List<string>();
+            possibleStrings.AddRange(originalSegments);
+            possibleStrings.AddRange(nameList);
+            comboBox.ItemsSource = possibleStrings;
+            comboBox.SelectedItem = chosenStr;
+        }
+
+        public static int GetFirstEmptyIndex(string[] orderedSegments, int[] indexesToAvoid)
+        {
+            for (int i = 0; i < orderedSegments.Length; i++) {
+                if (!indexesToAvoid.Contains(i) && orderedSegments[i] == null) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public static void PlaceStringInFirstAvailablePosition(string[] orderedSegments, int[] indexesToAvoid, string searched)
+        {
+            var emptyIndex = GetFirstEmptyIndex(orderedSegments, indexesToAvoid);
+            if (emptyIndex != -1) {
+                orderedSegments[emptyIndex] = searched;
+            }
+        }
+
+        public static void PlaceOrderedSegment(string[] orderedSegments, int index, string toPlace, int[] indexesToAvoid)
+        {
+            if (orderedSegments[index] != null) {
+                var displaced = orderedSegments[index];
+                PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, displaced);
+            }
+            orderedSegments[index] = toPlace;
         }
 
         public static void ChangeInfoLabel(string instanceName, object instance, Label infoLabel)

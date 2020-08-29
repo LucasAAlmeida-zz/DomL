@@ -34,18 +34,18 @@
                 <Label Name="SeasonInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
+                <Label Content="Type:" Width="90" />
+                <ComboBox Name="TypeCB" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="TypeInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
                 <Label Content="Director:" Width="90" />
                 <ComboBox Name="DirectorCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
                 <Label Name="DirectorInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Type:" Width="90" />
-                <ComboBox Name="TypeCB" IsEditable="True" Width="300" LostFocus="TypeCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="TypeInfoLb" Margin="5,0" Width="40" />
-            </DockPanel>
-            <DockPanel Margin="5">
                 <Label Content="Score:" Width="90" />
-                <ComboBox Name="ScoreCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="ScoreCB" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="ScoreInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">

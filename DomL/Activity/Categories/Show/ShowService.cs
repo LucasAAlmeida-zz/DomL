@@ -22,14 +22,16 @@ namespace DomL.Business.Services
             var season = showWindow.SeasonCB.Text;
             var directorName = showWindow.DirectorCB.Text;
             var typeName = showWindow.TypeCB.Text;
-            var score = (!string.IsNullOrWhiteSpace(showWindow.ScoreCB.Text)) ? showWindow.ScoreCB.Text : null;
+            var scoreValue = showWindow.ScoreCB.Text;
             var description = (!string.IsNullOrWhiteSpace(showWindow.DescriptionCB.Text)) ? showWindow.DescriptionCB.Text : null;
                 
-            Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            Person director = PersonService.GetOrCreateByName(directorName, unitOfWork);
-            MediaType type = MediaTypeService.GetOrCreateByName(typeName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
+            var type = MediaTypeService.GetByName(typeName, unitOfWork);
+            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
 
             ShowSeason showSeason = GetOrUpdateOrCreateShowSeason(series, season, director, type, score, unitOfWork);
+
             CreateShowActivity(activity, showSeason, description, unitOfWork);
         }
 
@@ -47,7 +49,7 @@ namespace DomL.Business.Services
             unitOfWork.ShowRepo.CreateShowActivity(showActivity);
         }
 
-        private static ShowSeason GetOrUpdateOrCreateShowSeason(Series series, string season, Person director, MediaType type, string score, UnitOfWork unitOfWork)
+        private static ShowSeason GetOrUpdateOrCreateShowSeason(Series series, string season, Person director, MediaType type, Score score, UnitOfWork unitOfWork)
         {
             var showSeason = GetShowSeasonBySeriesNameAndSeason(series.Name, season, unitOfWork);
 

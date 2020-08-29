@@ -20,7 +20,7 @@ namespace DomL.Business.DTOs
             Chapters = comicVolume.Chapters;
             AuthorName = (comicVolume.Author != null) ? comicVolume.Author.Name : "-";
             Type = (comicVolume.Type != null) ? comicVolume.Type.Name : "-";
-            Score = (!string.IsNullOrWhiteSpace(comicVolume.Score)) ? comicVolume.Score : "-";
+            Score = (comicVolume.Score != null) ? comicVolume.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
         }
 

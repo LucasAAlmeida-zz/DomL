@@ -6,9 +6,9 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
-            // PLAY; Person Name; Description
+            // PLAY; Person Name; (Description)
             var personName = segments[1];
-            var description = segments[2];
+            var description = segments.Length > 2 ? segments[2] : null;
 
             Person person = PersonService.GetOrCreateByName(personName, unitOfWork);
 

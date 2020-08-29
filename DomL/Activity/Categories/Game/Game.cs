@@ -29,7 +29,7 @@ namespace DomL.Business.Entities
         public string NumberInSeries { get; set; }
         public int? DirectorId { get; set; }
         public int? PublisherId { get; set; }
-        public string Score { get; set; }
+        public int? ScoreId { get; set; }
 
         [ForeignKey("DirectorId")]
         public Person Director { get; set; }
@@ -39,6 +39,8 @@ namespace DomL.Business.Entities
         public MediaType Platform { get; set; }
         [ForeignKey("PublisherId")]
         public Company Publisher { get; set; }
+        [ForeignKey("ScoreId")]
+        public Score Score { get; set; }
     }
 
     // JOGO; (De Quem) Plataforma; (Assunto) Título; (Classificação) Término; (Valor) Nota; (Descrição) O que achei

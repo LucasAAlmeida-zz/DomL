@@ -27,7 +27,7 @@ namespace DomL.Business.Entities
         public string Chapters { get; set; }
         public int? AuthorId { get; set; }
         public int? TypeId { get; set; }
-        public string Score { get; set; }
+        public int? ScoreId { get; set; }
 
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }
@@ -35,8 +35,10 @@ namespace DomL.Business.Entities
         public Person Author { get; set; }
         [ForeignKey("TypeId")]
         public MediaType Type { get; set; }
+        [ForeignKey("ScoreId")]
+        public Score Score { get; set; }
 
-        
+
 
         //public override void Save()
         //{

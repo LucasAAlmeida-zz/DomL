@@ -22,11 +22,12 @@ namespace DomL.Business.Services
             var directorName = movieWindow.DirectorCB.Text;
             var seriesName = movieWindow.SeriesCB.Text;
             var numberInSeries = (!string.IsNullOrWhiteSpace(movieWindow.NumberCB.Text)) ? movieWindow.NumberCB.Text : null;
-            var score = (!string.IsNullOrWhiteSpace(movieWindow.ScoreCB.Text)) ? movieWindow.ScoreCB.Text : null;
+            var scoreValue = movieWindow.ScoreCB.Text;
             var description = (!string.IsNullOrWhiteSpace(movieWindow.DescriptionCB.Text)) ? movieWindow.DescriptionCB.Text : null;
 
-            Person director = PersonService.GetOrCreateByName(directorName, unitOfWork);
-            Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
 
             Movie movie = GetOrUpdateOrCreateMovie(movieTitle, director, series, numberInSeries, score, unitOfWork);
             CreateMovieActivity(activity, movie, description, unitOfWork);
@@ -46,7 +47,7 @@ namespace DomL.Business.Services
             unitOfWork.MovieRepo.CreateMovieActivity(movieActivity);
         }
 
-        private static Movie GetOrUpdateOrCreateMovie(string movieTitle, Person director, Series series, string numberInSeries, string score, UnitOfWork unitOfWork)
+        private static Movie GetOrUpdateOrCreateMovie(string movieTitle, Person director, Series series, string numberInSeries, Score score, UnitOfWork unitOfWork)
         {
             var movie = unitOfWork.MovieRepo.GetMovieByTitle(movieTitle);
 

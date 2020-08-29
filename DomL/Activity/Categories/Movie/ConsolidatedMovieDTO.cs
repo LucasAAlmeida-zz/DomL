@@ -20,7 +20,7 @@ namespace DomL.Business.DTOs
             DirectorName = (movie.Director != null) ? movie.Director.Name : "-";
             SeriesName = (movie.Series != null) ? movie.Series.Name : "-";
             NumberInSeries = (!string.IsNullOrWhiteSpace(movie.NumberInSeries)) ? movie.NumberInSeries : "-";
-            Score = (!string.IsNullOrWhiteSpace(movie.Score)) ? movie.Score : "-";
+            Score = (movie.Score != null) ? movie.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(movieActivity.Description)) ? movieActivity.Description : "-";
         }
 

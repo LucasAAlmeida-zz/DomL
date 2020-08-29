@@ -27,7 +27,7 @@ namespace DomL.Business.Entities
         public string Season { get; set; }
         public int? DirectorId { get; set; }
         public int? TypeId { get; set; }
-        public string Score { get; set; }
+        public int? ScoreId { get; set; }
 
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }
@@ -35,7 +35,9 @@ namespace DomL.Business.Entities
         public Person Director { get; set; }
         [ForeignKey("TypeId")]
         public MediaType Type { get; set; }
-
+        [ForeignKey("ScoreId")]
+        public Score Score { get; set; }
+    }
         
 
         //public override void Save()
@@ -161,5 +163,4 @@ namespace DomL.Business.Entities
         //    }
         //    return shows;
         //}
-    }
 }

@@ -37,38 +37,58 @@ namespace DomL.Presentation
                 this.SegmentosStack.Children.Add(dynLabel);
             }
 
-            var platformNames = new List<string>(segments);
-            platformNames.AddRange(MediaTypeService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            var titles = BookService.GetAll(unitOfWork).Select(u => u.Title).ToList();
+            var platformTypes = MediaTypeService.GetAllPlatformTypes(unitOfWork).Select(u => u.Name).ToList();
+            var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var numbers = Util.GetDefaultNumberList();
+            var personNames = PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var companyNames = CompanyService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var scoreValues = ScoreService.GetAll(unitOfWork).Select(u => u.Value.ToString()).ToList();
 
-            var seriesNames = new List<string>(segments);
-            seriesNames.AddRange(SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            segments[0] = "";
+            var remainingSegments = segments;
+            var orderedSegments = new string[8];
 
-            var directorNames = new List<string>(segments);
-            directorNames.AddRange(PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            var indexesToAvoid = new int[] { 1, 6 };
 
-            var publisherNames = new List<string>(segments);
-            publisherNames.AddRange(CompanyService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            // GAME; Title; Platform Name; (Series Name); (Number In Series); (Director Name); (Publisher Name); (Score); (Description)
+            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[1];
+                if (int.TryParse(searched, out int number)) {
+                    searched = number.ToString("00");
+                }
 
-            this.TitleCB.ItemsSource = segments;
-            this.PlatformCB.ItemsSource = platformNames;
-            this.SeriesCB.ItemsSource = seriesNames;
-            this.NumberCB.ItemsSource = segments;
-            this.DirectorCB.ItemsSource = directorNames;
-            this.PublisherCB.ItemsSource = publisherNames;
-            this.ScoreCB.ItemsSource = segments;
-            this.DescriptionCB.ItemsSource = segments;
+                if (titles.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
+                } else if (platformTypes.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
+                } else if (seriesNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 2, searched, indexesToAvoid);
+                } else if (numbers.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 3, searched, indexesToAvoid);
+                } else if (personNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 4, searched, indexesToAvoid);
+                } else if (companyNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 5, searched, indexesToAvoid);
+                } else if (scoreValues.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 6, searched, indexesToAvoid);
+                } else {
+                    Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
+                }
 
-            this.TitleCB.SelectedItem = segments[1];
-            this.PlatformCB.SelectedItem = segments[2];
-            this.SeriesCB.SelectedItem = segments.Length > 3 ? segments[3] : null;
-            this.NumberCB.SelectedItem = segments.Length > 4 ? segments[4] : null;
-            this.DirectorCB.SelectedItem = segments.Length > 5 ? segments[5] : null;
-            this.PublisherCB.SelectedItem = segments.Length > 6 ? segments[6] : null;
-            this.ScoreCB.SelectedItem = segments.Length > 7 ? segments[7] : null;
-            this.DescriptionCB.SelectedItem = segments.Length > 8 ? segments[8] : null;
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+            }
+
+            Util.SetComboBox(this.TitleCB, segments, titles, orderedSegments[0]);
+            Util.SetComboBox(this.PlatformCB, new string[1] { "" }, platformTypes, orderedSegments[1]);
+            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[2]);
+            Util.SetComboBox(this.NumberCB, segments, numbers, orderedSegments[3]);
+            Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[4]);
+            Util.SetComboBox(this.PublisherCB, segments, personNames, orderedSegments[5]);
+            Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[6]);
+            Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[7]);
 
             this.TitleCB_LostFocus(null, null);
-            this.PlatformCB_LostFocus(null, null);
             this.SeriesCB_LostFocus(null, null);
             this.DirectorCB_LostFocus(null, null);
             this.PublisherCB_LostFocus(null, null);
@@ -76,6 +96,9 @@ namespace DomL.Presentation
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(this.TitleCB.Text) || string.IsNullOrWhiteSpace(this.PlatformCB.Text)) {
+                return;
+            }
             this.DialogResult = true;
         }
 
@@ -89,20 +112,7 @@ namespace DomL.Presentation
             var game = GameService.GetGameByTitle(title, this.UnitOfWork);
             Util.ChangeInfoLabel(title, game, this.TitleInfoLb);
 
-            UpdateOptionalComboBoxes(title, this.PlatformCB.Text);
-        }
-
-        private void PlatformCB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (this.PlatformCB.IsKeyboardFocusWithin) {
-                return;
-            }
-
-            var platformName = this.PlatformCB.Text;
-            var platform = MediaTypeService.GetByName(platformName, this.UnitOfWork);
-            Util.ChangeInfoLabel(platformName, platform, this.PlatformInfoLb);
-
-            UpdateOptionalComboBoxes(this.TitleCB.Text, platformName);
+            UpdateOptionalComboBoxes(title);
         }
 
         private void SeriesCB_LostFocus(object sender, RoutedEventArgs e)
@@ -138,13 +148,14 @@ namespace DomL.Presentation
             Util.ChangeInfoLabel(publisherName, publisher, this.PublisherInfoLb);
         }
 
-        private void UpdateOptionalComboBoxes(string title, string platformName)
+        private void UpdateOptionalComboBoxes(string title)
         {
-            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(platformName)) {
+            var platform = this.PlatformCB != null ? (string)this.PlatformCB.SelectedItem : null;
+            if (string.IsNullOrWhiteSpace(title) || platform == null) {
                 return;
             }
 
-            var game = GameService.GetGameByTitleAndPlatformName(title, platformName, this.UnitOfWork);
+            var game = GameService.GetGameByTitleAndPlatformName(title, platform, this.UnitOfWork);
 
             if (game == null) {
                 return;
@@ -166,7 +177,7 @@ namespace DomL.Presentation
             }
 
             this.NumberCB.Text = game.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.Text = game.Score ?? this.ScoreCB.Text;
+            this.ScoreCB.SelectedItem = game.Score ?? this.ScoreCB.SelectedItem;
         }
 
     }

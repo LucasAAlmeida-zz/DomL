@@ -7,8 +7,13 @@ namespace DomL.Business.Entities
     public class MediaType
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        public int CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
+        public ActivityCategory Category { get; set; }
     }
 }

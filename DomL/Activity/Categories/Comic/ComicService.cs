@@ -22,12 +22,13 @@ namespace DomL.Business.Services
             var chapters = comicWindow.ChaptersCB.Text;
             var authorName = comicWindow.AuthorCB.Text;
             var typeName = comicWindow.TypeCB.Text;
-            var score = (!string.IsNullOrWhiteSpace(comicWindow.ScoreCB.Text)) ? comicWindow.ScoreCB.Text : null;
+            var scoreValue = comicWindow.ScoreCB.Text;
             var description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
                 
-            Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
-            MediaType type = MediaTypeService.GetOrCreateByName(typeName, unitOfWork);
+            var type = MediaTypeService.GetByName(typeName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var author = PersonService.GetOrCreateByName(authorName, unitOfWork);
+            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
 
             ComicVolume comicVolume = GetOrUpdateOrCreateComicVolume(series, chapters, author, type, score, unitOfWork);
             CreateComicActivity(activity, comicVolume, description, unitOfWork);
@@ -47,7 +48,7 @@ namespace DomL.Business.Services
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
 
-        private static ComicVolume GetOrUpdateOrCreateComicVolume(Series series, string chapters, Person author, MediaType type, string score, UnitOfWork unitOfWork)
+        private static ComicVolume GetOrUpdateOrCreateComicVolume(Series series, string chapters, Person author, MediaType type, Score score, UnitOfWork unitOfWork)
         {
             var comicVolume = GetComicVolumeBySeriesNameAndChapters(series.Name, chapters, unitOfWork);
 

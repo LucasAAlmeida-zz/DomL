@@ -27,12 +27,14 @@ namespace DomL.Business.Entities
         public int? DirectorId { get; set; }
         public int? SeriesId { get; set; }
         public string NumberInSeries { get; set; }
-        public string Score { get; set; }
+        public int? ScoreId { get; set; }
 
         [ForeignKey("DirectorId")]
         public Person Director { get; set; }
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }
+        [ForeignKey("ScoreId")]
+        public Score Score { get; set; }
     }
     //    [Required]
     //    public string Nota { get; set; }

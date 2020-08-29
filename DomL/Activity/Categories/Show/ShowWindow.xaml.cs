@@ -37,29 +37,46 @@ namespace DomL.Presentation
                 this.SegmentosStack.Children.Add(dynLabel);
             }
 
-            var directorNames = new List<string>(segments);
-            directorNames.AddRange(PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var defaultSeasonsList = Util.GetDefaultSeasonsList();
+            var showTypes = MediaTypeService.GetAllShowTypes(unitOfWork).Select(u => u.Name).ToList();
+            var personNames = PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var publisherNames = CompanyService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var scoreValues = ScoreService.GetAll(unitOfWork).Select(u => u.Value.ToString()).ToList();
 
-            var seriesNames = new List<string>(segments);
-            seriesNames.AddRange(SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            segments[0] = "";
+            var remainingSegments = segments;
+            var orderedSegments = new string[6];
 
-            var mediaTypeNames = new List<string>(segments);
-            mediaTypeNames.AddRange(MediaTypeService.GetAll(unitOfWork).Select(u => u.Name).ToList());
-
-            this.SeriesCB.ItemsSource = seriesNames;
-            this.SeasonCB.ItemsSource = segments;
-            this.DirectorCB.ItemsSource = directorNames;
-            this.TypeCB.ItemsSource = mediaTypeNames;
-            this.ScoreCB.ItemsSource = segments;
-            this.DescriptionCB.ItemsSource = segments;
+            var indexesToAvoid = new int[] { 2, 4 };
 
             // SHOW; Series Name; Season; (Media Type Name); (Director Name); (Score); (Description)
-            this.SeriesCB.SelectedItem = segments[1];
-            this.SeasonCB.SelectedItem = segments[2];
-            this.TypeCB.SelectedItem = segments.Length > 3 ? segments[3] : null;
-            this.DirectorCB.SelectedItem = segments.Length > 4 ? segments[4] : null;
-            this.ScoreCB.SelectedItem = segments.Length > 5 ? segments[5] : null;
-            this.DescriptionCB.SelectedItem = segments.Length > 6 ? segments[6] : null;
+            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[1];
+
+                if (seriesNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
+                } else if ((defaultSeasonsList.Contains(searched) || searched.Contains("~")) && orderedSegments[1] == null) {
+                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
+                } else if (showTypes.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 2, searched, indexesToAvoid);
+                } else if (personNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 3, searched, indexesToAvoid);
+                } else if (scoreValues.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 4, searched, indexesToAvoid);
+                } else {
+                    Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
+                }
+
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+            }
+
+            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[0]);
+            Util.SetComboBox(this.SeasonCB, segments, defaultSeasonsList, orderedSegments[1]);
+            Util.SetComboBox(this.TypeCB, new string[1] { "" }, showTypes, orderedSegments[2]);
+            Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[3]);
+            Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[4]);
+            Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[5]);
 
             this.SeriesCB_LostFocus(null, null);
             this.DirectorCB_LostFocus(null, null);
@@ -128,7 +145,7 @@ namespace DomL.Presentation
                 this.TypeCB_LostFocus(null, null);
             }
 
-            this.ScoreCB.Text = showSeason.Score ?? this.ScoreCB.Text;
+            //this.ScoreCB.Text = showSeason.Score ?? this.ScoreCB.Text;
         }
     }
 }

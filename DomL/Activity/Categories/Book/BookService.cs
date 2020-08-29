@@ -11,7 +11,6 @@ namespace DomL.Business.Services
         public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
             // BOOK (Classification); Title; (Author Name); (Series Name); (Number In Series); (Score); (Description)
-            segments[0] = "";
             var bookWindow = new BookWindow(segments, activity, unitOfWork);
 
             if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
@@ -22,11 +21,12 @@ namespace DomL.Business.Services
             var authorName = bookWindow.AuthorCB.Text;
             var seriesName = bookWindow.SeriesCB.Text;
             var numberInSeries = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
-            var score = (!string.IsNullOrWhiteSpace(bookWindow.ScoreCB.Text)) ? bookWindow.ScoreCB.Text : null;
+            var scoreValue = bookWindow.SeriesCB.Text;
             var description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
 
-            Person author = PersonService.GetOrCreateByName(authorName, unitOfWork);
-            Series series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var author = PersonService.GetOrCreateByName(authorName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
 
             Book book = GetOrUpdateOrCreateBook(bookTitle, author, series, numberInSeries, score, unitOfWork);
 
@@ -47,7 +47,12 @@ namespace DomL.Business.Services
             unitOfWork.BookRepo.CreateBookActivity(bookActivity);
         }
 
-        private static Book GetOrUpdateOrCreateBook(string bookTitle, Person author, Series series, string numberInSeries, string score, UnitOfWork unitOfWork)
+        public static List<Book> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.BookRepo.GetAllBooks().ToList();
+        }
+
+        private static Book GetOrUpdateOrCreateBook(string bookTitle, Person author, Series series, string numberInSeries, Score score, UnitOfWork unitOfWork)
         {
             var book = unitOfWork.BookRepo.GetBookByTitle(bookTitle);
 

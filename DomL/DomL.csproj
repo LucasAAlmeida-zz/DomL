@@ -86,7 +86,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DomL\DomLWindow.xaml">
+    <Page Include="DomLWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -94,6 +94,9 @@
     <Compile Include="Activity\Categories\Work\WorkRepository.cs" />
     <Compile Include="Activity\Categories\Work\WorkService.cs" />
     <Compile Include="Activity\Categories\Work\ConsolidatedWorkDTO.cs" />
+    <Compile Include="Activity\Helpers\Score\Score.cs" />
+    <Compile Include="Activity\Helpers\Score\ScoreRepository.cs" />
+    <Compile Include="Activity\Helpers\Score\ScoreService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -146,14 +149,18 @@
     <Compile Include="Activity\Categories\Comic\ComicService.cs" />
     <Compile Include="Activity\Categories\Book\BookService.cs" />
     <Compile Include="Activity\Categories\Auto\AutoService.cs" />
-    <Compile Include="DomL\DomLServices.cs" />
+    <Compile Include="DomLServices.cs" />
     <Compile Include="Activity\Helpers\MediaType\MediaTypeService.cs" />
     <Compile Include="Activity\Helpers\Person\PersonService.cs" />
     <Compile Include="Activity\Helpers\Series\SeriesService.cs" />
-    <Compile Include="DomL\DomLExceptions.cs" />
+    <Compile Include="DomLExceptions.cs" />
     <Compile Include="Activity\Categories\Comic\Comic.cs" />
     <Compile Include="Activity\Categories\Doom\Doom.cs" />
-    <Compile Include="DomL\Util.cs" />
+    <Compile Include="Migrations\202008281727214_Initial.cs" />
+    <Compile Include="Migrations\202008281727214_Initial.designer.cs">
+      <DependentUpon>202008281727214_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
     <Compile Include="Activity\Categories\Book\Book.cs" />
     <Compile Include="Activity\Categories\Health\Health.cs" />
@@ -184,9 +191,9 @@
     <Compile Include="Activity\Categories\Game\GameRepository.cs" />
     <Compile Include="Activity\Categories\Comic\ComicRepository.cs" />
     <Compile Include="Activity\Categories\Book\BookRepository.cs" />
-    <Compile Include="DomL\DomLContext.cs" />
-    <Compile Include="DomL\DomLRepository.cs" />
-    <Compile Include="DomL\UnitOfWork.cs" />
+    <Compile Include="DomLContext.cs" />
+    <Compile Include="DomLRepository.cs" />
+    <Compile Include="UnitOfWork.cs" />
     <Compile Include="Activity\Helpers\Company\CompanyService.cs" />
     <Compile Include="Activity\Categories\Show\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
@@ -203,26 +210,18 @@
     <Compile Include="Activity\Categories\Book\BookWindow.xaml.cs">
       <DependentUpon>BookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DomL\DomLWindow.xaml.cs">
+    <Compile Include="DomLWindow.xaml.cs">
       <DependentUpon>DomLWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="DomL\RestoreFullWindow.xaml">
+    <Page Include="RestoreFullWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\202008262325328_Initial.cs" />
-    <Compile Include="Migrations\202008262325328_Initial.designer.cs">
-      <DependentUpon>202008262325328_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008270048321_WorkTables.cs" />
-    <Compile Include="Migrations\202008270048321_WorkTables.designer.cs">
-      <DependentUpon>202008270048321_WorkTables.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="DomL\RestoreFullWindow.xaml.cs">
+    <Compile Include="RestoreFullWindow.xaml.cs">
       <DependentUpon>RestoreFullWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -238,11 +237,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008262325328_Initial.resx">
-      <DependentUpon>202008262325328_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008270048321_WorkTables.resx">
-      <DependentUpon>202008270048321_WorkTables.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008281727214_Initial.resx">
+      <DependentUpon>202008281727214_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -30,7 +30,7 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Platform:" Width="90" />
-                <ComboBox Name="PlatformCB" IsEditable="True" Width="300" LostFocus="PlatformCB_LostFocus" IsTextSearchEnabled="True" />
+                <ComboBox Name="PlatformCB" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="PlatformInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
@@ -55,7 +55,7 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Score:" Width="90" />
-                <ComboBox Name="ScoreCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="ScoreCB" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="ScoreInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">

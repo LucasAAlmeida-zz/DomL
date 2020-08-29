@@ -20,7 +20,7 @@ namespace DomL.Business.DTOs
             Season = showSeason.Season;
             DirectorName = (showSeason.Director != null) ? showSeason.Director.Name : "-";
             Type = (showSeason.Type != null) ? showSeason.Type.Name : "-";
-            Score = (!string.IsNullOrWhiteSpace(showSeason.Score)) ? showSeason.Score : "-";
+            Score = (showSeason.Score != null) ? showSeason.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(showActivity.Description)) ? showActivity.Description : "-";
         }
 

@@ -37,32 +37,48 @@ namespace DomL.Presentation
                 this.SegmentosStack.Children.Add(dynLabel);
             }
 
-            var authorNames = new List<string>(segments);
-            authorNames.AddRange(PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var defaultChaptersList = Util.GetDefaultChaptersList();
+            var personNames = PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList();
+            var comicTypes = MediaTypeService.GetAllComicTypes(unitOfWork).Select(u => u.Name).ToList();
+            var scoreValues = ScoreService.GetAll(unitOfWork).Select(u => u.Value.ToString()).ToList();
 
-            var seriesNames = new List<string>(segments);
-            seriesNames.AddRange(SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            segments[0] = "";
+            var remainingSegments = segments;
+            var orderedSegments = new string[6];
 
-            var mediaTypeNames = new List<string>(segments);
-            mediaTypeNames.AddRange(MediaTypeService.GetAll(unitOfWork).Select(u => u.Name).ToList());
+            var indexesToAvoid = new int[] { 3, 4 };
 
-            this.SeriesCB.ItemsSource = seriesNames;
-            this.ChaptersCB.ItemsSource = segments;
-            this.AuthorCB.ItemsSource = authorNames;
-            this.TypeCB.ItemsSource = mediaTypeNames;
-            this.ScoreCB.ItemsSource = segments;
-            this.DescriptionCB.ItemsSource = segments;
+            // COMIC; Series Name; Chapters; (Author Name); (Media Type Name); (Score); (Description)
+            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[1];
 
-            this.SeriesCB.SelectedItem = segments[1];
-            this.ChaptersCB.SelectedItem = segments[2];
-            this.AuthorCB.SelectedItem = segments.Length > 3 ? segments[3] : null;
-            this.TypeCB.SelectedItem = segments.Length > 4 ? segments[4] : null;
-            this.ScoreCB.SelectedItem = segments.Length > 5 ? segments[5] : null;
-            this.DescriptionCB.SelectedItem = segments.Length > 6 ? segments[6] : null;
+                if (seriesNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
+                } else if ((defaultChaptersList.Contains(searched) || searched.Contains("~")) && orderedSegments[1] == null) {
+                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
+                } else if (personNames.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 2, searched, indexesToAvoid);
+                } else if (comicTypes.Contains(searched) ) {
+                    Util.PlaceOrderedSegment(orderedSegments, 3, searched, indexesToAvoid);
+                } else if (scoreValues.Contains(searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, 4, searched, indexesToAvoid);
+                } else {
+                    Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
+                }
+
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+            }
+
+            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[0]);
+            Util.SetComboBox(this.ChaptersCB, segments, defaultChaptersList, orderedSegments[1]);
+            Util.SetComboBox(this.AuthorCB, segments, personNames, orderedSegments[2]);
+            Util.SetComboBox(this.TypeCB, new string[1] { "" }, comicTypes, orderedSegments[3]);
+            Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[4]);
+            Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[5]);
 
             this.SeriesCB_LostFocus(null, null);
             this.AuthorCB_LostFocus(null, null);
-            this.TypeCB_LostFocus(null, null);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
@@ -94,17 +110,6 @@ namespace DomL.Presentation
             Util.ChangeInfoLabel(authorName, author, this.AuthorInfoLb);
         }
 
-        private void TypeCB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (this.TypeCB.IsKeyboardFocusWithin) {
-                return;
-            }
-
-            var typeName = this.TypeCB.Text;
-            var mediaType = MediaTypeService.GetByName(typeName, this.UnitOfWork);
-            Util.ChangeInfoLabel(typeName, mediaType, this.TypeInfoLb);
-        }
-
         private void UpdateOptionalComboBoxes(string seriesName, string chapters)
         {
             if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(chapters)) {
@@ -122,12 +127,8 @@ namespace DomL.Presentation
                 this.AuthorCB_LostFocus(null, null);
             }
 
-            if (comicVolume.Type != null) {
-                this.TypeCB.Text = comicVolume.Type.Name;
-                this.TypeCB_LostFocus(null, null);
-            }
-
-            this.ScoreCB.Text = comicVolume.Score ?? this.ScoreCB.Text;
+            this.TypeCB.SelectedItem = comicVolume.Type ?? this.TypeCB.SelectedItem;
+            this.ScoreCB.SelectedItem = comicVolume.Score ?? this.ScoreCB.SelectedItem;
         }
     }
 }

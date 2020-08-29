@@ -1,7 +1,8 @@
 ﻿namespace DomL.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
-
+    
     public partial class Initial : DbMigration
     {
         public override void Up()
@@ -84,13 +85,15 @@
                         AuthorId = c.Int(),
                         SeriesId = c.Int(),
                         NumberInSeries = c.String(),
-                        Score = c.String(),
+                        ScoreId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Person", t => t.AuthorId)
+                .ForeignKey("dbo.Score", t => t.ScoreId)
                 .ForeignKey("dbo.Series", t => t.SeriesId)
                 .Index(t => t.AuthorId)
-                .Index(t => t.SeriesId);
+                .Index(t => t.SeriesId)
+                .Index(t => t.ScoreId);
             
             CreateTable(
                 "dbo.Person",
@@ -98,6 +101,16 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Score",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        Name = c.String(nullable: false),
+                        Value = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -157,24 +170,29 @@
                         Chapters = c.String(),
                         AuthorId = c.Int(),
                         TypeId = c.Int(),
-                        Score = c.String(),
+                        ScoreId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Person", t => t.AuthorId)
+                .ForeignKey("dbo.Score", t => t.ScoreId)
                 .ForeignKey("dbo.Series", t => t.SeriesId, cascadeDelete: true)
                 .ForeignKey("dbo.MediaType", t => t.TypeId)
                 .Index(t => t.SeriesId)
                 .Index(t => t.AuthorId)
-                .Index(t => t.TypeId);
+                .Index(t => t.TypeId)
+                .Index(t => t.ScoreId);
             
             CreateTable(
                 "dbo.MediaType",
                 c => new
                     {
-                        Id = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false),
                         Name = c.String(nullable: false),
+                        CategoryId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ActivityCategory", t => t.CategoryId, cascadeDelete: true)
+                .Index(t => t.CategoryId);
             
             CreateTable(
                 "dbo.DoomActivity",
@@ -224,17 +242,19 @@
                         NumberInSeries = c.String(),
                         DirectorId = c.Int(),
                         PublisherId = c.Int(),
-                        Score = c.String(),
+                        ScoreId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Person", t => t.DirectorId)
                 .ForeignKey("dbo.MediaType", t => t.PlatformId, cascadeDelete: true)
                 .ForeignKey("dbo.Company", t => t.PublisherId)
+                .ForeignKey("dbo.Score", t => t.ScoreId)
                 .ForeignKey("dbo.Series", t => t.SeriesId)
                 .Index(t => t.PlatformId)
                 .Index(t => t.SeriesId)
                 .Index(t => t.DirectorId)
-                .Index(t => t.PublisherId);
+                .Index(t => t.PublisherId)
+                .Index(t => t.ScoreId);
             
             CreateTable(
                 "dbo.Company",
@@ -313,13 +333,15 @@
                         DirectorId = c.Int(),
                         SeriesId = c.Int(),
                         NumberInSeries = c.String(),
-                        Score = c.String(),
+                        ScoreId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Person", t => t.DirectorId)
+                .ForeignKey("dbo.Score", t => t.ScoreId)
                 .ForeignKey("dbo.Series", t => t.SeriesId)
                 .Index(t => t.DirectorId)
-                .Index(t => t.SeriesId);
+                .Index(t => t.SeriesId)
+                .Index(t => t.ScoreId);
             
             CreateTable(
                 "dbo.PetActivity",
@@ -341,7 +363,7 @@
                     {
                         Id = c.Int(nullable: false),
                         PersonId = c.Int(nullable: false),
-                        Description = c.String(nullable: false),
+                        Description = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Activity", t => t.Id)
@@ -388,15 +410,17 @@
                         Season = c.String(),
                         DirectorId = c.Int(),
                         TypeId = c.Int(),
-                        Score = c.String(),
+                        ScoreId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Person", t => t.DirectorId)
+                .ForeignKey("dbo.Score", t => t.ScoreId)
                 .ForeignKey("dbo.Series", t => t.SeriesId, cascadeDelete: true)
                 .ForeignKey("dbo.MediaType", t => t.TypeId)
                 .Index(t => t.SeriesId)
                 .Index(t => t.DirectorId)
-                .Index(t => t.TypeId);
+                .Index(t => t.TypeId)
+                .Index(t => t.ScoreId);
             
             CreateTable(
                 "dbo.ActivityStatus",
@@ -436,10 +460,26 @@
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.WorkActivity",
+                c => new
+                    {
+                        Id = c.Int(nullable: false),
+                        WorkId = c.Int(nullable: false),
+                        Description = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Activity", t => t.Id)
+                .ForeignKey("dbo.Company", t => t.WorkId, cascadeDelete: true)
+                .Index(t => t.Id)
+                .Index(t => t.WorkId);
+            
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.WorkActivity", "WorkId", "dbo.Company");
+            DropForeignKey("dbo.WorkActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.TravelActivity", "TransportId", "dbo.Transport");
             DropForeignKey("dbo.TravelActivity", "OriginId", "dbo.Location");
             DropForeignKey("dbo.TravelActivity", "DestinationId", "dbo.Location");
@@ -448,6 +488,7 @@
             DropForeignKey("dbo.ShowActivity", "ShowSeasonId", "dbo.ShowSeason");
             DropForeignKey("dbo.ShowSeason", "TypeId", "dbo.MediaType");
             DropForeignKey("dbo.ShowSeason", "SeriesId", "dbo.Series");
+            DropForeignKey("dbo.ShowSeason", "ScoreId", "dbo.Score");
             DropForeignKey("dbo.ShowSeason", "DirectorId", "dbo.Person");
             DropForeignKey("dbo.ShowActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.PurchaseActivity", "StoreId", "dbo.Company");
@@ -459,6 +500,7 @@
             DropForeignKey("dbo.Activity", "PairedActivityId", "dbo.Activity");
             DropForeignKey("dbo.MovieActivity", "MovieId", "dbo.Movie");
             DropForeignKey("dbo.Movie", "SeriesId", "dbo.Series");
+            DropForeignKey("dbo.Movie", "ScoreId", "dbo.Score");
             DropForeignKey("dbo.Movie", "DirectorId", "dbo.Person");
             DropForeignKey("dbo.MovieActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.MeetActivity", "PersonId", "dbo.Person");
@@ -469,6 +511,7 @@
             DropForeignKey("dbo.GiftActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.GameActivity", "GameId", "dbo.Game");
             DropForeignKey("dbo.Game", "SeriesId", "dbo.Series");
+            DropForeignKey("dbo.Game", "ScoreId", "dbo.Score");
             DropForeignKey("dbo.Game", "PublisherId", "dbo.Company");
             DropForeignKey("dbo.Game", "PlatformId", "dbo.MediaType");
             DropForeignKey("dbo.Game", "DirectorId", "dbo.Person");
@@ -477,7 +520,9 @@
             DropForeignKey("dbo.DoomActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.ComicActivity", "ComicVolumeId", "dbo.ComicVolume");
             DropForeignKey("dbo.ComicVolume", "TypeId", "dbo.MediaType");
+            DropForeignKey("dbo.MediaType", "CategoryId", "dbo.ActivityCategory");
             DropForeignKey("dbo.ComicVolume", "SeriesId", "dbo.Series");
+            DropForeignKey("dbo.ComicVolume", "ScoreId", "dbo.Score");
             DropForeignKey("dbo.ComicVolume", "AuthorId", "dbo.Person");
             DropForeignKey("dbo.ComicActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.Activity", "CategoryId", "dbo.ActivityCategory");
@@ -485,15 +530,19 @@
             DropForeignKey("dbo.Book", "SeriesId", "dbo.Series");
             DropForeignKey("dbo.Series", "FranchiseId", "dbo.Franchise");
             DropForeignKey("dbo.Franchise", "CreatorId", "dbo.Person");
+            DropForeignKey("dbo.Book", "ScoreId", "dbo.Score");
             DropForeignKey("dbo.Book", "AuthorId", "dbo.Person");
             DropForeignKey("dbo.BookActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.AutoActivity", "AutoId", "dbo.Transport");
             DropForeignKey("dbo.AutoActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.Activity", "ActivityBlockId", "dbo.ActivityBlock");
+            DropIndex("dbo.WorkActivity", new[] { "WorkId" });
+            DropIndex("dbo.WorkActivity", new[] { "Id" });
             DropIndex("dbo.TravelActivity", new[] { "DestinationId" });
             DropIndex("dbo.TravelActivity", new[] { "OriginId" });
             DropIndex("dbo.TravelActivity", new[] { "TransportId" });
             DropIndex("dbo.TravelActivity", new[] { "Id" });
+            DropIndex("dbo.ShowSeason", new[] { "ScoreId" });
             DropIndex("dbo.ShowSeason", new[] { "TypeId" });
             DropIndex("dbo.ShowSeason", new[] { "DirectorId" });
             DropIndex("dbo.ShowSeason", new[] { "SeriesId" });
@@ -505,6 +554,7 @@
             DropIndex("dbo.PlayActivity", new[] { "Id" });
             DropIndex("dbo.PetActivity", new[] { "PetId" });
             DropIndex("dbo.PetActivity", new[] { "Id" });
+            DropIndex("dbo.Movie", new[] { "ScoreId" });
             DropIndex("dbo.Movie", new[] { "SeriesId" });
             DropIndex("dbo.Movie", new[] { "DirectorId" });
             DropIndex("dbo.MovieActivity", new[] { "MovieId" });
@@ -515,6 +565,7 @@
             DropIndex("dbo.HealthActivity", new[] { "Id" });
             DropIndex("dbo.GiftActivity", new[] { "PersonId" });
             DropIndex("dbo.GiftActivity", new[] { "Id" });
+            DropIndex("dbo.Game", new[] { "ScoreId" });
             DropIndex("dbo.Game", new[] { "PublisherId" });
             DropIndex("dbo.Game", new[] { "DirectorId" });
             DropIndex("dbo.Game", new[] { "SeriesId" });
@@ -523,6 +574,8 @@
             DropIndex("dbo.GameActivity", new[] { "Id" });
             DropIndex("dbo.EventActivity", new[] { "Id" });
             DropIndex("dbo.DoomActivity", new[] { "Id" });
+            DropIndex("dbo.MediaType", new[] { "CategoryId" });
+            DropIndex("dbo.ComicVolume", new[] { "ScoreId" });
             DropIndex("dbo.ComicVolume", new[] { "TypeId" });
             DropIndex("dbo.ComicVolume", new[] { "AuthorId" });
             DropIndex("dbo.ComicVolume", new[] { "SeriesId" });
@@ -530,6 +583,7 @@
             DropIndex("dbo.ComicActivity", new[] { "Id" });
             DropIndex("dbo.Franchise", new[] { "CreatorId" });
             DropIndex("dbo.Series", new[] { "FranchiseId" });
+            DropIndex("dbo.Book", new[] { "ScoreId" });
             DropIndex("dbo.Book", new[] { "SeriesId" });
             DropIndex("dbo.Book", new[] { "AuthorId" });
             DropIndex("dbo.BookActivity", new[] { "BookId" });
@@ -540,6 +594,7 @@
             DropIndex("dbo.Activity", new[] { "PairedActivityId" });
             DropIndex("dbo.Activity", new[] { "StatusId" });
             DropIndex("dbo.Activity", new[] { "CategoryId" });
+            DropTable("dbo.WorkActivity");
             DropTable("dbo.Location");
             DropTable("dbo.TravelActivity");
             DropTable("dbo.ActivityStatus");
@@ -564,6 +619,7 @@
             DropTable("dbo.ActivityCategory");
             DropTable("dbo.Franchise");
             DropTable("dbo.Series");
+            DropTable("dbo.Score");
             DropTable("dbo.Person");
             DropTable("dbo.Book");
             DropTable("dbo.BookActivity");

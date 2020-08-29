@@ -54,6 +54,7 @@ namespace DomL.DataAccess
         public DbSet<Transport> Transport { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Franchise> Franchise { get; set; }
+        public DbSet<Score> Score { get; set; }
 
         public DomLContext() : base("name=DefaultConnection") { }
     }

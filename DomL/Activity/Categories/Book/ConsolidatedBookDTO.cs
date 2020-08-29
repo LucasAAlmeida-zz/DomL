@@ -20,7 +20,7 @@ namespace DomL.Business.DTOs
             AuthorName = (book.Author != null) ? book.Author.Name : "-";
             SeriesName = (book.Series != null) ? book.Series.Name : "-";
             NumberInSeries = (!string.IsNullOrWhiteSpace(book.NumberInSeries)) ? book.NumberInSeries : "-";
-            Score = (!string.IsNullOrWhiteSpace(book.Score)) ? book.Score : "-";
+            Score = (book.Score != null) ? book.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
         }
 

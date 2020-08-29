@@ -2,6 +2,8 @@
 using DomL.Business.Utils;
 using System.Linq;
 using System.Data.Entity;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace DomL.DataAccess
 {
@@ -34,6 +36,11 @@ namespace DomL.DataAccess
         public void CreateBook(Book book)
         {
             DomLContext.Book.Add(book);
+        }
+
+        public List<Book> GetAllBooks()
+        {
+            return DomLContext.Book.ToList();
         }
     }
 }
