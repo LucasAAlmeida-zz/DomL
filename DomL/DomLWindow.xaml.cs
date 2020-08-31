@@ -25,7 +25,7 @@ namespace DomL
 
         private void MenuViewRestoreFull_Click(object sender, RoutedEventArgs e)
         {
-            var restoreFullWindow = new RestoreFullWindow();
+            var restoreFullWindow = new BackupWindow();
             this.Visibility = Visibility.Hidden;
             restoreFullWindow.Show();
         }

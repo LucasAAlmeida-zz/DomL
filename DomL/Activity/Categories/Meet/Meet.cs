@@ -13,7 +13,6 @@ namespace DomL.Business.Entities
         public int PersonId { get; set; }
         [Required]
         public string Origin { get; set; }
-        [Required]
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }

@@ -105,6 +105,11 @@ namespace DomL.DataAccess.Repositories
             return DomLContext.ActivityCategory.SingleOrDefault(u => u.Name == categoryName);
         }
 
+        public ActivityCategory GetCategoryById(int id)
+        {
+            return DomLContext.ActivityCategory.SingleOrDefault(u => u.Id == id);
+        }
+
         public List<ActivityCategory> GetAllCategories()
         {
             return DomLContext.ActivityCategory.ToList();
@@ -113,6 +118,11 @@ namespace DomL.DataAccess.Repositories
         public ActivityStatus GetStatusByName(string statusName)
         {
             return DomLContext.ActivityStatus.SingleOrDefault(u => u.Name == statusName);
+        }
+
+        public ActivityStatus GetStatusById(int id)
+        {
+            return DomLContext.ActivityStatus.SingleOrDefault(u => u.Id == id);
         }
     }
 }

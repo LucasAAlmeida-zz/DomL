@@ -1,8 +1,12 @@
 ﻿using DomL.Business.Entities;
+using DomL.DataAccess;
 using DomL.Presentation;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace DomL.Business.Services
 {
@@ -31,7 +35,6 @@ namespace DomL.Business.Services
             var score = ScoreService.GetByValue(scoreValue, unitOfWork);
 
             ShowSeason showSeason = GetOrUpdateOrCreateShowSeason(series, season, director, type, score, unitOfWork);
-
             CreateShowActivity(activity, showSeason, description, unitOfWork);
         }
 
@@ -85,6 +88,79 @@ namespace DomL.Business.Services
                 u.CategoryId == ActivityCategory.SHOW_ID
                 && u.ShowActivity.ShowSeason.Series.Name == showSeason.Series.Name && u.ShowActivity.ShowSeason.Season == showSeason.Season
             );
+        }
+
+        public static void RestoreFromFile(string fileDir)
+        {
+            using (var reader = new StreamReader(fileDir + "Show.txt")) {
+                string line = "";
+                while ((line = reader.ReadLine()) != null) {
+                    if (string.IsNullOrWhiteSpace(line)) {
+                        continue;
+                    }
+
+                    var segments = Regex.Split(line, "\t");
+
+                    // Date Start; Date Finish; Series Name; Season; (Director Name); (Media Type Name); (Score); (Description)
+                    var dateStart = segments[0];
+                    var dateFinish = segments[1];
+                    var seriesName = segments[2];
+                    var season = segments[3];
+                    var directorName = segments[4] != "-" ? segments[4] : null;
+                    var typeName = segments[5] != "-" ? segments[5] : null;
+                    var scoreValue = segments[6] != "-" ? segments[6] : null;
+                    var description = segments[7] != "-" ? segments[7] : null;
+
+                    var originalLine = seriesName + "; " + season;
+                    originalLine = (!string.IsNullOrWhiteSpace(directorName)) ? originalLine + "; " + directorName : originalLine;
+                    originalLine = (!string.IsNullOrWhiteSpace(typeName)) ? originalLine + "; " + typeName : originalLine;
+                    originalLine = (!string.IsNullOrWhiteSpace(scoreValue)) ? originalLine + "; " + scoreValue : originalLine;
+                    originalLine = (!string.IsNullOrWhiteSpace(description)) ? originalLine + "; " + description : originalLine;
+
+                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                        var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
+                        var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
+                        var type = MediaTypeService.GetByName(typeName, unitOfWork);
+                        var score = ScoreService.GetByValue(scoreValue, unitOfWork);
+
+                        ShowSeason showSeason = GetOrUpdateOrCreateShowSeason(series, season, director, type, score, unitOfWork);
+
+                        var statusStart = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.START);
+                        var statusFinish = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.FINISH);
+                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
+
+                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.SHOW_ID);
+
+                        if (!dateStart.StartsWith("--") && dateStart != dateFinish) {
+                            Activity activityStart = null;
+                            Activity activityFinish = null;
+                            if (!dateStart.StartsWith("??")) {
+                                var date = DateTime.ParseExact(dateStart, "dd/MM/yy", null);
+                                activityStart = ActivityService.Create(date, 0, statusStart, category, null, "SHOW Start; " + originalLine, unitOfWork);
+                                CreateShowActivity(activityStart, showSeason, description, unitOfWork);
+                            }
+                            if (!dateFinish.StartsWith("??")) {
+                                var date = DateTime.ParseExact(dateFinish, "dd/MM/yy", null);
+                                activityFinish = ActivityService.Create(date, 0, statusFinish, category, null, "SHOW Finish; " + originalLine, unitOfWork);
+                                CreateShowActivity(activityFinish, showSeason, description, unitOfWork);
+                            }
+
+                            if (activityStart != null && activityFinish != null) {
+                                activityStart.ShowActivity.Description = null;
+                                activityStart.PairedActivity = activityFinish;
+                                unitOfWork.Complete();
+                                activityFinish.PairedActivity = activityStart;
+                            }
+                        } else {
+                            var date = DateTime.ParseExact(dateFinish, "dd/MM/yy", null);
+                            var activity = ActivityService.Create(date, 0, statusSingle, category, null, "SHOW; " + originalLine, unitOfWork);
+                            CreateShowActivity(activity, showSeason, description, unitOfWork);
+                        }
+
+                        unitOfWork.Complete();
+                    }
+                }
+            }
         }
     }
 }

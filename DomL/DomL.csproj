@@ -160,6 +160,10 @@
     <Compile Include="Migrations\202008281727214_Initial.designer.cs">
       <DependentUpon>202008281727214_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.cs" />
+    <Compile Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.designer.cs">
+      <DependentUpon>202008302308288_DescriptionNotRequiredOnMeetActivity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
     <Compile Include="Activity\Categories\Book\Book.cs" />
@@ -214,15 +218,15 @@
       <DependentUpon>DomLWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RestoreFullWindow.xaml">
+    <Page Include="BackupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="RestoreFullWindow.xaml.cs">
-      <DependentUpon>RestoreFullWindow.xaml</DependentUpon>
+    <Compile Include="BackupWindow.xaml.cs">
+      <DependentUpon>BackupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -239,6 +243,9 @@
     </Compile>
     <EmbeddedResource Include="Migrations\202008281727214_Initial.resx">
       <DependentUpon>202008281727214_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.resx">
+      <DependentUpon>202008302308288_DescriptionNotRequiredOnMeetActivity.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
