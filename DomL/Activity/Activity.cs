@@ -94,31 +94,4 @@ namespace DomL.Business.Entities
         public const int START = 2;
         public const int FINISH = 3;
     }
-
-    //public int? Save()
-    //{
-    //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-    //        if (unitOfWork.ActivityBlockRepo.Exists(b => b.Name == this.Name)) {
-    //            return null;
-    //        }
-
-    //        unitOfWork.ActivityBlockRepo.Add(this);
-    //        unitOfWork.Complete();
-
-    //        this.Id = unitOfWork.ActivityBlockRepo.SingleOrDefault(abr => abr.Name == this.Name).Id;
-    //        return this.Id;
-    //    }
-    //}
-
-    //public static void ConsolidateYear(string fileDir, int year)
-    //{
-    //    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-    //        var allActivitiesInBlocksInYear = unitOfWork.ActivityBlockRepo.GetActivitiesInBlockYear(year).ToList();
-    //        using (var file = new StreamWriter(fileDir + "ActivityBlocks" + year + ".txt")) {
-    //            foreach (var atividade in allActivitiesInBlocksInYear) {
-    //                file.WriteLine(atividade.ParseToString());
-    //            }
-    //        }
-    //    }
-    //}
 }
