@@ -66,6 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Activity\Categories\Course\CourseWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Activity\Categories\Show\ShowWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -90,6 +94,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Activity\Categories\Course\ConsolidatedCourseDTO.cs" />
+    <Compile Include="Activity\Categories\Course\Course.cs" />
+    <Compile Include="Activity\Categories\Course\CourseRepository.cs" />
+    <Compile Include="Activity\Categories\Course\CourseService.cs" />
+    <Compile Include="Activity\Categories\Course\CourseWindow.xaml.cs">
+      <DependentUpon>CourseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Activity\Categories\Work\Work.cs" />
     <Compile Include="Activity\Categories\Work\WorkRepository.cs" />
     <Compile Include="Activity\Categories\Work\WorkService.cs" />
@@ -171,6 +182,10 @@
     <Compile Include="Migrations\202009011224587_GiftWithWho.cs" />
     <Compile Include="Migrations\202009011224587_GiftWithWho.designer.cs">
       <DependentUpon>202009011224587_GiftWithWho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009011623275_CourseTables.cs" />
+    <Compile Include="Migrations\202009011623275_CourseTables.designer.cs">
+      <DependentUpon>202009011623275_CourseTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
@@ -260,6 +275,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009011224587_GiftWithWho.resx">
       <DependentUpon>202009011224587_GiftWithWho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009011623275_CourseTables.resx">
+      <DependentUpon>202009011623275_CourseTables.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -29,7 +29,8 @@
                 new ActivityCategory() { Id = 13, Name = "WORK" },
                 new ActivityCategory() { Id = 14, Name = "GAME" },
                 new ActivityCategory() { Id = 15, Name = "SHOW" },
-                new ActivityCategory() { Id = 17, Name = "EVENT" }
+                new ActivityCategory() { Id = 17, Name = "EVENT" },
+                new ActivityCategory() { Id = 18, Name = "COURSE" }
             );
 
             context.ActivityStatus.AddOrUpdate(u => u.Id,

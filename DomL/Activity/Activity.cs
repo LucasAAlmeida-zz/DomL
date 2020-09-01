@@ -30,6 +30,7 @@ namespace DomL.Business.Entities
         public virtual AutoActivity AutoActivity { get; set; }
         public virtual BookActivity BookActivity { get; set; }
         public virtual ComicActivity ComicActivity { get; set; }
+        public virtual CourseActivity CourseActivity { get; set; }
         public virtual DoomActivity DoomActivity { get; set; }
         public virtual EventActivity EventActivity { get; set; }
         public virtual GameActivity GameActivity { get; set; }
@@ -79,6 +80,7 @@ namespace DomL.Business.Entities
         public const int GAME_ID = 14;
         public const int SHOW_ID = 15;
         public const int EVENT_ID = 17;
+        public const int COURSE_ID = 18;
     }
 
     [Table("ActivityStatus")]

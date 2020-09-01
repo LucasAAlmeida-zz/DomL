@@ -11,6 +11,7 @@ public class UnitOfWork : IDisposable
     public AutoRepository AutoRepo { get; private set; }
     public BookRepository BookRepo { get; private set; }
     public ComicRepository ComicRepo { get; private set; }
+    public CourseRepository CourseRepo { get; private set; }
     public DoomRepository DoomRepo { get; private set; }
     public EventRepository EventRepo { get; private set; }
     public GameRepository GameRepo { get; private set; }
@@ -43,6 +44,7 @@ public class UnitOfWork : IDisposable
         AutoRepo = new AutoRepository(_context);
         BookRepo = new BookRepository(_context);
         ComicRepo = new ComicRepository(_context);
+        CourseRepo = new CourseRepository(_context);
         DoomRepo = new DoomRepository(_context);
         EventRepo = new EventRepository(_context);
         GameRepo = new GameRepository(_context);
@@ -66,7 +68,6 @@ public class UnitOfWork : IDisposable
         FranchiseRepo = new FranchiseRepository(_context);
         ScoreRepo = new ScoreRepository(_context);
     }
-
 
     public int Complete()
     {

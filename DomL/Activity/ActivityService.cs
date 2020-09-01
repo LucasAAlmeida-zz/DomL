@@ -86,6 +86,7 @@ namespace DomL.Business.Services
                 case ActivityCategory.AUTO_ID:     AutoService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
                 case ActivityCategory.BOOK_ID:     BookService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
                 case ActivityCategory.COMIC_ID:    ComicService.SaveFromRawSegments(segments, activity, unitOfWork);       break;
+                case ActivityCategory.COURSE_ID:   CourseService.SaveFromRawSegments(segments, activity, unitOfWork);      break;
                 case ActivityCategory.DOOM_ID:     DoomService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
                 case ActivityCategory.EVENT_ID:    EventService.SaveFromRawSegments(segments, activity, unitOfWork);       break;
                 case ActivityCategory.GAME_ID:     GameService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
@@ -125,6 +126,7 @@ namespace DomL.Business.Services
                 case ActivityCategory.AUTO_ID:     pcsa = AutoService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.BOOK_ID:     pcsa = BookService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.COMIC_ID:    pcsa = ComicService.GetStartingActivities(psa, activity);     break;
+                case ActivityCategory.COURSE_ID:   pcsa = CourseService.GetStartingActivities(psa, activity);     break;
                 case ActivityCategory.DOOM_ID:     pcsa = DoomService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.GAME_ID:     pcsa = GameService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.HEALTH_ID:   pcsa = HealthService.GetStartingActivities(psa, activity);    break;
@@ -157,6 +159,7 @@ namespace DomL.Business.Services
                 case ActivityCategory.AUTO_ID:     return new ConsolidatedAutoDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.BOOK_ID:     return new ConsolidatedBookDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.COMIC_ID:    return new ConsolidatedComicDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.COURSE_ID:   return new ConsolidatedCourseDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.DOOM_ID:     return new ConsolidatedDoomDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.EVENT_ID:    return new ConsolidatedEventDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.GAME_ID:     return new ConsolidatedGameDTO(activity).GetInfoForYearRecap();

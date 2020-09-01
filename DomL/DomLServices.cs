@@ -12,7 +12,8 @@ namespace DomL.Business.Services
 {
     public class DomLServices
     {
-        const string BASE_DIR_PATH = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
+        const string BASE_DIR = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
+        const string RECAPS_DIR = BASE_DIR + "Recaps\\";
 
         public static void SaveFromRawMonthText(string rawMonthText, int month, int year)
         {
@@ -62,7 +63,7 @@ namespace DomL.Business.Services
 
         public static void WriteMonthRecapFile(int month, int year)
         {
-            string filePath = BASE_DIR_PATH + "MonthRecap\\Month" + month.ToString("00") + "Recap.txt";
+            string filePath = RECAPS_DIR + "Year" + year + "\\Months\\Month" + month.ToString("00") + ".txt";
             Util.CreateDirectory(filePath);
 
             List<Activity> monthActivities;
@@ -82,7 +83,7 @@ namespace DomL.Business.Services
 
         public static void WriteYearRecapFiles(int year)
         {
-            string fileDir = BASE_DIR_PATH + "Year" + year + "Recap\\";
+            string fileDir = RECAPS_DIR + "Year" + year + "\\Categories\\";
             Util.CreateDirectory(fileDir);
 
             List<Activity> yearActivities;
@@ -93,15 +94,15 @@ namespace DomL.Business.Services
             }
 
             foreach(var category in categories) {
-                var filePath = fileDir + category.Name + year + ".txt";
+                var filePath = fileDir + category.Name + ".txt";
                 WriteRecapFile(category.Id, filePath, yearActivities);
             }
-            WriteStatisticsFile(fileDir, yearActivities);
+            WriteStatisticsFile(yearActivities, year);
         }
 
         public static void WriteRecapFiles()
         {
-            string fileDir = BASE_DIR_PATH + "Recap\\";
+            string fileDir = RECAPS_DIR + "Categories\\";
             Util.CreateDirectory(fileDir);
 
             List<Activity> activities;
@@ -115,7 +116,7 @@ namespace DomL.Business.Services
                 var filePath = fileDir + category.Name + ".txt";
                 WriteRecapFile(category.Id, filePath, activities);
             }
-            WriteStatisticsFile(fileDir, activities);
+            WriteStatisticsFile(activities);
         }
 
         private static void WriteRecapFile(int categoryId, string filePath, List<Activity> activities)
@@ -136,8 +137,13 @@ namespace DomL.Business.Services
             }
         }
 
-        private static void WriteStatisticsFile(string fileDir, List<Activity> activities)
+        private static void WriteStatisticsFile(List<Activity> activities, int year = 0)
         {
+            string fileDir = RECAPS_DIR;
+            if (year != 0) {
+                fileDir += "Year" + year + "\\";
+            }
+
             using (var file = new StreamWriter(fileDir + "Statistics.txt")) {
                 file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME_ID));
                 file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME_ID));
