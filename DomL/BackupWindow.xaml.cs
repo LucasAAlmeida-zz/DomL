@@ -86,7 +86,13 @@ namespace DomL.Presentation
 
         private void GiftRestoreButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try {
+                GiftService.RestoreFromFile(BACKUP_DIR_PATH);
+                this.MessageLabel.Content = "Funcionou";
+            } catch (Exception exception) {
+                this.MessageLabel.Content = exception.Message;
+                Console.WriteLine(exception);
+            }
         }
 
         private void HealthRestoreButton_Click(object sender, RoutedEventArgs e)
@@ -135,7 +141,13 @@ namespace DomL.Presentation
 
         private void PlayRestoreButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try {
+                PlayService.RestoreFromFile(BACKUP_DIR_PATH);
+                this.MessageLabel.Content = "Funcionou";
+            } catch (Exception exception) {
+                this.MessageLabel.Content = exception.Message;
+                Console.WriteLine(exception);
+            }
         }
 
         private void PurchaseRestoreButton_Click(object sender, RoutedEventArgs e)

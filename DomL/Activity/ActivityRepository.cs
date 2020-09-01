@@ -56,12 +56,12 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.DoomActivity)
                 .Include(u => u.EventActivity)
                 .Include(u => u.GameActivity.Game.Platform).Include(u => u.GameActivity.Game.Series).Include(u => u.GameActivity.Game.Director).Include(u => u.GameActivity.Game.Publisher)
-                .Include(u => u.GiftActivity.Person)
+                .Include(u => u.GiftActivity)
                 .Include(u => u.HealthActivity.Specialty)
                 .Include(u => u.MovieActivity.Movie.Director).Include(u => u.MovieActivity.Movie.Series)
                 .Include(u => u.PetActivity.Pet)
                 .Include(u => u.MeetActivity.Person)
-                .Include(u => u.PlayActivity.Person)
+                .Include(u => u.PlayActivity)
                 .Include(u => u.PurchaseActivity.Store)
                 .Include(u => u.ShowActivity.ShowSeason.Director).Include(u => u.ShowActivity.ShowSeason.Series).Include(u => u.ShowActivity.ShowSeason.Type)
                 .Include(u => u.TravelActivity.Transport).Include(u => u.TravelActivity.Origin).Include(u => u.TravelActivity.Destination)
@@ -71,8 +71,18 @@ namespace DomL.DataAccess.Repositories
 
         public void DeleteAllFromMonth(int month, int year)
         {
-            DomLContext.Activity.Where(u=> u.Date.Month == month && u.Date.Year == year && u.PairedActivityId != null).ToList().ForEach(u => u.PairedActivityId = null);
+            DomLContext.Activity
+                .Where(u=> u.PairedActivityId != null &&
+                    (
+                        (u.Date.Month == month && u.Date.Year == year) 
+                        ||
+                        (u.PairedActivity.Date.Month == month && u.PairedActivity.Date.Year == year)
+                    )
+                )
+                .ToList()
+                .ForEach(u => u.PairedActivityId = null);
             DomLContext.SaveChanges();
+
             DomLContext.Activity.RemoveRange(
                 DomLContext.Activity
                     .Include(u => u.AutoActivity)

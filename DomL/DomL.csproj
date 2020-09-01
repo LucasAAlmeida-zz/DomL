@@ -164,6 +164,14 @@
     <Compile Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.designer.cs">
       <DependentUpon>202008302308288_DescriptionNotRequiredOnMeetActivity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009010050358_PlayActivityWithWho.cs" />
+    <Compile Include="Migrations\202009010050358_PlayActivityWithWho.designer.cs">
+      <DependentUpon>202009010050358_PlayActivityWithWho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202009011224587_GiftWithWho.cs" />
+    <Compile Include="Migrations\202009011224587_GiftWithWho.designer.cs">
+      <DependentUpon>202009011224587_GiftWithWho.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
     <Compile Include="Activity\Categories\Book\Book.cs" />
@@ -246,6 +254,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.resx">
       <DependentUpon>202008302308288_DescriptionNotRequiredOnMeetActivity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009010050358_PlayActivityWithWho.resx">
+      <DependentUpon>202009010050358_PlayActivityWithWho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009011224587_GiftWithWho.resx">
+      <DependentUpon>202009011224587_GiftWithWho.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

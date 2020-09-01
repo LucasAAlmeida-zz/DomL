@@ -71,12 +71,12 @@ namespace DomL.Business.Services
 
         private static bool IsStringFinish(string word)
         {
-            return word.ToLower() == "termino" || word.ToLower() == "término";
+            return word.ToLower() == "finish";
         }
 
         private static bool IsStringStart(string word)
         {
-            return word.ToLower() == "comeco" || word.ToLower() == "começo";
+            return word.ToLower() == "start";
         }
 
         public static void SaveFromRawLine(Activity activity, string rawLine, UnitOfWork unitOfWork)

@@ -4,15 +4,14 @@ namespace DomL.Business.DTOs
 {
     public class ConsolidatedPlayDTO : ConsolidatedActivityDTO
     {
-        public string PersonName;
+        public string Who;
         public string Description;
 
         public ConsolidatedPlayDTO(Activity activity) : base(activity)
         {
             var playActivity = activity.PlayActivity;
-            var person = playActivity.Person;
 
-            PersonName = person.Name;
+            Who = playActivity.Who;
             Description = playActivity.Description;
         }
 
@@ -21,7 +20,7 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Person Name; Description
             return DatesStartAndFinish
-                + "\t" + PersonName + "\t" + Description;
+                + "\t" + Who + "\t" + Description;
         }
     }
 }

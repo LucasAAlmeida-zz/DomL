@@ -12,12 +12,11 @@ namespace DomL.Business.Entities
         [Required]
         public string Gift { get; set; }
         public bool IsFrom { get; set; }
-        public int PersonId { get; set; }
+        [Required]
+        public string Who { get; set; }
 
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        [ForeignKey("PersonId")]
-        public Person Person { get; set; }
     }
 }

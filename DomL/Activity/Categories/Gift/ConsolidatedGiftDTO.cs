@@ -4,7 +4,7 @@ namespace DomL.Business.DTOs
 {
     public class ConsolidatedGiftDTO : ConsolidatedActivityDTO
     {
-        public string PersonName;
+        public string Who;
         public string IsToOrFrom;
         public string Gift;
         public string Description;
@@ -13,7 +13,7 @@ namespace DomL.Business.DTOs
         {
             var giftActivity = activity.GiftActivity;
 
-            PersonName = giftActivity.Person.Name;
+            Who = giftActivity.Who;
             IsToOrFrom = giftActivity.IsFrom ? "From" : "To";
             Gift = giftActivity.Gift;
 
@@ -25,7 +25,7 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Gift; Is To or From; Person; Description
             return DatesStartAndFinish
-                + "\t" + Gift + "\t" + IsToOrFrom + "\t" + PersonName + "\t" + Description;
+                + "\t" + Gift + "\t" + IsToOrFrom + "\t" + Who + "\t" + Description;
         }
     }
 }
