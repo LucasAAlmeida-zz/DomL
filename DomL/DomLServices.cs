@@ -36,6 +36,7 @@ namespace DomL.Business.Services
     {
         const string BASE_DIR = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
         const string RECAPS_DIR = BASE_DIR + "Recaps\\";
+        const string BACKUP_DIR = BASE_DIR + "Backup\\";
 
         public static void SaveFromRawMonthText(string rawMonthText, int month, int year)
         {
@@ -133,38 +134,6 @@ namespace DomL.Business.Services
                 }
             }
             WriteStatisticsFile(yearActivities, year);
-        }
-
-        public static void WriteBackupFiles()
-        {
-            string fileDir = RECAPS_DIR + "Categories\\";
-            Util.CreateDirectory(fileDir);
-
-            List<Activity> activities;
-            List<ActivityCategory> categories;
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                activities = unitOfWork.ActivityRepo.GetAllInclusive();
-                categories = unitOfWork.ActivityRepo.GetAllCategories();
-            }
-
-            foreach (var category in categories) {
-                var filePath = fileDir + category.Name + ".txt";
-                var categoryActivities = activities.Where(u => u.CategoryId == category.Id).ToList();
-
-                if (categoryActivities.Count == 0) {
-                    return;
-                }
-
-                using (var file = new StreamWriter(filePath)) {
-                    foreach (var activity in categoryActivities) {
-                        string activityString = ActivityService.GetInfoForBackup(activity);
-                        if (!string.IsNullOrWhiteSpace(activityString)) {
-                            file.WriteLine(activityString);
-                        }
-                    }
-                }
-            }
-            WriteStatisticsFile(activities);
         }
 
         private static void WriteStatisticsFile(List<Activity> activities, int year = 0)

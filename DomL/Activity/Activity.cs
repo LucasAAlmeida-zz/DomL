@@ -12,7 +12,7 @@ namespace DomL.Business.Entities
         public DateTime Date { get; set; }
         public int DayOrder { get; set; }
         public int CategoryId { get; set; }
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
         public int? PairedActivityId { get; set; }
         public int? ActivityBlockId { get; set; }
         [Required]

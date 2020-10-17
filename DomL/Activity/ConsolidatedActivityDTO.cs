@@ -20,11 +20,11 @@ namespace DomL.Business.DTOs
             Date = Util.GetFormatedDate(activity.Date);
 
             DayOrder = activity.DayOrder.ToString();
+            StatusName = "-";
 
             var pairedDate = (activity.PairedActivity != null) ? Util.GetFormatedDate(activity.PairedActivity.Date) : "????/??/??";
             switch (activity.StatusId) {
                 case ActivityStatus.SINGLE:
-                    StatusName = "";
                     DatesStartAndFinish = "----------\t" + Date;
                     break;
                 case ActivityStatus.START:
@@ -37,7 +37,7 @@ namespace DomL.Business.DTOs
                     break;
             }
 
-            ActivityBlockName = activity.ActivityBlock?.Name;
+            ActivityBlockName = (activity.ActivityBlock != null) ? activity.ActivityBlock.Name : "-";
         }
 
         public string GetInfoForMonthRecap()
@@ -48,7 +48,7 @@ namespace DomL.Business.DTOs
 
         protected string GetInfoForBackup()
         {
-            return Date + " " + StatusName + " " + DayOrder + " " + ActivityBlockName;
+            return Date + "\t" + DayOrder + "\t" + ActivityBlockName + "\t" + StatusName;
         }
     }
 }

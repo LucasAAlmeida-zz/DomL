@@ -31,7 +31,7 @@ namespace DomL.Business.DTOs
                 + "\t" + GetAutoActivityInfo();
         }
 
-        public string GetAutoActivityInfo()
+        private string GetAutoActivityInfo()
         {
             return AutoName + "\t" + Description;
         }

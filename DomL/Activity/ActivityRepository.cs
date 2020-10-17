@@ -39,9 +39,10 @@ namespace DomL.DataAccess.Repositories
                 .ToList();
         }
 
-        public List<Activity> GetAllInclusive()
+        public List<Activity> GetAllInclusiveFromCategory(int categoryId)
         {
             return GetAllQueryableInclusive()
+                .Where(u => u.CategoryId == categoryId)
                 .ToList();
         }
 
@@ -50,6 +51,7 @@ namespace DomL.DataAccess.Repositories
             return DomLContext.Activity
                 .Include(u => u.Category)
                 .Include(u => u.Status)
+                .Include(u => u.ActivityBlock)
                 .Include(u => u.AutoActivity.Auto)
                 .Include(u => u.BookActivity.Book.Author).Include(u => u.BookActivity.Book.Series)
                 .Include(u => u.ComicActivity.ComicVolume.Author).Include(u => u.ComicActivity.ComicVolume.Series).Include(u => u.ComicActivity.ComicVolume.Type)

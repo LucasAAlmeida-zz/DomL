@@ -1,7 +1,9 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -175,6 +177,31 @@ namespace DomL.Business.Services
                 case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForYearRecap();
             }
             return "";
+        }
+
+        public static void BackupToFile(string fileDir, int categoryId)
+        {
+            List<Activity> activities;
+            ActivityCategory category;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                activities = unitOfWork.ActivityRepo.GetAllInclusiveFromCategory(categoryId);
+                category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
+            }
+
+            var filePath = fileDir + category.Name + ".txt";
+
+            if (activities.Count == 0) {
+                return;
+            }
+
+            using (var file = new StreamWriter(filePath)) {
+                foreach (var activity in activities) {
+                    string activityString = GetInfoForBackup(activity);
+                    if (!string.IsNullOrWhiteSpace(activityString)) {
+                        file.WriteLine(activityString);
+                    }
+                }
+            }
         }
 
         public static string GetInfoForBackup(Activity activity)
