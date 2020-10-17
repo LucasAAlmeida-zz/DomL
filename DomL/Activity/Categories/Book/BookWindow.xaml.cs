@@ -141,7 +141,7 @@ namespace DomL.Presentation
             }
 
             this.NumberCB.Text = book.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.SelectedItem = book.Score ?? this.ScoreCB.SelectedItem;
+            this.ScoreCB.Text = book.Score != null ? book.Score.Value.ToString() : this.ScoreCB.Text;
         }
     }
 }

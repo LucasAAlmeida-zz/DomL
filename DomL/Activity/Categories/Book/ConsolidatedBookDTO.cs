@@ -31,7 +31,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Title; Author Name; Series Name; Number In Series; Score; Description
             return DatesStartAndFinish
-                + "\t" + Title + "\t" + AuthorName
+                + "\t" + GetBookActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetBookActivityInfo();
+        }
+
+        public string GetBookActivityInfo()
+        {
+            return Title + "\t" + AuthorName
                 + "\t" + SeriesName + "\t" + NumberInSeries
                 + "\t" + ScoreValue + "\t" + Description;
         }

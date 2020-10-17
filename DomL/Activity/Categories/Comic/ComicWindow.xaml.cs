@@ -127,8 +127,8 @@ namespace DomL.Presentation
                 this.AuthorCB_LostFocus(null, null);
             }
 
-            this.TypeCB.SelectedItem = comicVolume.Type ?? this.TypeCB.SelectedItem;
-            this.ScoreCB.SelectedItem = comicVolume.Score ?? this.ScoreCB.SelectedItem;
+            this.TypeCB.Text = comicVolume.Type != null ? comicVolume.Type.Name.ToString() : this.TypeCB.Text;
+            this.ScoreCB.Text = comicVolume.Score != null ? comicVolume.Score.Value.ToString() : this.ScoreCB.Text;
         }
     }
 }

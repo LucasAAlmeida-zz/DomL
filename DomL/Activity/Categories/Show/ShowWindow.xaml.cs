@@ -80,7 +80,6 @@ namespace DomL.Presentation
 
             this.SeriesCB_LostFocus(null, null);
             this.DirectorCB_LostFocus(null, null);
-            this.TypeCB_LostFocus(null, null);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
@@ -112,17 +111,6 @@ namespace DomL.Presentation
             Util.ChangeInfoLabel(directorName, director, this.DirectorInfoLb);
         }
 
-        private void TypeCB_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (this.TypeCB.IsKeyboardFocusWithin) {
-                return;
-            }
-
-            var typeName = this.TypeCB.Text;
-            var mediaType = MediaTypeService.GetByName(typeName, this.UnitOfWork);
-            Util.ChangeInfoLabel(typeName, mediaType, this.TypeInfoLb);
-        }
-
         private void UpdateOptionalComboBoxes(string seriesName, string season)
         {
             if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(season)) {
@@ -140,12 +128,8 @@ namespace DomL.Presentation
                 this.DirectorCB_LostFocus(null, null);
             }
 
-            if (showSeason.Type != null) {
-                this.TypeCB.Text = showSeason.Type.Name;
-                this.TypeCB_LostFocus(null, null);
-            }
-
-            //this.ScoreCB.Text = showSeason.Score ?? this.ScoreCB.Text;
+            this.TypeCB.Text = showSeason.Type != null ? showSeason.Type.Name.ToString() : this.TypeCB.Text;
+            this.ScoreCB.Text = showSeason.Score != null ? showSeason.Score.Value.ToString() : this.ScoreCB.Text;
         }
     }
 }

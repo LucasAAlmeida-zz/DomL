@@ -8,6 +8,28 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+
+/* IDEIAS
+- Windows nao deixarem submeter a nao ser que todos os campos tenham sido preenchidos
+- ao inves de escrever em label que deu certo, fazer um dialog box popar pra eu ter que clicar
+- qnd clicar no ok da tela principal, procurar atividades naquele mes naquele ano. se tiver, aparecer popup perguntando se tem ctz
+- se em algum segment tiver a string "com" (ex: "com o puggy") provavelmente eh descrição, pode dar sort pra lah
+- receber os segments direto pras classes 'consolidated<categoria>dto.cs', e salvar no banco a partir de lá
+- fazer o backup imprimindo cada atividade completa a partir do 'consolidated<categoria>dto.cs'
+- fazer o restore do banco completo a partir do 'consolidated<categoria>dto.cs'
+- show eh mais facil ter canal do que diretor (tem campo pra diretor, mas nao pra canal)
+- jogo ou show eh melhor ter campo 'creator' do que director
+- separar pessoas de creators/artists
+- se nao cair numa tag conhecida qnd tah fazendo parse, TEM que dar erro
+- se nao encontrar nenhuma serie correspondente repete o titulo (pra jogos)
+- seriesseason e comicvolume nas janelas tb podem ter validação se jah existem ou não
+- Movie só pode ser atualizado se tanto o titulo quanto o ano de lançamento (ou nome da série) for o mesmo
+- campo pra resumo em movie, game, showseason, comicvolume, course, etc
+- add manwha to comictypes
+- add ova, animation, 3d animation, live action to movie type
+- add reality show to show types
+- se tiver mais de 3 palavras, provavelmente o segmento faz parte da descrição
+*/
 namespace DomL.Business.Services
 {
     public class DomLServices
@@ -95,12 +117,25 @@ namespace DomL.Business.Services
 
             foreach(var category in categories) {
                 var filePath = fileDir + category.Name + ".txt";
-                WriteRecapFile(category.Id, filePath, yearActivities);
+                var yearCategoryActivities = yearActivities.Where(u => u.CategoryId == category.Id).ToList();
+                
+                if (yearCategoryActivities.Count == 0) {
+                    return;
+                }
+
+                using (var file = new StreamWriter(filePath)) {
+                    foreach (var yearActivity in yearCategoryActivities) {
+                        string activityString = ActivityService.GetInfoForYearRecap(yearActivity);
+                        if (!string.IsNullOrWhiteSpace(activityString)) {
+                            file.WriteLine(activityString);
+                        }
+                    }
+                }
             }
             WriteStatisticsFile(yearActivities, year);
         }
 
-        public static void WriteRecapFiles()
+        public static void WriteBackupFiles()
         {
             string fileDir = RECAPS_DIR + "Categories\\";
             Util.CreateDirectory(fileDir);
@@ -114,27 +149,22 @@ namespace DomL.Business.Services
 
             foreach (var category in categories) {
                 var filePath = fileDir + category.Name + ".txt";
-                WriteRecapFile(category.Id, filePath, activities);
-            }
-            WriteStatisticsFile(activities);
-        }
+                var categoryActivities = activities.Where(u => u.CategoryId == category.Id).ToList();
 
-        private static void WriteRecapFile(int categoryId, string filePath, List<Activity> activities)
-        {
-            var categoryActivities = activities.Where(u => u.CategoryId == categoryId).ToList();
+                if (categoryActivities.Count == 0) {
+                    return;
+                }
 
-            if (categoryActivities.Count == 0) {
-                return;
-            }
-
-            using (var file = new StreamWriter(filePath)) {
-                foreach (var activity in categoryActivities) {
-                    string activityString = ActivityService.GetInfoForYearRecap(activity);
-                    if (!string.IsNullOrWhiteSpace(activityString)) {
-                        file.WriteLine(activityString);
+                using (var file = new StreamWriter(filePath)) {
+                    foreach (var activity in categoryActivities) {
+                        string activityString = ActivityService.GetInfoForBackup(activity);
+                        if (!string.IsNullOrWhiteSpace(activityString)) {
+                            file.WriteLine(activityString);
+                        }
                     }
                 }
             }
+            WriteStatisticsFile(activities);
         }
 
         private static void WriteStatisticsFile(List<Activity> activities, int year = 0)

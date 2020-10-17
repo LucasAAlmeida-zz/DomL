@@ -73,6 +73,7 @@ namespace DomL.Business.Services
             } else {
                 book.Author = author ?? book.Author;
                 book.Series = series ?? book.Series;
+                book.Score = score ?? book.Score;
             }
 
             return book;

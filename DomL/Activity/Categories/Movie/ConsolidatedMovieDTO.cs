@@ -29,7 +29,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Title; Director Name; Series Name; Number In Series; Score; Description
             return DatesStartAndFinish
-                + "\t" + Title + "\t" + DirectorName
+                + "\t" + GetMovieActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetMovieActivityInfo();
+        }
+
+        public string GetMovieActivityInfo()
+        {
+            return Title + "\t" + DirectorName
                 + "\t" + SeriesName + "\t" + NumberInSeries
                 + "\t" + Score + "\t" + Description;
         }

@@ -23,7 +23,19 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Description
             return DatesStartAndFinish
-                + "\t" + Description;
+                + "\t" + GetEventActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            var isImportantMarker = IsImportant ? "*" : "";
+            return base.GetInfoForBackup()
+                + "\t" + isImportantMarker + GetEventActivityInfo();
+        }
+
+        public string GetEventActivityInfo()
+        {
+            return Description;
         }
     }
 }

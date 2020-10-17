@@ -27,7 +27,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Transport Name; Origin Name; Destination Name; Description
             return DatesStartAndFinish
-                + "\t" + TransportName + "\t" + OriginName + "\t" + DestinationName + "\t" + Description;
+                + "\t" + GetTravelActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetTravelActivityInfo();
+        }
+
+        private string GetTravelActivityInfo()
+        {
+            return TransportName + "\t" + OriginName + "\t" + DestinationName + "\t" + Description;
         }
     }
 }

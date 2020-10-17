@@ -68,6 +68,7 @@ namespace DomL.Business.Services
             } else {
                 comicVolume.Author = author ?? comicVolume.Author;
                 comicVolume.Type = type ?? comicVolume.Type;
+                comicVolume.Score = score ?? comicVolume.Score;
             }
 
             return comicVolume;

@@ -37,7 +37,7 @@ namespace DomL.Presentation
                 this.SegmentosStack.Children.Add(dynLabel);
             }
 
-            var titles = BookService.GetAll(unitOfWork).Select(u => u.Title).ToList();
+            var titles = GameService.GetAll(unitOfWork).Select(u => u.Title).ToList();
             var platformTypes = MediaTypeService.GetAllPlatformTypes(unitOfWork).Select(u => u.Name).ToList();
             var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
             var numbers = Util.GetDefaultNumberList();
@@ -84,7 +84,7 @@ namespace DomL.Presentation
             Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[2]);
             Util.SetComboBox(this.NumberCB, segments, numbers, orderedSegments[3]);
             Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[4]);
-            Util.SetComboBox(this.PublisherCB, segments, personNames, orderedSegments[5]);
+            Util.SetComboBox(this.PublisherCB, segments, companyNames, orderedSegments[5]);
             Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[6]);
             Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[7]);
 
@@ -109,7 +109,7 @@ namespace DomL.Presentation
             }
 
             var title = this.TitleCB.Text;
-            var game = GameService.GetGameByTitle(title, this.UnitOfWork);
+            var game = GameService.GetGameByTitleAndPlatformName(title, this.PlatformCB.Text, this.UnitOfWork);
             Util.ChangeInfoLabel(title, game, this.TitleInfoLb);
 
             UpdateOptionalComboBoxes(title);
@@ -177,7 +177,7 @@ namespace DomL.Presentation
             }
 
             this.NumberCB.Text = game.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.SelectedItem = game.Score ?? this.ScoreCB.SelectedItem;
+            this.ScoreCB.Text = game.Score != null ? game.Score.Value.ToString() : this.ScoreCB.Text;
         }
 
     }

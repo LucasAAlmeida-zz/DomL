@@ -25,7 +25,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Gift; Is To or From; Person; Description
             return DatesStartAndFinish
-                + "\t" + Gift + "\t" + IsToOrFrom + "\t" + Who + "\t" + Description;
+                + "\t" + GetGiftActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetGiftActivityInfo();
+        }
+
+        public string GetGiftActivityInfo()
+        {
+            return Gift + "\t" + IsToOrFrom + "\t" + Who + "\t" + Description;
         }
     }
 }

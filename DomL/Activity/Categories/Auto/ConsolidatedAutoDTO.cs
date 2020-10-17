@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using System;
 
 namespace DomL.Business.DTOs
 {
@@ -21,7 +22,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Auto Name; Description
             return DatesStartAndFinish
-                + "\t" + AutoName + "\t" + Description;
+                + "\t" + GetAutoActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup() 
+                + "\t" + GetAutoActivityInfo();
+        }
+
+        public string GetAutoActivityInfo()
+        {
+            return AutoName + "\t" + Description;
         }
     }
 }

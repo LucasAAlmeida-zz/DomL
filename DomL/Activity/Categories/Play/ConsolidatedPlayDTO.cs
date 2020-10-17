@@ -20,7 +20,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Person Name; Description
             return DatesStartAndFinish
-                + "\t" + Who + "\t" + Description;
+                + "\t" + GetPlayActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetPlayActivityInfo();
+        }
+
+        public string GetPlayActivityInfo()
+        {
+            return Who + "\t" + Description;
         }
     }
 }

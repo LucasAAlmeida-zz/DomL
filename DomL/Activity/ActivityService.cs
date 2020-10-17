@@ -176,5 +176,29 @@ namespace DomL.Business.Services
             }
             return "";
         }
+
+        public static string GetInfoForBackup(Activity activity)
+        {
+            switch (activity.Category.Id) {
+                case ActivityCategory.AUTO_ID:     return new ConsolidatedAutoDTO(activity).GetInfoForBackup();
+                case ActivityCategory.BOOK_ID:     return new ConsolidatedBookDTO(activity).GetInfoForBackup();
+                case ActivityCategory.COMIC_ID:    return new ConsolidatedComicDTO(activity).GetInfoForBackup();
+                case ActivityCategory.COURSE_ID:   return new ConsolidatedCourseDTO(activity).GetInfoForBackup();
+                case ActivityCategory.DOOM_ID:     return new ConsolidatedDoomDTO(activity).GetInfoForBackup();
+                case ActivityCategory.EVENT_ID:    return new ConsolidatedEventDTO(activity).GetInfoForBackup();
+                case ActivityCategory.GAME_ID:     return new ConsolidatedGameDTO(activity).GetInfoForBackup();
+                case ActivityCategory.GIFT_ID:     return new ConsolidatedGiftDTO(activity).GetInfoForBackup();
+                case ActivityCategory.HEALTH_ID:   return new ConsolidatedHealthDTO(activity).GetInfoForBackup();
+                case ActivityCategory.MOVIE_ID:    return new ConsolidatedMovieDTO(activity).GetInfoForBackup();
+                case ActivityCategory.PET_ID:      return new ConsolidatedPetDTO(activity).GetInfoForBackup();
+                case ActivityCategory.MEET_ID:     return new ConsolidatedMeetDTO(activity).GetInfoForBackup();
+                case ActivityCategory.PLAY_ID:     return new ConsolidatedPlayDTO(activity).GetInfoForBackup();
+                case ActivityCategory.PURCHASE_ID: return new ConsolidatedPurchaseDTO(activity).GetInfoForBackup();
+                case ActivityCategory.SHOW_ID:     return new ConsolidatedShowDTO(activity).GetInfoForBackup();
+                case ActivityCategory.TRAVEL_ID:   return new ConsolidatedTravelDTO(activity).GetInfoForBackup();
+                case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForBackup();
+            }
+            return "";
+        }
     }
 }

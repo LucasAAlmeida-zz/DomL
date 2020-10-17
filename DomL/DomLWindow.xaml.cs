@@ -47,7 +47,7 @@ namespace DomL
                 DomLServices.WriteYearRecapFiles(year);
                 this.MessageLabel.Content = "Atividades consolidadas do ano escritas em arquivo com sucesso";
 
-                DomLServices.WriteRecapFiles();
+                DomLServices.WriteBackupFiles();
                 this.MessageLabel.Content = "Todas Atividades consolidadas escritas em arquivo com sucesso";
             } catch (Exception exception) {
                 this.MessageLabel2.Content = exception.Message;

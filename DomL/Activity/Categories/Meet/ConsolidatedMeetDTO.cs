@@ -23,7 +23,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Person Name; Origin; Description
             return DatesStartAndFinish
-                + "\t" + PersonName + "\t" + Origin + "\t" + Description;
+                + "\t" + GetMeetActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetMeetActivityInfo();
+        }
+
+        public string GetMeetActivityInfo()
+        {
+            return PersonName + "\t" + Origin + "\t" + Description;
         }
     }
 }

@@ -25,7 +25,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Store Name; Product; Value; Description
             return DatesStartAndFinish
-                + "\t" + StoreName + "\t" + Product + "\t" + Value + "\t" + Description;
+                + "\t" + GetPurchaseActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetPurchaseActivityInfo();
+        }
+
+        public string GetPurchaseActivityInfo()
+        {
+            return StoreName + "\t" + Product + "\t" + Value + "\t" + Description;
         }
     }
 }

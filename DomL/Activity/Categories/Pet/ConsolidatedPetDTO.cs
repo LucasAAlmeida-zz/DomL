@@ -21,7 +21,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Pet Name; Description
             return DatesStartAndFinish
-                + "\t" + PetName + "\t" + Description;
+                + "\t" + GetPetActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetPetActivityInfo();
+        }
+
+        public string GetPetActivityInfo()
+        {
+            return PetName + "\t" + Description;
         }
     }
 }

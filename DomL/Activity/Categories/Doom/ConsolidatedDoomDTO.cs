@@ -18,7 +18,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Description
             return DatesStartAndFinish
-                + "\t" + Description;
+                + "\t" + GetDoomActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetDoomActivityInfo();
+        }
+
+        public string GetDoomActivityInfo()
+        {
+            return Description;
         }
     }
 }

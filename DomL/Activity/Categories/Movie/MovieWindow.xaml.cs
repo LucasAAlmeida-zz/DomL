@@ -142,7 +142,7 @@ namespace DomL.Presentation
             }
 
             this.NumberCB.Text = movie.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.SelectedItem = movie.Score ?? this.ScoreCB.SelectedItem;
+            this.ScoreCB.Text = movie.Score != null ? movie.Score.Value.ToString() : this.ScoreCB.Text;
         }
     }
 }

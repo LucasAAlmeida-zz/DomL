@@ -68,6 +68,7 @@ namespace DomL.Business.Services
             } else {
                 showSeason.Director = director ?? showSeason.Director;
                 showSeason.Type = type ?? showSeason.Type;
+                showSeason.Score = score ?? showSeason.Score;
             }
 
             return showSeason;

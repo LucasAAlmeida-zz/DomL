@@ -67,6 +67,7 @@ namespace DomL.Business.Services
             } else {
                 movie.Director = director ?? movie.Director;
                 movie.Series = series ?? movie.Series;
+                movie.Score = score ?? movie.Score;
             }
 
             return movie;

@@ -21,7 +21,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Work Name; Description
             return DatesStartAndFinish
-                + "\t" + WorkName + "\t" + Description;
+                + "\t" + GetWorkActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetWorkActivityInfo();
+        }
+
+        private string GetWorkActivityInfo()
+        {
+            return WorkName + "\t" + Description;
         }
     }
 }

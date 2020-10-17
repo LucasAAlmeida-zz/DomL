@@ -22,7 +22,7 @@ namespace DomL.Presentation
         {
             try {
                 AutoService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -33,7 +33,7 @@ namespace DomL.Presentation
         {
             try {
                 BookService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -44,7 +44,7 @@ namespace DomL.Presentation
         {
             try {
                 ComicService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -55,7 +55,7 @@ namespace DomL.Presentation
         {
             try {
                 DoomService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -66,7 +66,7 @@ namespace DomL.Presentation
         {
             try {
                 EventService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -77,7 +77,7 @@ namespace DomL.Presentation
         {
             try {
                 GameService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -88,7 +88,7 @@ namespace DomL.Presentation
         {
             try {
                 GiftService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -99,7 +99,7 @@ namespace DomL.Presentation
         {
             try {
                 HealthService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -110,7 +110,7 @@ namespace DomL.Presentation
         {
             try {
                 MeetService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -121,7 +121,7 @@ namespace DomL.Presentation
         {
             try {
                 MovieService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -132,7 +132,7 @@ namespace DomL.Presentation
         {
             try {
                 PetService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -143,7 +143,7 @@ namespace DomL.Presentation
         {
             try {
                 PlayService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -154,7 +154,7 @@ namespace DomL.Presentation
         {
             try {
                 PurchaseService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -165,7 +165,7 @@ namespace DomL.Presentation
         {
             try {
                 ShowService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -176,7 +176,7 @@ namespace DomL.Presentation
         {
             try {
                 TravelService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);
@@ -187,7 +187,7 @@ namespace DomL.Presentation
         {
             try {
                 WorkService.RestoreFromFile(BACKUP_DIR_PATH);
-                this.MessageLabel.Content = "Funcionou";
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
                 Console.WriteLine(exception);

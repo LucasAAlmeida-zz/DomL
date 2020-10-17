@@ -27,7 +27,18 @@ namespace DomL.Business.DTOs
             // Date Started; Date Finished;
             // Name; School Name; Teacher Name; Score; Description
             return DatesStartAndFinish
-                + "\t" + Name + "\t" + SchoolName + "\t" + TeacherName
+                + "\t" + GetCourseActivityInfo();
+        }
+
+        public new string GetInfoForBackup()
+        {
+            return base.GetInfoForBackup()
+                + "\t" + GetCourseActivityInfo();
+        }
+
+        public string GetCourseActivityInfo()
+        {
+            return Name + "\t" + SchoolName + "\t" + TeacherName
                 + "\t" + Score + "\t" + Description;
         }
     }

@@ -41,6 +41,11 @@ namespace DomL.Business.Services
             CreateGameActivity(activity, game, description, unitOfWork);
         }
 
+        public static List<Game> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.GameRepo.GetAllGames();
+        }
+
         private static Game GetOrUpdateOrCreateGame(string title, MediaType platform, Series series, string numberInSeries, Person director, Company publisher, Score score, UnitOfWork unitOfWork)
         {
             var game = GetGameByTitleAndPlatformName(title, platform.Name, unitOfWork);
@@ -60,6 +65,7 @@ namespace DomL.Business.Services
                 game.Series = series ?? game.Series;
                 game.Director = director ?? game.Director;
                 game.Publisher = publisher ?? game.Publisher;
+                game.Score = score ?? game.Score;
             }
 
             return game;

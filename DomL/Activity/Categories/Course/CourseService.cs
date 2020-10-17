@@ -51,6 +51,7 @@ namespace DomL.Business.Services
             } else {
                 course.Teacher = teacher ?? course.Teacher;
                 course.School = school ?? course.School;
+                course.Score = score ?? course.Score;
             }
 
             return course;

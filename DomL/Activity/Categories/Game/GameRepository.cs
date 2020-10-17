@@ -2,6 +2,8 @@
 using DomL.Business.Utils;
 using System.Linq;
 using System.Data.Entity;
+using System.Windows.Documents;
+using System.Collections.Generic;
 
 namespace DomL.DataAccess
 {
@@ -53,6 +55,11 @@ namespace DomL.DataAccess
         public void CreateGame(Game game)
         {
             DomLContext.Game.Add(game);
+        }
+
+        public List<Game> GetAllGames()
+        {
+            return DomLContext.Game.ToList();
         }
     }
 }
