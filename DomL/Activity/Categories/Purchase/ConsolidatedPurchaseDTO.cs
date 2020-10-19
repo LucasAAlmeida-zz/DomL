@@ -6,25 +6,48 @@ namespace DomL.Business.DTOs
     {
         public string StoreName;
         public string Product;
-        public int Value;
+        public string Value;
         public string Description;
 
         public ConsolidatedPurchaseDTO(Activity activity) : base(activity)
         {
+            CategoryName = "PURCHASE";
+
             var purchaseActivity = activity.PurchaseActivity;
             var store = purchaseActivity.Store;
 
             StoreName = store.Name;
             Product = purchaseActivity.Product;
-            Value = purchaseActivity.Value;
+            Value = purchaseActivity.Value.ToString();
             Description = purchaseActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedPurchaseDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Store Name; Product; Value; Description
-            return DatesStartAndFinish
+            CategoryName = "PURCHASE";
+
+            StoreName = rawSegments[1];
+            Product = rawSegments[2];
+            Value = rawSegments[3];
+            Description = (rawSegments.Length > 4) ? rawSegments[4] : null;
+        }
+
+        public ConsolidatedPurchaseDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "PURCHASE";
+
+            StoreName = backupSegments[4];
+            Product = backupSegments[5];
+            Value = backupSegments[6];
+            Description = backupSegments[7];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetPurchaseActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetPurchaseActivityInfo();
         }
 

@@ -53,41 +53,5 @@ namespace DomL.Business.Services
                 && u.HealthActivity.Description == healthActivity.Description
             );
         }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Health.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; (Medical Specialty Name); Description
-                    var date = segments[0];
-                    var specialtyName = segments[1] != "-" ? segments[1] : null;
-                    var description = segments[2];
-
-                    var originalLine = "HEALTH";
-                    originalLine = (!string.IsNullOrWhiteSpace(specialtyName)) ? originalLine + "; " + specialtyName : originalLine;
-                    originalLine += "; " + description;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        var specialty = CompanyService.GetOrCreateByName(specialtyName, unitOfWork);
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.HEALTH_ID);
-
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-
-                        CreateHealthActivity(activity, specialty, description, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
     }
 }

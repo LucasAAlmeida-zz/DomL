@@ -11,21 +11,6 @@ namespace DomL.Business.Services
 {
     public class ActivityService
     {
-        public static Activity Create(DateTime date, int dayOrder, ActivityStatus status, ActivityCategory category, ActivityBlock activityBlock, string originalLine, UnitOfWork unitOfWork)
-        {
-            var activity = new Activity() {
-                Date = date,
-                DayOrder = dayOrder,
-                Status = status,
-                Category = category,
-                ActivityBlock = activityBlock,
-                OriginalLine = originalLine
-            };
-
-            unitOfWork.ActivityRepo.Add(activity);
-            return activity;
-        }
-
         public static Activity Create(ConsolidatedActivityDTO consolidated, UnitOfWork unitOfWork)
         {
             var date = DateTime.ParseExact(consolidated.Date, "yyyy/MM/dd", null);
@@ -77,7 +62,7 @@ namespace DomL.Business.Services
             return block;
         }
 
-        public static ActivityBlock GetActivityBlockByName(string blockName, UnitOfWork unitOfWork)
+        private static ActivityBlock GetActivityBlockByName(string blockName, UnitOfWork unitOfWork)
         {
             if (string.IsNullOrWhiteSpace(blockName)) {
                 return null;
@@ -85,7 +70,7 @@ namespace DomL.Business.Services
             return unitOfWork.ActivityRepo.GetActivityBlockByName(blockName);
         }
 
-        public static ActivityBlock CreateActivityBlock(string blockName, UnitOfWork unitOfWork)
+        private static ActivityBlock CreateActivityBlock(string blockName, UnitOfWork unitOfWork)
         {
             var block = new ActivityBlock() {
                 Name = blockName,
@@ -146,29 +131,6 @@ namespace DomL.Business.Services
             return word.ToLower() == "start";
         }
 
-        public static void SaveFromRawSegments(Activity activity, string[] rawSegments, UnitOfWork unitOfWork)
-        {
-            switch (activity.Category.Id) {
-                case ActivityCategory.AUTO_ID:     AutoService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.BOOK_ID:     BookService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.COMIC_ID:    ComicService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
-                case ActivityCategory.COURSE_ID:   CourseService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
-                case ActivityCategory.DOOM_ID:     DoomService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.EVENT_ID:    EventService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
-                case ActivityCategory.GAME_ID:     GameService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.GIFT_ID:     GiftService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
-                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
-                case ActivityCategory.PET_ID:      PetService.SaveFromRawSegments(rawSegments, activity, unitOfWork);         break;
-                case ActivityCategory.MEET_ID:     MeetService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.PLAY_ID:     PlayService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromRawSegments(rawSegments, activity, unitOfWork);    break;
-                case ActivityCategory.SHOW_ID:     ShowService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
-                case ActivityCategory.WORK_ID:     WorkService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
-            }
-        }
-
         public static void PairUpWithStartingActivity(Activity activity, UnitOfWork unitOfWork)
         {
             if (activity.Status.Id != ActivityStatus.FINISH) {
@@ -202,6 +164,52 @@ namespace DomL.Business.Services
                 case ActivityCategory.WORK_ID:     pcsa = WorkService.GetStartingActivities(psa, activity);      break;
             }
             return pcsa.OrderByDescending(u => u.Date).FirstOrDefault();
+        }
+
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
+        {
+            switch (activity.Category.Id) {
+                case ActivityCategory.AUTO_ID:     AutoService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.BOOK_ID:     BookService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.COMIC_ID:    ComicService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
+                case ActivityCategory.COURSE_ID:   CourseService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
+                case ActivityCategory.DOOM_ID:     DoomService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.EVENT_ID:    EventService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
+                case ActivityCategory.GAME_ID:     GameService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.GIFT_ID:     GiftService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
+                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
+                case ActivityCategory.PET_ID:      PetService.SaveFromRawSegments(rawSegments, activity, unitOfWork);         break;
+                case ActivityCategory.MEET_ID:     MeetService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.PLAY_ID:     PlayService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromRawSegments(rawSegments, activity, unitOfWork);    break;
+                case ActivityCategory.SHOW_ID:     ShowService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
+                case ActivityCategory.WORK_ID:     WorkService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+            }
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, ActivityCategory category, UnitOfWork unitOfWork)
+        {
+            switch (category.Id) {
+                case ActivityCategory.AUTO_ID:     AutoService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.BOOK_ID:     BookService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.COMIC_ID:    ComicService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
+                case ActivityCategory.COURSE_ID:   CourseService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
+                case ActivityCategory.DOOM_ID:     DoomService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.EVENT_ID:    EventService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
+                case ActivityCategory.GAME_ID:     GameService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.GIFT_ID:     GiftService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
+                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
+                case ActivityCategory.PET_ID:      PetService.SaveFromBackupSegments(backupSegments, unitOfWork);       break;
+                case ActivityCategory.MEET_ID:     MeetService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.PLAY_ID:     PlayService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromBackupSegments(backupSegments, unitOfWork);  break;
+                case ActivityCategory.SHOW_ID:     ShowService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
+                case ActivityCategory.WORK_ID:     WorkService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+            }
         }
 
         public static string GetInfoForMonthRecap(Activity activity)
@@ -243,31 +251,6 @@ namespace DomL.Business.Services
             return "";
         }
 
-        public static void BackupToFile(string fileDir, int categoryId)
-        {
-            List<Activity> activities;
-            ActivityCategory category;
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                activities = unitOfWork.ActivityRepo.GetAllInclusiveFromCategory(categoryId);
-                category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
-            }
-
-            var filePath = fileDir + category.Name + ".txt";
-
-            if (activities.Count == 0) {
-                return;
-            }
-
-            using (var file = new StreamWriter(filePath)) {
-                foreach (var activity in activities) {
-                    string activityString = GetInfoForBackup(activity);
-                    if (!string.IsNullOrWhiteSpace(activityString)) {
-                        file.WriteLine(activityString);
-                    }
-                }
-            }
-        }
-
         public static string GetInfoForBackup(Activity activity)
         {
             switch (activity.Category.Id) {
@@ -290,55 +273,6 @@ namespace DomL.Business.Services
                 case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForBackup();
             }
             return "";
-        }
-
-        public static void RestoreFromFile(string fileDir, int categoryId)
-        {
-            ActivityCategory category;
-            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
-
-                unitOfWork.ActivityRepo.DeleteAllFromCategory(categoryId);
-                unitOfWork.Complete();
-
-                using (var reader = new StreamReader(fileDir + category.Name + ".txt")) {
-                    string line = "";
-                    while ((line = reader.ReadLine()) != null) {
-                        if (string.IsNullOrWhiteSpace(line)) {
-                            continue;
-                        }
-
-                        var backupSegments = Regex.Split(line, "\t");
-
-                        SaveActivityFromBackupSegments(backupSegments, category, unitOfWork);
-                    }
-                }
-
-                unitOfWork.Complete();
-            }
-        }
-
-        private static void SaveActivityFromBackupSegments(string[] backupSegments, ActivityCategory category, UnitOfWork unitOfWork)
-        {
-            switch (category.Id) {
-                case ActivityCategory.AUTO_ID:     AutoService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.BOOK_ID:     BookService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.COMIC_ID:    ComicService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
-                case ActivityCategory.COURSE_ID:   CourseService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
-                case ActivityCategory.DOOM_ID:     DoomService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.EVENT_ID:    EventService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
-                case ActivityCategory.GAME_ID:     GameService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.GIFT_ID:     GiftService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
-                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
-                case ActivityCategory.PET_ID:      PetService.SaveFromBackupSegments(backupSegments, unitOfWork);       break;
-                case ActivityCategory.MEET_ID:     MeetService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.PLAY_ID:     PlayService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromBackupSegments(backupSegments, unitOfWork);  break;
-                case ActivityCategory.SHOW_ID:     ShowService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
-                case ActivityCategory.WORK_ID:     WorkService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
-            }
         }
     }
 }

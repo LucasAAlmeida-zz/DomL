@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -8,17 +9,25 @@ namespace DomL.Business.Services
 {
     public class PurchaseService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // PURCHASE; Store Name; Product; Value; (Description)
-            var storeName = segments[1];
-            var product = segments[2];
-            var value = int.Parse(segments[3]);
-            var description = (segments.Length > 4) ? segments[4] : null;
+            var consolidated = new ConsolidatedPurchaseDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            Company store = CompanyService.GetOrCreateByName(storeName, unitOfWork);
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedPurchaseDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            CreatePurchaseActivity(activity, store, product, value, description, unitOfWork);
+        private static void SaveFromConsolidated(ConsolidatedPurchaseDTO consolidated, UnitOfWork unitOfWork)
+        {
+            var value = int.Parse(consolidated.Value);
+            var store = CompanyService.GetOrCreateByName(consolidated.StoreName, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreatePurchaseActivity(activity, store, consolidated.Product, value, consolidated.Description, unitOfWork);
         }
 
         private static void CreatePurchaseActivity(Activity activity, Company store, string product, int value, string description, UnitOfWork unitOfWork)
@@ -34,48 +43,6 @@ namespace DomL.Business.Services
             activity.PurchaseActivity = purchaseActivity;
 
             unitOfWork.PurchaseRepo.CreatePurchaseActivity(purchaseActivity);
-        }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Purchase.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; Store Name; Product; Value; (Description)
-                    var date = segments[0];
-                    var storeName = segments[1];
-                    var product = segments[2];
-                    var value = segments[3];
-                    var description = segments[4] != "-" ? segments[4] : null;
-
-                    var originalLine = "PURCHASE; " + storeName + "; " + product + "; " + value;
-                    originalLine = (!string.IsNullOrWhiteSpace(description)) ? originalLine + "; " + description : originalLine;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        Company store = CompanyService.GetOrCreateByName(storeName, unitOfWork);
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.PURCHASE_ID);
-
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-
-                        CreatePurchaseActivity(activity, store, product, int.Parse(value), description, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
-
-        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
-        {
-            throw new NotImplementedException();
         }
     }
 }

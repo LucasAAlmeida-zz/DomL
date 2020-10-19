@@ -9,6 +9,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedWorkDTO(Activity activity) : base(activity)
         {
+            CategoryName = "WORK";
+
             var workActivity = activity.WorkActivity;
             var work = workActivity.Work;
 
@@ -16,11 +18,28 @@ namespace DomL.Business.DTOs
             Description = workActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedWorkDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Work Name; Description
-            return DatesStartAndFinish
+            CategoryName = "WORK";
+
+            WorkName = rawSegments[1];
+            Description = rawSegments[2];
+        }
+
+        public ConsolidatedWorkDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "WORK";
+
+            WorkName = backupSegments[4];
+            Description = backupSegments[5];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetWorkActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetWorkActivityInfo();
         }
 

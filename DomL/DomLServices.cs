@@ -42,16 +42,14 @@ namespace DomL.Business.Services
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 unitOfWork.ActivityRepo.DeleteAllFromMonth(month, year);
                 unitOfWork.Complete();
-            }
 
-            ActivityBlock currentActivityBlock = null;
-            var date = new DateTime(year, month, 1);
-            var dayOrder = 0;
+                ActivityBlock currentActivityBlock = null;
+                var date = new DateTime(year, month, 1);
+                var dayOrder = 0;
 
-            var activityRawLines = Regex.Split(rawMonthText, "\r\n");
-            foreach(var rawLine in activityRawLines) {
-                try {
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                var activityRawLines = Regex.Split(rawMonthText, "\r\n");
+                foreach(var rawLine in activityRawLines) {
+                    try {
                         if (Util.IsLineBlank(rawLine)) {
                             continue;
                         }
@@ -67,10 +65,10 @@ namespace DomL.Business.Services
                             continue;
                         }
 
+                        dayOrder++;
+
                         var status = ActivityService.GetStatus(rawLine, unitOfWork);
                         var category = ActivityService.GetCategory(rawLine, unitOfWork);
-
-                        dayOrder++;
 
                         var activity = new Activity() {
                             Date = date,
@@ -82,13 +80,64 @@ namespace DomL.Business.Services
                         };
 
                         var rawSegments = Regex.Split(rawLine, "; ");
-                        ActivityService.SaveFromRawSegments(activity, rawSegments, unitOfWork);
+                        ActivityService.SaveFromRawSegments(rawSegments, activity, unitOfWork);
 
                         unitOfWork.Complete();
+                    } catch (Exception e) {
+                        var msg = "Deu ruim no dia " + date.Day + ", atividade: " + rawLine;
+                        throw new ParseException(msg, e);
                     }
-                } catch (Exception e) {
-                    var msg = "Deu ruim no dia " + date.Day + ", atividade: " + rawLine;
-                    throw new ParseException(msg, e);
+                }
+            }
+        }
+
+        public static void RestoreFromFile(string fileDir, int categoryId)
+        {
+            ActivityCategory category;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
+
+                unitOfWork.ActivityRepo.DeleteAllFromCategory(categoryId);
+                unitOfWork.Complete();
+
+                using (var reader = new StreamReader(fileDir + category.Name + ".txt")) {
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null) {
+                        if (string.IsNullOrWhiteSpace(line)) {
+                            continue;
+                        }
+
+                        var backupSegments = Regex.Split(line, "\t");
+
+                        ActivityService.SaveFromBackupSegments(backupSegments, category, unitOfWork);
+                    }
+                }
+
+                unitOfWork.Complete();
+            }
+        }
+
+        public static void BackupToFile(string fileDir, int categoryId)
+        {
+            List<Activity> activities;
+            ActivityCategory category;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                activities = unitOfWork.ActivityRepo.GetAllInclusiveFromCategory(categoryId);
+                category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
+            }
+
+            var filePath = fileDir + category.Name + ".txt";
+
+            if (activities.Count == 0) {
+                return;
+            }
+
+            using (var file = new StreamWriter(filePath)) {
+                foreach (var activity in activities) {
+                    string activityString = ActivityService.GetInfoForBackup(activity);
+                    if (!string.IsNullOrWhiteSpace(activityString)) {
+                        file.WriteLine(activityString);
+                    }
                 }
             }
         }

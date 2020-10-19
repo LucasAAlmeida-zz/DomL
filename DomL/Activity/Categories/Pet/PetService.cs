@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,24 @@ namespace DomL.Business.Services
 {
     public class PetService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // AUTO; Pet Name; Description
-            var petName = segments[1];
-            var description = segments[2];
+            var consolidated = new ConsolidatedPetDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            Person pet = PersonService.GetOrCreateByName(petName, unitOfWork);
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedPetDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            CreatePetActivity(activity, pet, description, unitOfWork);
+        private static void SaveFromConsolidated(ConsolidatedPetDTO consolidated, UnitOfWork unitOfWork)
+        {
+            var pet = PersonService.GetOrCreateByName(consolidated.PetName, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreatePetActivity(activity, pet, consolidated.Description, unitOfWork);
         }
 
         private static void CreatePetActivity(Activity activity, Person pet, string description, UnitOfWork unitOfWork)
@@ -42,45 +52,6 @@ namespace DomL.Business.Services
                 u.CategoryId == ActivityCategory.AUTO_ID
                 && u.PetActivity.Pet.Name == pet.Name
             );
-        }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Pet.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; Pet Name; Description
-                    var date = segments[0];
-                    var petName = segments[1];
-                    var description = segments[2];
-
-                    var originalLine = "PET; " + petName + "; " + description;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        var pet = PersonService.GetOrCreateByName(petName, unitOfWork);
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.PET_ID);
-
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-
-                        CreatePetActivity(activity, pet, description, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
-
-        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
-        {
-            throw new NotImplementedException();
         }
     }
 }

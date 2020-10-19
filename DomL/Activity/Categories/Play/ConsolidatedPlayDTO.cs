@@ -9,17 +9,36 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedPlayDTO(Activity activity) : base(activity)
         {
+            CategoryName = "PLAY";
+
             var playActivity = activity.PlayActivity;
 
             Who = playActivity.Who;
             Description = playActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedPlayDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Person Name; Description
-            return DatesStartAndFinish
+            CategoryName = "PLAY";
+
+            Who = rawSegments[1];
+            Description = rawSegments.Length > 2 ? rawSegments[2] : null;
+        }
+
+        public ConsolidatedPlayDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "PLAY";
+
+            Who = backupSegments[4];
+            Description = backupSegments[5];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetPlayActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetPlayActivityInfo();
         }
 

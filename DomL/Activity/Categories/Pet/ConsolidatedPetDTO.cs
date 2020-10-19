@@ -9,6 +9,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedPetDTO(Activity activity) : base(activity)
         {
+            CategoryName = "PET";
+
             var petActivity = activity.PetActivity;
             var pet = petActivity.Pet;
 
@@ -16,11 +18,28 @@ namespace DomL.Business.DTOs
             Description = petActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedPetDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Pet Name; Description
-            return DatesStartAndFinish
+            CategoryName = "PET";
+
+            PetName = rawSegments[1];
+            Description = rawSegments[2];
+        }
+
+        public ConsolidatedPetDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "PET";
+
+            PetName = backupSegments[4];
+            Description = backupSegments[5];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetPetActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetPetActivityInfo();
         }
 

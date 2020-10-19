@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,24 @@ namespace DomL.Business.Services
 {
     public class WorkService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // WORK; Work Name; Description
-            var workName = segments[1];
-            var description = segments[2];
+            var consolidated = new ConsolidatedWorkDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            Company work = CompanyService.GetOrCreateByName(workName, unitOfWork);
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedWorkDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            CreateWorkActivity(activity, work, description, unitOfWork);
+        private static void SaveFromConsolidated(ConsolidatedWorkDTO consolidated, UnitOfWork unitOfWork)
+        {
+            var work = CompanyService.GetOrCreateByName(consolidated.WorkName, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateWorkActivity(activity, work, consolidated.Description, unitOfWork);
         }
 
         private static void CreateWorkActivity(Activity activity, Company work, string description, UnitOfWork unitOfWork)
@@ -42,45 +52,6 @@ namespace DomL.Business.Services
                 u.CategoryId == ActivityCategory.WORK_ID
                 && u.WorkActivity.Work.Name == work.Name
             );
-        }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Work.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; Work Name; Description
-                    var date = segments[0];
-                    var workName = segments[1];
-                    var description = segments[2];
-
-                    var originalLine = "WORK; " + workName + "; " + description;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        var work = CompanyService.GetOrCreateByName(workName, unitOfWork);
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.WORK_ID);
-
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-
-                        CreateWorkActivity(activity, work, description, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
-
-        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
-        {
-            throw new NotImplementedException();
         }
     }
 }

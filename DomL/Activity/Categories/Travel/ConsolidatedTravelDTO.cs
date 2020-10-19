@@ -11,6 +11,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedTravelDTO(Activity activity) : base(activity)
         {
+            CategoryName = "TRAVEL";
+
             var travelActivity = activity.TravelActivity;
             var transport = travelActivity.Transport;
             var origin = travelActivity.Origin;
@@ -22,11 +24,32 @@ namespace DomL.Business.DTOs
             Description = travelActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedTravelDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Transport Name; Origin Name; Destination Name; Description
-            return DatesStartAndFinish
+            CategoryName = "TRAVEL";
+
+            TransportName = rawSegments[1];
+            OriginName = rawSegments[2];
+            DestinationName = rawSegments[3];
+            Description = (rawSegments.Length > 4) ? rawSegments[4] : null;
+        }
+
+        public ConsolidatedTravelDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "TRAVEL";
+
+            TransportName = backupSegments[4];
+            OriginName = backupSegments[5];
+            DestinationName = backupSegments[6];
+            Description = backupSegments[7];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetTravelActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetTravelActivityInfo();
         }
 

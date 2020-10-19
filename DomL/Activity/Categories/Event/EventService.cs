@@ -39,36 +39,5 @@ namespace DomL.Business.Services
 
             unitOfWork.EventRepo.CreateEventActivity(eventActivity);
         }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Event.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; Description
-                    var date = segments[0];
-                    var description = segments[1];
-
-                    var originalLine = "*" + description;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.EVENT_ID);
-                        
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-                        CreateEventActivity(activity, description, true, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -8,19 +9,26 @@ namespace DomL.Business.Services
 {
     public class TravelService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // TRAVEL; Transportation Name; Origin Name; Destination Name; (Description)
-            var transportationName = segments[1];
-            var originName = segments[2];
-            var destinationName = segments[3];
-            var description = (segments.Length > 4) ? segments[4] : null;
+            var consolidated = new ConsolidatedTravelDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            Transport transport = TransportService.CreateOrGetByName(transportationName, unitOfWork);
-            Location origin = LocationService.GetOrCreateByName(originName, unitOfWork);
-            Location destination = LocationService.GetOrCreateByName(destinationName, unitOfWork);
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedTravelDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            CreateActivity(activity, transport, origin, destination, description, unitOfWork);
+        private static void SaveFromConsolidated(ConsolidatedTravelDTO consolidated, UnitOfWork unitOfWork)
+        {
+            var transport = TransportService.CreateOrGetByName(consolidated.TransportName, unitOfWork);
+            var origin = LocationService.GetOrCreateByName(consolidated.OriginName, unitOfWork);
+            var destination = LocationService.GetOrCreateByName(consolidated.DestinationName, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateActivity(activity, transport, origin, destination, consolidated.Description, unitOfWork);
         }
 
         private static void CreateActivity(Activity activity, Transport transport, Location origin, Location destination, string description, UnitOfWork unitOfWork)
@@ -36,50 +44,6 @@ namespace DomL.Business.Services
             activity.TravelActivity = travelActivity;
 
             unitOfWork.TravelRepo.CreateActivity(travelActivity);
-        }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Travel.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; Transportation Name; Origin Name; Destination Name; (Description)
-                    var date = segments[0];
-                    var transportationName = segments[1];
-                    var originName = segments[2];
-                    var destinationName = segments[3];
-                    var description = segments[4] != "-" ? segments[4] : null;
-
-                    var originalLine = "TRAVEL; " + transportationName + "; " + originName + "; " + destinationName;
-                    originalLine = (!string.IsNullOrWhiteSpace(description)) ? originalLine + "; " + description : originalLine;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        Transport transport = TransportService.CreateOrGetByName(transportationName, unitOfWork);
-                        Location origin = LocationService.GetOrCreateByName(originName, unitOfWork);
-                        Location destination = LocationService.GetOrCreateByName(destinationName, unitOfWork);
-
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.TRAVEL_ID);
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-
-                        CreateActivity(activity, transport, origin, destination, description, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
-
-        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
-        {
-            throw new NotImplementedException();
         }
     }
 }

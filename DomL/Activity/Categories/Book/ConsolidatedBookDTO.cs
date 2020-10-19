@@ -11,8 +11,6 @@ namespace DomL.Business.DTOs
         public string NumberInSeries;
         public string ScoreValue;
         public string Description;
-        private BookWindow bookWindow;
-        private Activity activity;
 
         public ConsolidatedBookDTO(Activity activity) : base(activity)
         {

@@ -97,51 +97,5 @@ namespace DomL.Business.Services
                 && u.MovieActivity.Movie.Title == movie.Title
             );
         }
-
-        public static void RestoreFromFile(string fileDir)
-        {
-            using (var reader = new StreamReader(fileDir + "Movie.txt")) {
-                string line = "";
-                while ((line = reader.ReadLine()) != null) {
-                    if (string.IsNullOrWhiteSpace(line)) {
-                        continue;
-                    }
-
-                    var segments = Regex.Split(line, "\t");
-
-                    // Date; Title; (Director Name); (Series Name); (Number In Series); (Score); (Description)
-                    var date = segments[0];
-                    var title = segments[1];
-                    var seriesName = segments[2] != "-" ? segments[2] : null;
-                    var numberInSeries = segments[3] != "-" ? segments[3] : null;
-                    var directorName = segments[4] != "-" ? segments[4] : null;
-                    var scoreValue = segments[5] != "-" ? segments[5] : null;
-                    var description = segments[6] != "-" ? segments[6] : null;
-
-                    var originalLine = "MOVIE; " + title;
-                    originalLine = (!string.IsNullOrWhiteSpace(seriesName)) ? originalLine + "; " + seriesName : originalLine;
-                    originalLine = (!string.IsNullOrWhiteSpace(numberInSeries)) ? originalLine + "; " + numberInSeries : originalLine;
-                    originalLine = (!string.IsNullOrWhiteSpace(directorName)) ? originalLine + "; " + directorName : originalLine;
-                    originalLine = (!string.IsNullOrWhiteSpace(scoreValue)) ? originalLine + "; " + scoreValue : originalLine;
-                    originalLine = (!string.IsNullOrWhiteSpace(description)) ? originalLine + "; " + description : originalLine;
-
-                    using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-                        var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
-                        var score = ScoreService.GetByValue(scoreValue, unitOfWork);
-                        var movie = GetOrUpdateOrCreateMovie(title, director, series, numberInSeries, score, unitOfWork);
-
-                        var statusSingle = unitOfWork.ActivityRepo.GetStatusById(ActivityStatus.SINGLE);
-                        var category = unitOfWork.ActivityRepo.GetCategoryById(ActivityCategory.MOVIE_ID);
-                        var dateDT = DateTime.ParseExact(date, "dd/MM/yy", null);
-                        var activity = ActivityService.Create(dateDT, 0, statusSingle, category, null, originalLine, unitOfWork);
-
-                        CreateMovieActivity(activity, movie, description, unitOfWork);
-
-                        unitOfWork.Complete();
-                    }
-                }
-            }
-        }
     }
 }

@@ -22,7 +22,7 @@ namespace DomL.Presentation
         private void AutoBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.AUTO_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.AUTO_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -33,7 +33,7 @@ namespace DomL.Presentation
         private void BookBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.BOOK_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.BOOK_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -44,7 +44,7 @@ namespace DomL.Presentation
         private void ComicBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.COMIC_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.COMIC_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -55,7 +55,7 @@ namespace DomL.Presentation
         private void DoomBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.DOOM_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.DOOM_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -66,7 +66,7 @@ namespace DomL.Presentation
         private void EventBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.EVENT_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.EVENT_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -77,7 +77,7 @@ namespace DomL.Presentation
         private void GameBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.GAME_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.GAME_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -88,7 +88,7 @@ namespace DomL.Presentation
         private void GiftBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.GIFT_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.GIFT_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -99,7 +99,7 @@ namespace DomL.Presentation
         private void HealthBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.HEALTH_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.HEALTH_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -110,7 +110,7 @@ namespace DomL.Presentation
         private void MeetBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.MEET_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.MEET_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -121,7 +121,7 @@ namespace DomL.Presentation
         private void MovieBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.MOVIE_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.MOVIE_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -132,7 +132,7 @@ namespace DomL.Presentation
         private void PetBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.PET_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.PET_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -143,7 +143,7 @@ namespace DomL.Presentation
         private void PlayBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.PLAY_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.PLAY_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -154,7 +154,7 @@ namespace DomL.Presentation
         private void PurchaseBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.PURCHASE_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.PURCHASE_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -165,7 +165,7 @@ namespace DomL.Presentation
         private void ShowBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.SHOW_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.SHOW_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -176,7 +176,7 @@ namespace DomL.Presentation
         private void TravelBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.TRAVEL_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.TRAVEL_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -187,7 +187,7 @@ namespace DomL.Presentation
         private void WorkBackupButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.WORK_ID);
+                DomLServices.BackupToFile(BACKUP_DIR_PATH, ActivityCategory.WORK_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -202,7 +202,7 @@ namespace DomL.Presentation
         private void AutoRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.AUTO_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.AUTO_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -213,7 +213,7 @@ namespace DomL.Presentation
         private void BookRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.BOOK_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.BOOK_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -224,7 +224,7 @@ namespace DomL.Presentation
         private void ComicRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.COMIC_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.COMIC_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -235,7 +235,7 @@ namespace DomL.Presentation
         private void DoomRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.DOOM_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.DOOM_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -246,7 +246,7 @@ namespace DomL.Presentation
         private void EventRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.EVENT_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.EVENT_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -257,7 +257,7 @@ namespace DomL.Presentation
         private void GameRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.GAME_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.GAME_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -268,7 +268,7 @@ namespace DomL.Presentation
         private void GiftRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.GIFT_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.GIFT_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -279,7 +279,7 @@ namespace DomL.Presentation
         private void HealthRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.HEALTH_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.HEALTH_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -290,7 +290,7 @@ namespace DomL.Presentation
         private void MeetRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.MEET_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.MEET_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -301,7 +301,7 @@ namespace DomL.Presentation
         private void MovieRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.MOVIE_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.MOVIE_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -312,7 +312,7 @@ namespace DomL.Presentation
         private void PetRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.PET_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.PET_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -323,7 +323,7 @@ namespace DomL.Presentation
         private void PlayRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.PLAY_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.PLAY_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -334,7 +334,7 @@ namespace DomL.Presentation
         private void PurchaseRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.PURCHASE_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.PURCHASE_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -345,7 +345,7 @@ namespace DomL.Presentation
         private void ShowRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.SHOW_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.SHOW_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -356,7 +356,7 @@ namespace DomL.Presentation
         private void TravelRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.TRAVEL_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.TRAVEL_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
@@ -367,7 +367,7 @@ namespace DomL.Presentation
         private void WorkRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
-                ActivityService.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.WORK_ID);
+                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, ActivityCategory.WORK_ID);
                 MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
                 this.MessageLabel.Content = exception.Message;
