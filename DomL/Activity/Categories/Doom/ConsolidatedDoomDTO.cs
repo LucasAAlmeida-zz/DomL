@@ -13,11 +13,19 @@ namespace DomL.Business.DTOs
             Description = doomActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedDoomDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Description
-            return DatesStartAndFinish
+            CategoryName = "DOOM";
+
+            Description = backupSegments[4];
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetDoomActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetDoomActivityInfo();
         }
 

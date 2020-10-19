@@ -10,7 +10,7 @@ namespace DomL.Business.DTOs
         public string NumberInSeries;
         public string DirectorName;
         public string PublisherName;
-        public string Score;
+        public string ScoreValue;
         public string Description;
 
         public ConsolidatedGameDTO(Activity activity) : base (activity)
@@ -24,15 +24,30 @@ namespace DomL.Business.DTOs
             NumberInSeries = game.NumberInSeries ?? "-";
             DirectorName = (game.Director != null) ? game.Director.Name : "-";
             PublisherName = (game.Publisher != null) ? game.Publisher.Name : "-";
-            Score = (game.Score != null) ? game.Score.Value.ToString() : "-";
+            ScoreValue = (game.Score != null) ? game.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(gameActivity.Description)) ? gameActivity.Description : "-";
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedGameDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Title; Platform Name; Series Name; Number In Series; Director Name; Publisher Name; Score; Description
-            return DatesStartAndFinish
+            CategoryName = "Game";
+
+            Title = backupSegments[4];
+            PlatformName = backupSegments[5];
+            SeriesName = backupSegments[6];
+            NumberInSeries = backupSegments[7];
+            DirectorName = backupSegments[8];
+            PublisherName = backupSegments[9];
+            ScoreValue = backupSegments[10];
+            Description = backupSegments[11];
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetGameActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetGameActivityInfo();
         }
 
@@ -47,7 +62,7 @@ namespace DomL.Business.DTOs
             return Title + "\t" + PlatformName
                 + "\t" + SeriesName + "\t" + NumberInSeries
                 + "\t" + DirectorName + "\t" + PublisherName
-                + "\t" + Score + "\t" + Description;
+                + "\t" + ScoreValue + "\t" + Description;
         }
     }
 }

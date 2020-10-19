@@ -20,11 +20,21 @@ namespace DomL.Business.DTOs
             Description = giftActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedGiftDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Gift; Is To or From; Person; Description
-            return DatesStartAndFinish
+            CategoryName = "GIFT";
+
+            Who = backupSegments[4];
+            IsToOrFrom = backupSegments[5];
+            Gift = backupSegments[6];
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetGiftActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetGiftActivityInfo();
         }
 

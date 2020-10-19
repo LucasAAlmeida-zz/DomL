@@ -15,14 +15,29 @@ namespace DomL.Business.DTOs
             IsImportant = eventActivity.IsImportant;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedEventDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "EVENT";
+
+            Description = backupSegments[4];
+            IsImportant = false;
+
+            if (Description.StartsWith("*")) {
+                IsImportant = true;
+                Description = Description.Substring(1);
+            }
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetEventActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
         {
             if (!IsImportant) {
                 return "";
             }
-            // Date Started; Date Finished;
-            // Description
-            return DatesStartAndFinish
+
+            return base.GetInfoForYearRecap()
                 + "\t" + GetEventActivityInfo();
         }
 

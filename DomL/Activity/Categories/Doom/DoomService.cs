@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,14 @@ namespace DomL.Business.Services
             var description = segments[1];
 
             CreateDoomActivity(activity, description, unitOfWork);
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedDoomDTO(backupSegments);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateDoomActivity(activity, consolidated.Description, unitOfWork);
         }
 
         private static void CreateDoomActivity(Activity activity, string description, UnitOfWork unitOfWork)

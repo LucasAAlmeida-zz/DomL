@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using DomL.Presentation;
 using System;
@@ -39,6 +40,22 @@ namespace DomL.Business.Services
 
             Game game = GetOrUpdateOrCreateGame(title, platform, series, numberInSeries, director, publisher, score, unitOfWork);
             CreateGameActivity(activity, game, description, unitOfWork);
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedGameDTO(backupSegments);
+
+            var platform = MediaTypeService.GetByName(consolidated.PlatformName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
+            var director = PersonService.GetOrCreateByName(consolidated.DirectorName, unitOfWork);
+            var publisher = CompanyService.GetOrCreateByName(consolidated.PublisherName, unitOfWork);
+            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
+
+            var game = GetOrUpdateOrCreateGame(consolidated.Title, platform, series, consolidated.NumberInSeries, director, publisher, score, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateGameActivity(activity, game, consolidated.Description, unitOfWork);
         }
 
         public static List<Game> GetAll(UnitOfWork unitOfWork)

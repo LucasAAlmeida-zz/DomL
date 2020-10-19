@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -20,6 +21,14 @@ namespace DomL.Business.Services
             }
 
             CreateEventActivity(activity, description, isImportant, unitOfWork);
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedEventDTO(backupSegments);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateEventActivity(activity, consolidated.Description, consolidated.IsImportant, unitOfWork);
         }
 
         private static void CreateEventActivity(Activity activity, string description, bool isImportant, UnitOfWork unitOfWork)

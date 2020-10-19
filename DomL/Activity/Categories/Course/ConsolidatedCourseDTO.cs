@@ -7,7 +7,7 @@ namespace DomL.Business.DTOs
         public string Name;
         public string SchoolName;
         public string TeacherName;
-        public string Score;
+        public string ScoreValue;
         public string Description;
 
         public ConsolidatedCourseDTO(Activity activity) : base (activity)
@@ -18,15 +18,27 @@ namespace DomL.Business.DTOs
             Name = course.Name;
             SchoolName = (course.School != null) ? course.School.Name : "-";
             TeacherName = (course.Teacher != null) ? course.Teacher.Name : "-";
-            Score = (course.Score != null) ? course.Score.Value.ToString() : "-";
+            ScoreValue = (course.Score != null) ? course.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(courseActivity.Description)) ? courseActivity.Description : "-";
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedCourseDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Name; School Name; Teacher Name; Score; Description
-            return DatesStartAndFinish
+            CategoryName = "COURSE";
+
+            Name = backupSegments[4];
+            SchoolName = backupSegments[5];
+            TeacherName = backupSegments[6];
+            ScoreValue = backupSegments[7];
+            Description = backupSegments[8];
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetCourseActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetCourseActivityInfo();
         }
 
@@ -39,7 +51,7 @@ namespace DomL.Business.DTOs
         public string GetCourseActivityInfo()
         {
             return Name + "\t" + SchoolName + "\t" + TeacherName
-                + "\t" + Score + "\t" + Description;
+                + "\t" + ScoreValue + "\t" + Description;
         }
     }
 }

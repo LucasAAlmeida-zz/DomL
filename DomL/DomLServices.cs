@@ -36,7 +36,6 @@ namespace DomL.Business.Services
     {
         const string BASE_DIR = "D:\\OneDrive\\Área de Trabalho\\DomL\\";
         const string RECAPS_DIR = BASE_DIR + "Recaps\\";
-        const string BACKUP_DIR = BASE_DIR + "Backup\\";
 
         public static void SaveFromRawMonthText(string rawMonthText, int month, int year)
         {

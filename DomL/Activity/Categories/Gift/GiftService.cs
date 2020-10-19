@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -17,6 +18,16 @@ namespace DomL.Business.Services
             var description = (segments.Length > 4) ? segments[4] : null;
 
             CreateGiftActivity(activity, gift, isFrom, who, description, unitOfWork);
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedGiftDTO(backupSegments);
+
+            var isFrom = consolidated.IsToOrFrom.ToLower() == "from";
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateGiftActivity(activity, consolidated.Gift, isFrom, consolidated.Who, consolidated.Description, unitOfWork);
         }
 
         private static void CreateGiftActivity(Activity activity, string gift, bool isFrom, string who, string description, UnitOfWork unitOfWork)

@@ -1,17 +1,20 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Services;
 using DomL.Business.Utils;
+using System;
 
 namespace DomL.Business.DTOs
 {
     public class ConsolidatedActivityDTO
     {
-        public string OriginalLine;
         public string Date;
 
         public string DayOrder;
         public string StatusName;
-        public string ActivityBlockName;
+        public string CategoryName;
+        public string BlockName;
 
+        public string OriginalLine;
         public string DatesStartAndFinish;
 
         public ConsolidatedActivityDTO(Activity activity)
@@ -20,11 +23,11 @@ namespace DomL.Business.DTOs
             Date = Util.GetFormatedDate(activity.Date);
 
             DayOrder = activity.DayOrder.ToString();
-            StatusName = "-";
 
             var pairedDate = (activity.PairedActivity != null) ? Util.GetFormatedDate(activity.PairedActivity.Date) : "????/??/??";
             switch (activity.StatusId) {
                 case ActivityStatus.SINGLE:
+                    StatusName = "Single";
                     DatesStartAndFinish = "----------\t" + Date;
                     break;
                 case ActivityStatus.START:
@@ -37,18 +40,38 @@ namespace DomL.Business.DTOs
                     break;
             }
 
-            ActivityBlockName = (activity.ActivityBlock != null) ? activity.ActivityBlock.Name : "-";
+            BlockName = (activity.ActivityBlock != null) ? activity.ActivityBlock.Name : "-";
+        }
+
+        public ConsolidatedActivityDTO(string[] segments)
+        {
+            Date = segments[0];
+            DayOrder = segments[1];
+            BlockName = segments[2];
+            StatusName = segments[3];
+        }
+
+        protected string GetInfoForOriginalLine()
+        {
+            string statusName = (StatusName != "-" && StatusName != "Single") ? " " + StatusName : "";
+            string blockName = BlockName != "-" ? " " + BlockName : "";
+
+            return CategoryName + statusName + blockName;
         }
 
         public string GetInfoForMonthRecap()
         {
-            // Date; OriginalLine
             return Date + "\t" + OriginalLine;
+        }
+
+        protected string GetInfoForYearRecap()
+        {
+            return DatesStartAndFinish;
         }
 
         protected string GetInfoForBackup()
         {
-            return Date + "\t" + DayOrder + "\t" + ActivityBlockName + "\t" + StatusName;
+            return Date + "\t" + DayOrder + "\t" + BlockName + "\t" + StatusName;
         }
     }
 }

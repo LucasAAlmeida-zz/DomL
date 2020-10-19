@@ -4,7 +4,7 @@ namespace DomL.Business.Services
 {
     public class TransportService
     {
-        public static Transport GetOrCreateByName(string transportName, UnitOfWork unitOfWork)
+        public static Transport CreateOrGetByName(string transportName, UnitOfWork unitOfWork)
         {
             if (string.IsNullOrWhiteSpace(transportName)) {
                 return null;

@@ -72,5 +72,10 @@ namespace DomL.Business.Services
                 }
             }
         }
+
+        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

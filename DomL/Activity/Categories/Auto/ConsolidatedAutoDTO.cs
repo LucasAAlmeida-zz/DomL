@@ -1,4 +1,6 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Services;
+using DomL.DataAccess;
 using System;
 
 namespace DomL.Business.DTOs
@@ -17,11 +19,20 @@ namespace DomL.Business.DTOs
             Description = autoActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedAutoDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Auto Name; Description
-            return DatesStartAndFinish
+            CategoryName = "AUTO";
+
+            AutoName = backupSegments[4];
+            Description = backupSegments[5];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetAutoActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetAutoActivityInfo();
         }
 

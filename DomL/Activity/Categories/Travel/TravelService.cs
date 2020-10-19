@@ -16,7 +16,7 @@ namespace DomL.Business.Services
             var destinationName = segments[3];
             var description = (segments.Length > 4) ? segments[4] : null;
 
-            Transport transport = TransportService.GetOrCreateByName(transportationName, unitOfWork);
+            Transport transport = TransportService.CreateOrGetByName(transportationName, unitOfWork);
             Location origin = LocationService.GetOrCreateByName(originName, unitOfWork);
             Location destination = LocationService.GetOrCreateByName(destinationName, unitOfWork);
 
@@ -60,7 +60,7 @@ namespace DomL.Business.Services
                     originalLine = (!string.IsNullOrWhiteSpace(description)) ? originalLine + "; " + description : originalLine;
 
                     using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                        Transport transport = TransportService.GetOrCreateByName(transportationName, unitOfWork);
+                        Transport transport = TransportService.CreateOrGetByName(transportationName, unitOfWork);
                         Location origin = LocationService.GetOrCreateByName(originName, unitOfWork);
                         Location destination = LocationService.GetOrCreateByName(destinationName, unitOfWork);
 
@@ -75,6 +75,11 @@ namespace DomL.Business.Services
                     }
                 }
             }
+        }
+
+        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            throw new NotImplementedException();
         }
     }
 }

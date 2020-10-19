@@ -38,6 +38,20 @@ namespace DomL.Business.Services
             CreateBookActivity(activity, book, description, unitOfWork);
         }
 
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedBookDTO(backupSegments);
+
+            var author = PersonService.GetOrCreateByName(consolidated.AuthorName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
+            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
+
+            var book = GetOrUpdateOrCreateBook(consolidated.Title, author, series, consolidated.NumberInSeries, score, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateBookActivity(activity, book, consolidated.Description, unitOfWork);
+        }
+
         private static void CreateBookActivity(Activity activity, Book book, string description, UnitOfWork unitOfWork)
         {
             var bookActivity = new BookActivity() {

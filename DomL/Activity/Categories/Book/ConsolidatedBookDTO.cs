@@ -26,11 +26,24 @@ namespace DomL.Business.DTOs
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedBookDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Title; Author Name; Series Name; Number In Series; Score; Description
-            return DatesStartAndFinish
+            CategoryName = "BOOK";
+
+            Title = backupSegments[4];
+            AuthorName = backupSegments[5];
+            SeriesName = backupSegments[6];
+            NumberInSeries = backupSegments[7];
+            ScoreValue = backupSegments[8];
+            Description = backupSegments[9];
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetBookActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetBookActivityInfo();
         }
 

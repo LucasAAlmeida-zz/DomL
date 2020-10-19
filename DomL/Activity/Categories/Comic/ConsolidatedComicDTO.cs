@@ -7,8 +7,8 @@ namespace DomL.Business.DTOs
         public string SeriesName;
         public string Chapters;
         public string AuthorName;
-        public string Type;
-        public string Score;
+        public string TypeName;
+        public string ScoreValue;
         public string Description;
 
         public ConsolidatedComicDTO(Activity activity) : base (activity)
@@ -19,16 +19,29 @@ namespace DomL.Business.DTOs
             SeriesName = comicVolume.Series.Name;
             Chapters = comicVolume.Chapters;
             AuthorName = (comicVolume.Author != null) ? comicVolume.Author.Name : "-";
-            Type = (comicVolume.Type != null) ? comicVolume.Type.Name : "-";
-            Score = (comicVolume.Score != null) ? comicVolume.Score.Value.ToString() : "-";
+            TypeName = (comicVolume.Type != null) ? comicVolume.Type.Name : "-";
+            ScoreValue = (comicVolume.Score != null) ? comicVolume.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedComicDTO(string[] backupSegments) : base(backupSegments)
         {
-            // Date Started; Date Finished;
-            // Series Name; Chapters; Author Name; Media Type Name; Score; Description
-            return DatesStartAndFinish
+            CategoryName = "COMIC";
+
+            SeriesName = backupSegments[4];
+            Chapters = backupSegments[5];
+            AuthorName = backupSegments[6];
+            TypeName = backupSegments[7];
+            ScoreValue = backupSegments[8];
+            Description = backupSegments[9];
+
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetComicActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetComicActivityInfo();
         }
 
@@ -38,11 +51,11 @@ namespace DomL.Business.DTOs
                 + "\t" + GetComicActivityInfo();
         }
 
-        public string GetComicActivityInfo()
+        private string GetComicActivityInfo()
         {
             return SeriesName + "\t" + Chapters
-                + "\t" + AuthorName + "\t" + Type
-                + "\t" + Score + "\t" + Description;
+                + "\t" + AuthorName + "\t" + TypeName
+                + "\t" + ScoreValue + "\t" + Description;
         }
     }
 }

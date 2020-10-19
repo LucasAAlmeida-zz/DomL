@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using DomL.Presentation;
 using System;
@@ -34,6 +35,20 @@ namespace DomL.Business.Services
 
             Course course = GetOrUpdateOrCreateCourse(name, teacher, company, score, unitOfWork);
             CreateCourseActivity(activity, course, description, unitOfWork);
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedCourseDTO(backupSegments);
+
+            var teacher = PersonService.GetOrCreateByName(consolidated.TeacherName, unitOfWork);
+            var company = CompanyService.GetOrCreateByName(consolidated.SchoolName, unitOfWork);
+            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
+
+            var course = GetOrUpdateOrCreateCourse(consolidated.Name, teacher, company, score, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateCourseActivity(activity, course, consolidated.Description, unitOfWork);
         }
 
         private static Course GetOrUpdateOrCreateCourse(string name, Person teacher, Company school, Score score, UnitOfWork unitOfWork)

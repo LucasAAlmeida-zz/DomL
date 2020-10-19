@@ -26,6 +26,28 @@ namespace DomL.Business.Services
             return activity;
         }
 
+        public static Activity Create(ConsolidatedActivityDTO consolidated, UnitOfWork unitOfWork)
+        {
+            var date = DateTime.ParseExact(consolidated.Date, "yyyy/MM/dd", null);
+            var dayOrder = int.Parse(consolidated.DayOrder);
+
+            var status = GetStatusByName(consolidated.StatusName, unitOfWork);
+            var category = GetCategoryByName(consolidated.CategoryName, unitOfWork);
+            var block = CreateOrGetBlockByName(consolidated.BlockName, unitOfWork);
+
+            var activity = new Activity() {
+                Date = date,
+                DayOrder = dayOrder,
+                Status = status,
+                Category = category,
+                ActivityBlock = block,
+                OriginalLine = consolidated.OriginalLine
+            };
+
+            unitOfWork.ActivityRepo.Add(activity);
+            return activity;
+        }
+
         public static ActivityBlock ChangeActivityBlock(string rawLine, UnitOfWork unitOfWork)
         {
             if (rawLine == "<END>") {
@@ -40,6 +62,49 @@ namespace DomL.Business.Services
             return activityBlock;
         }
 
+        private static ActivityBlock CreateOrGetBlockByName(string blockName, UnitOfWork unitOfWork)
+        {
+            if (string.IsNullOrWhiteSpace(blockName)) {
+                return null;
+            }
+
+            var block = GetActivityBlockByName(blockName, unitOfWork);
+
+            if (block == null) {
+                block = CreateActivityBlock(blockName, unitOfWork);
+            }
+
+            return block;
+        }
+
+        public static ActivityBlock GetActivityBlockByName(string blockName, UnitOfWork unitOfWork)
+        {
+            if (string.IsNullOrWhiteSpace(blockName)) {
+                return null;
+            }
+            return unitOfWork.ActivityRepo.GetActivityBlockByName(blockName);
+        }
+
+        public static ActivityBlock CreateActivityBlock(string blockName, UnitOfWork unitOfWork)
+        {
+            var block = new ActivityBlock() {
+                Name = blockName,
+            };
+            unitOfWork.ActivityRepo.CreateActivityBlock(block);
+            return block;
+        }
+
+        private static ActivityCategory GetCategoryByName(string categoryName, UnitOfWork unitOfWork)
+        {
+            return unitOfWork.ActivityRepo.GetCategoryByName(categoryName);
+        }
+
+        private static ActivityStatus GetStatusByName(string statusName, UnitOfWork unitOfWork)
+        {
+            statusName = (statusName != "-") ? statusName : "Single";
+            return unitOfWork.ActivityRepo.GetStatusByName(statusName);
+        }
+
         public static ActivityCategory GetCategory(string rawLine, UnitOfWork unitOfWork)
         {
             var segments = Regex.Split(rawLine, "; ");
@@ -49,8 +114,8 @@ namespace DomL.Business.Services
             }
 
             var categoryName = Regex.Split(segments[0], " ")[0];
-            var category = unitOfWork.ActivityRepo.GetCategoryByName(categoryName);
-            return category ?? unitOfWork.ActivityRepo.GetCategoryByName("EVENT");
+            var category = GetCategoryByName(categoryName, unitOfWork);
+            return category ?? GetCategoryByName("EVENT", unitOfWork);
         }
 
         public static ActivityStatus GetStatus(string rawLine, UnitOfWork unitOfWork)
@@ -68,7 +133,7 @@ namespace DomL.Business.Services
             } else {
                 statusName = "SINGLE";
             }
-            return unitOfWork.ActivityRepo.GetStatusByName(statusName);
+            return GetStatusByName(statusName, unitOfWork);
         }
 
         private static bool IsStringFinish(string word)
@@ -226,6 +291,55 @@ namespace DomL.Business.Services
                 case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForBackup();
             }
             return "";
+        }
+
+        public static void RestoreFromFile(string fileDir, int categoryId)
+        {
+            ActivityCategory category;
+            using (var unitOfWork = new UnitOfWork(new DomLContext())) {
+                category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
+
+                unitOfWork.ActivityRepo.DeleteAllFromCategory(categoryId);
+                unitOfWork.Complete();
+
+                using (var reader = new StreamReader(fileDir + category.Name + ".txt")) {
+                    string line = "";
+                    while ((line = reader.ReadLine()) != null) {
+                        if (string.IsNullOrWhiteSpace(line)) {
+                            continue;
+                        }
+
+                        var backupSegments = Regex.Split(line, "\t");
+
+                        SaveActivityFromBackupSegments(backupSegments, category, unitOfWork);
+                    }
+                }
+
+                unitOfWork.Complete();
+            }
+        }
+
+        private static void SaveActivityFromBackupSegments(string[] backupSegments, ActivityCategory category, UnitOfWork unitOfWork)
+        {
+            switch (category.Id) {
+                case ActivityCategory.AUTO_ID:     AutoService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.BOOK_ID:     BookService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.COMIC_ID:    ComicService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
+                case ActivityCategory.COURSE_ID:   CourseService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
+                case ActivityCategory.DOOM_ID:     DoomService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.EVENT_ID:    EventService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
+                case ActivityCategory.GAME_ID:     GameService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.GIFT_ID:     GiftService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
+                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromBackupSegments(backupSegments, unitOfWork);     break;
+                case ActivityCategory.PET_ID:      PetService.SaveFromBackupSegments(backupSegments, unitOfWork);       break;
+                case ActivityCategory.MEET_ID:     MeetService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.PLAY_ID:     PlayService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromBackupSegments(backupSegments, unitOfWork);  break;
+                case ActivityCategory.SHOW_ID:     ShowService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromBackupSegments(backupSegments, unitOfWork);    break;
+                case ActivityCategory.WORK_ID:     WorkService.SaveFromBackupSegments(backupSegments, unitOfWork);      break;
+            }
         }
     }
 }

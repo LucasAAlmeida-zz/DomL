@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using DomL.Presentation;
 using System;
@@ -36,6 +37,21 @@ namespace DomL.Business.Services
 
             ComicVolume comicVolume = GetOrUpdateOrCreateComicVolume(series, chapters, author, type, score, unitOfWork);
             CreateComicActivity(activity, comicVolume, description, unitOfWork);
+        }
+
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedComicDTO(backupSegments);
+
+            var type = MediaTypeService.GetByName(consolidated.TypeName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
+            var author = PersonService.GetOrCreateByName(consolidated.AuthorName, unitOfWork);
+            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
+
+            var comicVolume = GetOrUpdateOrCreateComicVolume(series, consolidated.Chapters, author, type, score, unitOfWork);
+            
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateComicActivity(activity, comicVolume, consolidated.Description, unitOfWork);
         }
 
         private static void CreateComicActivity(Activity activity, ComicVolume comicVolume, string description, UnitOfWork unitOfWork)
