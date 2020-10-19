@@ -1,8 +1,5 @@
 ﻿using DomL.Business.Entities;
-using DomL.Business.Services;
 using DomL.Presentation;
-using System;
-using System.Configuration;
 
 namespace DomL.Business.DTOs
 {

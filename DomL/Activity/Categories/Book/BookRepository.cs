@@ -2,7 +2,6 @@
 using DomL.Business.Utils;
 using System.Linq;
 using System.Data.Entity;
-using System.Windows.Documents;
 using System.Collections.Generic;
 
 namespace DomL.DataAccess

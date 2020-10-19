@@ -1,6 +1,4 @@
 ﻿using DomL.Business.Entities;
-using DomL.Business.Utils;
-using System.Linq;
 
 namespace DomL.DataAccess.Repositories
 {

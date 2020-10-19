@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
@@ -8,11 +9,13 @@ namespace DomL.Business.DTOs
         public string DirectorName;
         public string SeriesName;
         public string NumberInSeries;
-        public string Score;
+        public string ScoreValue;
         public string Description;
 
         public ConsolidatedMovieDTO(Activity activity) : base(activity)
         {
+            CategoryName = "MOVIE";
+
             var movieActivity = activity.MovieActivity;
             var movie = movieActivity.Movie;
             
@@ -20,15 +23,40 @@ namespace DomL.Business.DTOs
             DirectorName = (movie.Director != null) ? movie.Director.Name : "-";
             SeriesName = (movie.Series != null) ? movie.Series.Name : "-";
             NumberInSeries = (!string.IsNullOrWhiteSpace(movie.NumberInSeries)) ? movie.NumberInSeries : "-";
-            Score = (movie.Score != null) ? movie.Score.Value.ToString() : "-";
+            ScoreValue = (movie.Score != null) ? movie.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(movieActivity.Description)) ? movieActivity.Description : "-";
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedMovieDTO(MovieWindow movieWindow, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Title; Director Name; Series Name; Number In Series; Score; Description
-            return DatesStartAndFinish
+            CategoryName = "MOVIE";
+
+            Title = movieWindow.TitleCB.Text;
+            DirectorName = movieWindow.DirectorCB.Text;
+            SeriesName = movieWindow.SeriesCB.Text;
+            NumberInSeries = (!string.IsNullOrWhiteSpace(movieWindow.NumberCB.Text)) ? movieWindow.NumberCB.Text : null;
+            ScoreValue = movieWindow.ScoreCB.Text;
+            Description = (!string.IsNullOrWhiteSpace(movieWindow.DescriptionCB.Text)) ? movieWindow.DescriptionCB.Text : null;
+        }
+
+        public ConsolidatedMovieDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "AUTO";
+
+            Title = backupSegments[4];
+            DirectorName = backupSegments[5];
+            SeriesName = backupSegments[6];
+            NumberInSeries = backupSegments[7];
+            ScoreValue = backupSegments[8];
+            Description = backupSegments[9];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetMovieActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetMovieActivityInfo();
         }
 
@@ -42,7 +70,7 @@ namespace DomL.Business.DTOs
         {
             return Title + "\t" + DirectorName
                 + "\t" + SeriesName + "\t" + NumberInSeries
-                + "\t" + Score + "\t" + Description;
+                + "\t" + ScoreValue + "\t" + Description;
         }
     }
 }

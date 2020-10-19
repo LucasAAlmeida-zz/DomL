@@ -9,6 +9,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedHealthDTO(Activity activity) : base(activity)
         {
+            CategoryName = "HEALTH";
+
             var healthActivity = activity.HealthActivity;
             var specialty = healthActivity.Specialty;
 
@@ -16,11 +18,32 @@ namespace DomL.Business.DTOs
             Description = healthActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedHealthDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Medical Specialty Name; Description
-            return DatesStartAndFinish
+            CategoryName = "HEALTH";
+
+            MedicalSpecialtyName = null;
+            Description = rawSegments[1];
+            if (rawSegments.Length > 2) {
+                MedicalSpecialtyName = rawSegments[1];
+                Description = rawSegments[2];
+            }
+        }
+
+        public ConsolidatedHealthDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "HEALTH";
+
+            MedicalSpecialtyName = backupSegments[4];
+            Description = backupSegments[5];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetHealthActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetHealthActivityInfo();
         }
 

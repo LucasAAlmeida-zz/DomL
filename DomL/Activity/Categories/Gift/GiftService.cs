@@ -9,21 +9,20 @@ namespace DomL.Business.Services
 {
     public class GiftService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // GIFT; Gift; Is To or From; Who; (Description)
-            var gift = segments[1];
-            var isFrom = segments[2].ToLower() == "from";
-            var who = segments[3];
-            var description = (segments.Length > 4) ? segments[4] : null;
-
-            CreateGiftActivity(activity, gift, isFrom, who, description, unitOfWork);
+            var consolidated = new ConsolidatedGiftDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedGiftDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedGiftDTO consolidated, UnitOfWork unitOfWork)
+        {
             var isFrom = consolidated.IsToOrFrom.ToLower() == "from";
 
             var activity = ActivityService.Create(consolidated, unitOfWork);

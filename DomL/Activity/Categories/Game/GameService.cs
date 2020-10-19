@@ -13,39 +13,28 @@ namespace DomL.Business.Services
 {
     public class GameService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
             // GAME (Classification); Title; Platform Name; (Series Name); (Number In Series); (Director Name); (Publisher Name); (Score); (Description)
-            segments[0] = "";
-            var gameWindow = new GameWindow(segments, activity, unitOfWork);
+            rawSegments[0] = "";
+            var gameWindow = new GameWindow(rawSegments, activity, unitOfWork);
 
             if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
                 gameWindow.ShowDialog();
             }
 
-            var title = gameWindow.TitleCB.Text;
-            var platformName = gameWindow.PlatformCB.Text;
-            var seriesName = gameWindow.SeriesCB.Text;
-            var numberInSeries = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
-            var directorName = gameWindow.DirectorCB.Text;
-            var publisherName = gameWindow.PublisherCB.Text;
-            var scoreValue = gameWindow.ScoreCB.Text;
-            var description = (!string.IsNullOrWhiteSpace(gameWindow.DescriptionCB.Text)) ? gameWindow.DescriptionCB.Text : null;
-
-            var platform = MediaTypeService.GetByName(platformName, unitOfWork);
-            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
-            var publisher = CompanyService.GetOrCreateByName(publisherName, unitOfWork);
-            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
-
-            Game game = GetOrUpdateOrCreateGame(title, platform, series, numberInSeries, director, publisher, score, unitOfWork);
-            CreateGameActivity(activity, game, description, unitOfWork);
+            var consolidated = new ConsolidatedGameDTO(gameWindow, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedGameDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedGameDTO consolidated, UnitOfWork unitOfWork)
+        {
             var platform = MediaTypeService.GetByName(consolidated.PlatformName, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
             var director = PersonService.GetOrCreateByName(consolidated.DirectorName, unitOfWork);

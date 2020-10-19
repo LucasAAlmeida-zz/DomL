@@ -1,8 +1,7 @@
 ﻿namespace DomL.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class DescriptionNotRequiredOnMeetActivity : DbMigration
     {
         public override void Up()

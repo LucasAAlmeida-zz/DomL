@@ -1,11 +1,7 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
-using DomL.DataAccess;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace DomL.Business.Services
 {

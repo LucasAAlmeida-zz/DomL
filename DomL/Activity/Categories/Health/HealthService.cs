@@ -1,4 +1,5 @@
-﻿using DomL.Business.Entities;
+﻿using DomL.Business.DTOs;
+using DomL.Business.Entities;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,24 @@ namespace DomL.Business.Services
 {
     public class HealthService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // HEALTH; (Medical Specialty Name); Description
-            string specialtyName = null;
-            string description;
-            if (segments.Length == 2) {
-                description = segments[1];
-            } else {
-                specialtyName = segments[1];
-                description = segments[2];
-            }
+            var consolidated = new ConsolidatedHealthDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            Company specialty = CompanyService.GetOrCreateByName(specialtyName, unitOfWork);
-            CreateHealthActivity(activity, specialty, description, unitOfWork);
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedHealthDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
+
+        private static void SaveFromConsolidated(ConsolidatedHealthDTO consolidated, UnitOfWork unitOfWork)
+        {
+            Company specialty = CompanyService.GetOrCreateByName(consolidated.MedicalSpecialtyName, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateHealthActivity(activity, specialty, consolidated.Description, unitOfWork);
         }
 
         private static void CreateHealthActivity(Activity activity, Company specialty, string description, UnitOfWork unitOfWork)
@@ -83,11 +88,6 @@ namespace DomL.Business.Services
                     }
                 }
             }
-        }
-
-        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
-        {
-            throw new NotImplementedException();
         }
     }
 }

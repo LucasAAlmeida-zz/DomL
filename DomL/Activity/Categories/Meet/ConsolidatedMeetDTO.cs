@@ -18,11 +18,30 @@ namespace DomL.Business.DTOs
             Description = meetActivity.Description;
         }
 
-        public string GetInfoForYearRecap()
+        public ConsolidatedMeetDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            // Date Started; Date Finished;
-            // Person Name; Origin; Description
-            return DatesStartAndFinish
+            CategoryName = "MEET";
+
+            PersonName = rawSegments[1];
+            Origin = rawSegments[2];
+            Description = rawSegments[3];
+        }
+
+        public ConsolidatedMeetDTO(string[] backupSegments) : base(backupSegments)
+        {
+            CategoryName = "MEET";
+
+            PersonName = backupSegments[4];
+            Origin = backupSegments[5];
+            Description = backupSegments[6];
+
+            OriginalLine = GetInfoForOriginalLine()
+                + GetMeetActivityInfo().Replace("\t", "; ");
+        }
+
+        public new string GetInfoForYearRecap()
+        {
+            return base.GetInfoForYearRecap()
                 + "\t" + GetMeetActivityInfo();
         }
 

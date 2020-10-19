@@ -7,34 +7,42 @@ using System.IO;
 using System;
 using DomL.DataAccess;
 using System.Text.RegularExpressions;
+using DomL.Business.DTOs;
 
 namespace DomL.Business.Services
 {
     public class MovieService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
             // MOVIE (Classification); Title; (Director Name); (Series Name); (Number In Series); (Score); (Description)
-            segments[0] = "";
-            var movieWindow = new MovieWindow(segments, activity, unitOfWork);
+            rawSegments[0] = "";
+            var movieWindow = new MovieWindow(rawSegments, activity, unitOfWork);
 
             if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
                 movieWindow.ShowDialog();
             }
 
-            var movieTitle = movieWindow.TitleCB.Text;
-            var directorName = movieWindow.DirectorCB.Text;
-            var seriesName = movieWindow.SeriesCB.Text;
-            var numberInSeries = (!string.IsNullOrWhiteSpace(movieWindow.NumberCB.Text)) ? movieWindow.NumberCB.Text : null;
-            var scoreValue = movieWindow.ScoreCB.Text;
-            var description = (!string.IsNullOrWhiteSpace(movieWindow.DescriptionCB.Text)) ? movieWindow.DescriptionCB.Text : null;
+            var consolidated = new ConsolidatedMovieDTO(movieWindow, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            var director = PersonService.GetOrCreateByName(directorName, unitOfWork);
-            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
+        public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
+        {
+            var consolidated = new ConsolidatedMovieDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
-            Movie movie = GetOrUpdateOrCreateMovie(movieTitle, director, series, numberInSeries, score, unitOfWork);
-            CreateMovieActivity(activity, movie, description, unitOfWork);
+        private static void SaveFromConsolidated(ConsolidatedMovieDTO consolidated, UnitOfWork unitOfWork)
+        {
+            var director = PersonService.GetOrCreateByName(consolidated.DirectorName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
+            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
+
+            var movie = GetOrUpdateOrCreateMovie(consolidated.Title, director, series, consolidated.NumberInSeries, score, unitOfWork);
+
+            var activity = ActivityService.Create(consolidated, unitOfWork);
+            CreateMovieActivity(activity, movie, consolidated.Description, unitOfWork);
         }
 
         private static void CreateMovieActivity(Activity activity, Movie movie, string description, UnitOfWork unitOfWork)
@@ -134,11 +142,6 @@ namespace DomL.Business.Services
                     }
                 }
             }
-        }
-
-        internal static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
-        {
-            throw new NotImplementedException();
         }
     }
 }

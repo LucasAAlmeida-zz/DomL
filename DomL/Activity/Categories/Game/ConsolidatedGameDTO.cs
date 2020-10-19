@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
@@ -26,6 +27,20 @@ namespace DomL.Business.DTOs
             PublisherName = (game.Publisher != null) ? game.Publisher.Name : "-";
             ScoreValue = (game.Score != null) ? game.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(gameActivity.Description)) ? gameActivity.Description : "-";
+        }
+
+        public ConsolidatedGameDTO(GameWindow gameWindow, Activity activity) : this(activity)
+        {
+            CategoryName = "Game";
+
+            Title = gameWindow.TitleCB.Text;
+            PlatformName = gameWindow.PlatformCB.Text;
+            SeriesName = gameWindow.SeriesCB.Text;
+            NumberInSeries = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
+            DirectorName = gameWindow.DirectorCB.Text;
+            PublisherName = gameWindow.PublisherCB.Text;
+            ScoreValue = gameWindow.ScoreCB.Text;
+            Description = (!string.IsNullOrWhiteSpace(gameWindow.DescriptionCB.Text)) ? gameWindow.DescriptionCB.Text : null;
         }
 
         public ConsolidatedGameDTO(string[] backupSegments) : base(backupSegments)

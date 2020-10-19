@@ -1,8 +1,4 @@
 ﻿using DomL.Business.Entities;
-using DomL.Business.Services;
-using DomL.DataAccess;
-using System;
-using System.Windows.Markup;
 
 namespace DomL.Business.DTOs
 {
