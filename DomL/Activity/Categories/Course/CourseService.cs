@@ -15,7 +15,6 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
-            // COURSE (Classification); Name; (School Name); (Teacher Name); (Score); (Description)
             segments[0] = "";
             var courseWindow = new CourseWindow(segments, activity, unitOfWork);
 
@@ -23,24 +22,18 @@ namespace DomL.Business.Services
                 courseWindow.ShowDialog();
             }
 
-            var name = courseWindow.NameCB.Text;
-            var teacherName = courseWindow.TeacherCB.Text;
-            var schoolName = courseWindow.SchoolCB.Text;
-            var scoreValue = courseWindow.ScoreCB.Text;
-            var description = (!string.IsNullOrWhiteSpace(courseWindow.DescriptionCB.Text)) ? courseWindow.DescriptionCB.Text : null;
-
-            var teacher = PersonService.GetOrCreateByName(teacherName, unitOfWork);
-            var company = CompanyService.GetOrCreateByName(schoolName, unitOfWork);
-            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
-
-            Course course = GetOrUpdateOrCreateCourse(name, teacher, company, score, unitOfWork);
-            CreateCourseActivity(activity, course, description, unitOfWork);
+            var consolidated = new ConsolidatedCourseDTO(courseWindow, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedCourseDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedCourseDTO consolidated, UnitOfWork unitOfWork)
+        {
             var teacher = PersonService.GetOrCreateByName(consolidated.TeacherName, unitOfWork);
             var company = CompanyService.GetOrCreateByName(consolidated.SchoolName, unitOfWork);
             var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);

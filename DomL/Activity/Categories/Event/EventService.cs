@@ -9,24 +9,20 @@ namespace DomL.Business.Services
 {
     public class EventService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // Description
-            var description = segments[0];
-            var isImportant = false;
-
-            if (description.StartsWith("*")) {
-                isImportant = true;
-                description = description.Substring(1);
-            }
-
-            CreateEventActivity(activity, description, isImportant, unitOfWork);
+            var consolidated = new ConsolidatedEventDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedEventDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedEventDTO consolidated, UnitOfWork unitOfWork)
+        {
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateEventActivity(activity, consolidated.Description, consolidated.IsImportant, unitOfWork);
         }

@@ -15,6 +15,19 @@ namespace DomL.Business.DTOs
             IsImportant = eventActivity.IsImportant;
         }
 
+        public ConsolidatedEventDTO(string[] rawSegments, Activity activity) : this(activity)
+        {
+            CategoryName = "EVENT";
+
+            Description = rawSegments[0];
+            IsImportant = false;
+
+            if (Description.StartsWith("*")) {
+                IsImportant = true;
+                Description = Description.Substring(1);
+            }
+        }
+
         public ConsolidatedEventDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "EVENT";

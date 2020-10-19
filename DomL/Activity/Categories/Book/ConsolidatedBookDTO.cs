@@ -1,6 +1,8 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Services;
+using DomL.Presentation;
 using System;
+using System.Configuration;
 
 namespace DomL.Business.DTOs
 {
@@ -12,6 +14,8 @@ namespace DomL.Business.DTOs
         public string NumberInSeries;
         public string ScoreValue;
         public string Description;
+        private BookWindow bookWindow;
+        private Activity activity;
 
         public ConsolidatedBookDTO(Activity activity) : base(activity)
         {
@@ -24,6 +28,18 @@ namespace DomL.Business.DTOs
             NumberInSeries = (!string.IsNullOrWhiteSpace(book.NumberInSeries)) ? book.NumberInSeries : "-";
             ScoreValue = (book.Score != null) ? book.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
+        }
+
+        public ConsolidatedBookDTO(BookWindow bookWindow, Activity activity) : base(activity)
+        {
+            CategoryName = "BOOK";
+
+            Title = bookWindow.TitleCB.Text;
+            AuthorName = bookWindow.AuthorCB.Text;
+            SeriesName = bookWindow.SeriesCB.Text;
+            NumberInSeries = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
+            ScoreValue = bookWindow.SeriesCB.Text;
+            Description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
         }
 
         public ConsolidatedBookDTO(string[] backupSegments) : base(backupSegments)

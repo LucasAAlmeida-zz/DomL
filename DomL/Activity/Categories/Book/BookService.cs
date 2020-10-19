@@ -15,33 +15,24 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
-            // BOOK (Classification); Title; (Author Name); (Series Name); (Number In Series); (Score); (Description)
             var bookWindow = new BookWindow(segments, activity, unitOfWork);
 
             if (ConfigurationManager.AppSettings["ShowCategoryWindows"] == "true") {
                 bookWindow.ShowDialog();
             }
 
-            var bookTitle = bookWindow.TitleCB.Text;
-            var authorName = bookWindow.AuthorCB.Text;
-            var seriesName = bookWindow.SeriesCB.Text;
-            var numberInSeries = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
-            var scoreValue = bookWindow.SeriesCB.Text;
-            var description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
-
-            var author = PersonService.GetOrCreateByName(authorName, unitOfWork);
-            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
-
-            Book book = GetOrUpdateOrCreateBook(bookTitle, author, series, numberInSeries, score, unitOfWork);
-
-            CreateBookActivity(activity, book, description, unitOfWork);
+            var consolidated = new ConsolidatedBookDTO(bookWindow, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedBookDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedBookDTO consolidated, UnitOfWork unitOfWork)
+        {
             var author = PersonService.GetOrCreateByName(consolidated.AuthorName, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
             var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);

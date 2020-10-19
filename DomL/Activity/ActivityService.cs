@@ -146,27 +146,26 @@ namespace DomL.Business.Services
             return word.ToLower() == "start";
         }
 
-        public static void SaveFromRawLine(Activity activity, string rawLine, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(Activity activity, string[] rawSegments, UnitOfWork unitOfWork)
         {
-            var segments = Regex.Split(rawLine, "; ");
             switch (activity.Category.Id) {
-                case ActivityCategory.AUTO_ID:     AutoService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.BOOK_ID:     BookService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.COMIC_ID:    ComicService.SaveFromRawSegments(segments, activity, unitOfWork);       break;
-                case ActivityCategory.COURSE_ID:   CourseService.SaveFromRawSegments(segments, activity, unitOfWork);      break;
-                case ActivityCategory.DOOM_ID:     DoomService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.EVENT_ID:    EventService.SaveFromRawSegments(segments, activity, unitOfWork);       break;
-                case ActivityCategory.GAME_ID:     GameService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.GIFT_ID:     GiftService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromRawSegments(segments, activity, unitOfWork);      break;
-                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromRawSegments(segments, activity, unitOfWork);       break;
-                case ActivityCategory.PET_ID:      PetService.SaveFromRawSegments(segments, activity, unitOfWork);         break;
-                case ActivityCategory.MEET_ID:     MeetService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.PLAY_ID:     PlayService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromRawSegments(segments, activity, unitOfWork);    break;
-                case ActivityCategory.SHOW_ID:     ShowService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
-                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromRawSegments(segments, activity, unitOfWork);      break;
-                case ActivityCategory.WORK_ID:     WorkService.SaveFromRawSegments(segments, activity, unitOfWork);        break;
+                case ActivityCategory.AUTO_ID:     AutoService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.BOOK_ID:     BookService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.COMIC_ID:    ComicService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
+                case ActivityCategory.COURSE_ID:   CourseService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
+                case ActivityCategory.DOOM_ID:     DoomService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.EVENT_ID:    EventService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
+                case ActivityCategory.GAME_ID:     GameService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.GIFT_ID:     GiftService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.HEALTH_ID:   HealthService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
+                case ActivityCategory.MOVIE_ID:    MovieService.SaveFromRawSegments(rawSegments, activity, unitOfWork);       break;
+                case ActivityCategory.PET_ID:      PetService.SaveFromRawSegments(rawSegments, activity, unitOfWork);         break;
+                case ActivityCategory.MEET_ID:     MeetService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.PLAY_ID:     PlayService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.PURCHASE_ID: PurchaseService.SaveFromRawSegments(rawSegments, activity, unitOfWork);    break;
+                case ActivityCategory.SHOW_ID:     ShowService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
+                case ActivityCategory.TRAVEL_ID:   TravelService.SaveFromRawSegments(rawSegments, activity, unitOfWork);      break;
+                case ActivityCategory.WORK_ID:     WorkService.SaveFromRawSegments(rawSegments, activity, unitOfWork);        break;
             }
         }
 

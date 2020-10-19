@@ -8,9 +8,18 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedDoomDTO(Activity activity) : base(activity)
         {
+            CategoryName = "DOOM";
+
             var doomActivity = activity.DoomActivity;
 
             Description = doomActivity.Description;
+        }
+
+        public ConsolidatedDoomDTO(string[] rawSegments, Activity activity) : this(activity)
+        {
+            CategoryName = "DOOM";
+
+            Description = rawSegments[1];
         }
 
         public ConsolidatedDoomDTO(string[] backupSegments) : base(backupSegments)

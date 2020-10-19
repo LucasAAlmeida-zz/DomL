@@ -15,7 +15,6 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
-            // COMIC (Classification); Series Name; Chapters; (Author Name); (Media Type Name); (Score); (Description)
             segments[0] = "";
             var comicWindow = new ComicWindow(segments, activity, unitOfWork);
 
@@ -23,33 +22,25 @@ namespace DomL.Business.Services
                 comicWindow.ShowDialog();
             }
 
-            var seriesName = comicWindow.SeriesCB.Text;
-            var chapters = comicWindow.ChaptersCB.Text;
-            var authorName = comicWindow.AuthorCB.Text;
-            var typeName = comicWindow.TypeCB.Text;
-            var scoreValue = comicWindow.ScoreCB.Text;
-            var description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
-                
-            var type = MediaTypeService.GetByName(typeName, unitOfWork);
-            var series = SeriesService.GetOrCreateByName(seriesName, unitOfWork);
-            var author = PersonService.GetOrCreateByName(authorName, unitOfWork);
-            var score = ScoreService.GetByValue(scoreValue, unitOfWork);
-
-            ComicVolume comicVolume = GetOrUpdateOrCreateComicVolume(series, chapters, author, type, score, unitOfWork);
-            CreateComicActivity(activity, comicVolume, description, unitOfWork);
+            var consolidated = new ConsolidatedComicDTO(comicWindow, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedComicDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedComicDTO consolidated, UnitOfWork unitOfWork)
+        {
             var type = MediaTypeService.GetByName(consolidated.TypeName, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
             var author = PersonService.GetOrCreateByName(consolidated.AuthorName, unitOfWork);
             var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
 
             var comicVolume = GetOrUpdateOrCreateComicVolume(series, consolidated.Chapters, author, type, score, unitOfWork);
-            
+
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateComicActivity(activity, comicVolume, consolidated.Description, unitOfWork);
         }

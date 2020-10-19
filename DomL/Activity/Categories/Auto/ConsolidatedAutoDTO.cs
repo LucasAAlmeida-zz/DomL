@@ -2,6 +2,7 @@
 using DomL.Business.Services;
 using DomL.DataAccess;
 using System;
+using System.Windows.Markup;
 
 namespace DomL.Business.DTOs
 {
@@ -12,11 +13,21 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedAutoDTO(Activity activity) : base(activity)
         {
+            CategoryName = "AUTO";
+
             var autoActivity = activity.AutoActivity;
             var auto = autoActivity.Auto;
 
             AutoName = auto.Name;
             Description = autoActivity.Description;
+        }
+
+        public ConsolidatedAutoDTO(string[] rawSegments, Activity activity) : base(activity)
+        {
+            CategoryName = "AUTO";
+
+            AutoName = rawSegments[1];
+            Description = rawSegments[2];
         }
 
         public ConsolidatedAutoDTO(string[] backupSegments) : base(backupSegments)

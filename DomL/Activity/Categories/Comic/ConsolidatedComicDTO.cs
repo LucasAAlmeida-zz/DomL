@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
@@ -13,6 +14,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedComicDTO(Activity activity) : base (activity)
         {
+            CategoryName = "COMIC";
+
             var comicActivity = activity.ComicActivity;
             var comicVolume = comicActivity.ComicVolume;
 
@@ -22,6 +25,18 @@ namespace DomL.Business.DTOs
             TypeName = (comicVolume.Type != null) ? comicVolume.Type.Name : "-";
             ScoreValue = (comicVolume.Score != null) ? comicVolume.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
+        }
+
+        public ConsolidatedComicDTO(ComicWindow comicWindow, Activity activity) : base(activity)
+        {
+            CategoryName = "COMIC";
+
+            SeriesName = comicWindow.SeriesCB.Text;
+            Chapters = comicWindow.ChaptersCB.Text;
+            AuthorName = comicWindow.AuthorCB.Text;
+            TypeName = comicWindow.TypeCB.Text;
+            ScoreValue = comicWindow.ScoreCB.Text;
+            Description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
         }
 
         public ConsolidatedComicDTO(string[] backupSegments) : base(backupSegments)

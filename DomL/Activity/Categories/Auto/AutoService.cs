@@ -11,23 +11,22 @@ namespace DomL.Business.Services
 {
     public class AutoService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // AUTO; Auto Name; Description
-            var autoName = segments[1];
-            var description = segments[2];
-
-            var auto = TransportService.CreateOrGetByName(autoName, unitOfWork);
-
-            CreateAutoActivity(activity, auto, description, unitOfWork);
+            var consolidated = new ConsolidatedAutoDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedAutoDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedAutoDTO consolidated, UnitOfWork unitOfWork)
+        {
             var auto = TransportService.CreateOrGetByName(consolidated.AutoName, unitOfWork);
-            
+
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateAutoActivity(activity, auto, consolidated.Description, unitOfWork);
         }

@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
@@ -12,6 +13,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedCourseDTO(Activity activity) : base (activity)
         {
+            CategoryName = "COURSE";
+
             var courseActivity = activity.CourseActivity;
             var course = courseActivity.Course;
 
@@ -20,6 +23,17 @@ namespace DomL.Business.DTOs
             TeacherName = (course.Teacher != null) ? course.Teacher.Name : "-";
             ScoreValue = (course.Score != null) ? course.Score.Value.ToString() : "-";
             Description = (!string.IsNullOrWhiteSpace(courseActivity.Description)) ? courseActivity.Description : "-";
+        }
+
+        public ConsolidatedCourseDTO(CourseWindow courseWindow, Activity activity) : base(activity)
+        {
+            CategoryName = "COURSE";
+
+            Name = courseWindow.NameCB.Text;
+            TeacherName = courseWindow.TeacherCB.Text;
+            SchoolName = courseWindow.SchoolCB.Text;
+            ScoreValue = courseWindow.ScoreCB.Text;
+            Description = (!string.IsNullOrWhiteSpace(courseWindow.DescriptionCB.Text)) ? courseWindow.DescriptionCB.Text : null;
         }
 
         public ConsolidatedCourseDTO(string[] backupSegments) : base(backupSegments)

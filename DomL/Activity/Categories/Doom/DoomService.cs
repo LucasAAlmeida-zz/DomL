@@ -11,18 +11,20 @@ namespace DomL.Business.Services
 {
     public class DoomService
     {
-        public static void SaveFromRawSegments(string[] segments, Activity activity, UnitOfWork unitOfWork)
+        public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            // DOOM; Description
-            var description = segments[1];
-
-            CreateDoomActivity(activity, description, unitOfWork);
+            var consolidated = new ConsolidatedDoomDTO(rawSegments, activity);
+            SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new ConsolidatedDoomDTO(backupSegments);
+            SaveFromConsolidated(consolidated, unitOfWork);
+        }
 
+        private static void SaveFromConsolidated(ConsolidatedDoomDTO consolidated, UnitOfWork unitOfWork)
+        {
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateDoomActivity(activity, consolidated.Description, unitOfWork);
         }

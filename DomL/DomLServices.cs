@@ -71,8 +71,18 @@ namespace DomL.Business.Services
                         var category = ActivityService.GetCategory(rawLine, unitOfWork);
 
                         dayOrder++;
-                        Activity activity = ActivityService.Create(date, dayOrder, status, category, currentActivityBlock, rawLine, unitOfWork);
-                        ActivityService.SaveFromRawLine(activity, rawLine, unitOfWork);
+
+                        var activity = new Activity() {
+                            Date = date,
+                            DayOrder = dayOrder,
+                            Status = status,
+                            Category = category,
+                            ActivityBlock = currentActivityBlock,
+                            OriginalLine = rawLine
+                        };
+
+                        var rawSegments = Regex.Split(rawLine, "; ");
+                        ActivityService.SaveFromRawSegments(activity, rawSegments, unitOfWork);
 
                         unitOfWork.Complete();
                     }
