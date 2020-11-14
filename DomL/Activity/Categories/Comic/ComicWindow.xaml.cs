@@ -71,7 +71,7 @@ namespace DomL.Presentation
             }
 
             Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[0]);
-            Util.SetComboBox(this.ChaptersCB, segments, defaultChaptersList, orderedSegments[1]);
+            Util.SetComboBox(this.TitleCB, segments, defaultChaptersList, orderedSegments[1]);
             Util.SetComboBox(this.AuthorCB, segments, personNames, orderedSegments[2]);
             Util.SetComboBox(this.TypeCB, new string[1] { "" }, comicTypes, orderedSegments[3]);
             Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[4]);
@@ -95,8 +95,6 @@ namespace DomL.Presentation
             var seriesName = this.SeriesCB.Text;
             var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
             Util.ChangeInfoLabel(seriesName, series, this.SeriesInfoLb);
-
-            UpdateOptionalComboBoxes(seriesName, this.ChaptersCB.Text);
         }
 
         private void AuthorCB_LostFocus(object sender, RoutedEventArgs e)
@@ -108,27 +106,6 @@ namespace DomL.Presentation
             var authorName = this.AuthorCB.Text;
             var author = PersonService.GetByName(authorName, this.UnitOfWork);
             Util.ChangeInfoLabel(authorName, author, this.AuthorInfoLb);
-        }
-
-        private void UpdateOptionalComboBoxes(string seriesName, string chapters)
-        {
-            if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(chapters)) {
-                return;
-            }
-
-            var comicVolume = ComicService.GetComicVolumeBySeriesNameAndChapters(seriesName, chapters, this.UnitOfWork);
-
-            if (comicVolume == null) {
-                return;
-            }
-
-            if (comicVolume.Author != null) {
-                this.AuthorCB.Text = comicVolume.Author.Name;
-                this.AuthorCB_LostFocus(null, null);
-            }
-
-            this.TypeCB.Text = comicVolume.Type != null ? comicVolume.Type.Name.ToString() : this.TypeCB.Text;
-            this.ScoreCB.Text = comicVolume.Score != null ? comicVolume.Score.Value.ToString() : this.ScoreCB.Text;
         }
     }
 }

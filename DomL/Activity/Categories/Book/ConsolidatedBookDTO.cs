@@ -76,6 +76,7 @@ namespace DomL.Business.DTOs
         {
             return Title + "\t" + Author
                 + "\t" + SeriesName + "\t" + Number
+                + "\t" + Publisher + "\t" + Year
                 + "\t" + Score + "\t" + Description;
         }
     }

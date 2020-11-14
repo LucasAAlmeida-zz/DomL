@@ -5,11 +5,14 @@ namespace DomL.Business.DTOs
 {
     public class ConsolidatedComicDTO : ConsolidatedActivityDTO
     {
+        public string Title;
+        public string Author;
+        public string Type;
         public string SeriesName;
-        public string Chapters;
-        public string AuthorName;
-        public string TypeName;
-        public string ScoreValue;
+        public string Number;
+        public string Publisher;
+        public string Year;
+        public string Score;
         public string Description;
 
         public ConsolidatedComicDTO(Activity activity) : base (activity)
@@ -17,13 +20,16 @@ namespace DomL.Business.DTOs
             CategoryName = "COMIC";
 
             var comicActivity = activity.ComicActivity;
-            var comicVolume = comicActivity.ComicVolume;
+            var comic = comicActivity.Comic;
 
-            SeriesName = comicVolume.Series.Name;
-            Chapters = comicVolume.Chapters;
-            AuthorName = (comicVolume.Author != null) ? comicVolume.Author.Name : "-";
-            TypeName = (comicVolume.Type != null) ? comicVolume.Type.Name : "-";
-            ScoreValue = (comicVolume.Score != null) ? comicVolume.Score.Value.ToString() : "-";
+            Title = comic.Title;
+            Author = comic.Author ?? "-";
+            Type = comic.Type ?? "-";
+            SeriesName = comic.Series.Name;
+            Number = comic.Number ?? "-";
+            Publisher = comic.Publisher ?? "-";
+            Year = comic.Year.ToString();
+            Score = comic.Score ?? "-";
             Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
         }
 
@@ -31,11 +37,14 @@ namespace DomL.Business.DTOs
         {
             CategoryName = "COMIC";
 
+            Title = comicWindow.TitleCB.Text;
+            Author = comicWindow.AuthorCB.Text;
+            Type = comicWindow.TypeCB.Text;
             SeriesName = comicWindow.SeriesCB.Text;
-            Chapters = comicWindow.ChaptersCB.Text;
-            AuthorName = comicWindow.AuthorCB.Text;
-            TypeName = comicWindow.TypeCB.Text;
-            ScoreValue = comicWindow.ScoreCB.Text;
+            Number = comicWindow.NumberCB.Text;
+            Publisher = comicWindow.PublisherCB.Text;
+            Year = comicWindow.YearCB.Text;
+            Score = comicWindow.ScoreCB.Text;
             Description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
         }
 
@@ -43,12 +52,15 @@ namespace DomL.Business.DTOs
         {
             CategoryName = "COMIC";
 
-            SeriesName = backupSegments[4];
-            Chapters = backupSegments[5];
-            AuthorName = backupSegments[6];
-            TypeName = backupSegments[7];
-            ScoreValue = backupSegments[8];
-            Description = backupSegments[9];
+            Title = backupSegments[4];
+            Author = backupSegments[5];
+            Type = backupSegments[6];
+            SeriesName = backupSegments[7];
+            Number = backupSegments[8];
+            Publisher = backupSegments[9];
+            Year = backupSegments[10];
+            Score = backupSegments[11];
+            Description = backupSegments[12];
 
             OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetComicActivityInfo().Replace("\t", "; ");
@@ -68,9 +80,11 @@ namespace DomL.Business.DTOs
 
         private string GetComicActivityInfo()
         {
-            return SeriesName + "\t" + Chapters
-                + "\t" + AuthorName + "\t" + TypeName
-                + "\t" + ScoreValue + "\t" + Description;
+            return Title
+                + "\t" + Author + "\t" + Type
+                + "\t" + SeriesName + "\t" + Number
+                + "\t" + Publisher + "\t" + Year
+                + "\t" + Score + "\t" + Description;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace DomL.DataAccess
         public DbSet<Book> Book { get; set; }
 
         public DbSet<ComicActivity> ComicActivity { get; set; }
-        public DbSet<ComicVolume> ComicVolume { get; set; }
+        public DbSet<Comic> Comic { get; set; }
 
         public DbSet<CourseActivity> CourseActivity { get; set; }
         public DbSet<Course> Course { get; set; }

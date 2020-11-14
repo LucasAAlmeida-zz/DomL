@@ -9,33 +9,31 @@ namespace DomL.Business.Entities
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
-        [ForeignKey("ComicVolume")]
-        public int ComicVolumeId { get; set; }
+        [ForeignKey("Comic")]
+        public int ComicId { get; set; }
 
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual ComicVolume ComicVolume { get; set; }
+        public virtual Comic Comic { get; set; }
     }
 
-    [Table("ComicVolume")]
-    public class ComicVolume
+    [Table("Comic")]
+    public class Comic
     {
         [Key]
         public int Id { get; set; }
-        public int SeriesId { get; set; }
-        public string Chapters { get; set; }
-        public int? AuthorId { get; set; }
-        public int? TypeId { get; set; }
-        public int? ScoreId { get; set; }
+        [Required]
+        public string Title { get; set; }
+        public string Type { get; set; }
+        public string Author { get; set; }
+        public int? SeriesId { get; set; }
+        public string Number { get; set; }
+        public string Publisher { get; set; }
+        public int Year { get; set; }
+        public string Score { get; set; }
 
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }
-        [ForeignKey("AuthorId")]
-        public Person Author { get; set; }
-        [ForeignKey("TypeId")]
-        public MediaType Type { get; set; }
-        [ForeignKey("ScoreId")]
-        public Score Score { get; set; }
     }
 }

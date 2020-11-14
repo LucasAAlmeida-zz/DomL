@@ -195,6 +195,10 @@
     <Compile Include="Migrations\202011141218373_BookRevision.designer.cs">
       <DependentUpon>202011141218373_BookRevision.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011141305131_ComicRevision.cs" />
+    <Compile Include="Migrations\202011141305131_ComicRevision.designer.cs">
+      <DependentUpon>202011141305131_ComicRevision.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
     <Compile Include="Activity\Categories\Book\Book.cs" />
@@ -292,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011141218373_BookRevision.resx">
       <DependentUpon>202011141218373_BookRevision.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141305131_ComicRevision.resx">
+      <DependentUpon>202011141305131_ComicRevision.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

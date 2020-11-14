@@ -14,18 +14,13 @@ namespace DomL.DataAccess
             get { return Context as DomLContext; }
         }
 
-        public ComicVolume GetComicVolumeBySeriesNameAndChapters(string seriesName, string chapters)
+        public Comic GetComicByTitle(string title)
         {
-            var cleanSeriesName = Util.CleanString(seriesName);
-            return DomLContext.ComicVolume
-                .Include(u => u.Author)
+            var cleanTitle = Util.CleanString(title);
+            return DomLContext.Comic
                 .Include(u => u.Series)
                 .Include(u => u.Type)
-                .SingleOrDefault(u => 
-                    u.Series.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                    == cleanSeriesName
-                    && u.Chapters == chapters
-                );
+                .SingleOrDefault(u => u.Title == title);
         }
 
         public void CreateComicActivity(ComicActivity comicActivity)
@@ -33,9 +28,9 @@ namespace DomL.DataAccess
             DomLContext.ComicActivity.Add(comicActivity);
         }
 
-        public void CreateComicVolume(ComicVolume comicVolume)
+        public void CreateComicVolume(Comic comic)
         {
-            DomLContext.ComicVolume.Add(comicVolume);
+            DomLContext.Comic.Add(comic);
         }
     }
 }

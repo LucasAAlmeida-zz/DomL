@@ -54,7 +54,7 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.ActivityBlock)
                 .Include(u => u.AutoActivity)
                 .Include(u => u.BookActivity.Book.Author).Include(u => u.BookActivity.Book.Series).Include(u => u.BookActivity.Book.Score)
-                .Include(u => u.ComicActivity.ComicVolume.Author).Include(u => u.ComicActivity.ComicVolume.Series).Include(u => u.ComicActivity.ComicVolume.Type).Include(u => u.ComicActivity.ComicVolume.Score)
+                .Include(u => u.ComicActivity.Comic.Author).Include(u => u.ComicActivity.Comic.Series).Include(u => u.ComicActivity.Comic.Type).Include(u => u.ComicActivity.Comic.Score)
                 .Include(u => u.CourseActivity.Course.Teacher).Include(u => u.CourseActivity.Course.School).Include(u => u.CourseActivity.Course.Score)
                 .Include(u => u.DoomActivity)
                 .Include(u => u.EventActivity)

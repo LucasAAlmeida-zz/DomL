@@ -34,22 +34,20 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ConsolidatedComicDTO consolidated, UnitOfWork unitOfWork)
         {
-            var type = MediaTypeService.GetByName(consolidated.TypeName, unitOfWork);
+            var type = MediaTypeService.GetByName(consolidated.Type, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var author = PersonService.GetOrCreateByName(consolidated.AuthorName, unitOfWork);
-            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
 
-            var comicVolume = GetOrUpdateOrCreateComicVolume(series, consolidated.Chapters, author, type, score, unitOfWork);
+            var comicVolume = GetOrUpdateOrCreateComicVolume(consolidated, series, unitOfWork);
 
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateComicActivity(activity, comicVolume, consolidated.Description, unitOfWork);
         }
 
-        private static void CreateComicActivity(Activity activity, ComicVolume comicVolume, string description, UnitOfWork unitOfWork)
+        private static void CreateComicActivity(Activity activity, Comic comic, string description, UnitOfWork unitOfWork)
         {
             var comicActivity = new ComicActivity() {
                 Activity = activity,
-                ComicVolume = comicVolume,
+                Comic = comic,
                 Description = description
             };
 
@@ -59,42 +57,42 @@ namespace DomL.Business.Services
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
 
-        private static ComicVolume GetOrUpdateOrCreateComicVolume(Series series, string chapters, Person author, MediaType type, Score score, UnitOfWork unitOfWork)
+        private static Comic GetOrUpdateOrCreateComicVolume(ConsolidatedComicDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var comicVolume = GetComicVolumeBySeriesNameAndChapters(series.Name, chapters, unitOfWork);
+            var comic = GetComicByTitle(consolidated.Title, unitOfWork);
 
-            if (comicVolume == null) {
-                comicVolume = new ComicVolume() {
+            if (comic == null) {
+                comic = new Comic() {
                     Series = series,
-                    Chapters = chapters,
-                    Author = author,
-                    Type = type,
-                    Score = score,
+                    Title = consolidated.Title,
+                    Author = consolidated.Author,
+                    Type = consolidated.Type,
+                    Publisher = consolidated.Publisher,
+                    Year = int.Parse(consolidated.Year),
+                    Score = consolidated.Score,
                 };
-                unitOfWork.ComicRepo.CreateComicVolume(comicVolume);
-            } else {
-                comicVolume.Author = author ?? comicVolume.Author;
-                comicVolume.Type = type ?? comicVolume.Type;
-                comicVolume.Score = score ?? comicVolume.Score;
+                unitOfWork.ComicRepo.CreateComicVolume(comic);
             }
 
-            return comicVolume;
+            return comic;
         }
 
-        public static ComicVolume GetComicVolumeBySeriesNameAndChapters(string seriesName, string chapters, UnitOfWork unitOfWork)
+        //TODO add year to search
+        public static Comic GetComicByTitle(string title, UnitOfWork unitOfWork)
         {
-            if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(chapters)) {
+            if (string.IsNullOrWhiteSpace(title)) {
                 return null;
             }
-            return unitOfWork.ComicRepo.GetComicVolumeBySeriesNameAndChapters(seriesName, chapters);
+            return unitOfWork.ComicRepo.GetComicByTitle(title);
         }
 
+        //TODO add year to search
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
-            var comicVolume = activity.ComicActivity.ComicVolume;
+            var comicVolume = activity.ComicActivity.Comic;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.COMIC_ID
-                && u.ComicActivity.ComicVolume.Series.Name == comicVolume.Series.Name && u.ComicActivity.ComicVolume.Chapters == comicVolume.Chapters
+                && u.ComicActivity.Comic.Title == comicVolume.Title
             );
         }
     }
