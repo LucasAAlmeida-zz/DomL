@@ -131,7 +131,7 @@ namespace DomL.Presentation
             }
 
             if (book.Author != null) {
-                this.AuthorCB.Text = book.Author.Name;
+                this.AuthorCB.Text = book.Author;
                 this.AuthorCB_LostFocus(null, null);
             }
 
@@ -140,8 +140,8 @@ namespace DomL.Presentation
                 this.SeriesCB_LostFocus(null, null);
             }
 
-            this.NumberCB.Text = book.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.Text = book.Score != null ? book.Score.Value.ToString() : this.ScoreCB.Text;
+            this.NumberCB.Text = book.Number ?? this.NumberCB.Text;
+            this.ScoreCB.Text = book.Score ?? this.ScoreCB.Text;
         }
     }
 }

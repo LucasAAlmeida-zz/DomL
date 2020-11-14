@@ -33,13 +33,10 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ConsolidatedBookDTO consolidated, UnitOfWork unitOfWork)
         {
-            var author = PersonService.GetOrCreateByName(consolidated.AuthorName, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
-
-            var book = GetOrUpdateOrCreateBook(consolidated.Title, author, series, consolidated.NumberInSeries, score, unitOfWork);
-
+            var book = GetOrUpdateOrCreateBook(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
+
             CreateBookActivity(activity, book, consolidated.Description, unitOfWork);
         }
 
@@ -62,28 +59,29 @@ namespace DomL.Business.Services
             return unitOfWork.BookRepo.GetAllBooks().ToList();
         }
 
-        public static Book GetOrUpdateOrCreateBook(string bookTitle, Person author, Series series, string numberInSeries, Score score, UnitOfWork unitOfWork)
+        public static Book GetOrUpdateOrCreateBook(ConsolidatedBookDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var book = unitOfWork.BookRepo.GetBookByTitle(bookTitle);
+            var book = GetByTitle(consolidated.Title, unitOfWork);
 
             if (book == null) {
                 book = new Book() {
-                    Author = author,
+                    Title = consolidated.Title,
+                    Author = consolidated.Author,
                     Series = series,
-                    Title = bookTitle,
-                    NumberInSeries = numberInSeries,
-                    Score = score,
+                    Number = consolidated.Number,
+                    Publisher = consolidated.Publisher,
+                    Year = int.Parse(consolidated.Year),
+                    Score = consolidated.Score,
                 };
                 unitOfWork.BookRepo.CreateBook(book);
             } else {
-                book.Author = author ?? book.Author;
                 book.Series = series ?? book.Series;
-                book.Score = score ?? book.Score;
             }
 
             return book;
         }
 
+        //TODO (add year to search)
         public static Book GetByTitle(string title, UnitOfWork unitOfWork)
         {
             if (string.IsNullOrWhiteSpace(title)) {
@@ -92,6 +90,7 @@ namespace DomL.Business.Services
             return unitOfWork.BookRepo.GetBookByTitle(title);
         }
 
+        //TODO (add year to search)
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var book = activity.BookActivity.Book;

@@ -187,6 +187,14 @@
     <Compile Include="Migrations\202009011623275_CourseTables.designer.cs">
       <DependentUpon>202009011623275_CourseTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011141142520_AutoNameIsString.cs" />
+    <Compile Include="Migrations\202011141142520_AutoNameIsString.designer.cs">
+      <DependentUpon>202011141142520_AutoNameIsString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011141218373_BookRevision.cs" />
+    <Compile Include="Migrations\202011141218373_BookRevision.designer.cs">
+      <DependentUpon>202011141218373_BookRevision.cs</DependentUpon>
+    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
     <Compile Include="Activity\Categories\Book\Book.cs" />
@@ -278,6 +286,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009011623275_CourseTables.resx">
       <DependentUpon>202009011623275_CourseTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141142520_AutoNameIsString.resx">
+      <DependentUpon>202011141142520_AutoNameIsString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141218373_BookRevision.resx">
+      <DependentUpon>202011141218373_BookRevision.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -6,10 +6,12 @@ namespace DomL.Business.DTOs
     public class ConsolidatedBookDTO : ConsolidatedActivityDTO
     {
         public string Title;
-        public string AuthorName;
+        public string Author;
         public string SeriesName;
-        public string NumberInSeries;
-        public string ScoreValue;
+        public string Number;
+        public string Publisher;
+        public string Year;
+        public string Score;
         public string Description;
 
         public ConsolidatedBookDTO(Activity activity) : base(activity)
@@ -18,10 +20,12 @@ namespace DomL.Business.DTOs
             var book = bookActivity.Book;
             
             Title = book.Title;
-            AuthorName = (book.Author != null) ? book.Author.Name : "-";
+            Author = (!string.IsNullOrWhiteSpace(book.Author)) ? book.Author : "-";
             SeriesName = (book.Series != null) ? book.Series.Name : "-";
-            NumberInSeries = (!string.IsNullOrWhiteSpace(book.NumberInSeries)) ? book.NumberInSeries : "-";
-            ScoreValue = (book.Score != null) ? book.Score.Value.ToString() : "-";
+            Number = (!string.IsNullOrWhiteSpace(book.Number)) ? book.Number : "-";
+            Publisher = (!string.IsNullOrWhiteSpace(book.Publisher)) ? book.Publisher : "-";
+            Year = book.Year.ToString();
+            Score = (!string.IsNullOrWhiteSpace(book.Score)) ? book.Score : "-";
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
         }
 
@@ -30,10 +34,12 @@ namespace DomL.Business.DTOs
             CategoryName = "BOOK";
 
             Title = bookWindow.TitleCB.Text;
-            AuthorName = bookWindow.AuthorCB.Text;
+            Author = bookWindow.AuthorCB.Text;
             SeriesName = bookWindow.SeriesCB.Text;
-            NumberInSeries = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
-            ScoreValue = bookWindow.SeriesCB.Text;
+            Number = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
+            Publisher = bookWindow.PublisherCB.Text;
+            Year = bookWindow.YearCB.Text;
+            Score = bookWindow.SeriesCB.Text;
             Description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
         }
 
@@ -42,11 +48,13 @@ namespace DomL.Business.DTOs
             CategoryName = "BOOK";
 
             Title = backupSegments[4];
-            AuthorName = backupSegments[5];
+            Author = backupSegments[5];
             SeriesName = backupSegments[6];
-            NumberInSeries = backupSegments[7];
-            ScoreValue = backupSegments[8];
-            Description = backupSegments[9];
+            Number = backupSegments[7];
+            Publisher = backupSegments[8];
+            Year = backupSegments[9];
+            Score = backupSegments[10];
+            Description = backupSegments[11];
 
             OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetBookActivityInfo().Replace("\t", "; ");
@@ -66,9 +74,9 @@ namespace DomL.Business.DTOs
 
         public string GetBookActivityInfo()
         {
-            return Title + "\t" + AuthorName
-                + "\t" + SeriesName + "\t" + NumberInSeries
-                + "\t" + ScoreValue + "\t" + Description;
+            return Title + "\t" + Author
+                + "\t" + SeriesName + "\t" + Number
+                + "\t" + Score + "\t" + Description;
         }
     }
 }

@@ -24,16 +24,14 @@ namespace DomL.Business.Entities
         [Key]
         public int Id { get; set; }
         public string Title { get; set; }
-        public int? AuthorId { get; set; }
+        public string Author { get; set; }
+        public string Publisher { get; set; }
         public int? SeriesId { get; set; }
-        public string NumberInSeries { get; set; }
-        public int? ScoreId { get; set; }
+        public string Number { get; set; }
+        public string Score { get; set; }
+        public int Year { get; set; }
 
-        [ForeignKey("AuthorId")]
-        public Person Author { get; set; }
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }
-        [ForeignKey("ScoreId")]
-        public Score Score { get; set; }
     }
 }
