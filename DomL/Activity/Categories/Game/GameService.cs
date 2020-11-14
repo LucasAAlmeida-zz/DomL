@@ -35,14 +35,8 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ConsolidatedGameDTO consolidated, UnitOfWork unitOfWork)
         {
-            var platform = MediaTypeService.GetByName(consolidated.PlatformName, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var director = PersonService.GetOrCreateByName(consolidated.DirectorName, unitOfWork);
-            var publisher = CompanyService.GetOrCreateByName(consolidated.PublisherName, unitOfWork);
-            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
-
-            var game = GetOrUpdateOrCreateGame(consolidated.Title, platform, series, consolidated.NumberInSeries, director, publisher, score, unitOfWork);
-
+            var game = GetOrUpdateOrCreateGame(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateGameActivity(activity, game, consolidated.Description, unitOfWork);
         }
@@ -52,26 +46,23 @@ namespace DomL.Business.Services
             return unitOfWork.GameRepo.GetAllGames();
         }
 
-        private static Game GetOrUpdateOrCreateGame(string title, MediaType platform, Series series, string numberInSeries, Person director, Company publisher, Score score, UnitOfWork unitOfWork)
+        private static Game GetOrUpdateOrCreateGame(ConsolidatedGameDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var game = GetGameByTitleAndPlatformName(title, platform.Name, unitOfWork);
+            var game = GetGameByTitle(consolidated.Title, unitOfWork);
 
             if (game == null) {
                 game = new Game() {
-                    Title = title,
-                    Platform = platform,
+                    Title = consolidated.Title,
+                    Platform = consolidated.Platform,
                     Series = series,
-                    NumberInSeries = numberInSeries,
-                    Director = director,
-                    Publisher = publisher,
-                    Score = score,
+                    Number = consolidated.Number,
+                    Person = consolidated.Person,
+                    Company = consolidated.Company,
+                    Score = consolidated.Score,
                 };
                 unitOfWork.GameRepo.CreateGame(game);
             } else {
                 game.Series = series ?? game.Series;
-                game.Director = director ?? game.Director;
-                game.Publisher = publisher ?? game.Publisher;
-                game.Score = score ?? game.Score;
             }
 
             return game;
@@ -91,12 +82,13 @@ namespace DomL.Business.Services
             unitOfWork.GameRepo.CreateGameActivity(gameActivity);
         }
 
+        //TODO add year to search
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
             var game = activity.GameActivity.Game;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.GAME_ID
-                && u.GameActivity.Game.Title == game.Title && u.GameActivity.Game.Platform.Name == game.Platform.Name
+                && u.GameActivity.Game.Title == game.Title
             );
         }
 
@@ -106,14 +98,6 @@ namespace DomL.Business.Services
                 return null;
             }
             return unitOfWork.GameRepo.GetGameByTitle(title);
-        }
-
-        public static Game GetGameByTitleAndPlatformName(string title, string platformName, UnitOfWork unitOfWork)
-        {
-            if (string.IsNullOrWhiteSpace(title) || string.IsNullOrWhiteSpace(platformName)) {
-                return null;
-            }
-            return unitOfWork.GameRepo.GetGameByTitleAndPlatformName(title, platformName);
         }
     }
 }

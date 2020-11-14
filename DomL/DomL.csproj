@@ -122,9 +122,9 @@
     <Compile Include="Activity\Categories\Movie\ConsolidatedMovieDTO.cs" />
     <Compile Include="Activity\Categories\Health\ConsolidatedHealthDTO.cs" />
     <Compile Include="Activity\Categories\Gift\ConsolidatedGiftDTO.cs" />
-    <Compile Include="Activity\Categories\Game\ConsolidatedGameDTO.cs" />
-    <Compile Include="Activity\Categories\Event\ConsolidatedEventDTO.cs" />
-    <Compile Include="Activity\Categories\Doom\ConsolidatedDoomDTO.cs" />
+    <Compile Include="Activity\Categories\Game\GameConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Event\EventConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Doom\DoomConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Comic\ComicConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Auto\AutoConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Book\BookConsolidatedDTO.cs" />

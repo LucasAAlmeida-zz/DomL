@@ -2,12 +2,12 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedEventDTO : ActivityConsolidatedDTO
+    public class EventConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Description;
         public bool IsImportant;
 
-        public ConsolidatedEventDTO(Activity activity) : base(activity)
+        public EventConsolidatedDTO(Activity activity) : base(activity)
         {
             var eventActivity = activity.EventActivity;
 
@@ -15,7 +15,7 @@ namespace DomL.Business.DTOs
             IsImportant = eventActivity.IsImportant;
         }
 
-        public ConsolidatedEventDTO(string[] rawSegments, Activity activity) : this(activity)
+        public EventConsolidatedDTO(string[] rawSegments, Activity activity) : this(activity)
         {
             CategoryName = "EVENT";
 
@@ -28,7 +28,7 @@ namespace DomL.Business.DTOs
             }
         }
 
-        public ConsolidatedEventDTO(string[] backupSegments) : base(backupSegments)
+        public EventConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "EVENT";
 

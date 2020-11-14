@@ -6,12 +6,13 @@ namespace DomL.Business.DTOs
     public class ConsolidatedGameDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string PlatformName;
+        public string Platform;
         public string SeriesName;
-        public string NumberInSeries;
-        public string DirectorName;
-        public string PublisherName;
-        public string ScoreValue;
+        public string Number;
+        public string Person;
+        public string Company;
+        public string Year;
+        public string Score;
         public string Description;
 
         public ConsolidatedGameDTO(Activity activity) : base (activity)
@@ -20,12 +21,13 @@ namespace DomL.Business.DTOs
             var game = gameActivity.Game;
 
             Title = game.Title;
-            PlatformName = game.Platform.Name;
+            Platform = game.Platform;
             SeriesName = (game.Series != null) ? game.Series.Name : "-";
-            NumberInSeries = game.NumberInSeries ?? "-";
-            DirectorName = (game.Director != null) ? game.Director.Name : "-";
-            PublisherName = (game.Publisher != null) ? game.Publisher.Name : "-";
-            ScoreValue = (game.Score != null) ? game.Score.Value.ToString() : "-";
+            Number = game.Number ?? "-";
+            Person = game.Person ?? "-";
+            Company = game.Company ?? "-";
+            Year = game.Year.ToString();
+            Score = game.Score ?? "-";
             Description = (!string.IsNullOrWhiteSpace(gameActivity.Description)) ? gameActivity.Description : "-";
         }
 
@@ -34,12 +36,13 @@ namespace DomL.Business.DTOs
             CategoryName = "Game";
 
             Title = gameWindow.TitleCB.Text;
-            PlatformName = gameWindow.PlatformCB.Text;
+            Platform = gameWindow.PlatformCB.Text;
             SeriesName = gameWindow.SeriesCB.Text;
-            NumberInSeries = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
-            DirectorName = gameWindow.DirectorCB.Text;
-            PublisherName = gameWindow.PublisherCB.Text;
-            ScoreValue = gameWindow.ScoreCB.Text;
+            Number = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
+            Person = gameWindow.PersonCB.Text;
+            Company = gameWindow.CompanyCB.Text;
+            Year = gameWindow.YearCB.Text;
+            Score = gameWindow.ScoreCB.Text;
             Description = (!string.IsNullOrWhiteSpace(gameWindow.DescriptionCB.Text)) ? gameWindow.DescriptionCB.Text : null;
         }
 
@@ -48,13 +51,14 @@ namespace DomL.Business.DTOs
             CategoryName = "Game";
 
             Title = backupSegments[4];
-            PlatformName = backupSegments[5];
+            Platform = backupSegments[5];
             SeriesName = backupSegments[6];
-            NumberInSeries = backupSegments[7];
-            DirectorName = backupSegments[8];
-            PublisherName = backupSegments[9];
-            ScoreValue = backupSegments[10];
-            Description = backupSegments[11];
+            Number = backupSegments[7];
+            Person = backupSegments[8];
+            Company = backupSegments[9];
+            Year = backupSegments[10];
+            Score = backupSegments[11];
+            Description = backupSegments[12];
 
             OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetGameActivityInfo().Replace("\t", "; ");
@@ -74,10 +78,11 @@ namespace DomL.Business.DTOs
 
         public string GetGameActivityInfo()
         {
-            return Title + "\t" + PlatformName
-                + "\t" + SeriesName + "\t" + NumberInSeries
-                + "\t" + DirectorName + "\t" + PublisherName
-                + "\t" + ScoreValue + "\t" + Description;
+            return Title + "\t" + Platform
+                + "\t" + SeriesName + "\t" + Number
+                + "\t" + Person + "\t" + Company
+                + "\t" + Year + "\t" + Score
+                + "\t" + Description;
         }
     }
 }

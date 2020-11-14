@@ -234,8 +234,8 @@ namespace DomL.Business.Services
                 case ActivityCategory.BOOK_ID:     return new BookConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.COMIC_ID:    return new ComicConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.COURSE_ID:   return new CourseConsolidatedDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.DOOM_ID:     return new ConsolidatedDoomDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.EVENT_ID:    return new ConsolidatedEventDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.DOOM_ID:     return new DoomConsolidatedDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.EVENT_ID:    return new EventConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.GAME_ID:     return new ConsolidatedGameDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.GIFT_ID:     return new ConsolidatedGiftDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.HEALTH_ID:   return new ConsolidatedHealthDTO(activity).GetInfoForYearRecap();
@@ -258,8 +258,8 @@ namespace DomL.Business.Services
                 case ActivityCategory.BOOK_ID:     return new BookConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.COMIC_ID:    return new ComicConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.COURSE_ID:   return new CourseConsolidatedDTO(activity).GetInfoForBackup();
-                case ActivityCategory.DOOM_ID:     return new ConsolidatedDoomDTO(activity).GetInfoForBackup();
-                case ActivityCategory.EVENT_ID:    return new ConsolidatedEventDTO(activity).GetInfoForBackup();
+                case ActivityCategory.DOOM_ID:     return new DoomConsolidatedDTO(activity).GetInfoForBackup();
+                case ActivityCategory.EVENT_ID:    return new EventConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.GAME_ID:     return new ConsolidatedGameDTO(activity).GetInfoForBackup();
                 case ActivityCategory.GIFT_ID:     return new ConsolidatedGiftDTO(activity).GetInfoForBackup();
                 case ActivityCategory.HEALTH_ID:   return new ConsolidatedHealthDTO(activity).GetInfoForBackup();

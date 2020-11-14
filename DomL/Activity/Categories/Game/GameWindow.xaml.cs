@@ -83,8 +83,8 @@ namespace DomL.Presentation
             Util.SetComboBox(this.PlatformCB, new string[1] { "" }, platformTypes, orderedSegments[1]);
             Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[2]);
             Util.SetComboBox(this.NumberCB, segments, numbers, orderedSegments[3]);
-            Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[4]);
-            Util.SetComboBox(this.PublisherCB, segments, companyNames, orderedSegments[5]);
+            Util.SetComboBox(this.PersonCB, segments, personNames, orderedSegments[4]);
+            Util.SetComboBox(this.CompanyCB, segments, companyNames, orderedSegments[5]);
             Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[6]);
             Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[7]);
 
@@ -109,7 +109,7 @@ namespace DomL.Presentation
             }
 
             var title = this.TitleCB.Text;
-            var game = GameService.GetGameByTitleAndPlatformName(title, this.PlatformCB.Text, this.UnitOfWork);
+            var game = GameService.GetGameByTitle(title, this.UnitOfWork);
             Util.ChangeInfoLabel(title, game, this.TitleInfoLb);
 
             UpdateOptionalComboBoxes(title);
@@ -128,22 +128,22 @@ namespace DomL.Presentation
 
         private void DirectorCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.DirectorCB.IsKeyboardFocusWithin) {
+            if (this.PersonCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var directorName = this.DirectorCB.Text;
+            var directorName = this.PersonCB.Text;
             var director = PersonService.GetByName(directorName, this.UnitOfWork);
             Util.ChangeInfoLabel(directorName, director, this.DirectorInfoLb);
         }
 
         private void PublisherCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.PublisherCB.IsKeyboardFocusWithin) {
+            if (this.CompanyCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var publisherName = this.PublisherCB.Text;
+            var publisherName = this.CompanyCB.Text;
             var publisher = CompanyService.GetByName(publisherName, this.UnitOfWork);
             Util.ChangeInfoLabel(publisherName, publisher, this.PublisherInfoLb);
         }
@@ -155,7 +155,7 @@ namespace DomL.Presentation
                 return;
             }
 
-            var game = GameService.GetGameByTitleAndPlatformName(title, platform, this.UnitOfWork);
+            var game = GameService.GetGameByTitle(title, this.UnitOfWork);
 
             if (game == null) {
                 return;
@@ -166,18 +166,18 @@ namespace DomL.Presentation
                 this.SeriesCB_LostFocus(null, null);
             }
 
-            if (game.Director != null) {
-                this.DirectorCB.Text = game.Director.Name;
+            if (game.Person != null) {
+                this.PersonCB.Text = game.Person;
                 this.DirectorCB_LostFocus(null, null);
             }
 
-            if (game.Publisher != null) {
-                this.PublisherCB.Text = game.Publisher.Name;
+            if (game.Company != null) {
+                this.CompanyCB.Text = game.Company;
                 this.PublisherCB_LostFocus(null, null);
             }
 
-            this.NumberCB.Text = game.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.Text = game.Score != null ? game.Score.Value.ToString() : this.ScoreCB.Text;
+            this.NumberCB.Text = game.Number ?? this.NumberCB.Text;
+            this.ScoreCB.Text = game.Score ?? this.ScoreCB.Text;
         }
 
     }

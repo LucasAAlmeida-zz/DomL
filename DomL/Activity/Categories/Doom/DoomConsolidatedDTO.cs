@@ -2,11 +2,11 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedDoomDTO : ActivityConsolidatedDTO
+    public class DoomConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Description;
 
-        public ConsolidatedDoomDTO(Activity activity) : base(activity)
+        public DoomConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "DOOM";
 
@@ -15,14 +15,14 @@ namespace DomL.Business.DTOs
             Description = doomActivity.Description;
         }
 
-        public ConsolidatedDoomDTO(string[] rawSegments, Activity activity) : this(activity)
+        public DoomConsolidatedDTO(string[] rawSegments, Activity activity) : this(activity)
         {
             CategoryName = "DOOM";
 
             Description = rawSegments[1];
         }
 
-        public ConsolidatedDoomDTO(string[] backupSegments) : base(backupSegments)
+        public DoomConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "DOOM";
 
