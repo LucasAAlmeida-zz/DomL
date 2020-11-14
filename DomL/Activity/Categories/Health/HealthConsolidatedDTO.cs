@@ -2,39 +2,38 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedHealthDTO : ActivityConsolidatedDTO
+    public class HealthConsolidatedDTO : ActivityConsolidatedDTO
     {
-        public string MedicalSpecialtyName;
+        public string Specialty;
         public string Description;
 
-        public ConsolidatedHealthDTO(Activity activity) : base(activity)
+        public HealthConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "HEALTH";
 
             var healthActivity = activity.HealthActivity;
-            var specialty = healthActivity.Specialty;
 
-            MedicalSpecialtyName = (specialty != null) ? specialty.Name : "-";
+            Specialty = healthActivity.Specialty ??  "-";
             Description = healthActivity.Description;
         }
 
-        public ConsolidatedHealthDTO(string[] rawSegments, Activity activity) : base(activity)
+        public HealthConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "HEALTH";
 
-            MedicalSpecialtyName = null;
+            Specialty = null;
             Description = rawSegments[1];
             if (rawSegments.Length > 2) {
-                MedicalSpecialtyName = rawSegments[1];
+                Specialty = rawSegments[1];
                 Description = rawSegments[2];
             }
         }
 
-        public ConsolidatedHealthDTO(string[] backupSegments) : base(backupSegments)
+        public HealthConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "HEALTH";
 
-            MedicalSpecialtyName = backupSegments[4];
+            Specialty = backupSegments[4];
             Description = backupSegments[5];
 
             OriginalLine = GetInfoForOriginalLine()
@@ -55,7 +54,7 @@ namespace DomL.Business.DTOs
 
         public string GetHealthActivityInfo()
         {
-            return MedicalSpecialtyName + "\t" + Description;
+            return Specialty + "\t" + Description;
         }
     }
 }

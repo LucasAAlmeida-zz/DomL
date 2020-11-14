@@ -23,25 +23,22 @@ namespace DomL.Business.Services
                 movieWindow.ShowDialog();
             }
 
-            var consolidated = new ConsolidatedMovieDTO(movieWindow, activity);
+            var consolidated = new MovieConsolidatedDTO(movieWindow, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedMovieDTO(backupSegments);
+            var consolidated = new MovieConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedMovieDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(MovieConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var director = PersonService.GetOrCreateByName(consolidated.DirectorName, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
-
-            var movie = GetOrUpdateOrCreateMovie(consolidated.Title, director, series, consolidated.NumberInSeries, score, unitOfWork);
-
+            var movie = GetOrUpdateOrCreateMovie(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
+
             CreateMovieActivity(activity, movie, consolidated.Description, unitOfWork);
         }
 
@@ -59,23 +56,21 @@ namespace DomL.Business.Services
             unitOfWork.MovieRepo.CreateMovieActivity(movieActivity);
         }
 
-        private static Movie GetOrUpdateOrCreateMovie(string movieTitle, Person director, Series series, string numberInSeries, Score score, UnitOfWork unitOfWork)
+        private static Movie GetOrUpdateOrCreateMovie(MovieConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var movie = unitOfWork.MovieRepo.GetMovieByTitle(movieTitle);
+            var movie = unitOfWork.MovieRepo.GetMovieByTitle(consolidated.Title);
 
             if (movie == null) {
                 movie = new Movie() {
-                    Director = director,
+                    Person = consolidated.Person,
                     Series = series,
-                    Title = movieTitle,
-                    NumberInSeries = numberInSeries,
-                    Score = score,
+                    Title = consolidated.Title,
+                    Number = consolidated.Number,
+                    Company = consolidated.Company,
+                    Year = int.Parse(consolidated.Year),
+                    Score = consolidated.Score,
                 };
                 unitOfWork.MovieRepo.CreateMovie(movie);
-            } else {
-                movie.Director = director ?? movie.Director;
-                movie.Series = series ?? movie.Series;
-                movie.Score = score ?? movie.Score;
             }
 
             return movie;

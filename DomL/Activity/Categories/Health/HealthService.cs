@@ -13,25 +13,25 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedHealthDTO(rawSegments, activity);
+            var consolidated = new HealthConsolidatedDTO(rawSegments, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedHealthDTO(backupSegments);
+            var consolidated = new HealthConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedHealthDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(HealthConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            Company specialty = CompanyService.GetOrCreateByName(consolidated.MedicalSpecialtyName, unitOfWork);
+            Company specialty = CompanyService.GetOrCreateByName(consolidated.Specialty, unitOfWork);
 
             var activity = ActivityService.Create(consolidated, unitOfWork);
-            CreateHealthActivity(activity, specialty, consolidated.Description, unitOfWork);
+            CreateHealthActivity(activity, consolidated.Specialty, consolidated.Description, unitOfWork);
         }
 
-        private static void CreateHealthActivity(Activity activity, Company specialty, string description, UnitOfWork unitOfWork)
+        private static void CreateHealthActivity(Activity activity, string specialty, string description, UnitOfWork unitOfWork)
         {
             var healthActivity = new HealthActivity() {
                 Activity = activity,

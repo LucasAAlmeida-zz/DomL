@@ -9,12 +9,10 @@ namespace DomL.Business.Entities
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
-        [ForeignKey("Specialty")]
-        public int? SpecialtyId { get; set; }
+        public string Specialty { get; set; }
         [Required]
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual Company Specialty { get; set; }
     }
 }

@@ -131,8 +131,8 @@ namespace DomL.Presentation
                 return;
             }
 
-            if (movie.Director != null) {
-                this.DirectorCB.Text = movie.Director.Name;
+            if (movie.Person != null) {
+                this.DirectorCB.Text = movie.Person;
                 this.DirectorCB_LostFocus(null, null);
             }
 
@@ -141,8 +141,8 @@ namespace DomL.Presentation
                 this.SeriesCB_LostFocus(null, null);
             }
 
-            this.NumberCB.Text = movie.NumberInSeries ?? this.NumberCB.Text;
-            this.ScoreCB.Text = movie.Score != null ? movie.Score.Value.ToString() : this.ScoreCB.Text;
+            this.NumberCB.Text = movie.Number ?? this.NumberCB.Text;
+            this.ScoreCB.Text = movie.Score ?? this.ScoreCB.Text;
         }
     }
 }

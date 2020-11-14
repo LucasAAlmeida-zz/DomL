@@ -2,14 +2,14 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedGiftDTO : ActivityConsolidatedDTO
+    public class GiftConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Who;
         public string IsToOrFrom;
         public string Gift;
         public string Description;
 
-        public ConsolidatedGiftDTO(Activity activity) : base(activity)
+        public GiftConsolidatedDTO(Activity activity) : base(activity)
         {
             var giftActivity = activity.GiftActivity;
 
@@ -19,7 +19,7 @@ namespace DomL.Business.DTOs
 
             Description = giftActivity.Description;
         }
-        public ConsolidatedGiftDTO(string[] rawSegments, Activity activity) : this(activity)
+        public GiftConsolidatedDTO(string[] rawSegments, Activity activity) : this(activity)
         {
             Gift = rawSegments[1];
             IsToOrFrom = rawSegments[2];
@@ -27,7 +27,7 @@ namespace DomL.Business.DTOs
             Description = (rawSegments.Length > 4) ? rawSegments[4] : null;
         }
 
-        public ConsolidatedGiftDTO(string[] backupSegments) : base(backupSegments)
+        public GiftConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "GIFT";
 

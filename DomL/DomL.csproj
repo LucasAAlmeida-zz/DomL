@@ -117,11 +117,11 @@
     <Compile Include="Activity\Categories\Show\ConsolidatedShowDTO.cs" />
     <Compile Include="Activity\Categories\Purchase\ConsolidatedPurchaseDTO.cs" />
     <Compile Include="Activity\Categories\Play\ConsolidatedPlayDTO.cs" />
-    <Compile Include="Activity\Categories\Meet\ConsolidatedMeetDTO.cs" />
+    <Compile Include="Activity\Categories\Meet\MeetConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Pet\ConsolidatedPetDTO.cs" />
-    <Compile Include="Activity\Categories\Movie\ConsolidatedMovieDTO.cs" />
-    <Compile Include="Activity\Categories\Health\ConsolidatedHealthDTO.cs" />
-    <Compile Include="Activity\Categories\Gift\ConsolidatedGiftDTO.cs" />
+    <Compile Include="Activity\Categories\Movie\MovieConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Health\HealthConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Gift\GiftConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Game\GameConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Event\EventConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Doom\DoomConsolidatedDTO.cs" />

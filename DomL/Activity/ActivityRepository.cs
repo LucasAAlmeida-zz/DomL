@@ -63,7 +63,7 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.HealthActivity.Specialty)
                 .Include(u => u.MovieActivity.Movie.Series)
                 .Include(u => u.PetActivity.Pet)
-                .Include(u => u.MeetActivity.Person)
+                .Include(u => u.MeetActivity)
                 .Include(u => u.PlayActivity)
                 .Include(u => u.PurchaseActivity.Store)
                 .Include(u => u.ShowActivity.Show.Series)
