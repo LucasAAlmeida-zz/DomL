@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedPlayDTO : ConsolidatedActivityDTO
+    public class ConsolidatedPlayDTO : ActivityConsolidatedDTO
     {
         public string Who;
         public string Description;

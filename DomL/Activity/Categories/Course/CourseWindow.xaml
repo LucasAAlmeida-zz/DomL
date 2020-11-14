@@ -39,6 +39,11 @@
                 <Label Name="TeacherInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
+                <Label Content="Year:" Width="90" />
+                <ComboBox Name="YearCB" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="YearInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
                 <Label Content="Score:" Width="90" />
                 <ComboBox Name="ScoreCB" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="ScoreInfoLb" Margin="5,0" Width="40" />

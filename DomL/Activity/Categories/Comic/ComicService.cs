@@ -22,17 +22,17 @@ namespace DomL.Business.Services
                 comicWindow.ShowDialog();
             }
 
-            var consolidated = new ConsolidatedComicDTO(comicWindow, activity);
+            var consolidated = new ComicConsolidatedDTO(comicWindow, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedComicDTO(backupSegments);
+            var consolidated = new ComicConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedComicDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(ComicConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var type = MediaTypeService.GetByName(consolidated.Type, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
@@ -57,7 +57,7 @@ namespace DomL.Business.Services
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
 
-        private static Comic GetOrUpdateOrCreateComicVolume(ConsolidatedComicDTO consolidated, Series series, UnitOfWork unitOfWork)
+        private static Comic GetOrUpdateOrCreateComicVolume(ComicConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
             var comic = GetComicByTitle(consolidated.Title, unitOfWork);
 

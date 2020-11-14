@@ -2,12 +2,12 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedAutoDTO : ConsolidatedActivityDTO
+    public class AutoConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string AutoName;
         public string Description;
 
-        public ConsolidatedAutoDTO(Activity activity) : base(activity)
+        public AutoConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "AUTO";
 
@@ -17,7 +17,7 @@ namespace DomL.Business.DTOs
             Description = autoActivity.Description;
         }
 
-        public ConsolidatedAutoDTO(string[] rawSegments, Activity activity) : base(activity)
+        public AutoConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "AUTO";
 
@@ -25,7 +25,7 @@ namespace DomL.Business.DTOs
             Description = rawSegments[2];
         }
 
-        public ConsolidatedAutoDTO(string[] backupSegments) : base(backupSegments)
+        public AutoConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "AUTO";
 

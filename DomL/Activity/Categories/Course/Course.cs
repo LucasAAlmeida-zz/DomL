@@ -24,15 +24,9 @@ namespace DomL.Business.Entities
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
-        public int SchoolId { get; set; }
-        public int? TeacherId { get; set; }
-        public int? ScoreId { get; set; }
-
-        [ForeignKey("TeacherId")]
-        public Person Teacher { get; set; }
-        [ForeignKey("SchoolId")]
-        public Company School { get; set; }
-        [ForeignKey("ScoreId")]
-        public Score Score { get; set; }
+        public string School { get; set; }
+        public string Teacher { get; set; }
+        public int Year { get; set; }
+        public string Score { get; set; }
     }
 }

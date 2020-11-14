@@ -21,17 +21,17 @@ namespace DomL.Business.Services
                 bookWindow.ShowDialog();
             }
 
-            var consolidated = new ConsolidatedBookDTO(bookWindow, activity);
+            var consolidated = new BookConsolidatedDTO(bookWindow, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedBookDTO(backupSegments);
+            var consolidated = new BookConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedBookDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(BookConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
             var book = GetOrUpdateOrCreateBook(consolidated, series, unitOfWork);
@@ -59,7 +59,7 @@ namespace DomL.Business.Services
             return unitOfWork.BookRepo.GetAllBooks().ToList();
         }
 
-        public static Book GetOrUpdateOrCreateBook(ConsolidatedBookDTO consolidated, Series series, UnitOfWork unitOfWork)
+        public static Book GetOrUpdateOrCreateBook(BookConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
             var book = GetByTitle(consolidated.Title, unitOfWork);
 

@@ -94,7 +94,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Activity\Categories\Course\ConsolidatedCourseDTO.cs" />
+    <Compile Include="Activity\Categories\Course\CourseConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Course\Course.cs" />
     <Compile Include="Activity\Categories\Course\CourseRepository.cs" />
     <Compile Include="Activity\Categories\Course\CourseService.cs" />
@@ -112,7 +112,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Activity\ConsolidatedActivityDTO.cs" />
+    <Compile Include="Activity\ActivityConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Travel\ConsolidatedTravelDTO.cs" />
     <Compile Include="Activity\Categories\Show\ConsolidatedShowDTO.cs" />
     <Compile Include="Activity\Categories\Purchase\ConsolidatedPurchaseDTO.cs" />
@@ -125,9 +125,9 @@
     <Compile Include="Activity\Categories\Game\ConsolidatedGameDTO.cs" />
     <Compile Include="Activity\Categories\Event\ConsolidatedEventDTO.cs" />
     <Compile Include="Activity\Categories\Doom\ConsolidatedDoomDTO.cs" />
-    <Compile Include="Activity\Categories\Comic\ConsolidatedComicDTO.cs" />
-    <Compile Include="Activity\Categories\Auto\ConsolidatedAutoDTO.cs" />
-    <Compile Include="Activity\Categories\Book\ConsolidatedBookDTO.cs" />
+    <Compile Include="Activity\Categories\Comic\ComicConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Auto\AutoConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Book\BookConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Travel\Travel.cs" />
     <Compile Include="Activity\Helpers\Transport\Transport.cs" />
     <Compile Include="Activity\Helpers\Location\Location.cs" />

@@ -3,7 +3,7 @@ using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedBookDTO : ConsolidatedActivityDTO
+    public class BookConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
         public string Author;
@@ -14,7 +14,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedBookDTO(Activity activity) : base(activity)
+        public BookConsolidatedDTO(Activity activity) : base(activity)
         {
             var bookActivity = activity.BookActivity;
             var book = bookActivity.Book;
@@ -29,7 +29,7 @@ namespace DomL.Business.DTOs
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
         }
 
-        public ConsolidatedBookDTO(BookWindow bookWindow, Activity activity) : base(activity)
+        public BookConsolidatedDTO(BookWindow bookWindow, Activity activity) : base(activity)
         {
             CategoryName = "BOOK";
 
@@ -43,7 +43,7 @@ namespace DomL.Business.DTOs
             Description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
         }
 
-        public ConsolidatedBookDTO(string[] backupSegments) : base(backupSegments)
+        public BookConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "BOOK";
 

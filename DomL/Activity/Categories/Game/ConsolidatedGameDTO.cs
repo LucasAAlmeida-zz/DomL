@@ -3,7 +3,7 @@ using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedGameDTO : ConsolidatedActivityDTO
+    public class ConsolidatedGameDTO : ActivityConsolidatedDTO
     {
         public string Title;
         public string PlatformName;

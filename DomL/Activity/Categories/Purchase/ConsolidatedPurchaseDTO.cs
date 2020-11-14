@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedPurchaseDTO : ConsolidatedActivityDTO
+    public class ConsolidatedPurchaseDTO : ActivityConsolidatedDTO
     {
         public string StoreName;
         public string Product;

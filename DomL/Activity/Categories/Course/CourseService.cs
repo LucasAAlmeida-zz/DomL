@@ -22,44 +22,35 @@ namespace DomL.Business.Services
                 courseWindow.ShowDialog();
             }
 
-            var consolidated = new ConsolidatedCourseDTO(courseWindow, activity);
+            var consolidated = new CourseConsolidatedDTO(courseWindow, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedCourseDTO(backupSegments);
+            var consolidated = new CourseConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedCourseDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(CourseConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var teacher = PersonService.GetOrCreateByName(consolidated.TeacherName, unitOfWork);
-            var company = CompanyService.GetOrCreateByName(consolidated.SchoolName, unitOfWork);
-            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
-
-            var course = GetOrUpdateOrCreateCourse(consolidated.Name, teacher, company, score, unitOfWork);
-
+            var course = GetOrUpdateOrCreateCourse(consolidated, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateCourseActivity(activity, course, consolidated.Description, unitOfWork);
         }
 
-        private static Course GetOrUpdateOrCreateCourse(string name, Person teacher, Company school, Score score, UnitOfWork unitOfWork)
+        private static Course GetOrUpdateOrCreateCourse(CourseConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var course = GetCourseByName(name, unitOfWork);
+            var course = GetCourseByName(consolidated.Name, unitOfWork);
 
             if (course == null) {
                 course = new Course() {
-                    Name = name,
-                    Teacher = teacher,
-                    School = school,
-                    Score = score,
+                    Name = consolidated.Name,
+                    Teacher = consolidated.Teacher,
+                    School = consolidated.School,
+                    Score = consolidated.Score,
                 };
                 unitOfWork.CourseRepo.CreateCourse(course);
-            } else {
-                course.Teacher = teacher ?? course.Teacher;
-                course.School = school ?? course.School;
-                course.Score = score ?? course.Score;
             }
 
             return course;

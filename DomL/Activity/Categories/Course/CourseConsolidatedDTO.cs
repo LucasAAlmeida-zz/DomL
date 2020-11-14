@@ -3,15 +3,16 @@ using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedCourseDTO : ConsolidatedActivityDTO
+    public class CourseConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Name;
-        public string SchoolName;
-        public string TeacherName;
-        public string ScoreValue;
+        public string School;
+        public string Teacher;
+        public string Year;
+        public string Score;
         public string Description;
 
-        public ConsolidatedCourseDTO(Activity activity) : base (activity)
+        public CourseConsolidatedDTO(Activity activity) : base (activity)
         {
             CategoryName = "COURSE";
 
@@ -19,32 +20,35 @@ namespace DomL.Business.DTOs
             var course = courseActivity.Course;
 
             Name = course.Name;
-            SchoolName = (course.School != null) ? course.School.Name : "-";
-            TeacherName = (course.Teacher != null) ? course.Teacher.Name : "-";
-            ScoreValue = (course.Score != null) ? course.Score.Value.ToString() : "-";
+            School = course.School ?? "-";
+            Teacher = course.Teacher ?? "-";
+            Score = course.Score ?? "-";
+            Year = course.Year.ToString();
             Description = (!string.IsNullOrWhiteSpace(courseActivity.Description)) ? courseActivity.Description : "-";
         }
 
-        public ConsolidatedCourseDTO(CourseWindow courseWindow, Activity activity) : base(activity)
+        public CourseConsolidatedDTO(CourseWindow courseWindow, Activity activity) : base(activity)
         {
             CategoryName = "COURSE";
 
             Name = courseWindow.NameCB.Text;
-            TeacherName = courseWindow.TeacherCB.Text;
-            SchoolName = courseWindow.SchoolCB.Text;
-            ScoreValue = courseWindow.ScoreCB.Text;
+            Teacher = courseWindow.TeacherCB.Text;
+            School = courseWindow.SchoolCB.Text;
+            Year = courseWindow.YearCB.Text;
+            Score = courseWindow.ScoreCB.Text;
             Description = (!string.IsNullOrWhiteSpace(courseWindow.DescriptionCB.Text)) ? courseWindow.DescriptionCB.Text : null;
         }
 
-        public ConsolidatedCourseDTO(string[] backupSegments) : base(backupSegments)
+        public CourseConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "COURSE";
 
             Name = backupSegments[4];
-            SchoolName = backupSegments[5];
-            TeacherName = backupSegments[6];
-            ScoreValue = backupSegments[7];
-            Description = backupSegments[8];
+            School = backupSegments[5];
+            Teacher = backupSegments[6];
+            Year = backupSegments[7];
+            Score = backupSegments[8];
+            Description = backupSegments[9];
 
             OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetCourseActivityInfo().Replace("\t", "; ");
@@ -64,8 +68,10 @@ namespace DomL.Business.DTOs
 
         public string GetCourseActivityInfo()
         {
-            return Name + "\t" + SchoolName + "\t" + TeacherName
-                + "\t" + ScoreValue + "\t" + Description;
+            return Name 
+                + "\t" + School + "\t" + Teacher
+                + "\t" + Year + "\t" + Score
+                + "\t" + Description;
         }
     }
 }

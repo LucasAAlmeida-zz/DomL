@@ -3,7 +3,7 @@ using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedComicDTO : ConsolidatedActivityDTO
+    public class ComicConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
         public string Author;
@@ -15,7 +15,7 @@ namespace DomL.Business.DTOs
         public string Score;
         public string Description;
 
-        public ConsolidatedComicDTO(Activity activity) : base (activity)
+        public ComicConsolidatedDTO(Activity activity) : base (activity)
         {
             CategoryName = "COMIC";
 
@@ -33,7 +33,7 @@ namespace DomL.Business.DTOs
             Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
         }
 
-        public ConsolidatedComicDTO(ComicWindow comicWindow, Activity activity) : base(activity)
+        public ComicConsolidatedDTO(ComicWindow comicWindow, Activity activity) : base(activity)
         {
             CategoryName = "COMIC";
 
@@ -48,7 +48,7 @@ namespace DomL.Business.DTOs
             Description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
         }
 
-        public ConsolidatedComicDTO(string[] backupSegments) : base(backupSegments)
+        public ComicConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "COMIC";
 

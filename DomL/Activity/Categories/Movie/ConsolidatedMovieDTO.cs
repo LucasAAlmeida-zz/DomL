@@ -3,7 +3,7 @@ using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedMovieDTO : ConsolidatedActivityDTO
+    public class ConsolidatedMovieDTO : ActivityConsolidatedDTO
     {
         public string Title;
         public string DirectorName;

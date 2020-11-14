@@ -11,7 +11,7 @@ namespace DomL.Business.Services
 {
     public class ActivityService
     {
-        public static Activity Create(ConsolidatedActivityDTO consolidated, UnitOfWork unitOfWork)
+        public static Activity Create(ActivityConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var date = DateTime.ParseExact(consolidated.Date, "yyyy/MM/dd", null);
             var dayOrder = int.Parse(consolidated.DayOrder);
@@ -214,7 +214,7 @@ namespace DomL.Business.Services
 
         public static string GetInfoForMonthRecap(Activity activity)
         {
-            var consolidated = new ConsolidatedActivityDTO(activity);
+            var consolidated = new ActivityConsolidatedDTO(activity);
 
             if (activity.CategoryId == ActivityCategory.EVENT_ID && activity.ActivityBlock == null && !activity.EventActivity.IsImportant) {
                 return "";
@@ -230,10 +230,10 @@ namespace DomL.Business.Services
             }
 
             switch (activity.Category.Id) {
-                case ActivityCategory.AUTO_ID:     return new ConsolidatedAutoDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.BOOK_ID:     return new ConsolidatedBookDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.COMIC_ID:    return new ConsolidatedComicDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.COURSE_ID:   return new ConsolidatedCourseDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.AUTO_ID:     return new AutoConsolidatedDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.BOOK_ID:     return new BookConsolidatedDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.COMIC_ID:    return new ComicConsolidatedDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.COURSE_ID:   return new CourseConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.DOOM_ID:     return new ConsolidatedDoomDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.EVENT_ID:    return new ConsolidatedEventDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.GAME_ID:     return new ConsolidatedGameDTO(activity).GetInfoForYearRecap();
@@ -254,10 +254,10 @@ namespace DomL.Business.Services
         public static string GetInfoForBackup(Activity activity)
         {
             switch (activity.Category.Id) {
-                case ActivityCategory.AUTO_ID:     return new ConsolidatedAutoDTO(activity).GetInfoForBackup();
-                case ActivityCategory.BOOK_ID:     return new ConsolidatedBookDTO(activity).GetInfoForBackup();
-                case ActivityCategory.COMIC_ID:    return new ConsolidatedComicDTO(activity).GetInfoForBackup();
-                case ActivityCategory.COURSE_ID:   return new ConsolidatedCourseDTO(activity).GetInfoForBackup();
+                case ActivityCategory.AUTO_ID:     return new AutoConsolidatedDTO(activity).GetInfoForBackup();
+                case ActivityCategory.BOOK_ID:     return new BookConsolidatedDTO(activity).GetInfoForBackup();
+                case ActivityCategory.COMIC_ID:    return new ComicConsolidatedDTO(activity).GetInfoForBackup();
+                case ActivityCategory.COURSE_ID:   return new CourseConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.DOOM_ID:     return new ConsolidatedDoomDTO(activity).GetInfoForBackup();
                 case ActivityCategory.EVENT_ID:    return new ConsolidatedEventDTO(activity).GetInfoForBackup();
                 case ActivityCategory.GAME_ID:     return new ConsolidatedGameDTO(activity).GetInfoForBackup();

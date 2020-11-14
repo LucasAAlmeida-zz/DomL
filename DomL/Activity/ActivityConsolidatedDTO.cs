@@ -3,7 +3,7 @@ using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedActivityDTO
+    public class ActivityConsolidatedDTO
     {
         public string Date;
 
@@ -15,7 +15,7 @@ namespace DomL.Business.DTOs
         public string OriginalLine;
         public string DatesStartAndFinish;
 
-        public ConsolidatedActivityDTO(Activity activity)
+        public ActivityConsolidatedDTO(Activity activity)
         {
             OriginalLine = activity.OriginalLine;
             Date = Util.GetFormatedDate(activity.Date);
@@ -41,7 +41,7 @@ namespace DomL.Business.DTOs
             BlockName = (activity.ActivityBlock != null) ? activity.ActivityBlock.Name : "-";
         }
 
-        public ConsolidatedActivityDTO(string[] segments)
+        public ActivityConsolidatedDTO(string[] segments)
         {
             Date = segments[0];
             DayOrder = segments[1];

@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedEventDTO : ConsolidatedActivityDTO
+    public class ConsolidatedEventDTO : ActivityConsolidatedDTO
     {
         public string Description;
         public bool IsImportant;

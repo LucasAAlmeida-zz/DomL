@@ -2,7 +2,7 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedTravelDTO : ConsolidatedActivityDTO
+    public class ConsolidatedTravelDTO : ActivityConsolidatedDTO
     {
         public string TransportName;
         public string OriginName;

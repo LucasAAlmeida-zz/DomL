@@ -49,7 +49,7 @@ namespace DomL.Business.Services
         {
             var showActivity = new ShowActivity() {
                 Activity = activity,
-                ShowSeason = showSeason,
+                Show = showSeason,
                 Description = description
             };
 
@@ -91,10 +91,10 @@ namespace DomL.Business.Services
 
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
-            var showSeason = activity.ShowActivity.ShowSeason;
+            var showSeason = activity.ShowActivity.Show;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.SHOW_ID
-                && u.ShowActivity.ShowSeason.Series.Name == showSeason.Series.Name && u.ShowActivity.ShowSeason.Season == showSeason.Season
+                && u.ShowActivity.Show.Series.Name == showSeason.Series.Name && u.ShowActivity.Show.Season == showSeason.Season
             );
         }
     }

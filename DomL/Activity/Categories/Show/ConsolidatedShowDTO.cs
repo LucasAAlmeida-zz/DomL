@@ -3,7 +3,7 @@ using DomL.Presentation;
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedShowDTO : ConsolidatedActivityDTO
+    public class ConsolidatedShowDTO : ActivityConsolidatedDTO
     {
         public string SeriesName;
         public string Season;
@@ -17,7 +17,7 @@ namespace DomL.Business.DTOs
             CategoryName = "SHOW";
 
             var showActivity = activity.ShowActivity;
-            var showSeason = showActivity.ShowSeason;
+            var showSeason = showActivity.Show;
 
             SeriesName = showSeason.Series.Name;
             Season = showSeason.Season;

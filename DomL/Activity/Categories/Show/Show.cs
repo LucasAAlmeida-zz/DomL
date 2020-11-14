@@ -15,10 +15,10 @@ namespace DomL.Business.Entities
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual ShowSeason ShowSeason { get; set; }
+        public virtual ShowSeason Show { get; set; }
     }
 
-    [Table("ShowSeason")]
+    [Table("Show")]
     public class ShowSeason
     {
         [Key]
