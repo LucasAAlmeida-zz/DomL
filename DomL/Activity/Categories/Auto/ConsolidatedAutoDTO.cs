@@ -12,9 +12,8 @@ namespace DomL.Business.DTOs
             CategoryName = "AUTO";
 
             var autoActivity = activity.AutoActivity;
-            var auto = autoActivity.Auto;
 
-            AutoName = auto.Name;
+            AutoName = autoActivity.AutoName;
             Description = autoActivity.Description;
         }
 

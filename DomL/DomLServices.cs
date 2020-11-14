@@ -29,6 +29,8 @@ using System.Text.RegularExpressions;
 - add ova, animation, 3d animation, live action to movie type
 - add reality show to show types
 - se tiver mais de 3 palavras, provavelmente o segmento faz parte da descrição
+- colocar restore em uma window e backups em outra window
+- fazer uma pasta pra windows
 */
 namespace DomL.Business.Services
 {

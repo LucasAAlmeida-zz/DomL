@@ -21,17 +21,15 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ConsolidatedAutoDTO consolidated, UnitOfWork unitOfWork)
         {
-            var auto = TransportService.CreateOrGetByName(consolidated.AutoName, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
-            CreateAutoActivity(activity, auto, consolidated.Description, unitOfWork);
+            CreateAutoActivity(activity, consolidated.AutoName, consolidated.Description, unitOfWork);
         }
 
-        public static void CreateAutoActivity(Activity activity, Transport auto, string description, UnitOfWork unitOfWork)
+        public static void CreateAutoActivity(Activity activity, string autoName, string description, UnitOfWork unitOfWork)
         {
             var autoActivity = new AutoActivity() {
                 Activity = activity,
-                Auto = auto,
+                AutoName = autoName,
                 Description = description
             };
 
@@ -43,10 +41,10 @@ namespace DomL.Business.Services
 
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
-            var auto = activity.AutoActivity.Auto;
+            var autoActivity = activity.AutoActivity;
             return previousStartingActivities.Where(u =>
                 u.CategoryId == ActivityCategory.AUTO_ID
-                && u.AutoActivity.Auto.Name == auto.Name
+                && u.AutoActivity.AutoName == autoActivity.AutoName
             );
         }
     }

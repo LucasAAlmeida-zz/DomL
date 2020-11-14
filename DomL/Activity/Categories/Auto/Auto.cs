@@ -9,12 +9,11 @@ namespace DomL.Business.Entities
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
-        [ForeignKey("Auto")]
-        public int AutoId { get; set; }
+        [Required]
+        public string AutoName { get; set; }
         [Required]
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        public virtual Transport Auto { get; set; }
     }
 }
