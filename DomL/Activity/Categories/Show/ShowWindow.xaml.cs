@@ -71,10 +71,12 @@ namespace DomL.Presentation
                 remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
             }
 
-            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[0]);
-            Util.SetComboBox(this.SeasonCB, segments, defaultSeasonsList, orderedSegments[1]);
+            Util.SetComboBox(this.TitleCB, segments, defaultSeasonsList, orderedSegments[1]);
             Util.SetComboBox(this.TypeCB, new string[1] { "" }, showTypes, orderedSegments[2]);
-            Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[3]);
+            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[0]);
+            Util.SetComboBox(this.PersonCB, segments, personNames, orderedSegments[3]);
+            Util.SetComboBox(this.CompanyCB, segments, personNames, orderedSegments[3]);
+            Util.SetComboBox(this.YearCB, segments, personNames, orderedSegments[3]);
             Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[4]);
             Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[5]);
 
@@ -97,39 +99,17 @@ namespace DomL.Presentation
             var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
             Util.ChangeInfoLabel(seriesName, series, this.SeriesInfoLb);
 
-            UpdateOptionalComboBoxes(seriesName, this.SeasonCB.Text);
         }
 
         private void DirectorCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.DirectorCB.IsKeyboardFocusWithin) {
+            if (this.PersonCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var directorName = this.DirectorCB.Text;
+            var directorName = this.PersonCB.Text;
             var director = PersonService.GetByName(directorName, this.UnitOfWork);
-            Util.ChangeInfoLabel(directorName, director, this.DirectorInfoLb);
-        }
-
-        private void UpdateOptionalComboBoxes(string seriesName, string season)
-        {
-            if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(season)) {
-                return;
-            }
-
-            var showSeason = ShowService.GetShowSeasonBySeriesNameAndSeason(seriesName, season, this.UnitOfWork);
-
-            if (showSeason == null) {
-                return;
-            }
-
-            if (showSeason.Director != null) {
-                this.DirectorCB.Text = showSeason.Director.Name;
-                this.DirectorCB_LostFocus(null, null);
-            }
-
-            this.TypeCB.Text = showSeason.Type != null ? showSeason.Type.Name.ToString() : this.TypeCB.Text;
-            this.ScoreCB.Text = showSeason.Score != null ? showSeason.Score.Value.ToString() : this.ScoreCB.Text;
+            Util.ChangeInfoLabel(directorName, director, this.PersonInfoLb);
         }
     }
 }

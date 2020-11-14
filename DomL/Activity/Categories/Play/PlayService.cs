@@ -11,17 +11,17 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedPlayDTO(rawSegments, activity);
+            var consolidated = new PlayConsolidatedDTO(rawSegments, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedPlayDTO(backupSegments);
+            var consolidated = new PlayConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedPlayDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(PlayConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreatePlayActivity(activity, consolidated.Who, consolidated.Description, unitOfWork);

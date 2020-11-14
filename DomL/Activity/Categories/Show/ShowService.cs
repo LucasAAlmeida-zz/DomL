@@ -22,30 +22,26 @@ namespace DomL.Business.Services
                 showWindow.ShowDialog();
             }
 
-            var consolidated = new ConsolidatedShowDTO(showWindow, activity);
+            var consolidated = new ShowConsolidatedDTO(showWindow, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedShowDTO(backupSegments);
+            var consolidated = new ShowConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedShowDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(ShowConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var director = PersonService.GetOrCreateByName(consolidated.DirectorName, unitOfWork);
-            var type = MediaTypeService.GetByName(consolidated.TypeName, unitOfWork);
-            var score = ScoreService.GetByValue(consolidated.ScoreValue, unitOfWork);
-
-            var showSeason = GetOrUpdateOrCreateShowSeason(series, consolidated.Season, director, type, score, unitOfWork);
-
+            var showSeason = GetOrUpdateOrCreateShowSeason(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
+
             CreateShowActivity(activity, showSeason, consolidated.Description, unitOfWork);
         }
 
-        private static void CreateShowActivity(Activity activity, ShowSeason showSeason, string description, UnitOfWork unitOfWork)
+        private static void CreateShowActivity(Activity activity, Show showSeason, string description, UnitOfWork unitOfWork)
         {
             var showActivity = new ShowActivity() {
                 Activity = activity,
@@ -59,34 +55,34 @@ namespace DomL.Business.Services
             unitOfWork.ShowRepo.CreateShowActivity(showActivity);
         }
 
-        private static ShowSeason GetOrUpdateOrCreateShowSeason(Series series, string season, Person director, MediaType type, Score score, UnitOfWork unitOfWork)
+        private static Show GetOrUpdateOrCreateShowSeason(ShowConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var showSeason = GetShowSeasonBySeriesNameAndSeason(series.Name, season, unitOfWork);
+            var showSeason = GetShowByTitle(consolidated.Title, unitOfWork);
 
             if (showSeason == null) {
-                showSeason = new ShowSeason() {
+                showSeason = new Show() {
+                    Title = consolidated.Title,
+                    Type = consolidated.Type,
                     Series = series,
-                    Season = season,
-                    Director = director,
-                    Type = type,
-                    Score = score,
+                    Number = consolidated.Number,
+                    Person = consolidated.Person,
+                    Company = consolidated.Company,
+                    Year = int.Parse(consolidated.Year),
+                    Score = consolidated.Score,
                 };
                 unitOfWork.ShowRepo.CreateShowSeason(showSeason);
-            } else {
-                showSeason.Director = director ?? showSeason.Director;
-                showSeason.Type = type ?? showSeason.Type;
-                showSeason.Score = score ?? showSeason.Score;
             }
 
             return showSeason;
         }
 
-        public static ShowSeason GetShowSeasonBySeriesNameAndSeason(string seriesName, string season, UnitOfWork unitOfWork)
+        //TODO colocar year na search
+        public static Show GetShowByTitle(string title, UnitOfWork unitOfWork)
         {
-            if (string.IsNullOrWhiteSpace(seriesName) || string.IsNullOrWhiteSpace(season)) {
+            if (string.IsNullOrWhiteSpace(title)) {
                 return null;
             }
-            return unitOfWork.ShowRepo.GetShowSeasonBySeriesNameAndSeason(seriesName, season);
+            return unitOfWork.ShowRepo.GetShowByTitle(title);
         }
 
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
@@ -94,7 +90,7 @@ namespace DomL.Business.Services
             var showSeason = activity.ShowActivity.Show;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.SHOW_ID
-                && u.ShowActivity.Show.Series.Name == showSeason.Series.Name && u.ShowActivity.Show.Season == showSeason.Season
+                && u.ShowActivity.Show.Series.Name == showSeason.Series.Name && u.ShowActivity.Show.Title == showSeason.Title
             );
         }
     }

@@ -11,26 +11,24 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedPurchaseDTO(rawSegments, activity);
+            var consolidated = new PurchaseConsolidatedDTO(rawSegments, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedPurchaseDTO(backupSegments);
+            var consolidated = new PurchaseConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedPurchaseDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(PurchaseConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var value = int.Parse(consolidated.Value);
-            var store = CompanyService.GetOrCreateByName(consolidated.StoreName, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
-            CreatePurchaseActivity(activity, store, consolidated.Product, value, consolidated.Description, unitOfWork);
+            CreatePurchaseActivity(activity, consolidated.Store, consolidated.Product, value, consolidated.Description, unitOfWork);
         }
 
-        private static void CreatePurchaseActivity(Activity activity, Company store, string product, int value, string description, UnitOfWork unitOfWork)
+        private static void CreatePurchaseActivity(Activity activity, string store, string product, int value, string description, UnitOfWork unitOfWork)
         {
             var purchaseActivity = new PurchaseActivity() {
                 Activity = activity,

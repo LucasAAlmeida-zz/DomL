@@ -2,35 +2,34 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedPetDTO : ActivityConsolidatedDTO
+    public class PetConsolidatedDTO : ActivityConsolidatedDTO
     {
-        public string PetName;
+        public string Pet;
         public string Description;
 
-        public ConsolidatedPetDTO(Activity activity) : base(activity)
+        public PetConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "PET";
 
             var petActivity = activity.PetActivity;
-            var pet = petActivity.Pet;
 
-            PetName = pet.Name;
+            Pet = petActivity.Pet;
             Description = petActivity.Description;
         }
 
-        public ConsolidatedPetDTO(string[] rawSegments, Activity activity) : base(activity)
+        public PetConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "PET";
 
-            PetName = rawSegments[1];
+            Pet = rawSegments[1];
             Description = rawSegments[2];
         }
 
-        public ConsolidatedPetDTO(string[] backupSegments) : base(backupSegments)
+        public PetConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "PET";
 
-            PetName = backupSegments[4];
+            Pet = backupSegments[4];
             Description = backupSegments[5];
 
             OriginalLine = GetInfoForOriginalLine()
@@ -51,7 +50,7 @@ namespace DomL.Business.DTOs
 
         public string GetPetActivityInfo()
         {
-            return PetName + "\t" + Description;
+            return Pet + "\t" + Description;
         }
     }
 }

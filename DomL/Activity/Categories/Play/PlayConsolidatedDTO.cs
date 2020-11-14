@@ -2,12 +2,12 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedPlayDTO : ActivityConsolidatedDTO
+    public class PlayConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Who;
         public string Description;
 
-        public ConsolidatedPlayDTO(Activity activity) : base(activity)
+        public PlayConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "PLAY";
 
@@ -17,7 +17,7 @@ namespace DomL.Business.DTOs
             Description = playActivity.Description;
         }
 
-        public ConsolidatedPlayDTO(string[] rawSegments, Activity activity) : base(activity)
+        public PlayConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "PLAY";
 
@@ -25,7 +25,7 @@ namespace DomL.Business.DTOs
             Description = rawSegments.Length > 2 ? rawSegments[2] : null;
         }
 
-        public ConsolidatedPlayDTO(string[] backupSegments) : base(backupSegments)
+        public PlayConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "PLAY";
 

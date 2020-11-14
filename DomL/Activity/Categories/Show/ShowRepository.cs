@@ -14,17 +14,16 @@ namespace DomL.DataAccess
             get { return Context as DomLContext; }
         }
 
-        public ShowSeason GetShowSeasonBySeriesNameAndSeason(string seriesName, string season)
+        public Show GetShowByTitle(string title)
         {
-            var cleanSeriesName = Util.CleanString(seriesName);
+            var cleanTitle = Util.CleanString(title);
             return DomLContext.ShowSeason
-                .Include(u => u.Director)
+                .Include(u => u.Person)
                 .Include(u => u.Series)
                 .Include(u => u.Type)
                 .SingleOrDefault(u => 
-                    u.Series.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
-                    == cleanSeriesName
-                    && u.Season == season
+                    u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                    == cleanTitle
                 );
         }
 
@@ -33,7 +32,7 @@ namespace DomL.DataAccess
             DomLContext.ShowActivity.Add(showActivity);
         }
 
-        public void CreateShowSeason(ShowSeason showSeason)
+        public void CreateShowSeason(Show showSeason)
         {
             DomLContext.ShowSeason.Add(showSeason);
         }

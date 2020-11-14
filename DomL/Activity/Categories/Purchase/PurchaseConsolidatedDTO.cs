@@ -2,41 +2,40 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedPurchaseDTO : ActivityConsolidatedDTO
+    public class PurchaseConsolidatedDTO : ActivityConsolidatedDTO
     {
-        public string StoreName;
+        public string Store;
         public string Product;
         public string Value;
         public string Description;
 
-        public ConsolidatedPurchaseDTO(Activity activity) : base(activity)
+        public PurchaseConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "PURCHASE";
 
             var purchaseActivity = activity.PurchaseActivity;
-            var store = purchaseActivity.Store;
 
-            StoreName = store.Name;
+            Store = purchaseActivity.Store;
             Product = purchaseActivity.Product;
             Value = purchaseActivity.Value.ToString();
             Description = purchaseActivity.Description;
         }
 
-        public ConsolidatedPurchaseDTO(string[] rawSegments, Activity activity) : base(activity)
+        public PurchaseConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "PURCHASE";
 
-            StoreName = rawSegments[1];
+            Store = rawSegments[1];
             Product = rawSegments[2];
             Value = rawSegments[3];
             Description = (rawSegments.Length > 4) ? rawSegments[4] : null;
         }
 
-        public ConsolidatedPurchaseDTO(string[] backupSegments) : base(backupSegments)
+        public PurchaseConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "PURCHASE";
 
-            StoreName = backupSegments[4];
+            Store = backupSegments[4];
             Product = backupSegments[5];
             Value = backupSegments[6];
             Description = backupSegments[7];
@@ -59,7 +58,7 @@ namespace DomL.Business.DTOs
 
         public string GetPurchaseActivityInfo()
         {
-            return StoreName + "\t" + Product + "\t" + Value + "\t" + Description;
+            return Store + "\t" + Product + "\t" + Value + "\t" + Description;
         }
     }
 }

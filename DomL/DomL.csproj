@@ -114,11 +114,11 @@
     </Compile>
     <Compile Include="Activity\ActivityConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Travel\ConsolidatedTravelDTO.cs" />
-    <Compile Include="Activity\Categories\Show\ConsolidatedShowDTO.cs" />
-    <Compile Include="Activity\Categories\Purchase\ConsolidatedPurchaseDTO.cs" />
-    <Compile Include="Activity\Categories\Play\ConsolidatedPlayDTO.cs" />
+    <Compile Include="Activity\Categories\Show\ShowConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Purchase\PurchaseConsolidatedDTO.cs" />
+    <Compile Include="Activity\Categories\Play\PlayConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Meet\MeetConsolidatedDTO.cs" />
-    <Compile Include="Activity\Categories\Pet\ConsolidatedPetDTO.cs" />
+    <Compile Include="Activity\Categories\Pet\PetConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Movie\MovieConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Health\HealthConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Gift\GiftConsolidatedDTO.cs" />

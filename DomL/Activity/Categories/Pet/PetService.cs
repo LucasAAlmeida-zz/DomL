@@ -13,25 +13,23 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedPetDTO(rawSegments, activity);
+            var consolidated = new PetConsolidatedDTO(rawSegments, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedPetDTO(backupSegments);
+            var consolidated = new PetConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedPetDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(PetConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var pet = PersonService.GetOrCreateByName(consolidated.PetName, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
-            CreatePetActivity(activity, pet, consolidated.Description, unitOfWork);
+            CreatePetActivity(activity, consolidated.Pet, consolidated.Description, unitOfWork);
         }
 
-        private static void CreatePetActivity(Activity activity, Person pet, string description, UnitOfWork unitOfWork)
+        private static void CreatePetActivity(Activity activity, string pet, string description, UnitOfWork unitOfWork)
         {
             var petActivity = new PetActivity() {
                 Activity = activity,
@@ -50,7 +48,7 @@ namespace DomL.Business.Services
             var pet = activity.PetActivity.Pet;
             return previousStartingActivities.Where(u =>
                 u.CategoryId == ActivityCategory.AUTO_ID
-                && u.PetActivity.Pet.Name == pet.Name
+                && u.PetActivity.Pet == pet
             );
         }
     }

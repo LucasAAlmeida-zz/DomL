@@ -13,7 +13,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="300" />
+            <RowDefinition Height="350" />
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -24,14 +24,9 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
             <DockPanel Margin="5">
-                <Label Content="Series:" Width="90" />
-                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="SeriesInfoLb" Margin="5,0" Width="40" />
-            </DockPanel>
-            <DockPanel Margin="5">
-                <Label Content="Season:" Width="90" />
-                <ComboBox Name="SeasonCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
-                <Label Name="SeasonInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Title:" Width="90" />
+                <ComboBox Name="TitleCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="TitleInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Type:" Width="90" />
@@ -39,9 +34,29 @@
                 <Label Name="TypeInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Director:" Width="90" />
-                <ComboBox Name="DirectorCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="DirectorInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Series:" Width="90" />
+                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="SeriesInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Number:" Width="90" />
+                <ComboBox Name="NumberCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="NumberInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Person:" Width="90" />
+                <ComboBox Name="PersonCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="PersonInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Company:" Width="90" />
+                <ComboBox Name="CompanyCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="CompanyInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Year:" Width="90" />
+                <ComboBox Name="YearCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="YearInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Score:" Width="90" />

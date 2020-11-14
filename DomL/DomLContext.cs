@@ -44,7 +44,7 @@ namespace DomL.DataAccess
         public DbSet<PurchaseActivity> PurchaseActivity { get; set; }
 
         public DbSet<ShowActivity> ShowActivity { get; set; }
-        public DbSet<ShowSeason> ShowSeason { get; set; }
+        public DbSet<Show> ShowSeason { get; set; }
 
         public DbSet<TravelActivity> TravelActivity { get; set; }
         

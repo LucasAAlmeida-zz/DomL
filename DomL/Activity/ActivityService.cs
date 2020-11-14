@@ -240,11 +240,11 @@ namespace DomL.Business.Services
                 case ActivityCategory.GIFT_ID:     return new GiftConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.HEALTH_ID:   return new HealthConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.MOVIE_ID:    return new MovieConsolidatedDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.PET_ID:      return new ConsolidatedPetDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.PET_ID:      return new PetConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.MEET_ID:     return new MeetConsolidatedDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.PLAY_ID:     return new ConsolidatedPlayDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.PURCHASE_ID: return new ConsolidatedPurchaseDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.SHOW_ID:     return new ConsolidatedShowDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.PLAY_ID:     return new PlayConsolidatedDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.PURCHASE_ID: return new PurchaseConsolidatedDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.SHOW_ID:     return new ShowConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.TRAVEL_ID:   return new ConsolidatedTravelDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForYearRecap();
             }
@@ -264,11 +264,11 @@ namespace DomL.Business.Services
                 case ActivityCategory.GIFT_ID:     return new GiftConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.HEALTH_ID:   return new HealthConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.MOVIE_ID:    return new MovieConsolidatedDTO(activity).GetInfoForBackup();
-                case ActivityCategory.PET_ID:      return new ConsolidatedPetDTO(activity).GetInfoForBackup();
+                case ActivityCategory.PET_ID:      return new PetConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.MEET_ID:     return new MeetConsolidatedDTO(activity).GetInfoForBackup();
-                case ActivityCategory.PLAY_ID:     return new ConsolidatedPlayDTO(activity).GetInfoForBackup();
-                case ActivityCategory.PURCHASE_ID: return new ConsolidatedPurchaseDTO(activity).GetInfoForBackup();
-                case ActivityCategory.SHOW_ID:     return new ConsolidatedShowDTO(activity).GetInfoForBackup();
+                case ActivityCategory.PLAY_ID:     return new PlayConsolidatedDTO(activity).GetInfoForBackup();
+                case ActivityCategory.PURCHASE_ID: return new PurchaseConsolidatedDTO(activity).GetInfoForBackup();
+                case ActivityCategory.SHOW_ID:     return new ShowConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.TRAVEL_ID:   return new ConsolidatedTravelDTO(activity).GetInfoForBackup();
                 case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForBackup();
             }
