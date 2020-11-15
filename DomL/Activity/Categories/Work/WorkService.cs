@@ -13,25 +13,23 @@ namespace DomL.Business.Services
     {
         public static void SaveFromRawSegments(string[] rawSegments, Activity activity, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedWorkDTO(rawSegments, activity);
+            var consolidated = new WorkConsolidatedDTO(rawSegments, activity);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
-            var consolidated = new ConsolidatedWorkDTO(backupSegments);
+            var consolidated = new WorkConsolidatedDTO(backupSegments);
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
-        private static void SaveFromConsolidated(ConsolidatedWorkDTO consolidated, UnitOfWork unitOfWork)
+        private static void SaveFromConsolidated(WorkConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var work = CompanyService.GetOrCreateByName(consolidated.WorkName, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
-            CreateWorkActivity(activity, work, consolidated.Description, unitOfWork);
+            CreateWorkActivity(activity, consolidated.Work, consolidated.Description, unitOfWork);
         }
 
-        private static void CreateWorkActivity(Activity activity, Company work, string description, UnitOfWork unitOfWork)
+        private static void CreateWorkActivity(Activity activity, string work, string description, UnitOfWork unitOfWork)
         {
             var workActivity = new WorkActivity() {
                 Activity = activity,
@@ -50,7 +48,7 @@ namespace DomL.Business.Services
             var work = activity.WorkActivity.Work;
             return previousStartingActivities.Where(u =>
                 u.CategoryId == ActivityCategory.WORK_ID
-                && u.WorkActivity.Work.Name == work.Name
+                && u.WorkActivity.Work == work
             );
         }
     }

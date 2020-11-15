@@ -2,35 +2,34 @@
 
 namespace DomL.Business.DTOs
 {
-    public class ConsolidatedWorkDTO : ActivityConsolidatedDTO
+    public class WorkConsolidatedDTO : ActivityConsolidatedDTO
     {
-        public string WorkName;
+        public string Work;
         public string Description;
 
-        public ConsolidatedWorkDTO(Activity activity) : base(activity)
+        public WorkConsolidatedDTO(Activity activity) : base(activity)
         {
             CategoryName = "WORK";
 
             var workActivity = activity.WorkActivity;
-            var work = workActivity.Work;
 
-            WorkName = work.Name;
+            Work = workActivity.Work;
             Description = workActivity.Description;
         }
 
-        public ConsolidatedWorkDTO(string[] rawSegments, Activity activity) : base(activity)
+        public WorkConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "WORK";
 
-            WorkName = rawSegments[1];
+            Work = rawSegments[1];
             Description = rawSegments[2];
         }
 
-        public ConsolidatedWorkDTO(string[] backupSegments) : base(backupSegments)
+        public WorkConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
             CategoryName = "WORK";
 
-            WorkName = backupSegments[4];
+            Work = backupSegments[4];
             Description = backupSegments[5];
 
             OriginalLine = GetInfoForOriginalLine()
@@ -51,7 +50,7 @@ namespace DomL.Business.DTOs
 
         private string GetWorkActivityInfo()
         {
-            return WorkName + "\t" + Description;
+            return Work + "\t" + Description;
         }
     }
 }

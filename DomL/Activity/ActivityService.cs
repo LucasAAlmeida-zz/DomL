@@ -245,8 +245,8 @@ namespace DomL.Business.Services
                 case ActivityCategory.PLAY_ID:     return new PlayConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.PURCHASE_ID: return new PurchaseConsolidatedDTO(activity).GetInfoForYearRecap();
                 case ActivityCategory.SHOW_ID:     return new ShowConsolidatedDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.TRAVEL_ID:   return new ConsolidatedTravelDTO(activity).GetInfoForYearRecap();
-                case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForYearRecap();
+                case ActivityCategory.TRAVEL_ID:   return new Consolidated(activity).GetInfoForYearRecap();
+                case ActivityCategory.WORK_ID:     return new WorkConsolidatedDTO(activity).GetInfoForYearRecap();
             }
             return "";
         }
@@ -269,8 +269,8 @@ namespace DomL.Business.Services
                 case ActivityCategory.PLAY_ID:     return new PlayConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.PURCHASE_ID: return new PurchaseConsolidatedDTO(activity).GetInfoForBackup();
                 case ActivityCategory.SHOW_ID:     return new ShowConsolidatedDTO(activity).GetInfoForBackup();
-                case ActivityCategory.TRAVEL_ID:   return new ConsolidatedTravelDTO(activity).GetInfoForBackup();
-                case ActivityCategory.WORK_ID:     return new ConsolidatedWorkDTO(activity).GetInfoForBackup();
+                case ActivityCategory.TRAVEL_ID:   return new Consolidated(activity).GetInfoForBackup();
+                case ActivityCategory.WORK_ID:     return new WorkConsolidatedDTO(activity).GetInfoForBackup();
             }
             return "";
         }

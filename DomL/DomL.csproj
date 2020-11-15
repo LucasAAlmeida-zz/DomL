@@ -104,7 +104,7 @@
     <Compile Include="Activity\Categories\Work\Work.cs" />
     <Compile Include="Activity\Categories\Work\WorkRepository.cs" />
     <Compile Include="Activity\Categories\Work\WorkService.cs" />
-    <Compile Include="Activity\Categories\Work\ConsolidatedWorkDTO.cs" />
+    <Compile Include="Activity\Categories\Work\WorkConsolidatedDTO.cs" />
     <Compile Include="Activity\Helpers\Score\Score.cs" />
     <Compile Include="Activity\Helpers\Score\ScoreRepository.cs" />
     <Compile Include="Activity\Helpers\Score\ScoreService.cs" />
@@ -113,7 +113,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Activity\ActivityConsolidatedDTO.cs" />
-    <Compile Include="Activity\Categories\Travel\ConsolidatedTravelDTO.cs" />
+    <Compile Include="Activity\Categories\Travel\TravelConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Show\ShowConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Purchase\PurchaseConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Play\PlayConsolidatedDTO.cs" />

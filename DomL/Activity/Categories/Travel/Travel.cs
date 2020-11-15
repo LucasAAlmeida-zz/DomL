@@ -9,17 +9,14 @@ namespace DomL.Business.Entities
         [Key]
         [ForeignKey("Activity")]
         public int Id { get; set; }
-        public int TransportId { get; set; }
-        public int? OriginId { get; set; }
-        public int DestinationId { get; set; }
+        [Required]
+        public string Transport { get; set; }
+        [Required]
+        public string Origin { get; set; }
+        [Required]
+        public string Destination { get; set; }
         public string Description { get; set; }
 
         public virtual Activity Activity { get; set; }
-        [ForeignKey("TransportId")]
-        public Transport Transport { get; set; }
-        [ForeignKey("OriginId")]
-        public Location Origin { get; set; }
-        [ForeignKey("DestinationId")]
-        public Location Destination { get; set; }
     }
 }
