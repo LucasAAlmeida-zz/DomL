@@ -8,6 +8,7 @@ using DomL.Business.DTOs;
 using System.IO;
 using System.Text.RegularExpressions;
 using System;
+using DomL.Business.Utils;
 
 namespace DomL.Business.Services
 {
@@ -65,13 +66,13 @@ namespace DomL.Business.Services
 
             if (book == null) {
                 book = new Book() {
-                    Title = consolidated.Title,
-                    Author = consolidated.Author,
+                    Title = Util.GetStringOrNull(consolidated.Title),
+                    Author = Util.GetStringOrNull(consolidated.Author),
                     Series = series,
-                    Number = consolidated.Number,
-                    Publisher = consolidated.Publisher,
-                    Year = int.Parse(consolidated.Year),
-                    Score = consolidated.Score,
+                    Number = Util.GetStringOrNull(consolidated.Number),
+                    Publisher = Util.GetStringOrNull(consolidated.Publisher),
+                    Year = Util.GetIntOrZero(consolidated.Year),
+                    Score = Util.GetStringOrNull(consolidated.Score),
                 };
                 unitOfWork.BookRepo.CreateBook(book);
             } else {
@@ -84,7 +85,7 @@ namespace DomL.Business.Services
         //TODO (add year to search)
         public static Book GetByTitle(string title, UnitOfWork unitOfWork)
         {
-            if (string.IsNullOrWhiteSpace(title)) {
+            if (Util.IsStringEmpty(title)) {
                 return null;
             }
             return unitOfWork.BookRepo.GetBookByTitle(title);

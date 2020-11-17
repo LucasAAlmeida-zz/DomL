@@ -40,7 +40,7 @@ namespace DomL.Business.DTOs
             Destination = backupSegments[6];
             Description = backupSegments[7];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetTravelActivityInfo().Replace("\t", "; ");
         }
 

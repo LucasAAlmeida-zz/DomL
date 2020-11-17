@@ -60,15 +60,15 @@ namespace DomL.DataAccess.Repositories
                 .Include(u => u.EventActivity)
                 .Include(u => u.GameActivity.Game.Series)
                 .Include(u => u.GiftActivity)
-                .Include(u => u.HealthActivity.Specialty)
+                .Include(u => u.HealthActivity)
                 .Include(u => u.MovieActivity.Movie.Series)
-                .Include(u => u.PetActivity.Pet)
+                .Include(u => u.PetActivity)
                 .Include(u => u.MeetActivity)
                 .Include(u => u.PlayActivity)
-                .Include(u => u.PurchaseActivity.Store)
+                .Include(u => u.PurchaseActivity)
                 .Include(u => u.ShowActivity.Show.Series)
                 .Include(u => u.TravelActivity)
-                .Include(u => u.WorkActivity.Work)
+                .Include(u => u.WorkActivity)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 

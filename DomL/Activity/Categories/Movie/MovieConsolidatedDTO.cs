@@ -58,7 +58,7 @@ namespace DomL.Business.DTOs
             Score = backupSegments[10];
             Description = backupSegments[11];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetMovieActivityInfo().Replace("\t", "; ");
         }
 

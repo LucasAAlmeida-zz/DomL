@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace DomL.Business.Services
 
         private static ActivityBlock CreateOrGetBlockByName(string blockName, UnitOfWork unitOfWork)
         {
-            if (string.IsNullOrWhiteSpace(blockName)) {
+            if (Util.IsStringEmpty(blockName)) {
                 return null;
             }
 

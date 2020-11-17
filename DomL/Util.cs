@@ -75,6 +75,21 @@ namespace DomL.Business.Utils
             comboBox.SelectedItem = chosenStr;
         }
 
+        public static bool IsStringEmpty(string text)
+        {
+            return string.IsNullOrEmpty(text) || text == "-";
+        }
+
+        public static string GetStringOrNull(string text)
+        {
+            return !IsStringEmpty(text) ? text : null;
+        }
+
+        public static int GetIntOrZero(string textNumber)
+        {
+            return !IsStringEmpty(textNumber) ? int.Parse(textNumber) : 0;
+        }
+
         public static int GetFirstEmptyIndex(string[] orderedSegments, int[] indexesToAvoid)
         {
             for (int i = 0; i < orderedSegments.Length; i++) {

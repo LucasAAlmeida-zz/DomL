@@ -36,7 +36,7 @@ namespace DomL.Business.DTOs
             Specialty = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetHealthActivityInfo().Replace("\t", "; ");
         }
 

@@ -112,10 +112,9 @@ namespace DomL.Business.Services
                         var backupSegments = Regex.Split(line, "\t");
 
                         ActivityService.SaveFromBackupSegments(backupSegments, category, unitOfWork);
+                        unitOfWork.Complete();
                     }
                 }
-
-                unitOfWork.Complete();
             }
         }
 

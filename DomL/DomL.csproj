@@ -167,37 +167,13 @@
     <Compile Include="DomLExceptions.cs" />
     <Compile Include="Activity\Categories\Comic\Comic.cs" />
     <Compile Include="Activity\Categories\Doom\Doom.cs" />
-    <Compile Include="Migrations\202008281727214_Initial.cs" />
-    <Compile Include="Migrations\202008281727214_Initial.designer.cs">
-      <DependentUpon>202008281727214_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\202011162340565_Initial.cs" />
+    <Compile Include="Migrations\202011162340565_Initial.designer.cs">
+      <DependentUpon>202011162340565_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.cs" />
-    <Compile Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.designer.cs">
-      <DependentUpon>202008302308288_DescriptionNotRequiredOnMeetActivity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009010050358_PlayActivityWithWho.cs" />
-    <Compile Include="Migrations\202009010050358_PlayActivityWithWho.designer.cs">
-      <DependentUpon>202009010050358_PlayActivityWithWho.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009011224587_GiftWithWho.cs" />
-    <Compile Include="Migrations\202009011224587_GiftWithWho.designer.cs">
-      <DependentUpon>202009011224587_GiftWithWho.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009011623275_CourseTables.cs" />
-    <Compile Include="Migrations\202009011623275_CourseTables.designer.cs">
-      <DependentUpon>202009011623275_CourseTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011141142520_AutoNameIsString.cs" />
-    <Compile Include="Migrations\202011141142520_AutoNameIsString.designer.cs">
-      <DependentUpon>202011141142520_AutoNameIsString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011141218373_BookRevision.cs" />
-    <Compile Include="Migrations\202011141218373_BookRevision.designer.cs">
-      <DependentUpon>202011141218373_BookRevision.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011141305131_ComicRevision.cs" />
-    <Compile Include="Migrations\202011141305131_ComicRevision.designer.cs">
-      <DependentUpon>202011141305131_ComicRevision.cs</DependentUpon>
+    <Compile Include="Migrations\202011162353482_AutoNameChange.cs" />
+    <Compile Include="Migrations\202011162353482_AutoNameChange.designer.cs">
+      <DependentUpon>202011162353482_AutoNameChange.cs</DependentUpon>
     </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
@@ -276,29 +252,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202008281727214_Initial.resx">
-      <DependentUpon>202008281727214_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202011162340565_Initial.resx">
+      <DependentUpon>202011162340565_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008302308288_DescriptionNotRequiredOnMeetActivity.resx">
-      <DependentUpon>202008302308288_DescriptionNotRequiredOnMeetActivity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009010050358_PlayActivityWithWho.resx">
-      <DependentUpon>202009010050358_PlayActivityWithWho.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009011224587_GiftWithWho.resx">
-      <DependentUpon>202009011224587_GiftWithWho.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009011623275_CourseTables.resx">
-      <DependentUpon>202009011623275_CourseTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011141142520_AutoNameIsString.resx">
-      <DependentUpon>202011141142520_AutoNameIsString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011141218373_BookRevision.resx">
-      <DependentUpon>202011141218373_BookRevision.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011141305131_ComicRevision.resx">
-      <DependentUpon>202011141305131_ComicRevision.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202011162353482_AutoNameChange.resx">
+      <DependentUpon>202011162353482_AutoNameChange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

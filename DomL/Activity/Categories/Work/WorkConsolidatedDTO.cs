@@ -32,7 +32,7 @@ namespace DomL.Business.DTOs
             Work = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetWorkActivityInfo().Replace("\t", "; ");
         }
 

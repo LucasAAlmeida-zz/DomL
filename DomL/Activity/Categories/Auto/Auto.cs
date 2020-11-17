@@ -10,7 +10,7 @@ namespace DomL.Business.Entities
         [ForeignKey("Activity")]
         public int Id { get; set; }
         [Required]
-        public string AutoName { get; set; }
+        public string Auto { get; set; }
         [Required]
         public string Description { get; set; }
 

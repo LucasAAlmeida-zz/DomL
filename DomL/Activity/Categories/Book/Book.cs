@@ -25,11 +25,11 @@ namespace DomL.Business.Entities
         public int Id { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
-        public string Publisher { get; set; }
         public int? SeriesId { get; set; }
         public string Number { get; set; }
-        public string Score { get; set; }
+        public string Publisher { get; set; }
         public int Year { get; set; }
+        public string Score { get; set; }
 
         [ForeignKey("SeriesId")]
         public Series Series { get; set; }

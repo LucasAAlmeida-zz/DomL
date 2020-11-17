@@ -40,7 +40,7 @@ namespace DomL.Business.DTOs
             Value = backupSegments[6];
             Description = backupSegments[7];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetPurchaseActivityInfo().Replace("\t", "; ");
         }
 

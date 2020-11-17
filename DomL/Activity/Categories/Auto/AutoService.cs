@@ -22,14 +22,14 @@ namespace DomL.Business.Services
         private static void SaveFromConsolidated(AutoConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var activity = ActivityService.Create(consolidated, unitOfWork);
-            CreateAutoActivity(activity, consolidated.AutoName, consolidated.Description, unitOfWork);
+            CreateAutoActivity(activity, consolidated.Auto, consolidated.Description, unitOfWork);
         }
 
         public static void CreateAutoActivity(Activity activity, string autoName, string description, UnitOfWork unitOfWork)
         {
             var autoActivity = new AutoActivity() {
                 Activity = activity,
-                AutoName = autoName,
+                Auto = autoName,
                 Description = description
             };
 
@@ -44,7 +44,7 @@ namespace DomL.Business.Services
             var autoActivity = activity.AutoActivity;
             return previousStartingActivities.Where(u =>
                 u.CategoryId == ActivityCategory.AUTO_ID
-                && u.AutoActivity.AutoName == autoActivity.AutoName
+                && u.AutoActivity.Auto == autoActivity.Auto
             );
         }
     }

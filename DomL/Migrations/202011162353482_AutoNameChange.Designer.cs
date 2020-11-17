@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class PlayActivityWithWho : IMigrationMetadata
+    public sealed partial class AutoNameChange : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(PlayActivityWithWho));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AutoNameChange));
         
         string IMigrationMetadata.Id
         {
-            get { return "202009010050358_PlayActivityWithWho"; }
+            get { return "202011162353482_AutoNameChange"; }
         }
         
         string IMigrationMetadata.Source

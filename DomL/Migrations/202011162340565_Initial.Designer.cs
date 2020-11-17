@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class DescriptionNotRequiredOnMeetActivity : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DescriptionNotRequiredOnMeetActivity));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008302308288_DescriptionNotRequiredOnMeetActivity"; }
+            get { return "202011162340565_Initial"; }
         }
         
         string IMigrationMetadata.Source

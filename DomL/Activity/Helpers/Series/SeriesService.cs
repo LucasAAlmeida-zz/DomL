@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace DomL.Business.Services
     {
         public static Series GetOrCreateByName(string seriesName, UnitOfWork unitOfWork)
         {
-            if (string.IsNullOrWhiteSpace(seriesName)) {
+            if (Util.IsStringEmpty(seriesName)) {
                 return null;
             }
 

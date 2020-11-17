@@ -34,7 +34,7 @@ namespace DomL.Business.DTOs
             Origin = backupSegments[5];
             Description = backupSegments[6];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetMeetActivityInfo().Replace("\t", "; ");
         }
 

@@ -32,7 +32,7 @@ namespace DomL.Business.DTOs
             Pet = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetPetActivityInfo().Replace("\t", "; ");
         }
 

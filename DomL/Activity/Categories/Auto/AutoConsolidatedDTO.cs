@@ -4,7 +4,7 @@ namespace DomL.Business.DTOs
 {
     public class AutoConsolidatedDTO : ActivityConsolidatedDTO
     {
-        public string AutoName;
+        public string Auto;
         public string Description;
 
         public AutoConsolidatedDTO(Activity activity) : base(activity)
@@ -13,7 +13,7 @@ namespace DomL.Business.DTOs
 
             var autoActivity = activity.AutoActivity;
 
-            AutoName = autoActivity.AutoName;
+            Auto = autoActivity.Auto;
             Description = autoActivity.Description;
         }
 
@@ -21,7 +21,7 @@ namespace DomL.Business.DTOs
         {
             CategoryName = "AUTO";
 
-            AutoName = rawSegments[1];
+            Auto = rawSegments[1];
             Description = rawSegments[2];
         }
 
@@ -29,10 +29,10 @@ namespace DomL.Business.DTOs
         {
             CategoryName = "AUTO";
 
-            AutoName = backupSegments[4];
+            Auto = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine()
+            OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetAutoActivityInfo().Replace("\t", "; ");
         }
 
@@ -50,7 +50,7 @@ namespace DomL.Business.DTOs
 
         private string GetAutoActivityInfo()
         {
-            return AutoName + "\t" + Description;
+            return Auto + "\t" + Description;
         }
     }
 }
