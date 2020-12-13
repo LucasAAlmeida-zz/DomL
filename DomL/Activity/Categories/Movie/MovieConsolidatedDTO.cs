@@ -47,7 +47,7 @@ namespace DomL.Business.DTOs
 
         public MovieConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "AUTO";
+            CategoryName = "MOVIE";
 
             Title = backupSegments[4];
             SeriesName = backupSegments[5];
