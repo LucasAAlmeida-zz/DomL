@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using DomL.Presentation;
 using System;
@@ -52,13 +53,14 @@ namespace DomL.Business.Services
 
             if (game == null) {
                 game = new Game() {
-                    Title = consolidated.Title,
-                    Platform = consolidated.Platform,
+                    Title = Util.GetStringOrNull(consolidated.Title),
+                    Platform = Util.GetStringOrNull(consolidated.Platform),
                     Series = series,
-                    Number = consolidated.Number,
-                    Person = consolidated.Person,
-                    Company = consolidated.Company,
-                    Score = consolidated.Score,
+                    Number = Util.GetStringOrNull(consolidated.Number),
+                    Person = Util.GetStringOrNull(consolidated.Person),
+                    Company = Util.GetStringOrNull(consolidated.Company),
+                    Year = Util.GetIntOrZero(consolidated.Year),
+                    Score = Util.GetStringOrNull(consolidated.Score),
                 };
                 unitOfWork.GameRepo.CreateGame(game);
             } else {

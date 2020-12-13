@@ -6,9 +6,9 @@ namespace DomL.Business.DTOs
     public class MovieConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string Person;
         public string SeriesName;
         public string Number;
+        public string Person;
         public string Company;
         public string Year;
         public string Score;
@@ -22,13 +22,13 @@ namespace DomL.Business.DTOs
             var movie = movieActivity.Movie;
             
             Title = movie.Title;
-            Person = movie.Person ?? "-";
             SeriesName = (movie.Series != null) ? movie.Series.Name : "-";
             Number = movie.Number ?? "-";
+            Person = movie.Person ?? "-";
             Company = movie.Company ?? "-";
             Year = movie.Year.ToString();
             Score = movie.Score ?? "-";
-            Description = (!string.IsNullOrWhiteSpace(movieActivity.Description)) ? movieActivity.Description : "-";
+            Description = movieActivity.Description ?? "-";
         }
 
         public MovieConsolidatedDTO(MovieWindow movieWindow, Activity activity) : base(activity)
@@ -36,13 +36,13 @@ namespace DomL.Business.DTOs
             CategoryName = "MOVIE";
 
             Title = movieWindow.TitleCB.Text;
-            Person = movieWindow.DirectorCB.Text;
             SeriesName = movieWindow.SeriesCB.Text;
             Number = movieWindow.NumberCB.Text;
+            Person = movieWindow.DirectorCB.Text;
             Company = movieWindow.CompanyCB.Text;
             Year = movieWindow.YearCB.Text;
             Score = movieWindow.ScoreCB.Text;
-            Description = (!string.IsNullOrWhiteSpace(movieWindow.DescriptionCB.Text)) ? movieWindow.DescriptionCB.Text : null;
+            Description = movieWindow.DescriptionCB.Text;
         }
 
         public MovieConsolidatedDTO(string[] backupSegments) : base(backupSegments)
@@ -50,9 +50,9 @@ namespace DomL.Business.DTOs
             CategoryName = "AUTO";
 
             Title = backupSegments[4];
-            Person = backupSegments[5];
-            SeriesName = backupSegments[6];
-            Number = backupSegments[7];
+            SeriesName = backupSegments[5];
+            Number = backupSegments[6];
+            Person = backupSegments[7];
             Company = backupSegments[8];
             Year = backupSegments[9];
             Score = backupSegments[10];

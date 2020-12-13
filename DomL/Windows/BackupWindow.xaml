@@ -34,30 +34,6 @@
                     </StackPanel>
                 </DockPanel>
             </GroupBox>
-            <GroupBox Header="Restore">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Height="30" Width="80" Margin="5" Content="Auto" Click="AutoRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Book" Click="BookRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Comic" Click="ComicRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Doom" Click="DoomRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Event" Click="EventRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Game" Click="GameRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Gift" Click="GiftRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Health" Click="HealthRestoreButton_Click"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Height="30" Width="80" Margin="5" Content="Meet" Click="MeetRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Movie" Click="MovieRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Pet" Click="PetRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Play" Click="PlayRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Purchase" Click="PurchaseRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Show" Click="ShowRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Travel" Click="TravelRestoreButton_Click"/>
-                        <Button Height="30" Width="80" Margin="5" Content="Work" Click="WorkRestoreButton_Click"/>
-                    </StackPanel>
-                </StackPanel>
-            </GroupBox>
             <Label Name="MessageLabel"></Label>
         </StackPanel>
         

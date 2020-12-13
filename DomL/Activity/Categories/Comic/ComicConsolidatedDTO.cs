@@ -30,7 +30,7 @@ namespace DomL.Business.DTOs
             Publisher = comic.Publisher ?? "-";
             Year = comic.Year.ToString();
             Score = comic.Score ?? "-";
-            Description = (!string.IsNullOrWhiteSpace(comicActivity.Description)) ? comicActivity.Description : "-";
+            Description = comicActivity.Description ?? "-";
         }
 
         public ComicConsolidatedDTO(ComicWindow comicWindow, Activity activity) : base(activity)
@@ -45,7 +45,7 @@ namespace DomL.Business.DTOs
             Publisher = comicWindow.PublisherCB.Text;
             Year = comicWindow.YearCB.Text;
             Score = comicWindow.ScoreCB.Text;
-            Description = (!string.IsNullOrWhiteSpace(comicWindow.DescriptionCB.Text)) ? comicWindow.DescriptionCB.Text : null;
+            Description = comicWindow.DescriptionCB.Text;
         }
 
         public ComicConsolidatedDTO(string[] backupSegments) : base(backupSegments)

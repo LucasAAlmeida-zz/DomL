@@ -25,10 +25,7 @@ namespace DomL.DataAccess
         {
             var cleanTitle = Util.CleanString(title);
             return DomLContext.Game
-                .Include(u => u.Platform)
                 .Include(u => u.Series)
-                .Include(u => u.Person)
-                .Include(u => u.Company)
                 .SingleOrDefault(u =>
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanTitle

@@ -23,9 +23,16 @@ namespace DomL
             this.Close();
         }
 
+        private void MenuViewBackupFull_Click(object sender, RoutedEventArgs e)
+        {
+            var backupFullWindow = new BackupWindow();
+            this.Visibility = Visibility.Hidden;
+            backupFullWindow.Show();
+        }
+
         private void MenuViewRestoreFull_Click(object sender, RoutedEventArgs e)
         {
-            var restoreFullWindow = new BackupWindow();
+            var restoreFullWindow = new RestoreWindow();
             this.Visibility = Visibility.Hidden;
             restoreFullWindow.Show();
         }

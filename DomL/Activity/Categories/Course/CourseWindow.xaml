@@ -24,19 +24,34 @@
 
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
             <DockPanel Margin="5">
-                <Label Content="Name:" Width="90" />
-                <ComboBox Name="NameCB" IsEditable="True" Width="300" LostFocus="NameCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Content="Title:" Width="90" />
+                <ComboBox Name="TitleCB" IsEditable="True" Width="300" LostFocus="NameCB_LostFocus" IsTextSearchEnabled="True" />
                 <Label Name="NameInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Professor:" Width="90" />
+                <ComboBox Name="ProfessorCB" IsEditable="True" Width="300" LostFocus="TeacherCB_LostFocus" IsTextSearchEnabled="True" />
+                <Label Name="ProfessorInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Area:" Width="90" />
+                <ComboBox Name="AreaCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="AreaInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Degree:" Width="90" />
+                <ComboBox Name="DegreeCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="DegreeInfoLb" Margin="5,0" Width="40" />
+            </DockPanel>
+            <DockPanel Margin="5">
+                <Label Content="Number:" Width="90" />
+                <ComboBox Name="NumberCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="NumberInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="School:" Width="90" />
                 <ComboBox Name="SchoolCB" IsEditable="True" Width="300" LostFocus="SchoolCB_LostFocus" IsTextSearchEnabled="True" />
                 <Label Name="SchoolInfoLb" Margin="5,0" Width="40" />
-            </DockPanel>
-            <DockPanel Margin="5">
-                <Label Content="Teacher:" Width="90" />
-                <ComboBox Name="TeacherCB" IsEditable="True" Width="300" LostFocus="TeacherCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="TeacherInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Year:" Width="90" />

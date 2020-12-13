@@ -19,11 +19,8 @@ namespace DomL.DataAccess
         {
             var cleanName = Util.CleanString(name);
             return DomLContext.Course
-                .Include(u => u.School)
-                .Include(u => u.Teacher)
-                .Include(u => u.Score)
                 .SingleOrDefault(u =>
-                    u.Name.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
+                    u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanName
                 );
         }

@@ -23,9 +23,12 @@ namespace DomL.Business.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
+        public string Professor { get; set; }
+        public string Area { get; set; }
+        public string Degree { get; set; }
+        public string Number { get; set; }
         public string School { get; set; }
-        public string Teacher { get; set; }
         public int Year { get; set; }
         public string Score { get; set; }
     }

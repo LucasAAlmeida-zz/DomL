@@ -155,7 +155,7 @@ namespace DomL.Business.Services
                 case ActivityCategory.AUTO_ID:     pcsa = AutoService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.BOOK_ID:     pcsa = BookService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.COMIC_ID:    pcsa = ComicService.GetStartingActivities(psa, activity);     break;
-                case ActivityCategory.COURSE_ID:   pcsa = CourseService.GetStartingActivities(psa, activity);     break;
+                case ActivityCategory.COURSE_ID:   pcsa = CourseService.GetStartingActivities(psa, activity);    break;
                 case ActivityCategory.DOOM_ID:     pcsa = DoomService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.GAME_ID:     pcsa = GameService.GetStartingActivities(psa, activity);      break;
                 case ActivityCategory.HEALTH_ID:   pcsa = HealthService.GetStartingActivities(psa, activity);    break;

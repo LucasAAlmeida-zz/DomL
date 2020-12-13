@@ -8,6 +8,7 @@ using System;
 using DomL.DataAccess;
 using System.Text.RegularExpressions;
 using DomL.Business.DTOs;
+using DomL.Business.Utils;
 
 namespace DomL.Business.Services
 {
@@ -62,13 +63,13 @@ namespace DomL.Business.Services
 
             if (movie == null) {
                 movie = new Movie() {
-                    Person = consolidated.Person,
+                    Person = Util.GetStringOrNull(consolidated.Person),
                     Series = series,
-                    Title = consolidated.Title,
-                    Number = consolidated.Number,
-                    Company = consolidated.Company,
-                    Year = int.Parse(consolidated.Year),
-                    Score = consolidated.Score,
+                    Title = Util.GetStringOrNull(consolidated.Title),
+                    Number = Util.GetStringOrNull(consolidated.Number),
+                    Company = Util.GetStringOrNull(consolidated.Company),
+                    Year = Util.GetIntOrZero(consolidated.Year),
+                    Score = Util.GetStringOrNull(consolidated.Score),
                 };
                 unitOfWork.MovieRepo.CreateMovie(movie);
             }

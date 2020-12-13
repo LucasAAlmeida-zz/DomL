@@ -35,13 +35,13 @@ namespace DomL.Business.DTOs
             Description = backupSegments[4];
             IsImportant = false;
 
+            OriginalLine = GetInfoForOriginalLine() + "; "
+                + GetEventActivityInfo().Replace("\t", "; ");
+
             if (Description.StartsWith("*")) {
                 IsImportant = true;
                 Description = Description.Substring(1);
             }
-
-            OriginalLine = GetInfoForOriginalLine() + "; "
-                + GetEventActivityInfo().Replace("\t", "; ");
         }
 
         public new string GetInfoForYearRecap()

@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using DomL.Presentation;
 using System;
@@ -34,13 +35,32 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ComicConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var type = MediaTypeService.GetByName(consolidated.Type, unitOfWork);
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
 
             var comicVolume = GetOrUpdateOrCreateComicVolume(consolidated, series, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateComicActivity(activity, comicVolume, consolidated.Description, unitOfWork);
+        }
+
+        private static Comic GetOrUpdateOrCreateComicVolume(ComicConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
+        {
+            var comic = GetComicByTitle(consolidated.Title, unitOfWork);
+
+            if (comic == null) {
+                comic = new Comic() {
+                    Title = Util.GetStringOrNull(consolidated.Title),
+                    Author = Util.GetStringOrNull(consolidated.Author),
+                    Type = Util.GetStringOrNull(consolidated.Type),
+                    Series = series,
+                    Number = Util.GetStringOrNull(consolidated.Number),
+                    Publisher = Util.GetStringOrNull(consolidated.Publisher),
+                    Year = Util.GetIntOrZero(consolidated.Year),
+                    Score = Util.GetStringOrNull(consolidated.Score),
+                };
+                unitOfWork.ComicRepo.CreateComicVolume(comic);
+            }
+
+            return comic;
         }
 
         private static void CreateComicActivity(Activity activity, Comic comic, string description, UnitOfWork unitOfWork)
@@ -57,26 +77,6 @@ namespace DomL.Business.Services
             unitOfWork.ComicRepo.CreateComicActivity(comicActivity);
         }
 
-        private static Comic GetOrUpdateOrCreateComicVolume(ComicConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
-        {
-            var comic = GetComicByTitle(consolidated.Title, unitOfWork);
-
-            if (comic == null) {
-                comic = new Comic() {
-                    Series = series,
-                    Title = consolidated.Title,
-                    Author = consolidated.Author,
-                    Type = consolidated.Type,
-                    Publisher = consolidated.Publisher,
-                    Year = int.Parse(consolidated.Year),
-                    Score = consolidated.Score,
-                };
-                unitOfWork.ComicRepo.CreateComicVolume(comic);
-            }
-
-            return comic;
-        }
-
         //TODO add year to search
         public static Comic GetComicByTitle(string title, UnitOfWork unitOfWork)
         {
@@ -89,10 +89,10 @@ namespace DomL.Business.Services
         //TODO add year to search
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
         {
-            var comicVolume = activity.ComicActivity.Comic;
+            var comic = activity.ComicActivity.Comic;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.COMIC_ID
-                && u.ComicActivity.Comic.Title == comicVolume.Title
+                && u.ComicActivity.Comic.Title == comic.Title
             );
         }
     }

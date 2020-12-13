@@ -17,6 +17,8 @@ namespace DomL.Business.DTOs
 
         public ConsolidatedGameDTO(Activity activity) : base (activity)
         {
+            CategoryName = "GAME";
+
             var gameActivity = activity.GameActivity;
             var game = gameActivity.Game;
 
@@ -28,27 +30,27 @@ namespace DomL.Business.DTOs
             Company = game.Company ?? "-";
             Year = game.Year.ToString();
             Score = game.Score ?? "-";
-            Description = (!string.IsNullOrWhiteSpace(gameActivity.Description)) ? gameActivity.Description : "-";
+            Description = gameActivity.Description ?? "-";
         }
 
         public ConsolidatedGameDTO(GameWindow gameWindow, Activity activity) : this(activity)
         {
-            CategoryName = "Game";
+            CategoryName = "GAME";
 
             Title = gameWindow.TitleCB.Text;
             Platform = gameWindow.PlatformCB.Text;
             SeriesName = gameWindow.SeriesCB.Text;
-            Number = (!string.IsNullOrWhiteSpace(gameWindow.NumberCB.Text)) ? gameWindow.NumberCB.Text : null;
+            Number = gameWindow.NumberCB.Text;
             Person = gameWindow.PersonCB.Text;
             Company = gameWindow.CompanyCB.Text;
             Year = gameWindow.YearCB.Text;
             Score = gameWindow.ScoreCB.Text;
-            Description = (!string.IsNullOrWhiteSpace(gameWindow.DescriptionCB.Text)) ? gameWindow.DescriptionCB.Text : null;
+            Description = gameWindow.DescriptionCB.Text;
         }
 
         public ConsolidatedGameDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "Game";
+            CategoryName = "GAME";
 
             Title = backupSegments[4];
             Platform = backupSegments[5];

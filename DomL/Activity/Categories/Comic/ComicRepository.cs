@@ -19,7 +19,6 @@ namespace DomL.DataAccess
             var cleanTitle = Util.CleanString(title);
             return DomLContext.Comic
                 .Include(u => u.Series)
-                .Include(u => u.Type)
                 .SingleOrDefault(u => u.Title == title);
         }
 

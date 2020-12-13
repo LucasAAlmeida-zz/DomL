@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using DomL.Presentation;
 using System;
@@ -41,14 +42,18 @@ namespace DomL.Business.Services
 
         private static Course GetOrUpdateOrCreateCourse(CourseConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var course = GetCourseByName(consolidated.Name, unitOfWork);
+            var course = GetCourseByName(consolidated.Title, unitOfWork);
 
             if (course == null) {
                 course = new Course() {
-                    Name = consolidated.Name,
-                    Teacher = consolidated.Teacher,
-                    School = consolidated.School,
-                    Score = consolidated.Score,
+                    Title = Util.GetStringOrNull(consolidated.Title),
+                    Professor = Util.GetStringOrNull(consolidated.Professor),
+                    Area = Util.GetStringOrNull(consolidated.Area),
+                    Degree = Util.GetStringOrNull(consolidated.Degree),
+                    Number = Util.GetStringOrNull(consolidated.Number),
+                    School = Util.GetStringOrNull(consolidated.School),
+                    Year = Util.GetIntOrZero(consolidated.Year),
+                    Score = Util.GetStringOrNull(consolidated.Score),
                 };
                 unitOfWork.CourseRepo.CreateCourse(course);
             }
@@ -80,7 +85,7 @@ namespace DomL.Business.Services
             var course = activity.CourseActivity.Course;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == ActivityCategory.COURSE_ID
-                && u.CourseActivity.Course.Name == course.Name
+                && u.CourseActivity.Course.Title == course.Title
             );
         }
 

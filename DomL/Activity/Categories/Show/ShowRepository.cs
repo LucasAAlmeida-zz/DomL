@@ -18,9 +18,7 @@ namespace DomL.DataAccess
         {
             var cleanTitle = Util.CleanString(title);
             return DomLContext.ShowSeason
-                .Include(u => u.Person)
                 .Include(u => u.Series)
-                .Include(u => u.Type)
                 .SingleOrDefault(u => 
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanTitle

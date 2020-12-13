@@ -18,7 +18,6 @@ namespace DomL.DataAccess
         {
             var cleanTitle = Util.CleanString(title);
             return DomLContext.Movie
-                .Include(u => u.Person)
                 .Include(u => u.Series)
                 .SingleOrDefault(u =>
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")

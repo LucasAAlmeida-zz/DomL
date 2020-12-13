@@ -90,7 +90,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DomLWindow.xaml">
+    <Page Include="Windows\RestoreWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\DomLWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -160,6 +164,13 @@
     <Compile Include="Activity\Categories\Comic\ComicService.cs" />
     <Compile Include="Activity\Categories\Book\BookService.cs" />
     <Compile Include="Activity\Categories\Auto\AutoService.cs" />
+    <Compile Include="Migrations\202012122017539_CourseChanges.cs" />
+    <Compile Include="Migrations\202012122017539_CourseChanges.designer.cs">
+      <DependentUpon>202012122017539_CourseChanges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\RestoreWindow.xaml.cs">
+      <DependentUpon>RestoreWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DomLServices.cs" />
     <Compile Include="Activity\Helpers\MediaType\MediaTypeService.cs" />
     <Compile Include="Activity\Helpers\Person\PersonService.cs" />
@@ -225,18 +236,18 @@
     <Compile Include="Activity\Categories\Book\BookWindow.xaml.cs">
       <DependentUpon>BookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DomLWindow.xaml.cs">
+    <Compile Include="Windows\DomLWindow.xaml.cs">
       <DependentUpon>DomLWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="BackupWindow.xaml">
+    <Page Include="Windows\BackupWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="BackupWindow.xaml.cs">
+    <Compile Include="Windows\BackupWindow.xaml.cs">
       <DependentUpon>BackupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -257,6 +268,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011162353482_AutoNameChange.resx">
       <DependentUpon>202011162353482_AutoNameChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012122017539_CourseChanges.resx">
+      <DependentUpon>202012122017539_CourseChanges.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

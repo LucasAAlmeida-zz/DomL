@@ -4,19 +4,18 @@ namespace DomL.Business.DTOs
 {
     public class GiftConsolidatedDTO : ActivityConsolidatedDTO
     {
-        public string Who;
-        public string IsToOrFrom;
         public string Gift;
+        public string IsToOrFrom;
+        public string Who;
         public string Description;
 
         public GiftConsolidatedDTO(Activity activity) : base(activity)
         {
             var giftActivity = activity.GiftActivity;
 
-            Who = giftActivity.Who;
-            IsToOrFrom = giftActivity.IsFrom ? "From" : "To";
             Gift = giftActivity.Gift;
-
+            IsToOrFrom = giftActivity.IsFrom ? "From" : "To";
+            Who = giftActivity.Who;
             Description = giftActivity.Description;
         }
         public GiftConsolidatedDTO(string[] rawSegments, Activity activity) : this(activity)
@@ -31,9 +30,10 @@ namespace DomL.Business.DTOs
         {
             CategoryName = "GIFT";
 
-            Who = backupSegments[4];
+            Gift = backupSegments[4];
             IsToOrFrom = backupSegments[5];
-            Gift = backupSegments[6];
+            Who = backupSegments[6];
+            Description = backupSegments[7];
 
             OriginalLine = GetInfoForOriginalLine() + "; "
                 + GetGiftActivityInfo().Replace("\t", "; ");
