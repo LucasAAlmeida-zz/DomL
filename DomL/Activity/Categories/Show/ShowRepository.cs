@@ -2,6 +2,7 @@
 using DomL.Business.Utils;
 using System.Linq;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace DomL.DataAccess
 {
@@ -17,7 +18,7 @@ namespace DomL.DataAccess
         public Show GetShowByTitle(string title)
         {
             var cleanTitle = Util.CleanString(title);
-            return DomLContext.ShowSeason
+            return DomLContext.Show
                 .Include(u => u.Series)
                 .SingleOrDefault(u => 
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
@@ -30,9 +31,16 @@ namespace DomL.DataAccess
             DomLContext.ShowActivity.Add(showActivity);
         }
 
-        public void CreateShowSeason(Show showSeason)
+        public void CreateShow(Show show)
         {
-            DomLContext.ShowSeason.Add(showSeason);
+            DomLContext.Show.Add(show);
+        }
+
+        public List<Show> GetAllShows()
+        {
+            return DomLContext.Show
+                .Include(u => u.Series)
+                .ToList();
         }
     }
 }

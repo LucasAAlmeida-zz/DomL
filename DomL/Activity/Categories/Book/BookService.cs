@@ -46,7 +46,7 @@ namespace DomL.Business.Services
             var bookActivity = new BookActivity() {
                 Activity = activity,
                 Book = book,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.BookActivity = bookActivity;
@@ -62,24 +62,35 @@ namespace DomL.Business.Services
 
         public static Book GetOrUpdateOrCreateBook(BookConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var book = GetByTitle(consolidated.Title, unitOfWork);
+            var instance = GetByTitle(consolidated.Title, unitOfWork);
 
-            if (book == null) {
-                book = new Book() {
-                    Title = Util.GetStringOrNull(consolidated.Title),
-                    Author = Util.GetStringOrNull(consolidated.Author),
+            var title = Util.GetStringOrNull(consolidated.Title);
+            var number = Util.GetStringOrNull(consolidated.Number);
+            var person = Util.GetStringOrNull(consolidated.Person);
+            var company = Util.GetStringOrNull(consolidated.Company);
+            var year = Util.GetIntOrZero(consolidated.Year);
+            var score = Util.GetStringOrNull(consolidated.Score);
+
+            if (instance == null) {
+                instance = new Book() {
+                    Title = title,
                     Series = series,
-                    Number = Util.GetStringOrNull(consolidated.Number),
-                    Publisher = Util.GetStringOrNull(consolidated.Publisher),
-                    Year = Util.GetIntOrZero(consolidated.Year),
-                    Score = Util.GetStringOrNull(consolidated.Score),
+                    Number = number,
+                    Author = person,
+                    Publisher = company,
+                    Year = year,
+                    Score = score,
                 };
-                unitOfWork.BookRepo.CreateBook(book);
             } else {
-                book.Series = series ?? book.Series;
+                instance.Series = series ?? instance.Series;
+                instance.Number = number ?? instance.Number;
+                instance.Author = person ?? instance.Author;
+                instance.Publisher = company ?? instance.Publisher;
+                instance.Year = year != 0 ? year : instance.Year;
+                instance.Score = score ?? instance.Score;
             }
 
-            return book;
+            return instance;
         }
 
         //TODO (add year to search)
@@ -96,7 +107,7 @@ namespace DomL.Business.Services
         {
             var book = activity.BookActivity.Book;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.BOOK_ID
+                u.CategoryId == Category.BOOK_ID
                 && u.BookActivity.Book.Title == book.Title
             );
         }

@@ -10,9 +10,6 @@ namespace DomL.Business.Entities
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int? CreatorId { get; set; }
-
-        [ForeignKey("CreatorId")]
-        public Person Creator { get; set; }
+        public string Person { get; set; }
     }
 }

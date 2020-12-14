@@ -33,12 +33,16 @@ namespace DomL.Business.Services
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
+        public static List<Show> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.ShowRepo.GetAllShows();
+        }
+
         private static void SaveFromConsolidated(ShowConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
             var showSeason = GetOrUpdateOrCreateShowSeason(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
-
             CreateShowActivity(activity, showSeason, consolidated.Description, unitOfWork);
         }
 
@@ -47,7 +51,7 @@ namespace DomL.Business.Services
             var showActivity = new ShowActivity() {
                 Activity = activity,
                 Show = showSeason,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.ShowActivity = showActivity;
@@ -58,27 +62,42 @@ namespace DomL.Business.Services
 
         private static Show GetOrUpdateOrCreateShowSeason(ShowConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var showSeason = GetShowByTitle(consolidated.Title, unitOfWork);
+            var instance = GetByTitle(consolidated.Title, unitOfWork);
 
-            if (showSeason == null) {
-                showSeason = new Show() {
-                    Title = Util.GetStringOrNull(consolidated.Title),
-                    Type = Util.GetStringOrNull(consolidated.Type),
+            var title = Util.GetStringOrNull(consolidated.Title);
+            var type = Util.GetStringOrNull(consolidated.Type);
+            var number = Util.GetStringOrNull(consolidated.Number);
+            var person = Util.GetStringOrNull(consolidated.Person);
+            var company = Util.GetStringOrNull(consolidated.Company);
+            var year = Util.GetIntOrZero(consolidated.Year);
+            var score = Util.GetStringOrNull(consolidated.Score);
+
+            if (instance == null) {
+                instance = new Show() {
+                    Title = title,
+                    Type = type,
                     Series = series,
-                    Number = Util.GetStringOrNull(consolidated.Number),
-                    Person = Util.GetStringOrNull(consolidated.Person),
-                    Company = Util.GetStringOrNull(consolidated.Company),
-                    Year = Util.GetIntOrZero(consolidated.Year),
-                    Score = Util.GetStringOrNull(consolidated.Score),
+                    Number = number,
+                    Person = person,
+                    Company = company,
+                    Year = year,
+                    Score = score,
                 };
-                unitOfWork.ShowRepo.CreateShowSeason(showSeason);
+            } else {
+                instance.Type = type ?? instance.Type;
+                instance.Series = series ?? instance.Series;
+                instance.Number = number ?? instance.Number;
+                instance.Person = person ?? instance.Person;
+                instance.Company = company ?? instance.Company;
+                instance.Year = year != 0 ? year : instance.Year;
+                instance.Score = score ?? instance.Score;
             }
 
-            return showSeason;
+            return instance;
         }
 
         //TODO colocar year na search
-        public static Show GetShowByTitle(string title, UnitOfWork unitOfWork)
+        public static Show GetByTitle(string title, UnitOfWork unitOfWork)
         {
             if (string.IsNullOrWhiteSpace(title)) {
                 return null;
@@ -90,7 +109,7 @@ namespace DomL.Business.Services
         {
             var showSeason = activity.ShowActivity.Show;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.SHOW_ID
+                u.CategoryId == Category.SHOW_ID
                 && u.ShowActivity.Show.Series.Name == showSeason.Series.Name && u.ShowActivity.Show.Title == showSeason.Title
             );
         }

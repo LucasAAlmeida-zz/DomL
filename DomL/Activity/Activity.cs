@@ -14,18 +14,25 @@ namespace DomL.Business.Entities
         public int CategoryId { get; set; }
         public int? StatusId { get; set; }
         public int? PairedActivityId { get; set; }
-        public int? ActivityBlockId { get; set; }
+        public int? BlockId { get; set; }
         [Required]
         public string OriginalLine { get; set; }
         
         [ForeignKey("CategoryId")]
-        public ActivityCategory Category { get; set; }
+        public Category Category { get; set; }
         [ForeignKey("StatusId")]
-        public ActivityStatus Status { get; set; }
+        public Status Status { get; set; }
         [ForeignKey("PairedActivityId")]
         public Activity PairedActivity { get; set; }
-        [ForeignKey("ActivityBlockId")]
-        public ActivityBlock ActivityBlock { get; set; }
+        [ForeignKey("BlockId")]
+        public Block Block { get; set; }
+
+        public string GetInfoMessage()
+        {
+            return "Date:\t\t" + Date.ToString("dd/MM/yyyy") + "\n" +
+                "Category:\t" + Category.Name + "\n" +
+                "Status:\t\t" + Status.Name;
+        }
 
         public virtual AutoActivity AutoActivity { get; set; }
         public virtual BookActivity BookActivity { get; set; }
@@ -46,8 +53,8 @@ namespace DomL.Business.Entities
         public virtual WorkActivity WorkActivity { get; set; }
     }
 
-    [Table("ActivityBlock")]
-    public class ActivityBlock
+    [Table("Block")]
+    public class Block
     {
         [Key]
         public int Id { get; set; }
@@ -55,8 +62,8 @@ namespace DomL.Business.Entities
         public string Name { get; set; }
     }
 
-    [Table("ActivityCategory")]
-    public class ActivityCategory
+    [Table("Category")]
+    public class Category
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -83,8 +90,8 @@ namespace DomL.Business.Entities
         public const int COURSE_ID = 18;
     }
 
-    [Table("ActivityStatus")]
-    public class ActivityStatus
+    [Table("Status")]
+    public class Status
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

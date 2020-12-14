@@ -15,7 +15,7 @@ namespace DomL.Business.DTOs
             Description = doomActivity.Description;
         }
 
-        public DoomConsolidatedDTO(string[] rawSegments, Activity activity) : this(activity)
+        public DoomConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             CategoryName = "DOOM";
 

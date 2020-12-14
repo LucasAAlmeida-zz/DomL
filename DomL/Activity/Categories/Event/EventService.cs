@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -31,7 +32,7 @@ namespace DomL.Business.Services
         {
             var eventActivity = new EventActivity() {
                 Activity = activity,
-                Description = description,
+                Description = Util.GetStringOrNull(description),
                 IsImportant = isImportant
             };
 

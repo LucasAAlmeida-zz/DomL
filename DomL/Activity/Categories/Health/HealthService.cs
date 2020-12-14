@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,6 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(HealthConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            Company specialty = CompanyService.GetOrCreateByName(consolidated.Specialty, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateHealthActivity(activity, consolidated.Specialty, consolidated.Description, unitOfWork);
         }
@@ -35,8 +34,8 @@ namespace DomL.Business.Services
         {
             var healthActivity = new HealthActivity() {
                 Activity = activity,
-                Specialty = specialty,
-                Description = description
+                Specialty = Util.GetStringOrNull(specialty),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.HealthActivity = healthActivity;
@@ -49,7 +48,7 @@ namespace DomL.Business.Services
         {
             var healthActivity = activity.HealthActivity;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.HEALTH_ID
+                u.CategoryId == Category.HEALTH_ID
                 && u.HealthActivity.Description == healthActivity.Description
             );
         }

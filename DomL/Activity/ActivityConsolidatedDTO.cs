@@ -23,22 +23,22 @@ namespace DomL.Business.DTOs
             DayOrder = activity.DayOrder.ToString();
 
             var pairedDate = (activity.PairedActivity != null) ? Util.GetFormatedDate(activity.PairedActivity.Date) : "????/??/??";
-            switch (activity.StatusId) {
-                case ActivityStatus.SINGLE:
+            switch (activity.Status.Id) {
+                case Status.SINGLE:
                     StatusName = "Single";
                     DatesStartAndFinish = "----------\t" + Date;
                     break;
-                case ActivityStatus.START:
+                case Status.START:
                     StatusName = "Start";
                     DatesStartAndFinish = Date + "\t" + pairedDate;
                     break;
-                case ActivityStatus.FINISH:
+                case Status.FINISH:
                     StatusName = "Finish";
                     DatesStartAndFinish = pairedDate + "\t" + Date;
                     break;
             }
 
-            BlockName = (activity.ActivityBlock != null) ? activity.ActivityBlock.Name : "-";
+            BlockName = (activity.Block != null) ? activity.Block.Name : "-";
         }
 
         public ActivityConsolidatedDTO(string[] segments)

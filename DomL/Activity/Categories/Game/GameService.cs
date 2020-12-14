@@ -49,25 +49,38 @@ namespace DomL.Business.Services
 
         private static Game GetOrUpdateOrCreateGame(ConsolidatedGameDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var game = GetGameByTitle(consolidated.Title, unitOfWork);
+            var instance = GetByTitle(consolidated.Title, unitOfWork);
 
-            if (game == null) {
-                game = new Game() {
-                    Title = Util.GetStringOrNull(consolidated.Title),
-                    Platform = Util.GetStringOrNull(consolidated.Platform),
+            var title = Util.GetStringOrNull(consolidated.Title);
+            var platform = Util.GetStringOrNull(consolidated.Platform);
+            var number = Util.GetStringOrNull(consolidated.Number);
+            var person = Util.GetStringOrNull(consolidated.Person);
+            var company = Util.GetStringOrNull(consolidated.Company);
+            var year = Util.GetIntOrZero(consolidated.Year);
+            var score = Util.GetStringOrNull(consolidated.Score);
+
+            if (instance == null) {
+                instance = new Game() {
+                    Title = title,
+                    Platform = platform,
                     Series = series,
-                    Number = Util.GetStringOrNull(consolidated.Number),
-                    Person = Util.GetStringOrNull(consolidated.Person),
-                    Company = Util.GetStringOrNull(consolidated.Company),
-                    Year = Util.GetIntOrZero(consolidated.Year),
-                    Score = Util.GetStringOrNull(consolidated.Score),
+                    Number = number,
+                    Person = person,
+                    Company = company,
+                    Year = year,
+                    Score = score,
                 };
-                unitOfWork.GameRepo.CreateGame(game);
             } else {
-                game.Series = series ?? game.Series;
+                instance.Platform = platform ?? instance.Platform;
+                instance.Series = series ?? instance.Series;
+                instance.Number = number ?? instance.Number;
+                instance.Person = person ?? instance.Person;
+                instance.Company = company ?? instance.Company;
+                instance.Year = year != 0 ? year : instance.Year;
+                instance.Score = score ?? instance.Score;
             }
 
-            return game;
+            return instance;
         }
 
         private static void CreateGameActivity(Activity activity, Game game, string description, UnitOfWork unitOfWork)
@@ -75,7 +88,7 @@ namespace DomL.Business.Services
             var gameActivity = new GameActivity() {
                 Activity = activity,
                 Game = game,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.GameActivity = gameActivity;
@@ -89,12 +102,12 @@ namespace DomL.Business.Services
         {
             var game = activity.GameActivity.Game;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.GAME_ID
+                u.CategoryId == Category.GAME_ID
                 && u.GameActivity.Game.Title == game.Title
             );
         }
 
-        public static Game GetGameByTitle(string title, UnitOfWork unitOfWork)
+        public static Game GetByTitle(string title, UnitOfWork unitOfWork)
         {
             if (string.IsNullOrWhiteSpace(title)) {
                 return null;

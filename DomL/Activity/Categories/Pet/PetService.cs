@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -33,8 +34,8 @@ namespace DomL.Business.Services
         {
             var petActivity = new PetActivity() {
                 Activity = activity,
-                Pet = pet,
-                Description = description
+                Pet = Util.GetStringOrNull(pet),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.PetActivity = petActivity;
@@ -47,7 +48,7 @@ namespace DomL.Business.Services
         {
             var pet = activity.PetActivity.Pet;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.AUTO_ID
+                u.CategoryId == Category.AUTO_ID
                 && u.PetActivity.Pet == pet
             );
         }

@@ -12,49 +12,51 @@ namespace DomL
     {
         public DomLWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            this.MonthTb.Text = (DateTime.Now.Month - 1).ToString();
-            this.YearTb.Text = DateTime.Now.Year.ToString();
+            MonthTb.Text = (DateTime.Now.Month - 1).ToString();
+            YearTb.Text = DateTime.Now.Year.ToString();
         }
 
         private void MenuFileExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void MenuViewBackupFull_Click(object sender, RoutedEventArgs e)
         {
             var backupFullWindow = new BackupWindow();
-            this.Visibility = Visibility.Hidden;
+            Visibility = Visibility.Hidden;
             backupFullWindow.Show();
         }
 
         private void MenuViewRestoreFull_Click(object sender, RoutedEventArgs e)
         {
             var restoreFullWindow = new RestoreWindow();
-            this.Visibility = Visibility.Hidden;
+            Visibility = Visibility.Hidden;
             restoreFullWindow.Show();
         }
 
         private void SubmeterButton_Click(object sender, RoutedEventArgs e)
         {
-            this.MessageLabel.Content = "";
-            var atividadesString = this.AtividadesTextBox.Text;
-            var month = int.Parse(this.MonthTb.Text);
-            var year = int.Parse(this.YearTb.Text);
+            MessageLabel.Content = "";
+            var atividadesString = AtividadesTextBox.Text;
+            var month = int.Parse(MonthTb.Text);
+            var year = int.Parse(YearTb.Text);
 
             try {
                 DomLServices.SaveFromRawMonthText(atividadesString, month, year);
-                this.MessageLabel.Content = "Atividades passadas para o banco com sucesso";
+                MessageLabel.Content = "Atividades passadas para o banco com sucesso";
 
                 DomLServices.WriteMonthRecapFile(month, year);
-                this.MessageLabel.Content = "Atividades do Mes escrito em arquivo com sucesso";
+                MessageLabel.Content = "Atividades do Mes escrito em arquivo com sucesso";
 
                 DomLServices.WriteYearRecapFiles(year);
-                this.MessageLabel.Content = "Atividades consolidadas do ano escritas em arquivo com sucesso";
+                MessageLabel.Content = "Atividades consolidadas do ano escritas em arquivo com sucesso";
+
+                MessageBox.Show("Funcionou!");
             } catch (Exception exception) {
-                this.MessageLabel2.Content = exception.Message;
+                MessageLabel2.Content = exception.Message;
                 Console.Write(exception);
             }
         }

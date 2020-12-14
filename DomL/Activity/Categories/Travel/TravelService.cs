@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -31,10 +32,10 @@ namespace DomL.Business.Services
         {
             var travelActivity = new TravelActivity() {
                 Activity = activity,
-                Transport = transport,
-                Origin = origin,
-                Destination = destination,
-                Description = description
+                Transport = Util.GetStringOrNull(transport),
+                Origin = Util.GetStringOrNull(origin),
+                Destination = Util.GetStringOrNull(destination),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.TravelActivity = travelActivity;

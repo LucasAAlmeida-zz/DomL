@@ -17,39 +17,39 @@
                         CategoryId = c.Int(nullable: false),
                         StatusId = c.Int(),
                         PairedActivityId = c.Int(),
-                        ActivityBlockId = c.Int(),
+                        BlockId = c.Int(),
                         OriginalLine = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ActivityBlock", t => t.ActivityBlockId)
-                .ForeignKey("dbo.ActivityCategory", t => t.CategoryId, cascadeDelete: true)
+                .ForeignKey("dbo.Block", t => t.BlockId)
+                .ForeignKey("dbo.Category", t => t.CategoryId, cascadeDelete: true)
                 .ForeignKey("dbo.Activity", t => t.PairedActivityId)
-                .ForeignKey("dbo.ActivityStatus", t => t.StatusId)
+                .ForeignKey("dbo.Status", t => t.StatusId)
                 .Index(t => t.CategoryId)
                 .Index(t => t.StatusId)
                 .Index(t => t.PairedActivityId)
-                .Index(t => t.ActivityBlockId);
-            
-            CreateTable(
-                "dbo.ActivityBlock",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
+                .Index(t => t.BlockId);
             
             CreateTable(
                 "dbo.AutoActivity",
                 c => new
                     {
                         Id = c.Int(nullable: false),
-                        AutoName = c.String(nullable: false),
+                        Auto = c.String(nullable: false),
                         Description = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Activity", t => t.Id)
                 .Index(t => t.Id);
+            
+            CreateTable(
+                "dbo.Block",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.BookActivity",
@@ -72,11 +72,11 @@
                         Id = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         Author = c.String(),
-                        Publisher = c.String(),
                         SeriesId = c.Int(),
                         Number = c.String(),
-                        Score = c.String(),
+                        Publisher = c.String(),
                         Year = c.Int(nullable: false),
+                        Score = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Series", t => t.SeriesId)
@@ -100,23 +100,12 @@
                     {
                         Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
-                        CreatorId = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Person", t => t.CreatorId)
-                .Index(t => t.CreatorId);
-            
-            CreateTable(
-                "dbo.Person",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
+                        Person = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.ActivityCategory",
+                "dbo.Category",
                 c => new
                     {
                         Id = c.Int(nullable: false),
@@ -175,9 +164,12 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Title = c.String(),
+                        Professor = c.String(),
+                        Area = c.String(),
+                        Degree = c.String(),
+                        Number = c.String(),
                         School = c.String(),
-                        Teacher = c.String(),
                         Year = c.Int(nullable: false),
                         Score = c.String(),
                     })
@@ -379,7 +371,7 @@
                 .Index(t => t.SeriesId);
             
             CreateTable(
-                "dbo.ActivityStatus",
+                "dbo.Status",
                 c => new
                     {
                         Id = c.Int(nullable: false),
@@ -413,63 +405,13 @@
                 .ForeignKey("dbo.Activity", t => t.Id)
                 .Index(t => t.Id);
             
-            CreateTable(
-                "dbo.Company",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Location",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.MediaType",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        Name = c.String(nullable: false),
-                        CategoryId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.ActivityCategory", t => t.CategoryId, cascadeDelete: true)
-                .Index(t => t.CategoryId);
-            
-            CreateTable(
-                "dbo.Score",
-                c => new
-                    {
-                        Id = c.Int(nullable: false),
-                        Name = c.String(nullable: false),
-                        Value = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
-            CreateTable(
-                "dbo.Transport",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
-            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.MediaType", "CategoryId", "dbo.ActivityCategory");
             DropForeignKey("dbo.WorkActivity", "Id", "dbo.Activity");
             DropForeignKey("dbo.TravelActivity", "Id", "dbo.Activity");
-            DropForeignKey("dbo.Activity", "StatusId", "dbo.ActivityStatus");
+            DropForeignKey("dbo.Activity", "StatusId", "dbo.Status");
             DropForeignKey("dbo.ShowActivity", "ShowId", "dbo.Show");
             DropForeignKey("dbo.Show", "SeriesId", "dbo.Series");
             DropForeignKey("dbo.ShowActivity", "Id", "dbo.Activity");
@@ -493,15 +435,13 @@
             DropForeignKey("dbo.ComicActivity", "ComicId", "dbo.Comic");
             DropForeignKey("dbo.Comic", "SeriesId", "dbo.Series");
             DropForeignKey("dbo.ComicActivity", "Id", "dbo.Activity");
-            DropForeignKey("dbo.Activity", "CategoryId", "dbo.ActivityCategory");
+            DropForeignKey("dbo.Activity", "CategoryId", "dbo.Category");
             DropForeignKey("dbo.BookActivity", "BookId", "dbo.Book");
             DropForeignKey("dbo.Book", "SeriesId", "dbo.Series");
             DropForeignKey("dbo.Series", "FranchiseId", "dbo.Franchise");
-            DropForeignKey("dbo.Franchise", "CreatorId", "dbo.Person");
             DropForeignKey("dbo.BookActivity", "Id", "dbo.Activity");
+            DropForeignKey("dbo.Activity", "BlockId", "dbo.Block");
             DropForeignKey("dbo.AutoActivity", "Id", "dbo.Activity");
-            DropForeignKey("dbo.Activity", "ActivityBlockId", "dbo.ActivityBlock");
-            DropIndex("dbo.MediaType", new[] { "CategoryId" });
             DropIndex("dbo.WorkActivity", new[] { "Id" });
             DropIndex("dbo.TravelActivity", new[] { "Id" });
             DropIndex("dbo.Show", new[] { "SeriesId" });
@@ -526,24 +466,18 @@
             DropIndex("dbo.Comic", new[] { "SeriesId" });
             DropIndex("dbo.ComicActivity", new[] { "ComicId" });
             DropIndex("dbo.ComicActivity", new[] { "Id" });
-            DropIndex("dbo.Franchise", new[] { "CreatorId" });
             DropIndex("dbo.Series", new[] { "FranchiseId" });
             DropIndex("dbo.Book", new[] { "SeriesId" });
             DropIndex("dbo.BookActivity", new[] { "BookId" });
             DropIndex("dbo.BookActivity", new[] { "Id" });
             DropIndex("dbo.AutoActivity", new[] { "Id" });
-            DropIndex("dbo.Activity", new[] { "ActivityBlockId" });
+            DropIndex("dbo.Activity", new[] { "BlockId" });
             DropIndex("dbo.Activity", new[] { "PairedActivityId" });
             DropIndex("dbo.Activity", new[] { "StatusId" });
             DropIndex("dbo.Activity", new[] { "CategoryId" });
-            DropTable("dbo.Transport");
-            DropTable("dbo.Score");
-            DropTable("dbo.MediaType");
-            DropTable("dbo.Location");
-            DropTable("dbo.Company");
             DropTable("dbo.WorkActivity");
             DropTable("dbo.TravelActivity");
-            DropTable("dbo.ActivityStatus");
+            DropTable("dbo.Status");
             DropTable("dbo.Show");
             DropTable("dbo.ShowActivity");
             DropTable("dbo.PurchaseActivity");
@@ -562,14 +496,13 @@
             DropTable("dbo.CourseActivity");
             DropTable("dbo.Comic");
             DropTable("dbo.ComicActivity");
-            DropTable("dbo.ActivityCategory");
-            DropTable("dbo.Person");
+            DropTable("dbo.Category");
             DropTable("dbo.Franchise");
             DropTable("dbo.Series");
             DropTable("dbo.Book");
             DropTable("dbo.BookActivity");
+            DropTable("dbo.Block");
             DropTable("dbo.AutoActivity");
-            DropTable("dbo.ActivityBlock");
             DropTable("dbo.Activity");
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -24,6 +25,26 @@ namespace DomL.Business.Utils
                 return null;
             }
             return value.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "");
+        }
+
+        public static bool ListContainsText(List<string> list, string searched)
+        {
+            var cleanSearched = CleanString(searched);
+            return list.Any(u => CleanString(u) == cleanSearched);
+        }
+
+        public static void FillSegmentosStack(string[] segments, StackPanel segmentosStack)
+        {
+            for (int index = 1; index < segments.Length; index++) {
+                var segmento = segments[index];
+                var dynLabel = new TextBox {
+                    Text = segmento,
+                    IsReadOnly = true,
+                    Margin = new Thickness(5)
+                };
+
+                segmentosStack.Children.Add(dynLabel);
+            }
         }
 
         public static string GetFormatedDate(DateTime date)
@@ -60,8 +81,26 @@ namespace DomL.Business.Utils
         public static List<string> GetDefaultNumberList()
         {
             var list = new List<string>();
-            for (int i = 1; i < 30; i++) {
-                list.Add(i.ToString("00"));
+            for (int number=0; number<=10; number++) {
+                list.Add(number.ToString("00"));
+            }
+            return list;
+        }
+
+        public static List<string> GetDefaultYearList()
+        {
+            var list = new List<string>();
+            for (int year=2020; year>=1988; year--) {
+                list.Add(year.ToString());
+            }
+            return list;
+        }
+
+        public static List<string> GetDefaultScoreList()
+        {
+            var list = new List<string>();
+            for (int score=100; score>0; score-=5) {
+                list.Add(score.ToString());
             }
             return list;
         }

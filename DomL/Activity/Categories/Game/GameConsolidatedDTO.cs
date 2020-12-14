@@ -33,7 +33,7 @@ namespace DomL.Business.DTOs
             Description = gameActivity.Description ?? "-";
         }
 
-        public ConsolidatedGameDTO(GameWindow gameWindow, Activity activity) : this(activity)
+        public ConsolidatedGameDTO(GameWindow gameWindow, Activity activity) : base(activity)
         {
             CategoryName = "GAME";
 

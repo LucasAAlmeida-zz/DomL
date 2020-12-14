@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace DomL.Business.Services
         {
             var doomActivity = new DoomActivity() {
                 Activity = activity,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.DoomActivity = doomActivity;
@@ -46,7 +47,7 @@ namespace DomL.Business.Services
         {
             var description = activity.DoomActivity.Description;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.DOOM_ID
+                u.CategoryId == Category.DOOM_ID
                 && u.DoomActivity.Description == description
             );
         }

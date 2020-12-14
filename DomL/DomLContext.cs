@@ -6,9 +6,9 @@ namespace DomL.DataAccess
     public class DomLContext : DbContext
     {
         public DbSet<Activity> Activity { get; set; }
-        public DbSet<ActivityBlock> ActivityBlock { get; set; }
-        public DbSet<ActivityCategory> ActivityCategory { get; set; }
-        public DbSet<ActivityStatus> ActivityStatus { get; set; }
+        public DbSet<Block> ActivityBlock { get; set; }
+        public DbSet<Category> ActivityCategory { get; set; }
+        public DbSet<Status> ActivityStatus { get; set; }
 
         public DbSet<AutoActivity> AutoActivity { get; set; }
 
@@ -44,20 +44,14 @@ namespace DomL.DataAccess
         public DbSet<PurchaseActivity> PurchaseActivity { get; set; }
 
         public DbSet<ShowActivity> ShowActivity { get; set; }
-        public DbSet<Show> ShowSeason { get; set; }
+        public DbSet<Show> Show { get; set; }
 
         public DbSet<TravelActivity> TravelActivity { get; set; }
         
         public DbSet<WorkActivity> WorkActivity { get; set; }
 
-        public DbSet<Person> Person { get; set; }
-        public DbSet<MediaType> MediaType { get; set; }
-        public DbSet<Company> Company { get; set; }
-        public DbSet<Location> Location { get; set; }
-        public DbSet<Transport> Transport { get; set; }
         public DbSet<Series> Series { get; set; }
         public DbSet<Franchise> Franchise { get; set; }
-        public DbSet<Score> Score { get; set; }
 
         public DomLContext() : base("name=DefaultConnection") { }
     }

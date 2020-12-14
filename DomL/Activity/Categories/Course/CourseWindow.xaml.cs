@@ -19,9 +19,9 @@ namespace DomL.Presentation
         {
             InitializeComponent();
 
-            this.UnitOfWork = unitOfWork;
+            UnitOfWork = unitOfWork;
 
-            this.InfoMessage.Content =
+            InfoMessage.Content =
                 "Date:\t\t" + activity.Date.ToString("dd/MM/yyyy") + "\n" +
                 "Category:\t" + activity.Category.Name + "\n" +
                 "Status:\t\t" + activity.Status.Name;
@@ -34,13 +34,10 @@ namespace DomL.Presentation
                     Margin = new Thickness(5)
                 };
 
-                this.SegmentosStack.Children.Add(dynLabel);
+                SegmentosStack.Children.Add(dynLabel);
             }
 
             var names = CourseService.GetAll(unitOfWork).Select(u => u.Title).ToList();
-            var personNames = PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList();
-            var companyNames = CompanyService.GetAll(unitOfWork).Select(u => u.Name).ToList();
-            var scoreValues = ScoreService.GetAll(unitOfWork).Select(u => u.Value.ToString()).ToList();
 
             segments[0] = "";
             var remainingSegments = segments;
@@ -54,12 +51,6 @@ namespace DomL.Presentation
 
                 if (names.Contains(searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
-                } else if (companyNames.Contains(searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
-                } else if (personNames.Contains(searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, 2, searched, indexesToAvoid);
-                } else if (scoreValues.Contains(searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, 3, searched, indexesToAvoid);
                 } else {
                     Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
                 }
@@ -67,56 +58,49 @@ namespace DomL.Presentation
                 remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
             }
 
-            Util.SetComboBox(this.TitleCB, segments, names, orderedSegments[0]);
-            Util.SetComboBox(this.SchoolCB, segments, companyNames, orderedSegments[1]);
-            Util.SetComboBox(this.ProfessorCB, segments, personNames, orderedSegments[2]);
-            Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[3]);
-            Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[4]);
+            Util.SetComboBox(TitleCB, segments, names, orderedSegments[0]);
+            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[4]);
 
-            this.NameCB_LostFocus(null, null);
-            this.TeacherCB_LostFocus(null, null);
-            this.SchoolCB_LostFocus(null, null);
+            NameCB_LostFocus(null, null);
+            TeacherCB_LostFocus(null, null);
+            SchoolCB_LostFocus(null, null);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(this.TitleCB.Text) || string.IsNullOrWhiteSpace(this.SchoolCB.Text)) {
+            if (string.IsNullOrWhiteSpace(TitleCB.Text) || string.IsNullOrWhiteSpace(SchoolCB.Text)) {
                 return;
             }
-            this.DialogResult = true;
+            DialogResult = true;
         }
 
         private void NameCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.TitleCB.IsKeyboardFocusWithin) {
+            if (TitleCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var name = this.TitleCB.Text;
-            var course = CourseService.GetCourseByName(name, this.UnitOfWork);
-            Util.ChangeInfoLabel(name, course, this.NameInfoLb);
+            var name = TitleCB.Text;
+            var course = CourseService.GetByName(name, UnitOfWork);
+            Util.ChangeInfoLabel(name, course, NameInfoLb);
         }
 
         private void TeacherCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.ProfessorCB.IsKeyboardFocusWithin) {
+            if (ProfessorCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var teacherName = this.ProfessorCB.Text;
-            var teacher = PersonService.GetByName(teacherName, this.UnitOfWork);
-            Util.ChangeInfoLabel(teacherName, teacher, this.ProfessorInfoLb);
+            var teacherName = ProfessorCB.Text;
         }
 
         private void SchoolCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.SchoolCB.IsKeyboardFocusWithin) {
+            if (SchoolCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var schoolName = this.SchoolCB.Text;
-            var school = CompanyService.GetByName(schoolName, this.UnitOfWork);
-            Util.ChangeInfoLabel(schoolName, school, this.SchoolInfoLb);
+            var schoolName = SchoolCB.Text;
         }
     }
 }

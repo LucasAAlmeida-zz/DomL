@@ -35,7 +35,7 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ComicConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(consolidated.Series, unitOfWork);
 
             var comicVolume = GetOrUpdateOrCreateComicVolume(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
@@ -44,23 +44,38 @@ namespace DomL.Business.Services
 
         private static Comic GetOrUpdateOrCreateComicVolume(ComicConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var comic = GetComicByTitle(consolidated.Title, unitOfWork);
+            var instance = GetByTitle(consolidated.Title, unitOfWork);
 
-            if (comic == null) {
-                comic = new Comic() {
-                    Title = Util.GetStringOrNull(consolidated.Title),
-                    Author = Util.GetStringOrNull(consolidated.Author),
-                    Type = Util.GetStringOrNull(consolidated.Type),
+            var title = Util.GetStringOrNull(consolidated.Title);
+            var type = Util.GetStringOrNull(consolidated.Type);
+            var number = Util.GetStringOrNull(consolidated.Number);
+            var person = Util.GetStringOrNull(consolidated.Person);
+            var company = Util.GetStringOrNull(consolidated.Company);
+            var year = Util.GetIntOrZero(consolidated.Year);
+            var score = Util.GetStringOrNull(consolidated.Score);
+
+            if (instance == null) {
+                instance = new Comic() {
+                    Title = title,
+                    Type = type,
                     Series = series,
-                    Number = Util.GetStringOrNull(consolidated.Number),
-                    Publisher = Util.GetStringOrNull(consolidated.Publisher),
-                    Year = Util.GetIntOrZero(consolidated.Year),
-                    Score = Util.GetStringOrNull(consolidated.Score),
+                    Number = number,
+                    Author = person,
+                    Publisher = company,
+                    Year = year,
+                    Score = score,
                 };
-                unitOfWork.ComicRepo.CreateComicVolume(comic);
+            } else {
+                instance.Type = type ?? instance.Type;
+                instance.Series = series ?? instance.Series;
+                instance.Number = number ?? instance.Number;
+                instance.Author = person ?? instance.Author;
+                instance.Publisher = company ?? instance.Publisher;
+                instance.Year = year != 0 ? year : instance.Year;
+                instance.Score = score ?? instance.Score;
             }
 
-            return comic;
+            return instance;
         }
 
         private static void CreateComicActivity(Activity activity, Comic comic, string description, UnitOfWork unitOfWork)
@@ -68,7 +83,7 @@ namespace DomL.Business.Services
             var comicActivity = new ComicActivity() {
                 Activity = activity,
                 Comic = comic,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.ComicActivity = comicActivity;
@@ -78,7 +93,7 @@ namespace DomL.Business.Services
         }
 
         //TODO add year to search
-        public static Comic GetComicByTitle(string title, UnitOfWork unitOfWork)
+        public static Comic GetByTitle(string title, UnitOfWork unitOfWork)
         {
             if (string.IsNullOrWhiteSpace(title)) {
                 return null;
@@ -91,7 +106,7 @@ namespace DomL.Business.Services
         {
             var comic = activity.ComicActivity.Comic;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.COMIC_ID
+                u.CategoryId == Category.COMIC_ID
                 && u.ComicActivity.Comic.Title == comic.Title
             );
         }

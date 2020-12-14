@@ -39,7 +39,6 @@ namespace DomL.Business.Services
             var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
             var movie = GetOrUpdateOrCreateMovie(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
-
             CreateMovieActivity(activity, movie, consolidated.Description, unitOfWork);
         }
 
@@ -48,7 +47,7 @@ namespace DomL.Business.Services
             var movieActivity = new MovieActivity() {
                 Activity = activity,
                 Movie = movie,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.MovieActivity = movieActivity;
@@ -59,22 +58,35 @@ namespace DomL.Business.Services
 
         private static Movie GetOrUpdateOrCreateMovie(MovieConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
         {
-            var movie = unitOfWork.MovieRepo.GetMovieByTitle(consolidated.Title);
+            var instance = GetByTitle(consolidated.Title, unitOfWork);
 
-            if (movie == null) {
-                movie = new Movie() {
-                    Person = Util.GetStringOrNull(consolidated.Person),
+            var title = Util.GetStringOrNull(consolidated.Title);
+            var number = Util.GetStringOrNull(consolidated.Number);
+            var person = Util.GetStringOrNull(consolidated.Person);
+            var company = Util.GetStringOrNull(consolidated.Company);
+            var year = Util.GetIntOrZero(consolidated.Year);
+            var score = Util.GetStringOrNull(consolidated.Score);
+
+            if (instance == null) {
+                instance = new Movie() {
+                    Title = title,
                     Series = series,
-                    Title = Util.GetStringOrNull(consolidated.Title),
-                    Number = Util.GetStringOrNull(consolidated.Number),
-                    Company = Util.GetStringOrNull(consolidated.Company),
-                    Year = Util.GetIntOrZero(consolidated.Year),
-                    Score = Util.GetStringOrNull(consolidated.Score),
+                    Number = number,
+                    Person = person,
+                    Company = company,
+                    Year = year,
+                    Score = score,
                 };
-                unitOfWork.MovieRepo.CreateMovie(movie);
+            } else {
+                instance.Series = series ?? instance.Series;
+                instance.Number = number ?? instance.Number;
+                instance.Person = person ?? instance.Person;
+                instance.Company = company ?? instance.Company;
+                instance.Year = year != 0 ? year : instance.Year;
+                instance.Score = score ?? instance.Score;
             }
 
-            return movie;
+            return instance;
         }
 
         public static Movie GetByTitle(string title, UnitOfWork unitOfWork)
@@ -89,7 +101,7 @@ namespace DomL.Business.Services
         {
             var movie = activity.MovieActivity.Movie;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.MOVIE_ID
+                u.CategoryId == Category.MOVIE_ID
                 && u.MovieActivity.Movie.Title == movie.Title
             );
         }

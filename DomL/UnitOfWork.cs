@@ -26,14 +26,8 @@ public class UnitOfWork : IDisposable
     public TravelRepository TravelRepo { get; private set; }
     public WorkRepository WorkRepo { get; private set; }
 
-    public PersonRepository PersonRepo { get; private set; }
-    public CompanyRepository CompanyRepo { get; internal set; }
-    public LocationRepository LocationRepo { get; internal set; }
-    public TransportRepository TransportRepo { get; internal set; }
-    public MediaTypeRepository MediaTypeRepo { get; internal set; }
     public SeriesRepository SeriesRepo { get; private set; }
     public FranchiseRepository FranchiseRepo { get; internal set; }
-    public ScoreRepository ScoreRepo { get; internal set; }
 
     public UnitOfWork(DomLContext context)
     {
@@ -60,13 +54,7 @@ public class UnitOfWork : IDisposable
         WorkRepo = new WorkRepository(_context);
 
         SeriesRepo = new SeriesRepository(_context);
-        PersonRepo = new PersonRepository(_context);
-        MediaTypeRepo = new MediaTypeRepository(_context);
-        CompanyRepo = new CompanyRepository(_context);
-        LocationRepo = new LocationRepository(_context);
-        TransportRepo = new TransportRepository(_context);
         FranchiseRepo = new FranchiseRepository(_context);
-        ScoreRepo = new ScoreRepository(_context);
     }
 
     public int Complete()

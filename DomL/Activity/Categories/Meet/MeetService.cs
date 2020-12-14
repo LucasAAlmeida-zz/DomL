@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -23,19 +24,17 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(MeetConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var person = PersonService.CreatePerson(consolidated.Person, unitOfWork);
-
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateMeetActivity(activity, consolidated.Person, consolidated.Origin, consolidated.Description, unitOfWork);
         }
 
-        private static void CreateMeetActivity(Activity activity, string name, string origin, string description, UnitOfWork unitOfWork)
+        private static void CreateMeetActivity(Activity activity, string person, string origin, string description, UnitOfWork unitOfWork)
         {
             var meetActivity = new MeetActivity() {
                 Activity = activity,
-                Person = name,
-                Origin = origin,
-                Description = description
+                Person = Util.GetStringOrNull(person),
+                Origin = Util.GetStringOrNull(origin),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.MeetActivity = meetActivity;

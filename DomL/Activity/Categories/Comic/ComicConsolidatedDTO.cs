@@ -6,11 +6,11 @@ namespace DomL.Business.DTOs
     public class ComicConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string Author;
+        public string Person;
         public string Type;
-        public string SeriesName;
+        public string Series;
         public string Number;
-        public string Publisher;
+        public string Company;
         public string Year;
         public string Score;
         public string Description;
@@ -23,11 +23,11 @@ namespace DomL.Business.DTOs
             var comic = comicActivity.Comic;
 
             Title = comic.Title;
-            Author = comic.Author ?? "-";
+            Person = comic.Author ?? "-";
             Type = comic.Type ?? "-";
-            SeriesName = comic.Series.Name;
+            Series = comic.Series.Name;
             Number = comic.Number ?? "-";
-            Publisher = comic.Publisher ?? "-";
+            Company = comic.Publisher ?? "-";
             Year = comic.Year.ToString();
             Score = comic.Score ?? "-";
             Description = comicActivity.Description ?? "-";
@@ -38,11 +38,11 @@ namespace DomL.Business.DTOs
             CategoryName = "COMIC";
 
             Title = comicWindow.TitleCB.Text;
-            Author = comicWindow.AuthorCB.Text;
+            Person = comicWindow.AuthorCB.Text;
             Type = comicWindow.TypeCB.Text;
-            SeriesName = comicWindow.SeriesCB.Text;
+            Series = comicWindow.SeriesCB.Text;
             Number = comicWindow.NumberCB.Text;
-            Publisher = comicWindow.PublisherCB.Text;
+            Company = comicWindow.PublisherCB.Text;
             Year = comicWindow.YearCB.Text;
             Score = comicWindow.ScoreCB.Text;
             Description = comicWindow.DescriptionCB.Text;
@@ -53,11 +53,11 @@ namespace DomL.Business.DTOs
             CategoryName = "COMIC";
 
             Title = backupSegments[4];
-            Author = backupSegments[5];
+            Person = backupSegments[5];
             Type = backupSegments[6];
-            SeriesName = backupSegments[7];
+            Series = backupSegments[7];
             Number = backupSegments[8];
-            Publisher = backupSegments[9];
+            Company = backupSegments[9];
             Year = backupSegments[10];
             Score = backupSegments[11];
             Description = backupSegments[12];
@@ -81,9 +81,9 @@ namespace DomL.Business.DTOs
         private string GetComicActivityInfo()
         {
             return Title
-                + "\t" + Author + "\t" + Type
-                + "\t" + SeriesName + "\t" + Number
-                + "\t" + Publisher + "\t" + Year
+                + "\t" + Person + "\t" + Type
+                + "\t" + Series + "\t" + Number
+                + "\t" + Company + "\t" + Year
                 + "\t" + Score + "\t" + Description;
         }
     }

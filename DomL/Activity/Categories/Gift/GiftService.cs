@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -33,10 +34,10 @@ namespace DomL.Business.Services
         {
             var giftActivity = new GiftActivity() {
                 Activity = activity,
-                Gift = gift,
+                Gift = Util.GetStringOrNull(gift),
                 IsFrom = isFrom,
-                Who = who,
-                Description = description
+                Who = Util.GetStringOrNull(who),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.GiftActivity = giftActivity;

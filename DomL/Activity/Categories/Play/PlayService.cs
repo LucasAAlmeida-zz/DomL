@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.DataAccess;
 using System;
 using System.IO;
@@ -27,12 +28,12 @@ namespace DomL.Business.Services
             CreatePlayActivity(activity, consolidated.Who, consolidated.Description, unitOfWork);
         }
 
-        private static void CreatePlayActivity(Activity activity, string who, string description, UnitOfWork unitOfWork)
+        private static void CreatePlayActivity(Activity activity, string person, string description, UnitOfWork unitOfWork)
         {
             var playActivity = new PlayActivity() {
                 Activity = activity,
-                Who = who,
-                Description = description
+                Who = Util.GetStringOrNull(person),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.PlayActivity = playActivity;

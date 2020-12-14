@@ -45,7 +45,7 @@ namespace DomL.Business.Services
                 unitOfWork.ActivityRepo.DeleteAllFromMonth(month, year);
                 unitOfWork.Complete();
 
-                ActivityBlock currentActivityBlock = null;
+                Block currentActivityBlock = null;
                 var date = new DateTime(year, month, 1);
                 var dayOrder = 0;
 
@@ -77,7 +77,7 @@ namespace DomL.Business.Services
                             DayOrder = dayOrder,
                             Status = status,
                             Category = category,
-                            ActivityBlock = currentActivityBlock,
+                            Block = currentActivityBlock,
                             OriginalLine = rawLine
                         };
 
@@ -95,7 +95,7 @@ namespace DomL.Business.Services
 
         public static void RestoreFromFile(string fileDir, int categoryId)
         {
-            ActivityCategory category;
+            Category category;
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
 
@@ -121,7 +121,7 @@ namespace DomL.Business.Services
         public static void BackupToFile(string fileDir, int categoryId)
         {
             List<Activity> activities;
-            ActivityCategory category;
+            Category category;
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 activities = unitOfWork.ActivityRepo.GetAllInclusiveFromCategory(categoryId);
                 category = unitOfWork.ActivityRepo.GetCategoryById(categoryId);
@@ -169,7 +169,7 @@ namespace DomL.Business.Services
             Util.CreateDirectory(fileDir);
 
             List<Activity> yearActivities;
-            List<ActivityCategory> categories;
+            List<Category> categories;
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
                 yearActivities = unitOfWork.ActivityRepo.GetAllInclusiveFromYear(year);
                 categories = unitOfWork.ActivityRepo.GetAllCategories();
@@ -203,26 +203,26 @@ namespace DomL.Business.Services
             }
 
             using (var file = new StreamWriter(fileDir + "Statistics.txt")) {
-                file.WriteLine("Jogos começados:\t" + CountStarted(activities, ActivityCategory.GAME_ID));
-                file.WriteLine("Jogos terminados:\t" + CountFinished(activities, ActivityCategory.GAME_ID));
-                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, ActivityCategory.SHOW_ID));
-                file.WriteLine("Livros lidos:\t" + CountFinished(activities, ActivityCategory.BOOK_ID));
-                file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, ActivityCategory.COMIC_ID));
-                file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, ActivityCategory.MOVIE_ID));
-                file.WriteLine("Viagens feitas:\t" + CountFinished(activities, ActivityCategory.TRAVEL_ID));
-                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, ActivityCategory.MEET_ID));
-                file.WriteLine("Compras notáveis:\t" + CountFinished(activities, ActivityCategory.PURCHASE_ID));
+                file.WriteLine("Jogos começados:\t" + CountStarted(activities, Category.GAME_ID));
+                file.WriteLine("Jogos terminados:\t" + CountFinished(activities, Category.GAME_ID));
+                file.WriteLine("Temporadas de séries assistidas:\t" + CountFinished(activities, Category.SHOW_ID));
+                file.WriteLine("Livros lidos:\t" + CountFinished(activities, Category.BOOK_ID));
+                file.WriteLine("K Páginas de comics lidos:\t" + CountFinished(activities, Category.COMIC_ID));
+                file.WriteLine("Filmes assistidos:\t" + CountFinished(activities, Category.MOVIE_ID));
+                file.WriteLine("Viagens feitas:\t" + CountFinished(activities, Category.TRAVEL_ID));
+                file.WriteLine("Pessoas novas conhecidas:\t" + CountFinished(activities, Category.MEET_ID));
+                file.WriteLine("Compras notáveis:\t" + CountFinished(activities, Category.PURCHASE_ID));
             }
         }
 
         private static int CountStarted(List<Activity> activities, int categoryId)
         {
-            return activities.Count(u => u.CategoryId == categoryId && u.StatusId != ActivityStatus.FINISH);
+            return activities.Count(u => u.CategoryId == categoryId && u.StatusId != Status.FINISH);
         }
 
         private static int CountFinished(List<Activity> activities, int categoryId)
         {
-            return activities.Count(u => u.CategoryId == categoryId && u.StatusId != ActivityStatus.START);
+            return activities.Count(u => u.CategoryId == categoryId && u.StatusId != Status.START);
         }
     }
 }

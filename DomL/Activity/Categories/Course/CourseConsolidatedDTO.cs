@@ -6,7 +6,7 @@ namespace DomL.Business.DTOs
     public class CourseConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string Professor;
+        public string professor;
         public string Area;
         public string Degree;
         public string Number;
@@ -23,7 +23,7 @@ namespace DomL.Business.DTOs
             var course = courseActivity.Course;
 
             Title = course.Title;
-            Professor = course.Professor ?? "-";
+            professor = course.Professor ?? "-";
             Area = course.Area ?? "-";
             Degree = course.Degree;
             Number = course.Number ?? "-";
@@ -38,7 +38,7 @@ namespace DomL.Business.DTOs
             CategoryName = "COURSE";
 
             Title = courseWindow.TitleCB.Text;
-            Professor = courseWindow.ProfessorCB.Text;
+            professor = courseWindow.ProfessorCB.Text;
             Area = courseWindow.AreaCB.Text;
             Degree = courseWindow.DegreeCB.Text;
             Number = courseWindow.NumberCB.Text;
@@ -53,7 +53,7 @@ namespace DomL.Business.DTOs
             CategoryName = "COURSE";
 
             Title = backupSegments[4];
-            Professor = backupSegments[5];
+            professor = backupSegments[5];
             Area = backupSegments[6];
             Degree = backupSegments[7];
             Number = backupSegments[8];
@@ -81,7 +81,7 @@ namespace DomL.Business.DTOs
         public string GetCourseActivityInfo()
         {
             return Title 
-                + "\t" + Professor + "\t" + Area
+                + "\t" + professor + "\t" + Area
                 + "\t" + Degree + "\t" + Number
                 + "\t" + School + "\t" + Year
                 + "\t" + Score + "\t" + Description;

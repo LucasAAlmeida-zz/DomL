@@ -39,7 +39,9 @@ namespace DomL.DataAccess
 
         public List<Game> GetAllGames()
         {
-            return DomLContext.Game.ToList();
+            return DomLContext.Game
+                .Include(u => u.Series)
+                .ToList();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace DomL.DataAccess.Repositories
         {
             return GetAllQueryableInclusive()
                 .Where(u =>
-                    u.Status.Id == ActivityStatus.START
+                    u.Status.Id == Status.START
                     && u.Date <= Date
                     && u.PairedActivityId == null
                 );
@@ -51,7 +51,7 @@ namespace DomL.DataAccess.Repositories
             return DomLContext.Activity
                 .Include(u => u.Category)
                 .Include(u => u.Status)
-                .Include(u => u.ActivityBlock)
+                .Include(u => u.Block)
                 .Include(u => u.AutoActivity)
                 .Include(u => u.BookActivity.Book.Series)
                 .Include(u => u.ComicActivity.Comic.Series)
@@ -143,37 +143,37 @@ namespace DomL.DataAccess.Repositories
             );
         }
 
-        public void CreateActivityBlock(ActivityBlock activityBlock)
+        public void CreateActivityBlock(Block activityBlock)
         {
             DomLContext.ActivityBlock.Add(activityBlock);
         }
 
-        public ActivityBlock GetActivityBlockByName(string blockName)
+        public Block GetActivityBlockByName(string blockName)
         {
             return DomLContext.ActivityBlock.SingleOrDefault(u => u.Name == blockName);
         }
 
-        public ActivityCategory GetCategoryByName(string categoryName)
+        public Category GetCategoryByName(string categoryName)
         {
             return DomLContext.ActivityCategory.SingleOrDefault(u => u.Name == categoryName);
         }
 
-        public ActivityCategory GetCategoryById(int id)
+        public Category GetCategoryById(int id)
         {
             return DomLContext.ActivityCategory.SingleOrDefault(u => u.Id == id);
         }
 
-        public List<ActivityCategory> GetAllCategories()
+        public List<Category> GetAllCategories()
         {
             return DomLContext.ActivityCategory.ToList();
         }
         
-        public ActivityStatus GetStatusByName(string statusName)
+        public Status GetStatusByName(string statusName)
         {
             return DomLContext.ActivityStatus.SingleOrDefault(u => u.Name == statusName);
         }
 
-        public ActivityStatus GetStatusById(int id)
+        public Status GetStatusById(int id)
         {
             return DomLContext.ActivityStatus.SingleOrDefault(u => u.Id == id);
         }

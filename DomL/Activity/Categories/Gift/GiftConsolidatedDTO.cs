@@ -18,7 +18,7 @@ namespace DomL.Business.DTOs
             Who = giftActivity.Who;
             Description = giftActivity.Description;
         }
-        public GiftConsolidatedDTO(string[] rawSegments, Activity activity) : this(activity)
+        public GiftConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
             Gift = rawSegments[1];
             IsToOrFrom = rawSegments[2];

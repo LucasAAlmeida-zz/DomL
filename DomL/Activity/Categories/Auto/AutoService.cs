@@ -1,5 +1,6 @@
 ﻿using DomL.Business.DTOs;
 using DomL.Business.Entities;
+using DomL.Business.Utils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,8 +30,8 @@ namespace DomL.Business.Services
         {
             var autoActivity = new AutoActivity() {
                 Activity = activity,
-                Auto = autoName,
-                Description = description
+                Auto = Util.GetStringOrNull(autoName),
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.AutoActivity = autoActivity;
@@ -43,7 +44,7 @@ namespace DomL.Business.Services
         {
             var autoActivity = activity.AutoActivity;
             return previousStartingActivities.Where(u =>
-                u.CategoryId == ActivityCategory.AUTO_ID
+                u.CategoryId == Category.AUTO_ID
                 && u.AutoActivity.Auto == autoActivity.Auto
             );
         }

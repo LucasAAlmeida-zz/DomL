@@ -109,9 +109,6 @@
     <Compile Include="Activity\Categories\Work\WorkRepository.cs" />
     <Compile Include="Activity\Categories\Work\WorkService.cs" />
     <Compile Include="Activity\Categories\Work\WorkConsolidatedDTO.cs" />
-    <Compile Include="Activity\Helpers\Score\Score.cs" />
-    <Compile Include="Activity\Helpers\Score\ScoreRepository.cs" />
-    <Compile Include="Activity\Helpers\Score\ScoreService.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -133,23 +130,16 @@
     <Compile Include="Activity\Categories\Auto\AutoConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Book\BookConsolidatedDTO.cs" />
     <Compile Include="Activity\Categories\Travel\Travel.cs" />
-    <Compile Include="Activity\Helpers\Transport\Transport.cs" />
-    <Compile Include="Activity\Helpers\Location\Location.cs" />
     <Compile Include="Activity\Categories\Show\Show.cs" />
     <Compile Include="Activity\Categories\Play\Play.cs" />
     <Compile Include="Activity\Categories\Meet\Meet.cs" />
     <Compile Include="Activity\Categories\Pet\Pet.cs" />
-    <Compile Include="Activity\Helpers\Company\Company.cs" />
     <Compile Include="Activity\Activity.cs" />
     <Compile Include="Activity\Categories\Event\Event.cs" />
-    <Compile Include="Activity\Helpers\MediaType\MediaType.cs" />
-    <Compile Include="Activity\Helpers\Person\Person.cs" />
     <Compile Include="Activity\Helpers\Franchise\Franchise.cs" />
     <Compile Include="Activity\Helpers\Series\Series.cs" />
     <Compile Include="Activity\ActivityService.cs" />
-    <Compile Include="Activity\Helpers\Location\LocationService.cs" />
     <Compile Include="Activity\Categories\Travel\TravelService.cs" />
-    <Compile Include="Activity\Helpers\Transport\TransportService.cs" />
     <Compile Include="Activity\Categories\Show\ShowService.cs" />
     <Compile Include="Activity\Categories\Purchase\PurchaseService.cs" />
     <Compile Include="Activity\Categories\Play\PlayService.cs" />
@@ -164,28 +154,18 @@
     <Compile Include="Activity\Categories\Comic\ComicService.cs" />
     <Compile Include="Activity\Categories\Book\BookService.cs" />
     <Compile Include="Activity\Categories\Auto\AutoService.cs" />
-    <Compile Include="Migrations\202012122017539_CourseChanges.cs" />
-    <Compile Include="Migrations\202012122017539_CourseChanges.designer.cs">
-      <DependentUpon>202012122017539_CourseChanges.cs</DependentUpon>
+    <Compile Include="Migrations\202012141400551_Initial.cs" />
+    <Compile Include="Migrations\202012141400551_Initial.designer.cs">
+      <DependentUpon>202012141400551_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\RestoreWindow.xaml.cs">
       <DependentUpon>RestoreWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DomLServices.cs" />
-    <Compile Include="Activity\Helpers\MediaType\MediaTypeService.cs" />
-    <Compile Include="Activity\Helpers\Person\PersonService.cs" />
     <Compile Include="Activity\Helpers\Series\SeriesService.cs" />
     <Compile Include="DomLExceptions.cs" />
     <Compile Include="Activity\Categories\Comic\Comic.cs" />
     <Compile Include="Activity\Categories\Doom\Doom.cs" />
-    <Compile Include="Migrations\202011162340565_Initial.cs" />
-    <Compile Include="Migrations\202011162340565_Initial.designer.cs">
-      <DependentUpon>202011162340565_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202011162353482_AutoNameChange.cs" />
-    <Compile Include="Migrations\202011162353482_AutoNameChange.designer.cs">
-      <DependentUpon>202011162353482_AutoNameChange.cs</DependentUpon>
-    </Compile>
     <Compile Include="Util.cs" />
     <Compile Include="Activity\Categories\Movie\Movie.cs" />
     <Compile Include="Activity\Categories\Book\Book.cs" />
@@ -201,15 +181,10 @@
     <Compile Include="Activity\Categories\Movie\MovieRepository.cs" />
     <Compile Include="Activity\Categories\Event\EventRepository.cs" />
     <Compile Include="Activity\Categories\Doom\DoomRepository.cs" />
-    <Compile Include="Activity\Helpers\MediaType\MediaTypeRepository.cs" />
-    <Compile Include="Activity\Helpers\Company\CompanyRepository.cs" />
     <Compile Include="Activity\Helpers\Franchise\FranchiseRepository.cs" />
-    <Compile Include="Activity\Helpers\Location\LocationRepository.cs" />
-    <Compile Include="Activity\Helpers\Transport\TransportRepository.cs" />
     <Compile Include="Activity\Categories\Travel\TravelRepository.cs" />
     <Compile Include="Activity\Categories\Purchase\PurchaseRepository.cs" />
     <Compile Include="Activity\Categories\Play\PlayRepository.cs" />
-    <Compile Include="Activity\Helpers\Person\PersonRepository.cs" />
     <Compile Include="Activity\Categories\Health\HealthRepository.cs" />
     <Compile Include="Activity\Categories\Gift\GiftRepository.cs" />
     <Compile Include="Activity\Categories\Auto\AutoRepository.cs" />
@@ -220,7 +195,6 @@
     <Compile Include="DomLContext.cs" />
     <Compile Include="DomLRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
-    <Compile Include="Activity\Helpers\Company\CompanyService.cs" />
     <Compile Include="Activity\Categories\Show\ShowWindow.xaml.cs">
       <DependentUpon>ShowWindow.xaml</DependentUpon>
     </Compile>
@@ -263,14 +237,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202011162340565_Initial.resx">
-      <DependentUpon>202011162340565_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202011162353482_AutoNameChange.resx">
-      <DependentUpon>202011162353482_AutoNameChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012122017539_CourseChanges.resx">
-      <DependentUpon>202012122017539_CourseChanges.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202012141400551_Initial.resx">
+      <DependentUpon>202012141400551_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -6,10 +6,10 @@ namespace DomL.Business.DTOs
     public class BookConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string Author;
+        public string Person;
         public string SeriesName;
         public string Number;
-        public string Publisher;
+        public string Company;
         public string Year;
         public string Score;
         public string Description;
@@ -20,10 +20,10 @@ namespace DomL.Business.DTOs
             var book = bookActivity.Book;
             
             Title = book.Title;
-            Author = (!string.IsNullOrWhiteSpace(book.Author)) ? book.Author : "-";
+            Person = (!string.IsNullOrWhiteSpace(book.Author)) ? book.Author : "-";
             SeriesName = (book.Series != null) ? book.Series.Name : "-";
             Number = (!string.IsNullOrWhiteSpace(book.Number)) ? book.Number : "-";
-            Publisher = (!string.IsNullOrWhiteSpace(book.Publisher)) ? book.Publisher : "-";
+            Company = (!string.IsNullOrWhiteSpace(book.Publisher)) ? book.Publisher : "-";
             Year = book.Year.ToString();
             Score = (!string.IsNullOrWhiteSpace(book.Score)) ? book.Score : "-";
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
@@ -34,10 +34,10 @@ namespace DomL.Business.DTOs
             CategoryName = "BOOK";
 
             Title = bookWindow.TitleCB.Text;
-            Author = bookWindow.AuthorCB.Text;
+            Person = bookWindow.AuthorCB.Text;
             SeriesName = bookWindow.SeriesCB.Text;
             Number = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
-            Publisher = bookWindow.PublisherCB.Text;
+            Company = bookWindow.PublisherCB.Text;
             Year = bookWindow.YearCB.Text;
             Score = bookWindow.SeriesCB.Text;
             Description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
@@ -48,10 +48,10 @@ namespace DomL.Business.DTOs
             CategoryName = "BOOK";
 
             Title = backupSegments[4];
-            Author = backupSegments[5];
+            Person = backupSegments[5];
             SeriesName = backupSegments[6];
             Number = backupSegments[7];
-            Publisher = backupSegments[8];
+            Company = backupSegments[8];
             Year = backupSegments[9];
             Score = backupSegments[10];
             Description = backupSegments[11];
@@ -74,9 +74,9 @@ namespace DomL.Business.DTOs
 
         public string GetBookActivityInfo()
         {
-            return Title + "\t" + Author
+            return Title + "\t" + Person
                 + "\t" + SeriesName + "\t" + Number
-                + "\t" + Publisher + "\t" + Year
+                + "\t" + Company + "\t" + Year
                 + "\t" + Score + "\t" + Description;
         }
     }

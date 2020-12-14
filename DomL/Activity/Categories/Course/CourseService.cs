@@ -42,23 +42,39 @@ namespace DomL.Business.Services
 
         private static Course GetOrUpdateOrCreateCourse(CourseConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var course = GetCourseByName(consolidated.Title, unitOfWork);
+            var instance = GetByName(consolidated.Title, unitOfWork);
 
-            if (course == null) {
-                course = new Course() {
-                    Title = Util.GetStringOrNull(consolidated.Title),
-                    Professor = Util.GetStringOrNull(consolidated.Professor),
-                    Area = Util.GetStringOrNull(consolidated.Area),
-                    Degree = Util.GetStringOrNull(consolidated.Degree),
-                    Number = Util.GetStringOrNull(consolidated.Number),
-                    School = Util.GetStringOrNull(consolidated.School),
-                    Year = Util.GetIntOrZero(consolidated.Year),
-                    Score = Util.GetStringOrNull(consolidated.Score),
+            var title = Util.GetStringOrNull(consolidated.Title);
+            var area = Util.GetStringOrNull(consolidated.Area);
+            var degree = Util.GetStringOrNull(consolidated.Degree);
+            var number = Util.GetStringOrNull(consolidated.Number);
+            var professor = Util.GetStringOrNull(consolidated.professor);
+            var school = Util.GetStringOrNull(consolidated.School);
+            var year = Util.GetIntOrZero(consolidated.Year);
+            var score = Util.GetStringOrNull(consolidated.Score);
+
+            if (instance == null) {
+                instance = new Course() {
+                    Title = title,
+                    Area = area,
+                    Degree = degree,
+                    Number = number,
+                    Professor = professor,
+                    School = school,
+                    Year = year,
+                    Score = score,
                 };
-                unitOfWork.CourseRepo.CreateCourse(course);
+            } else {
+                instance.Area = area ?? instance.Area;
+                instance.Degree = degree ?? instance.Degree;
+                instance.Number = number ?? instance.Number;
+                instance.Professor = professor ?? instance.Professor;
+                instance.School = school ?? instance.School;
+                instance.Year = year != 0 ? year : instance.Year;
+                instance.Score = score ?? instance.Score;
             }
 
-            return course;
+            return instance;
         }
 
         private static void CreateCourseActivity(Activity activity, Course course, string description, UnitOfWork unitOfWork)
@@ -66,7 +82,7 @@ namespace DomL.Business.Services
             var courseActivity = new CourseActivity() {
                 Activity = activity,
                 Course = course,
-                Description = description
+                Description = Util.GetStringOrNull(description)
             };
 
             activity.CourseActivity = courseActivity;
@@ -84,12 +100,12 @@ namespace DomL.Business.Services
         {
             var course = activity.CourseActivity.Course;
             return previousStartingActivities.Where(u => 
-                u.CategoryId == ActivityCategory.COURSE_ID
+                u.CategoryId == Category.COURSE_ID
                 && u.CourseActivity.Course.Title == course.Title
             );
         }
 
-        public static Course GetCourseByName(string name, UnitOfWork unitOfWork)
+        public static Course GetByName(string name, UnitOfWork unitOfWork)
         {
             return unitOfWork.CourseRepo.GetCourseByName(name);
         }

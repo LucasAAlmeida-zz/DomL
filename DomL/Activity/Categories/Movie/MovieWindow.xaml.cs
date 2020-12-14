@@ -19,9 +19,9 @@ namespace DomL.Presentation
         {
             InitializeComponent();
 
-            this.UnitOfWork = unitOfWork;
+            UnitOfWork = unitOfWork;
 
-            this.InfoMessage.Content =
+            InfoMessage.Content =
                 "Date:\t\t" + activity.Date.ToString("dd/MM/yyyy") + "\n" +
                 "Category:\t" + activity.Category.Name + "\n" +
                 "Status:\t\t" + activity.Status.Name;
@@ -34,14 +34,12 @@ namespace DomL.Presentation
                     Margin = new Thickness(5)
                 };
 
-                this.SegmentosStack.Children.Add(dynLabel);
+                SegmentosStack.Children.Add(dynLabel);
             }
 
             var titles = BookService.GetAll(unitOfWork).Select(u => u.Title).ToList();
             var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
             var numbers = Util.GetDefaultNumberList();
-            var personNames = PersonService.GetAll(unitOfWork).Select(u => u.Name).ToList();
-            var scoreValues = ScoreService.GetAll(unitOfWork).Select(u => u.Value.ToString()).ToList();
 
             segments[0] = "";
             var remainingSegments = segments;
@@ -58,14 +56,10 @@ namespace DomL.Presentation
 
                 if (titles.Contains(searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
-                } else if (personNames.Contains(searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
                 } else if (seriesNames.Contains(searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, 2, searched, indexesToAvoid);
                 } else if (numbers.Contains(searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, 3, searched, indexesToAvoid);
-                } else if (scoreValues.Contains(searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, 4, searched, indexesToAvoid);
                 } else {
                     Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
                 }
@@ -73,56 +67,52 @@ namespace DomL.Presentation
                 remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
             }
 
-            Util.SetComboBox(this.TitleCB, segments, titles, orderedSegments[0]);
-            Util.SetComboBox(this.SeriesCB, segments, seriesNames, orderedSegments[1]);
-            Util.SetComboBox(this.NumberCB, segments, numbers, orderedSegments[2]);
-            Util.SetComboBox(this.DirectorCB, segments, personNames, orderedSegments[3]);
-            Util.SetComboBox(this.ScoreCB, new string[1] { "" }, scoreValues, orderedSegments[4]);
-            Util.SetComboBox(this.DescriptionCB, segments, new List<string>(), orderedSegments[5]);
+            Util.SetComboBox(TitleCB, segments, titles, orderedSegments[0]);
+            Util.SetComboBox(SeriesCB, segments, seriesNames, orderedSegments[1]);
+            Util.SetComboBox(NumberCB, segments, numbers, orderedSegments[2]);
+            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[5]);
 
-            this.TitleCB_LostFocus(null, null);
-            this.DirectorCB_LostFocus(null, null);
-            this.SeriesCB_LostFocus(null, null);
+            TitleCB_LostFocus(null, null);
+            DirectorCB_LostFocus(null, null);
+            SeriesCB_LostFocus(null, null);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            DialogResult = true;
         }
 
         private void TitleCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.TitleCB.IsKeyboardFocusWithin) {
+            if (TitleCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var title = this.TitleCB.Text;
-            var movie = MovieService.GetByTitle(title, this.UnitOfWork);
-            Util.ChangeInfoLabel(title, movie, this.TitleInfoLb);
+            var title = TitleCB.Text;
+            var movie = MovieService.GetByTitle(title, UnitOfWork);
+            Util.ChangeInfoLabel(title, movie, TitleInfoLb);
 
             UpdateOptionalComboBoxes(movie);
         }
 
         private void DirectorCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.DirectorCB.IsKeyboardFocusWithin) {
+            if (DirectorCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var directorName = this.DirectorCB.Text;
-            var director = PersonService.GetByName(directorName, this.UnitOfWork);
-            Util.ChangeInfoLabel(directorName, director, this.DirectorInfoLb);
+            var directorName = DirectorCB.Text;
         }
 
         private void SeriesCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (this.SeriesCB.IsKeyboardFocusWithin) {
+            if (SeriesCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var seriesName = this.SeriesCB.Text;
-            var series = SeriesService.GetByName(seriesName, this.UnitOfWork);
-            Util.ChangeInfoLabel(seriesName, series, this.SeriesInfoLb);
+            var seriesName = SeriesCB.Text;
+            var series = SeriesService.GetByName(seriesName, UnitOfWork);
+            Util.ChangeInfoLabel(seriesName, series, SeriesInfoLb);
         }
 
         private void UpdateOptionalComboBoxes(Movie movie)
@@ -132,17 +122,17 @@ namespace DomL.Presentation
             }
 
             if (movie.Person != null) {
-                this.DirectorCB.Text = movie.Person;
-                this.DirectorCB_LostFocus(null, null);
+                DirectorCB.Text = movie.Person;
+                DirectorCB_LostFocus(null, null);
             }
 
             if (movie.Series != null) {
-                this.SeriesCB.Text = movie.Series.Name;
-                this.SeriesCB_LostFocus(null, null);
+                SeriesCB.Text = movie.Series.Name;
+                SeriesCB_LostFocus(null, null);
             }
 
-            this.NumberCB.Text = movie.Number ?? this.NumberCB.Text;
-            this.ScoreCB.Text = movie.Score ?? this.ScoreCB.Text;
+            NumberCB.Text = movie.Number ?? NumberCB.Text;
+            ScoreCB.Text = movie.Score ?? ScoreCB.Text;
         }
     }
 }

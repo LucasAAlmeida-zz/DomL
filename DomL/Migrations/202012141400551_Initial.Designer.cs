@@ -7,13 +7,13 @@ namespace DomL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class CourseChanges : IMigrationMetadata
+    public sealed partial class Initial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CourseChanges));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
         
         string IMigrationMetadata.Id
         {
-            get { return "202012122017539_CourseChanges"; }
+            get { return "202012141400551_Initial"; }
         }
         
         string IMigrationMetadata.Source
