@@ -38,7 +38,7 @@ namespace DomL.Business.DTOs
             Title = movieWindow.TitleCB.Text;
             SeriesName = movieWindow.SeriesCB.Text;
             Number = movieWindow.NumberCB.Text;
-            Person = movieWindow.DirectorCB.Text;
+            Person = movieWindow.PersonCB.Text;
             Company = movieWindow.CompanyCB.Text;
             Year = movieWindow.YearCB.Text;
             Score = movieWindow.ScoreCB.Text;

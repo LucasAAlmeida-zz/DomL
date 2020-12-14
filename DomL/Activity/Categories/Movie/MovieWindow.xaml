@@ -30,12 +30,12 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Director:" Width="90" />
-                <ComboBox Name="DirectorCB" IsEditable="True" Width="300" LostFocus="DirectorCB_LostFocus" IsTextSearchEnabled="True" />
+                <ComboBox Name="PersonCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="DirectorInfoLb" Margin="5,0" Width="40"/>
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Series:" Width="90" />
-                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
+                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="SeriesInfoLb" Margin="5,0" Width="40"/>
             </DockPanel>
             <DockPanel Margin="5">

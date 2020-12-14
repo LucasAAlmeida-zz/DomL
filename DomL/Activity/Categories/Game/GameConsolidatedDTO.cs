@@ -23,7 +23,7 @@ namespace DomL.Business.DTOs
             var game = gameActivity.Game;
 
             Title = game.Title;
-            Platform = game.Platform;
+            Platform = game.Type;
             SeriesName = (game.Series != null) ? game.Series.Name : "-";
             Number = game.Number ?? "-";
             Person = game.Person ?? "-";
@@ -38,7 +38,7 @@ namespace DomL.Business.DTOs
             CategoryName = "GAME";
 
             Title = gameWindow.TitleCB.Text;
-            Platform = gameWindow.PlatformCB.Text;
+            Platform = gameWindow.TypeCB.Text;
             SeriesName = gameWindow.SeriesCB.Text;
             Number = gameWindow.NumberCB.Text;
             Person = gameWindow.PersonCB.Text;

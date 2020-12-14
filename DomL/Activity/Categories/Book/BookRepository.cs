@@ -38,7 +38,9 @@ namespace DomL.DataAccess
 
         public List<Book> GetAllBooks()
         {
-            return DomLContext.Book.ToList();
+            return DomLContext.Book
+                .Include(u => u.Series)
+                .ToList();
         }
     }
 }

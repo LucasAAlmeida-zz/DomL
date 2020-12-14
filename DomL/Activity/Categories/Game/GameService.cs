@@ -62,7 +62,7 @@ namespace DomL.Business.Services
             if (instance == null) {
                 instance = new Game() {
                     Title = title,
-                    Platform = platform,
+                    Type = platform,
                     Series = series,
                     Number = number,
                     Person = person,
@@ -71,7 +71,7 @@ namespace DomL.Business.Services
                     Score = score,
                 };
             } else {
-                instance.Platform = platform ?? instance.Platform;
+                instance.Type = platform ?? instance.Type;
                 instance.Series = series ?? instance.Series;
                 instance.Number = number ?? instance.Number;
                 instance.Person = person ?? instance.Person;

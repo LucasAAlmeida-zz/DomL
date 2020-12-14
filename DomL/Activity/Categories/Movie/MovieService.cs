@@ -28,6 +28,11 @@ namespace DomL.Business.Services
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
+        public static List<Movie> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.MovieRepo.GetAllMovies();
+        }
+
         public static void SaveFromBackupSegments(string[] backupSegments, UnitOfWork unitOfWork)
         {
             var consolidated = new MovieConsolidatedDTO(backupSegments);

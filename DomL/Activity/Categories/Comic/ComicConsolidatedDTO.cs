@@ -23,11 +23,11 @@ namespace DomL.Business.DTOs
             var comic = comicActivity.Comic;
 
             Title = comic.Title;
-            Person = comic.Author ?? "-";
+            Person = comic.Person ?? "-";
             Type = comic.Type ?? "-";
             Series = comic.Series.Name;
             Number = comic.Number ?? "-";
-            Company = comic.Publisher ?? "-";
+            Company = comic.Company ?? "-";
             Year = comic.Year.ToString();
             Score = comic.Score ?? "-";
             Description = comicActivity.Description ?? "-";
@@ -38,11 +38,11 @@ namespace DomL.Business.DTOs
             CategoryName = "COMIC";
 
             Title = comicWindow.TitleCB.Text;
-            Person = comicWindow.AuthorCB.Text;
+            Person = comicWindow.PersonCB.Text;
             Type = comicWindow.TypeCB.Text;
             Series = comicWindow.SeriesCB.Text;
             Number = comicWindow.NumberCB.Text;
-            Company = comicWindow.PublisherCB.Text;
+            Company = comicWindow.CompanyCB.Text;
             Year = comicWindow.YearCB.Text;
             Score = comicWindow.ScoreCB.Text;
             Description = comicWindow.DescriptionCB.Text;

@@ -54,14 +54,15 @@ namespace DomL.Presentation
             var orderedSegments = new string[Enum.GetValues(typeof(NamedIndices)).Length];
 
             var indexesToAvoid = new int[] { (int)NamedIndices.year };
+            Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, remainingSegments[1], indexesToAvoid);
+            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
+            TitleCB_LostFocus(null, null);
 
             // SHOW; Title; Type; Series; Season; Person; Company; Year; Score; Description
-            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
-                var searched = remainingSegments[1];
+            while (remainingSegments.Length > 2 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[2];
 
-                if (Util.ListContainsText(titleList, searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, searched, indexesToAvoid);
-                } else if (Util.ListContainsText(typeList, searched)) {
+                if (Util.ListContainsText(typeList, searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.type, searched, indexesToAvoid);
                 } else if (Util.ListContainsText(seriesList, searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.series, searched, indexesToAvoid);
@@ -79,10 +80,9 @@ namespace DomL.Presentation
                     Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
                 }
 
-                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[2]).ToArray();
             }
 
-            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
             Util.SetComboBox(TypeCB, segments, typeList, orderedSegments[(int)NamedIndices.type]);
             Util.SetComboBox(SeriesCB, segments, seriesList, orderedSegments[(int)NamedIndices.series]);
             Util.SetComboBox(NumberCB, segments, numberList, orderedSegments[(int)NamedIndices.number]);
@@ -91,8 +91,6 @@ namespace DomL.Presentation
             Util.SetComboBox(YearCB, segments, yearList, orderedSegments[(int)NamedIndices.year]);
             Util.SetComboBox(ScoreCB, segments, scoreList, orderedSegments[(int)NamedIndices.score]);
             Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[(int)NamedIndices.description]);
-
-            TitleCB_LostFocus(null, null);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)

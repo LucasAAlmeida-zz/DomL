@@ -1,6 +1,7 @@
 ﻿using DomL.Business.Entities;
 using DomL.Business.Services;
 using DomL.Business.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -15,58 +16,84 @@ namespace DomL.Presentation
     {
         private readonly UnitOfWork UnitOfWork;
 
+        enum NamedIndices
+        {
+            title = 0,
+            type = 1,
+            series = 2,
+            number = 3,
+            person = 4,
+            company = 5,
+            year = 6,
+            score = 7,
+            description = 8
+        }
+
         public ComicWindow(string[] segments, Activity activity, UnitOfWork unitOfWork)
         {
             InitializeComponent();
 
             UnitOfWork = unitOfWork;
 
-            InfoMessage.Content =
-                "Date:\t\t" + activity.Date.ToString("dd/MM/yyyy") + "\n" +
-                "Category:\t" + activity.Category.Name + "\n" +
-                "Status:\t\t" + activity.Status.Name;
+            InfoMessage.Content = activity.GetInfoMessage();
+            Util.FillSegmentosStack(segments, SegmentosStack);
 
-            for (int index = 1; index < segments.Length; index++) {
-                var segmento = segments[index];
-                var dynLabel = new TextBox {
-                    Text = segmento,
-                    IsReadOnly = true,
-                    Margin = new Thickness(5)
-                };
+            var comics = ComicService.GetAll(unitOfWork);
 
-                SegmentosStack.Children.Add(dynLabel);
-            }
-
-            var seriesNames = SeriesService.GetAll(unitOfWork).Select(u => u.Name).ToList();
-            var defaultChaptersList = Util.GetDefaultChaptersList();
+            var titleList = comics.Select(u => u.Title).Distinct().ToList();
+            var typeList = comics.Where(u => u.Type != null).Select(u => u.Type).Distinct().ToList();
+            var seriesList = comics.Where(u => u.Series != null).Select(u => u.Series.Name).Distinct().ToList();
+            var numberList = Util.GetDefaultChaptersList();
+            var personList = comics.Where(u => u.Person != null).Select(u => u.Person).Distinct().ToList();
+            var companyList = comics.Where(u => u.Company != null).Select(u => u.Company).Distinct().ToList();
+            var yearList = Util.GetDefaultYearList();
+            var scoreList = Util.GetDefaultScoreList();
 
             segments[0] = "";
             var remainingSegments = segments;
-            var orderedSegments = new string[6];
+            var orderedSegments = new string[Enum.GetValues(typeof(NamedIndices)).Length];
 
-            var indexesToAvoid = new int[] { 3, 4 };
+            var indexesToAvoid = new int[] { (int)NamedIndices.year };
+            Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, remainingSegments[1], indexesToAvoid);
+            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
+            TitleCB_LostFocus(null, null);
 
-            // COMIC; Series Name; Chapters; (Author Name); (Media Type Name); (Score); (Description)
-            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
-                var searched = remainingSegments[1];
+            // COURSE; Title; Type; Series; Number; Person; Company; Year; Score; Description
+            while (remainingSegments.Length > 2 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[2];
+                if (int.TryParse(searched, out int number)) {
+                    searched = number.ToString("00");
+                }
 
-                if (seriesNames.Contains(searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, 0, searched, indexesToAvoid);
-                } else if ((defaultChaptersList.Contains(searched) || searched.Contains("~")) && orderedSegments[1] == null) {
-                    Util.PlaceOrderedSegment(orderedSegments, 1, searched, indexesToAvoid);
+                if (Util.ListContainsText(typeList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.type, searched, indexesToAvoid);
+                } else if (Util.ListContainsText(seriesList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.series, searched, indexesToAvoid);
+                } else if (Util.ListContainsText(numberList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.number, searched, indexesToAvoid);
+                } else if (Util.ListContainsText(personList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.person, searched, indexesToAvoid);
+                } else if (Util.ListContainsText(companyList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.company, searched, indexesToAvoid);
+                } else if (Util.ListContainsText(yearList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.year, searched, indexesToAvoid);
+                } else if (Util.ListContainsText(scoreList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.score, searched, indexesToAvoid);
                 } else {
                     Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
                 }
 
-                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[2]).ToArray();
             }
 
-            Util.SetComboBox(SeriesCB, segments, seriesNames, orderedSegments[0]);
-            Util.SetComboBox(TitleCB, segments, defaultChaptersList, orderedSegments[1]);
-            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[5]);
-
-            SeriesCB_LostFocus(null, null);
-            AuthorCB_LostFocus(null, null);
+            Util.SetComboBox(TypeCB, segments, typeList, orderedSegments[(int)NamedIndices.type]);
+            Util.SetComboBox(SeriesCB, segments, seriesList, orderedSegments[(int)NamedIndices.series]);
+            Util.SetComboBox(NumberCB, segments, numberList, orderedSegments[(int)NamedIndices.number]);
+            Util.SetComboBox(PersonCB, segments, personList, orderedSegments[(int)NamedIndices.person]);
+            Util.SetComboBox(CompanyCB, segments, companyList, orderedSegments[(int)NamedIndices.company]);
+            Util.SetComboBox(YearCB, segments, yearList, orderedSegments[(int)NamedIndices.year]);
+            Util.SetComboBox(ScoreCB, segments, scoreList, orderedSegments[(int)NamedIndices.score]);
+            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[(int)NamedIndices.description]);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
@@ -74,24 +101,50 @@ namespace DomL.Presentation
             DialogResult = true;
         }
 
-        private void SeriesCB_LostFocus(object sender, RoutedEventArgs e)
+        private void TitleCB_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (SeriesCB.IsKeyboardFocusWithin) {
+            if (TitleCB.IsKeyboardFocusWithin) {
                 return;
             }
 
-            var seriesName = SeriesCB.Text;
-            var series = SeriesService.GetByName(seriesName, UnitOfWork);
-            Util.ChangeInfoLabel(seriesName, series, SeriesInfoLb);
+            var title = TitleCB.Text;
+            var course = CourseService.GetByTitle(title, UnitOfWork);
+            Util.ChangeInfoLabel(title, course, TitleInfoLb);
+
+            if (course != null) {
+                UpdateOptionalComboBoxes(course);
+            }
         }
 
-        private void AuthorCB_LostFocus(object sender, RoutedEventArgs e)
+        private void UpdateOptionalComboBoxes(Course course)
         {
-            if (AuthorCB.IsKeyboardFocusWithin) {
-                return;
+            if (course.Type != null) {
+                TypeCB.Text = course.Type;
             }
 
-            var authorName = AuthorCB.Text;
+            if (course.Series != null) {
+                SeriesCB.Text = course.Series;
+            }
+
+            if (course.Number != null) {
+                NumberCB.Text = course.Number;
+            }
+
+            if (course.Person != null) {
+                PersonCB.Text = course.Person;
+            }
+
+            if (course.Company != null) {
+                CompanyCB.Text = course.Company;
+            }
+
+            if (course.Year != 0) {
+                YearCB.Text = course.Year.ToString();
+            }
+
+            if (course.Score != null) {
+                ScoreCB.Text = course.Score;
+            }
         }
     }
 }

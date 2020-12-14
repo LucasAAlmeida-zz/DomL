@@ -24,11 +24,11 @@ namespace DomL.Business.Entities
         [Key]
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Professor { get; set; }
-        public string Area { get; set; }
-        public string Degree { get; set; }
+        public string Type { get; set; } // Area (Japones, Computacao, Preparo)
+        public string Series { get; set; } // Materia (Python, Elasticsearch) (franchise seria o degree, ex pos, graduacao, etc)
         public string Number { get; set; }
-        public string School { get; set; }
+        public string Person { get; set; }
+        public string Company { get; set; }
         public int Year { get; set; }
         public string Score { get; set; }
     }

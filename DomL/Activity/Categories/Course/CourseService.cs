@@ -42,34 +42,34 @@ namespace DomL.Business.Services
 
         private static Course GetOrUpdateOrCreateCourse(CourseConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var instance = GetByName(consolidated.Title, unitOfWork);
+            var instance = GetByTitle(consolidated.Title, unitOfWork);
 
             var title = Util.GetStringOrNull(consolidated.Title);
-            var area = Util.GetStringOrNull(consolidated.Area);
-            var degree = Util.GetStringOrNull(consolidated.Degree);
+            var type = Util.GetStringOrNull(consolidated.Type);
+            var series = Util.GetStringOrNull(consolidated.Series);
             var number = Util.GetStringOrNull(consolidated.Number);
-            var professor = Util.GetStringOrNull(consolidated.professor);
-            var school = Util.GetStringOrNull(consolidated.School);
+            var person = Util.GetStringOrNull(consolidated.Person);
+            var company = Util.GetStringOrNull(consolidated.Company);
             var year = Util.GetIntOrZero(consolidated.Year);
             var score = Util.GetStringOrNull(consolidated.Score);
 
             if (instance == null) {
                 instance = new Course() {
                     Title = title,
-                    Area = area,
-                    Degree = degree,
+                    Type = type,
+                    Series = series,
                     Number = number,
-                    Professor = professor,
-                    School = school,
+                    Person = person,
+                    Company = company,
                     Year = year,
                     Score = score,
                 };
             } else {
-                instance.Area = area ?? instance.Area;
-                instance.Degree = degree ?? instance.Degree;
+                instance.Type = type ?? instance.Type;
+                instance.Series = series ?? instance.Series;
                 instance.Number = number ?? instance.Number;
-                instance.Professor = professor ?? instance.Professor;
-                instance.School = school ?? instance.School;
+                instance.Person = person ?? instance.Person;
+                instance.Company = company ?? instance.Company;
                 instance.Year = year != 0 ? year : instance.Year;
                 instance.Score = score ?? instance.Score;
             }
@@ -93,7 +93,7 @@ namespace DomL.Business.Services
 
         public static List<Course> GetAll(UnitOfWork unitOfWork)
         {
-            return unitOfWork.CourseRepo.GetAllCourses().ToList();
+            return unitOfWork.CourseRepo.GetAllCourses();
         }
 
         public static IEnumerable<Activity> GetStartingActivities(IQueryable<Activity> previousStartingActivities, Activity activity)
@@ -105,7 +105,7 @@ namespace DomL.Business.Services
             );
         }
 
-        public static Course GetByName(string name, UnitOfWork unitOfWork)
+        public static Course GetByTitle(string name, UnitOfWork unitOfWork)
         {
             return unitOfWork.CourseRepo.GetCourseByName(name);
         }

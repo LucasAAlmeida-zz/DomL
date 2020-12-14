@@ -2,6 +2,7 @@
 using DomL.Business.Utils;
 using System.Linq;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace DomL.DataAccess
 {
@@ -33,6 +34,13 @@ namespace DomL.DataAccess
         public void CreateMovie(Movie movie)
         {
             DomLContext.Movie.Add(movie);
+        }
+
+        public List<Movie> GetAllMovies()
+        {
+            return DomLContext.Movie
+                .Include(u => u.Series)
+                .ToList();
         }
     }
 }

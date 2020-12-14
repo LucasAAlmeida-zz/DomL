@@ -30,7 +30,7 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Platform:" Width="90" />
-                <ComboBox Name="PlatformCB" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="TypeCB" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="PlatformInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">

@@ -6,11 +6,11 @@ namespace DomL.Business.DTOs
     public class CourseConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string professor;
-        public string Area;
-        public string Degree;
+        public string Person;
+        public string Type;
+        public string Series;
         public string Number;
-        public string School;
+        public string Company;
         public string Year;
         public string Score;
         public string Description;
@@ -23,11 +23,11 @@ namespace DomL.Business.DTOs
             var course = courseActivity.Course;
 
             Title = course.Title;
-            professor = course.Professor ?? "-";
-            Area = course.Area ?? "-";
-            Degree = course.Degree;
+            Type = course.Type ?? "-";
+            Series = course.Series;
             Number = course.Number ?? "-";
-            School = course.School ?? "-";
+            Person = course.Person ?? "-";
+            Company = course.Company ?? "-";
             Year = course.Year.ToString();
             Score = course.Score ?? "-";
             Description = courseActivity.Description ?? "-";
@@ -38,11 +38,11 @@ namespace DomL.Business.DTOs
             CategoryName = "COURSE";
 
             Title = courseWindow.TitleCB.Text;
-            professor = courseWindow.ProfessorCB.Text;
-            Area = courseWindow.AreaCB.Text;
-            Degree = courseWindow.DegreeCB.Text;
+            Type = courseWindow.TypeCB.Text;
+            Series = courseWindow.SeriesCB.Text;
             Number = courseWindow.NumberCB.Text;
-            School = courseWindow.SchoolCB.Text;
+            Person = courseWindow.PersonCB.Text;
+            Company = courseWindow.CompanyCB.Text;
             Year = courseWindow.YearCB.Text;
             Score = courseWindow.ScoreCB.Text;
             Description = courseWindow.DescriptionCB.Text;
@@ -53,11 +53,11 @@ namespace DomL.Business.DTOs
             CategoryName = "COURSE";
 
             Title = backupSegments[4];
-            professor = backupSegments[5];
-            Area = backupSegments[6];
-            Degree = backupSegments[7];
+            Type = backupSegments[6];
+            Series = backupSegments[7];
             Number = backupSegments[8];
-            School = backupSegments[9];
+            Person = backupSegments[5];
+            Company = backupSegments[9];
             Year = backupSegments[10];
             Score = backupSegments[11];
             Description = backupSegments[12];
@@ -80,11 +80,11 @@ namespace DomL.Business.DTOs
 
         public string GetCourseActivityInfo()
         {
-            return Title 
-                + "\t" + professor + "\t" + Area
-                + "\t" + Degree + "\t" + Number
-                + "\t" + School + "\t" + Year
-                + "\t" + Score + "\t" + Description;
+            return Title + "\t" + Type
+                + "\t" + Series + "\t" + Number
+                + "\t" + Person + "\t" + Company
+                + "\t" + Year + "\t" + Score
+                + "\t" + Description;
         }
     }
 }

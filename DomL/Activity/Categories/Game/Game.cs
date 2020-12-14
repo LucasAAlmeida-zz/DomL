@@ -24,7 +24,7 @@ namespace DomL.Business.Entities
         [Key]
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Platform { get; set; }
+        public string Type { get; set; }
         public int? SeriesId { get; set; }
         public string Number { get; set; }
         public string Person { get; set; }

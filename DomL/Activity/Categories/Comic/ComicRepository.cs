@@ -2,6 +2,7 @@
 using DomL.Business.Utils;
 using System.Linq;
 using System.Data.Entity;
+using System.Collections.Generic;
 
 namespace DomL.DataAccess
 {
@@ -30,6 +31,13 @@ namespace DomL.DataAccess
         public void CreateComicVolume(Comic comic)
         {
             DomLContext.Comic.Add(comic);
+        }
+
+        public List<Comic> GetAllComics()
+        {
+            return DomLContext.Comic
+                .Include(u => u.Series)
+                .ToList();
         }
     }
 }

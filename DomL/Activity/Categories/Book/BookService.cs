@@ -34,7 +34,7 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(BookConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
+            var series = SeriesService.GetOrCreateByName(consolidated.Series, unitOfWork);
             var book = GetOrUpdateOrCreateBook(consolidated, series, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
 
@@ -57,7 +57,7 @@ namespace DomL.Business.Services
 
         public static List<Book> GetAll(UnitOfWork unitOfWork)
         {
-            return unitOfWork.BookRepo.GetAllBooks().ToList();
+            return unitOfWork.BookRepo.GetAllBooks();
         }
 
         public static Book GetOrUpdateOrCreateBook(BookConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
@@ -76,16 +76,16 @@ namespace DomL.Business.Services
                     Title = title,
                     Series = series,
                     Number = number,
-                    Author = person,
-                    Publisher = company,
+                    Person = person,
+                    Company = company,
                     Year = year,
                     Score = score,
                 };
             } else {
                 instance.Series = series ?? instance.Series;
                 instance.Number = number ?? instance.Number;
-                instance.Author = person ?? instance.Author;
-                instance.Publisher = company ?? instance.Publisher;
+                instance.Person = person ?? instance.Person;
+                instance.Company = company ?? instance.Company;
                 instance.Year = year != 0 ? year : instance.Year;
                 instance.Score = score ?? instance.Score;
             }

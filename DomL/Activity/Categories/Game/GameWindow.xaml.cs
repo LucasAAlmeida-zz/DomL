@@ -19,7 +19,7 @@ namespace DomL.Presentation
         enum NamedIndices
         {
             title = 0,
-            platform = 1,
+            type = 1,
             series = 2,
             number = 3,
             person = 4,
@@ -41,7 +41,7 @@ namespace DomL.Presentation
             var games = GameService.GetAll(unitOfWork);
 
             var titleList = games.Select(u => u.Title).Distinct().ToList();
-            var platformList = games.Where(u => u.Platform != null).Select(u => u.Platform).Distinct().ToList();
+            var typeList = games.Where(u => u.Type != null).Select(u => u.Type).Distinct().ToList();
             var seriesList = games.Where(u => u.Series != null).Select(u => u.Series.Name).Distinct().ToList();
             var numberList = Util.GetDefaultNumberList();
             var personList = games.Where(u => u.Person != null).Select(u => u.Person).Distinct().ToList();
@@ -54,18 +54,19 @@ namespace DomL.Presentation
             var orderedSegments = new string[Enum.GetValues(typeof(NamedIndices)).Length];
 
             var indexesToAvoid = new int[] { (int)NamedIndices.year };
+            Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, remainingSegments[1], indexesToAvoid);
+            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
+            TitleCB_LostFocus(null, null);
 
-            // GAME; Title; Platform; Series; Number; Person; Company; Year; Score; Description
-            while (remainingSegments.Length > 1 && orderedSegments.Any(u => u == null)) {
-                var searched = remainingSegments[1];
+            // GAME; Title; Type; Series; Number; Person; Company; Year; Score; Description
+            while (remainingSegments.Length > 2 && orderedSegments.Any(u => u == null)) {
+                var searched = remainingSegments[2];
                 if (int.TryParse(searched, out int number)) {
                     searched = number.ToString("00");
                 }
 
-                if (Util.ListContainsText(titleList, searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, searched, indexesToAvoid);
-                } else if (Util.ListContainsText(platformList, searched)) {
-                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.platform, searched, indexesToAvoid);
+                if (Util.ListContainsText(typeList, searched)) {
+                    Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.type, searched, indexesToAvoid);
                 } else if (Util.ListContainsText(seriesList, searched)) {
                     Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.series, searched, indexesToAvoid);
                 } else if (Util.ListContainsText(numberList, searched)) {
@@ -82,11 +83,10 @@ namespace DomL.Presentation
                     Util.PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, searched);
                 }
 
-                remainingSegments = remainingSegments.Where(u => u != remainingSegments[1]).ToArray();
+                remainingSegments = remainingSegments.Where(u => u != remainingSegments[2]).ToArray();
             }
 
-            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
-            Util.SetComboBox(PlatformCB, segments, platformList, orderedSegments[(int)NamedIndices.platform]);
+            Util.SetComboBox(TypeCB, segments, typeList, orderedSegments[(int)NamedIndices.type]);
             Util.SetComboBox(SeriesCB, segments, seriesList, orderedSegments[(int)NamedIndices.series]);
             Util.SetComboBox(NumberCB, segments, numberList, orderedSegments[(int)NamedIndices.number]);
             Util.SetComboBox(PersonCB, segments, personList, orderedSegments[(int)NamedIndices.person]);
@@ -94,13 +94,11 @@ namespace DomL.Presentation
             Util.SetComboBox(YearCB, segments, yearList, orderedSegments[(int)NamedIndices.year]);
             Util.SetComboBox(ScoreCB, segments, scoreList, orderedSegments[(int)NamedIndices.score]);
             Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[(int)NamedIndices.description]);
-
-            TitleCB_LostFocus(null, null);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TitleCB.Text) || string.IsNullOrWhiteSpace(PlatformCB.Text)) {
+            if (string.IsNullOrWhiteSpace(TitleCB.Text) || string.IsNullOrWhiteSpace(TypeCB.Text)) {
                 return;
             }
             DialogResult = true;
@@ -123,8 +121,8 @@ namespace DomL.Presentation
 
         private void UpdateOptionalComboBoxes(Game game)
         {
-            if (game.Platform != null) {
-                PlatformCB.Text = game.Platform;
+            if (game.Type != null) {
+                TypeCB.Text = game.Type;
             }
 
             if (game.Series != null) {

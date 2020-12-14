@@ -29,9 +29,9 @@
                 <Label Name="TitleInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Author:" Width="90" />
-                <ComboBox Name="AuthorCB" IsEditable="True" Width="300" LostFocus="AuthorCB_LostFocus" IsTextSearchEnabled="True" />
-                <Label Name="AuthorInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Person:" Width="90" />
+                <ComboBox Name="PersonCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="PersonInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Type:" Width="90" />
@@ -40,18 +40,18 @@
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Series:" Width="90" />
-                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
+                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="SeriesInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Number:" Width="90" />
-                <ComboBox Name="NumberCB" IsEditable="True" Width="300" LostFocus="SeriesCB_LostFocus" IsTextSearchEnabled="True" />
+                <ComboBox Name="NumberCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
                 <Label Name="NumberInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Publisher:" Width="90" />
-                <ComboBox Name="PublisherCB" Width="300" IsTextSearchEnabled="True" />
-                <Label Name="PublisherInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Company:" Width="90" />
+                <ComboBox Name="CompanyCB" Width="300" IsTextSearchEnabled="True" />
+                <Label Name="CompanyInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Year:" Width="90" />

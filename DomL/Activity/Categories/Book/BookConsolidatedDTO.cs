@@ -6,9 +6,9 @@ namespace DomL.Business.DTOs
     public class BookConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string Person;
-        public string SeriesName;
+        public string Series;
         public string Number;
+        public string Person;
         public string Company;
         public string Year;
         public string Score;
@@ -20,10 +20,10 @@ namespace DomL.Business.DTOs
             var book = bookActivity.Book;
             
             Title = book.Title;
-            Person = (!string.IsNullOrWhiteSpace(book.Author)) ? book.Author : "-";
-            SeriesName = (book.Series != null) ? book.Series.Name : "-";
+            Series = (book.Series != null) ? book.Series.Name : "-";
             Number = (!string.IsNullOrWhiteSpace(book.Number)) ? book.Number : "-";
-            Company = (!string.IsNullOrWhiteSpace(book.Publisher)) ? book.Publisher : "-";
+            Person = (!string.IsNullOrWhiteSpace(book.Person)) ? book.Person : "-";
+            Company = (!string.IsNullOrWhiteSpace(book.Company)) ? book.Company : "-";
             Year = book.Year.ToString();
             Score = (!string.IsNullOrWhiteSpace(book.Score)) ? book.Score : "-";
             Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
@@ -34,13 +34,13 @@ namespace DomL.Business.DTOs
             CategoryName = "BOOK";
 
             Title = bookWindow.TitleCB.Text;
-            Person = bookWindow.AuthorCB.Text;
-            SeriesName = bookWindow.SeriesCB.Text;
-            Number = (!string.IsNullOrWhiteSpace(bookWindow.NumberCB.Text)) ? bookWindow.NumberCB.Text : null;
-            Company = bookWindow.PublisherCB.Text;
+            Series = bookWindow.SeriesCB.Text;
+            Number = bookWindow.NumberCB.Text;
+            Person = bookWindow.PersonCB.Text;
+            Company = bookWindow.CompanyCB.Text;
             Year = bookWindow.YearCB.Text;
             Score = bookWindow.SeriesCB.Text;
-            Description = (!string.IsNullOrWhiteSpace(bookWindow.DescriptionCB.Text)) ? bookWindow.DescriptionCB.Text : null;
+            Description = bookWindow.DescriptionCB.Text;
         }
 
         public BookConsolidatedDTO(string[] backupSegments) : base(backupSegments)
@@ -48,9 +48,9 @@ namespace DomL.Business.DTOs
             CategoryName = "BOOK";
 
             Title = backupSegments[4];
-            Person = backupSegments[5];
-            SeriesName = backupSegments[6];
+            Series = backupSegments[6];
             Number = backupSegments[7];
+            Person = backupSegments[5];
             Company = backupSegments[8];
             Year = backupSegments[9];
             Score = backupSegments[10];
@@ -74,10 +74,11 @@ namespace DomL.Business.DTOs
 
         public string GetBookActivityInfo()
         {
-            return Title + "\t" + Person
-                + "\t" + SeriesName + "\t" + Number
-                + "\t" + Company + "\t" + Year
-                + "\t" + Score + "\t" + Description;
+            return Title
+                + "\t" + Series + "\t" + Number
+                + "\t" + Person + "\t" + Company
+                + "\t" + Year + "\t" + Score
+                + "\t" + Description;
         }
     }
 }

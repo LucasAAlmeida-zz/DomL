@@ -37,7 +37,9 @@ namespace DomL.DataAccess
 
         public List<Course> GetAllCourses()
         {
-            return DomLContext.Course.ToList();
+            return DomLContext.Course
+                .Include(u => u.Series)
+                .ToList();
         }
     }
 }

@@ -60,6 +60,15 @@ namespace DomL.Business.Utils
             }
         }
 
+        public static List<string> GetDefaultNumberList()
+        {
+            var list = new List<string>();
+            for (int number = 0; number <= 10; number++) {
+                list.Add(number.ToString("00"));
+            }
+            return list;
+        }
+
         public static List<string> GetDefaultSeasonsList()
         {
             var list = new List<string>();
@@ -74,15 +83,6 @@ namespace DomL.Business.Utils
             var list = new List<string>();
             for (int i = 1; i < 500; i = i + 50) {
                 list.Add(i.ToString("000") + "~" + (i + 50).ToString("000"));
-            }
-            return list;
-        }
-
-        public static List<string> GetDefaultNumberList()
-        {
-            var list = new List<string>();
-            for (int number=0; number<=10; number++) {
-                list.Add(number.ToString("00"));
             }
             return list;
         }
@@ -129,14 +129,13 @@ namespace DomL.Business.Utils
             return !IsStringEmpty(textNumber) ? int.Parse(textNumber) : 0;
         }
 
-        public static int GetFirstEmptyIndex(string[] orderedSegments, int[] indexesToAvoid)
+        public static void PlaceOrderedSegment(string[] orderedSegments, int index, string toPlace, int[] indexesToAvoid)
         {
-            for (int i = 0; i < orderedSegments.Length; i++) {
-                if (!indexesToAvoid.Contains(i) && orderedSegments[i] == null) {
-                    return i;
-                }
+            if (orderedSegments[index] != null) {
+                var displaced = orderedSegments[index];
+                PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, displaced);
             }
-            return -1;
+            orderedSegments[index] = toPlace;
         }
 
         public static void PlaceStringInFirstAvailablePosition(string[] orderedSegments, int[] indexesToAvoid, string searched)
@@ -147,13 +146,14 @@ namespace DomL.Business.Utils
             }
         }
 
-        public static void PlaceOrderedSegment(string[] orderedSegments, int index, string toPlace, int[] indexesToAvoid)
+        public static int GetFirstEmptyIndex(string[] orderedSegments, int[] indexesToAvoid)
         {
-            if (orderedSegments[index] != null) {
-                var displaced = orderedSegments[index];
-                PlaceStringInFirstAvailablePosition(orderedSegments, indexesToAvoid, displaced);
+            for (int i = 0; i < orderedSegments.Length; i++) {
+                if (!indexesToAvoid.Contains(i) && orderedSegments[i] == null) {
+                    return i;
+                }
             }
-            orderedSegments[index] = toPlace;
+            return -1;
         }
 
         public static void ChangeInfoLabel(string instanceName, object instance, Label infoLabel)

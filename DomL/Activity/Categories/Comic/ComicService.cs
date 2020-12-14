@@ -33,6 +33,11 @@ namespace DomL.Business.Services
             SaveFromConsolidated(consolidated, unitOfWork);
         }
 
+        public static List<Comic> GetAll(UnitOfWork unitOfWork)
+        {
+            return unitOfWork.ComicRepo.GetAllComics();
+        }
+
         private static void SaveFromConsolidated(ComicConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var series = SeriesService.GetOrCreateByName(consolidated.Series, unitOfWork);
@@ -60,8 +65,8 @@ namespace DomL.Business.Services
                     Type = type,
                     Series = series,
                     Number = number,
-                    Author = person,
-                    Publisher = company,
+                    Person = person,
+                    Company = company,
                     Year = year,
                     Score = score,
                 };
@@ -69,8 +74,8 @@ namespace DomL.Business.Services
                 instance.Type = type ?? instance.Type;
                 instance.Series = series ?? instance.Series;
                 instance.Number = number ?? instance.Number;
-                instance.Author = person ?? instance.Author;
-                instance.Publisher = company ?? instance.Publisher;
+                instance.Person = person ?? instance.Person;
+                instance.Company = company ?? instance.Company;
                 instance.Year = year != 0 ? year : instance.Year;
                 instance.Score = score ?? instance.Score;
             }
