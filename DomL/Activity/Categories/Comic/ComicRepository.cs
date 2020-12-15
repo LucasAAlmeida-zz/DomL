@@ -18,9 +18,7 @@ namespace DomL.DataAccess
         public Comic GetComicByTitle(string title)
         {
             var cleanTitle = Util.CleanString(title);
-            return DomLContext.Comic
-                .Include(u => u.Series)
-                .SingleOrDefault(u => u.Title == title);
+            return DomLContext.Comic.SingleOrDefault(u => u.Title == title);
         }
 
         public void CreateComicActivity(ComicActivity comicActivity)
@@ -35,9 +33,7 @@ namespace DomL.DataAccess
 
         public List<Comic> GetAllComics()
         {
-            return DomLContext.Comic
-                .Include(u => u.Series)
-                .ToList();
+            return DomLContext.Comic.ToList();
         }
     }
 }

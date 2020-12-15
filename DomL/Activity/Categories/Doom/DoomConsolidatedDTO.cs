@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -8,27 +9,31 @@ namespace DomL.Business.DTOs
 
         public DoomConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "DOOM";
-
             var doomActivity = activity.DoomActivity;
 
-            Description = doomActivity.Description;
+            Description = Util.GetStringOrDash(doomActivity.Description);
+
+            FillCommonInfo();
         }
 
         public DoomConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "DOOM";
+            Description = Util.GetStringOrDash(rawSegments[1]);
 
-            Description = rawSegments[1];
+            FillCommonInfo();
         }
 
         public DoomConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "DOOM";
-
             Description = backupSegments[4];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "DOOM";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetDoomActivityInfo().Replace("\t", "; ");
         }
 

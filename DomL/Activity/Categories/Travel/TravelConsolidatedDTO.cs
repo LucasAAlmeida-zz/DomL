@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -11,36 +12,40 @@ namespace DomL.Business.DTOs
 
         public Consolidated(Activity activity) : base(activity)
         {
-            CategoryName = "TRAVEL";
-
             var travelActivity = activity.TravelActivity;
 
-            Transport = travelActivity.Transport;
-            Origin = travelActivity.Origin;
-            Destination = travelActivity.Destination;
-            Description = travelActivity.Description;
+            Transport = Util.GetStringOrDash(travelActivity.Transport);
+            Origin = Util.GetStringOrDash(travelActivity.Origin);
+            Destination = Util.GetStringOrDash(travelActivity.Destination);
+            Description = Util.GetStringOrDash(travelActivity.Description);
+
+            FillCommonInfo();
         }
 
         public Consolidated(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "TRAVEL";
+            Transport = Util.GetStringOrDash(rawSegments[1]);
+            Origin = Util.GetStringOrDash(rawSegments[2]);
+            Destination = Util.GetStringOrDash(rawSegments[3]);
+            Description = Util.GetStringOrDash((rawSegments.Length > 4) ? rawSegments[4] : "-");
 
-            Transport = rawSegments[1];
-            Origin = rawSegments[2];
-            Destination = rawSegments[3];
-            Description = (rawSegments.Length > 4) ? rawSegments[4] : null;
+            FillCommonInfo();
         }
 
         public Consolidated(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "TRAVEL";
-
             Transport = backupSegments[4];
             Origin = backupSegments[5];
             Destination = backupSegments[6];
             Description = backupSegments[7];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "TRAVEL";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetTravelActivityInfo().Replace("\t", "; ");
         }
 

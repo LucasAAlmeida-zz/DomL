@@ -40,8 +40,7 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ShowConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var showSeason = GetOrUpdateOrCreateShowSeason(consolidated, series, unitOfWork);
+            var showSeason = GetOrUpdateOrCreateShowSeason(consolidated, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateShowActivity(activity, showSeason, consolidated.Description, unitOfWork);
         }
@@ -60,16 +59,17 @@ namespace DomL.Business.Services
             unitOfWork.ShowRepo.CreateShowActivity(showActivity);
         }
 
-        private static Show GetOrUpdateOrCreateShowSeason(ShowConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
+        private static Show GetOrUpdateOrCreateShowSeason(ShowConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var instance = GetByTitle(consolidated.Title, unitOfWork);
 
             var title = Util.GetStringOrNull(consolidated.Title);
             var type = Util.GetStringOrNull(consolidated.Type);
+            var series = Util.GetStringOrNull(consolidated.Series);
             var number = Util.GetStringOrNull(consolidated.Number);
             var person = Util.GetStringOrNull(consolidated.Person);
             var company = Util.GetStringOrNull(consolidated.Company);
-            var year = Util.GetIntOrZero(consolidated.Year);
+            var year = Util.GetStringOrNull(consolidated.Year);
             var score = Util.GetStringOrNull(consolidated.Score);
 
             if (instance == null) {
@@ -89,7 +89,7 @@ namespace DomL.Business.Services
                 instance.Number = number ?? instance.Number;
                 instance.Person = person ?? instance.Person;
                 instance.Company = company ?? instance.Company;
-                instance.Year = year != 0 ? year : instance.Year;
+                instance.Year = year ?? instance.Year;
                 instance.Score = score ?? instance.Score;
             }
 
@@ -110,7 +110,7 @@ namespace DomL.Business.Services
             var showSeason = activity.ShowActivity.Show;
             return previousStartingActivities.Where(u => 
                 u.CategoryId == Category.SHOW_ID
-                && u.ShowActivity.Show.Series.Name == showSeason.Series.Name && u.ShowActivity.Show.Title == showSeason.Title
+                && u.ShowActivity.Show.Series == showSeason.Series && u.ShowActivity.Show.Title == showSeason.Title
             );
         }
     }

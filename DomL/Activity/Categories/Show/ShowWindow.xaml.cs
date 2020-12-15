@@ -42,7 +42,7 @@ namespace DomL.Presentation
 
             var titleList = shows.Select(u => u.Title).Distinct().ToList();
             var typeList = shows.Where(u => u.Type != null).Select(u => u.Type).Distinct().ToList();
-            var seriesList = shows.Where(u => u.Series != null).Select(u => u.Series.Name).Distinct().ToList();
+            var seriesList = shows.Where(u => u.Series != null).Select(u => u.Series).Distinct().ToList();
             var numberList = Util.GetDefaultSeasonsList();
             var personList = shows.Where(u => u.Person != null).Select(u => u.Person).Distinct().ToList();
             var companyList = shows.Where(u => u.Company != null).Select(u => u.Company).Distinct().ToList();
@@ -52,10 +52,10 @@ namespace DomL.Presentation
             segments[0] = "";
             var remainingSegments = segments;
             var orderedSegments = new string[Enum.GetValues(typeof(NamedIndices)).Length];
+            var indexesToAvoid = new int[] { (int)NamedIndices.type, (int)NamedIndices.number, (int)NamedIndices.year, (int)NamedIndices.score };
 
-            var indexesToAvoid = new int[] { (int)NamedIndices.year };
             Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, remainingSegments[1], indexesToAvoid);
-            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
+            Util.SetComboBox(TitleCB, titleList, orderedSegments[(int)NamedIndices.title]);
             TitleCB_LostFocus(null, null);
 
             // SHOW; Title; Type; Series; Season; Person; Company; Year; Score; Description
@@ -83,14 +83,14 @@ namespace DomL.Presentation
                 remainingSegments = remainingSegments.Where(u => u != remainingSegments[2]).ToArray();
             }
 
-            Util.SetComboBox(TypeCB, segments, typeList, orderedSegments[(int)NamedIndices.type]);
-            Util.SetComboBox(SeriesCB, segments, seriesList, orderedSegments[(int)NamedIndices.series]);
-            Util.SetComboBox(NumberCB, segments, numberList, orderedSegments[(int)NamedIndices.number]);
-            Util.SetComboBox(PersonCB, segments, personList, orderedSegments[(int)NamedIndices.person]);
-            Util.SetComboBox(CompanyCB, segments, companyList, orderedSegments[(int)NamedIndices.company]);
-            Util.SetComboBox(YearCB, segments, yearList, orderedSegments[(int)NamedIndices.year]);
-            Util.SetComboBox(ScoreCB, segments, scoreList, orderedSegments[(int)NamedIndices.score]);
-            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[(int)NamedIndices.description]);
+            Util.SetComboBox(TypeCB, typeList, orderedSegments[(int)NamedIndices.type]);
+            Util.SetComboBox(SeriesCB, seriesList, orderedSegments[(int)NamedIndices.series]);
+            Util.SetComboBox(NumberCB, numberList, orderedSegments[(int)NamedIndices.number]);
+            Util.SetComboBox(PersonCB, personList, orderedSegments[(int)NamedIndices.person]);
+            Util.SetComboBox(CompanyCB, companyList, orderedSegments[(int)NamedIndices.company]);
+            Util.SetComboBox(YearCB, yearList, orderedSegments[(int)NamedIndices.year]);
+            Util.SetComboBox(ScoreCB, scoreList, orderedSegments[(int)NamedIndices.score]);
+            Util.SetComboBox(DescriptionCB, new List<string>(), orderedSegments[(int)NamedIndices.description]);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
@@ -115,33 +115,13 @@ namespace DomL.Presentation
 
         private void UpdateOptionalComboBoxes(Show show)
         {
-            if (show.Type != null) {
-                TypeCB.Text = show.Type;
-            }
-
-            if (show.Series != null) {
-                SeriesCB.Text = show.Series.Name;
-            }
-
-            if (show.Number != null) {
-                NumberCB.Text = show.Number;
-            }
-
-            if (show.Person != null) {
-                PersonCB.Text = show.Person;
-            }
-
-            if (show.Company != null) {
-                CompanyCB.Text = show.Company;
-            }
-
-            if (show.Year != 0) {
-                YearCB.Text = show.Year.ToString();
-            }
-
-            if (show.Score != null) {
-                ScoreCB.Text = show.Score;
-            }
+            TypeCB.Text = show.Type ?? TypeCB.Text;
+            SeriesCB.Text = show.Series ?? SeriesCB.Text;
+            NumberCB.Text = show.Number ?? NumberCB.Text;
+            PersonCB.Text = show.Person ?? PersonCB.Text;
+            CompanyCB.Text = show.Company ?? CompanyCB.Text;
+            YearCB.Text = show.Year ?? YearCB.Text;
+            ScoreCB.Text = show.Score ?? ScoreCB.Text;
         }
     }
 }

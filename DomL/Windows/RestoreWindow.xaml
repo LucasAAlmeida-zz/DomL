@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DomL.Presentation"
         mc:Ignorable="d"
         Title="Restore Window" Height="450" Width="800">
     <DockPanel>
@@ -11,6 +10,7 @@
             <GroupBox Header="Restore">
                 <DockPanel>
                     <StackPanel>
+                        <Button Height="30" Width="80" Margin="5" Content="All" Click="AllRestoreButton_Click"/>
                         <StackPanel Orientation="Horizontal">
                             <Button Height="30" Width="80" Margin="5" Content="Auto" Click="AutoRestoreButton_Click"/>
                             <Button Height="30" Width="80" Margin="5" Content="Book" Click="BookRestoreButton_Click"/>
@@ -18,8 +18,6 @@
                             <Button Height="30" Width="80" Margin="5" Content="Course" Click="CourseRestoreButton_Click"/>
                             <Button Height="30" Width="80" Margin="5" Content="Doom" Click="DoomRestoreButton_Click"/>
                             <Button Height="30" Width="80" Margin="5" Content="Event" Click="EventRestoreButton_Click"/>
-                            
-                            
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button Height="30" Width="80" Margin="5" Content="Game" Click="GameRestoreButton_Click"/>
@@ -28,8 +26,6 @@
                             <Button Height="30" Width="80" Margin="5" Content="Meet" Click="MeetRestoreButton_Click"/>
                             <Button Height="30" Width="80" Margin="5" Content="Movie" Click="MovieRestoreButton_Click"/>
                             <Button Height="30" Width="80" Margin="5" Content="Pet" Click="PetRestoreButton_Click"/>
-                            
-                            
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Button Height="30" Width="80" Margin="5" Content="Play" Click="PlayRestoreButton_Click"/>

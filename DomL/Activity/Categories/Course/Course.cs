@@ -29,7 +29,7 @@ namespace DomL.Business.Entities
         public string Number { get; set; }
         public string Person { get; set; }
         public string Company { get; set; }
-        public int Year { get; set; }
+        public string Year { get; set; }
         public string Score { get; set; }
     }
 }

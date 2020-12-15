@@ -36,8 +36,7 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ConsolidatedGameDTO consolidated, UnitOfWork unitOfWork)
         {
-            var series = SeriesService.GetOrCreateByName(consolidated.SeriesName, unitOfWork);
-            var game = GetOrUpdateOrCreateGame(consolidated, series, unitOfWork);
+            var game = GetOrUpdateOrCreateGame(consolidated, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateGameActivity(activity, game, consolidated.Description, unitOfWork);
         }
@@ -47,22 +46,23 @@ namespace DomL.Business.Services
             return unitOfWork.GameRepo.GetAllGames();
         }
 
-        private static Game GetOrUpdateOrCreateGame(ConsolidatedGameDTO consolidated, Series series, UnitOfWork unitOfWork)
+        private static Game GetOrUpdateOrCreateGame(ConsolidatedGameDTO consolidated, UnitOfWork unitOfWork)
         {
             var instance = GetByTitle(consolidated.Title, unitOfWork);
 
             var title = Util.GetStringOrNull(consolidated.Title);
-            var platform = Util.GetStringOrNull(consolidated.Platform);
+            var type = Util.GetStringOrNull(consolidated.Type);
+            var series = Util.GetStringOrNull(consolidated.Series);
             var number = Util.GetStringOrNull(consolidated.Number);
             var person = Util.GetStringOrNull(consolidated.Person);
             var company = Util.GetStringOrNull(consolidated.Company);
-            var year = Util.GetIntOrZero(consolidated.Year);
+            var year = Util.GetStringOrNull(consolidated.Year);
             var score = Util.GetStringOrNull(consolidated.Score);
 
             if (instance == null) {
                 instance = new Game() {
                     Title = title,
-                    Type = platform,
+                    Type = type,
                     Series = series,
                     Number = number,
                     Person = person,
@@ -71,12 +71,12 @@ namespace DomL.Business.Services
                     Score = score,
                 };
             } else {
-                instance.Type = platform ?? instance.Type;
+                instance.Type = type ?? instance.Type;
                 instance.Series = series ?? instance.Series;
                 instance.Number = number ?? instance.Number;
                 instance.Person = person ?? instance.Person;
                 instance.Company = company ?? instance.Company;
-                instance.Year = year != 0 ? year : instance.Year;
+                instance.Year = year ?? instance.Year;
                 instance.Score = score ?? instance.Score;
             }
 

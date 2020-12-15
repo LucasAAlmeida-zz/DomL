@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.Presentation;
 
 namespace DomL.Business.DTOs
@@ -17,35 +18,35 @@ namespace DomL.Business.DTOs
 
         public ComicConsolidatedDTO(Activity activity) : base (activity)
         {
-            CategoryName = "COMIC";
-
             var comicActivity = activity.ComicActivity;
             var comic = comicActivity.Comic;
 
-            Title = comic.Title;
-            Person = comic.Person ?? "-";
-            Type = comic.Type ?? "-";
-            Series = comic.Series.Name;
-            Number = comic.Number ?? "-";
-            Company = comic.Company ?? "-";
-            Year = comic.Year.ToString();
-            Score = comic.Score ?? "-";
-            Description = comicActivity.Description ?? "-";
+            Title = Util.GetStringOrDash(comic.Title);
+            Person = Util.GetStringOrDash(comic.Person);
+            Type = Util.GetStringOrDash(comic.Type);
+            Series = Util.GetStringOrDash(comic.Series);
+            Number = Util.GetStringOrDash(comic.Number);
+            Company = Util.GetStringOrDash(comic.Company);
+            Year = Util.GetStringOrDash(comic.Year);
+            Score = Util.GetStringOrDash(comic.Score);
+            Description = Util.GetStringOrDash(comicActivity.Description);
+
+            FillCommonInfo();
         }
 
         public ComicConsolidatedDTO(ComicWindow comicWindow, Activity activity) : base(activity)
         {
-            CategoryName = "COMIC";
+            Title = Util.GetStringOrDash(comicWindow.TitleCB.Text);
+            Person = Util.GetStringOrDash(comicWindow.PersonCB.Text);
+            Type = Util.GetStringOrDash(comicWindow.TypeCB.Text);
+            Series = Util.GetStringOrDash(comicWindow.SeriesCB.Text);
+            Number = Util.GetStringOrDash(comicWindow.NumberCB.Text);
+            Company = Util.GetStringOrDash(comicWindow.CompanyCB.Text);
+            Year = Util.GetStringOrDash(comicWindow.YearCB.Text);
+            Score = Util.GetStringOrDash(comicWindow.ScoreCB.Text);
+            Description = Util.GetStringOrDash(comicWindow.DescriptionCB.Text);
 
-            Title = comicWindow.TitleCB.Text;
-            Person = comicWindow.PersonCB.Text;
-            Type = comicWindow.TypeCB.Text;
-            Series = comicWindow.SeriesCB.Text;
-            Number = comicWindow.NumberCB.Text;
-            Company = comicWindow.CompanyCB.Text;
-            Year = comicWindow.YearCB.Text;
-            Score = comicWindow.ScoreCB.Text;
-            Description = comicWindow.DescriptionCB.Text;
+            FillCommonInfo();
         }
 
         public ComicConsolidatedDTO(string[] backupSegments) : base(backupSegments)
@@ -62,7 +63,13 @@ namespace DomL.Business.DTOs
             Score = backupSegments[11];
             Description = backupSegments[12];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "COMIC";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetComicActivityInfo().Replace("\t", "; ");
         }
 

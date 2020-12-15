@@ -26,9 +26,6 @@ public class UnitOfWork : IDisposable
     public TravelRepository TravelRepo { get; private set; }
     public WorkRepository WorkRepo { get; private set; }
 
-    public SeriesRepository SeriesRepo { get; private set; }
-    public FranchiseRepository FranchiseRepo { get; internal set; }
-
     public UnitOfWork(DomLContext context)
     {
         _context = context;
@@ -52,9 +49,6 @@ public class UnitOfWork : IDisposable
         ShowRepo = new ShowRepository(_context);
         TravelRepo = new TravelRepository(_context);
         WorkRepo = new WorkRepository(_context);
-
-        SeriesRepo = new SeriesRepository(_context);
-        FranchiseRepo = new FranchiseRepository(_context);
     }
 
     public int Complete()

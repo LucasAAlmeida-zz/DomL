@@ -50,7 +50,7 @@ namespace DomL.Business.Services
             var number = Util.GetStringOrNull(consolidated.Number);
             var person = Util.GetStringOrNull(consolidated.Person);
             var company = Util.GetStringOrNull(consolidated.Company);
-            var year = Util.GetIntOrZero(consolidated.Year);
+            var year = Util.GetStringOrNull(consolidated.Year);
             var score = Util.GetStringOrNull(consolidated.Score);
 
             if (instance == null) {
@@ -70,7 +70,7 @@ namespace DomL.Business.Services
                 instance.Number = number ?? instance.Number;
                 instance.Person = person ?? instance.Person;
                 instance.Company = company ?? instance.Company;
-                instance.Year = year != 0 ? year : instance.Year;
+                instance.Year = year ?? instance.Year;
                 instance.Score = score ?? instance.Score;
             }
 

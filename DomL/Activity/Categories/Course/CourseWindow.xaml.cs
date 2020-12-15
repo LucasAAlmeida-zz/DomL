@@ -53,9 +53,9 @@ namespace DomL.Presentation
             var remainingSegments = segments;
             var orderedSegments = new string[Enum.GetValues(typeof(NamedIndices)).Length];
 
-            var indexesToAvoid = new int[] { (int)NamedIndices.year };
+            var indexesToAvoid = new int[] { (int)NamedIndices.type, (int)NamedIndices.number, (int)NamedIndices.year, (int)NamedIndices.score };
             Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, remainingSegments[1], indexesToAvoid);
-            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
+            Util.SetComboBox(TitleCB, titleList, orderedSegments[(int)NamedIndices.title]);
             TitleCB_LostFocus(null, null);
 
             // COURSE; Title; Type; Series; Number; Person; Company; Year; Score; Description
@@ -86,14 +86,14 @@ namespace DomL.Presentation
                 remainingSegments = remainingSegments.Where(u => u != remainingSegments[2]).ToArray();
             }
 
-            Util.SetComboBox(TypeCB, segments, typeList, orderedSegments[(int)NamedIndices.type]);
-            Util.SetComboBox(SeriesCB, segments, seriesList, orderedSegments[(int)NamedIndices.series]);
-            Util.SetComboBox(NumberCB, segments, numberList, orderedSegments[(int)NamedIndices.number]);
-            Util.SetComboBox(PersonCB, segments, personList, orderedSegments[(int)NamedIndices.person]);
-            Util.SetComboBox(CompanyCB, segments, companyList, orderedSegments[(int)NamedIndices.company]);
-            Util.SetComboBox(YearCB, segments, yearList, orderedSegments[(int)NamedIndices.year]);
-            Util.SetComboBox(ScoreCB, segments, scoreList, orderedSegments[(int)NamedIndices.score]);
-            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[(int)NamedIndices.description]);
+            Util.SetComboBox(TypeCB, typeList, orderedSegments[(int)NamedIndices.type]);
+            Util.SetComboBox(SeriesCB, seriesList, orderedSegments[(int)NamedIndices.series]);
+            Util.SetComboBox(NumberCB, numberList, orderedSegments[(int)NamedIndices.number]);
+            Util.SetComboBox(PersonCB, personList, orderedSegments[(int)NamedIndices.person]);
+            Util.SetComboBox(CompanyCB, companyList, orderedSegments[(int)NamedIndices.company]);
+            Util.SetComboBox(YearCB, yearList, orderedSegments[(int)NamedIndices.year]);
+            Util.SetComboBox(ScoreCB, scoreList, orderedSegments[(int)NamedIndices.score]);
+            Util.SetComboBox(DescriptionCB, new List<string>(), orderedSegments[(int)NamedIndices.description]);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
@@ -121,33 +121,13 @@ namespace DomL.Presentation
 
         private void UpdateOptionalComboBoxes(Course course)
         {
-            if (course.Type != null) {
-                TypeCB.Text = course.Type;
-            }
-
-            if (course.Series != null) {
-                SeriesCB.Text = course.Series;
-            }
-
-            if (course.Number != null) {
-                NumberCB.Text = course.Number;
-            }
-
-            if (course.Person != null) {
-                PersonCB.Text = course.Person;
-            }
-
-            if (course.Company != null) {
-                CompanyCB.Text = course.Company;
-            }
-
-            if (course.Year != 0) {
-                YearCB.Text = course.Year.ToString();
-            }
-
-            if (course.Score != null) {
-                ScoreCB.Text = course.Score;
-            }
+            TypeCB.Text = course.Type ?? TypeCB.Text;
+            SeriesCB.Text = course.Series ?? SeriesCB.Text;
+            NumberCB.Text = course.Number ?? NumberCB.Text;
+            PersonCB.Text = course.Person ?? PersonCB.Text;
+            CompanyCB.Text = course.Company ?? CompanyCB.Text;
+            YearCB.Text = course.Year ?? YearCB.Text;
+            ScoreCB.Text = course.Score ?? ScoreCB.Text;
         }
     }
 }

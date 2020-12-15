@@ -11,12 +11,11 @@ namespace DomL.Business.Entities
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public int DayOrder { get; set; }
+        public string Block { get; set; }
+        public string ConsolidatedLine { get; set; }
         public int CategoryId { get; set; }
-        public int? StatusId { get; set; }
+        public int StatusId { get; set; }
         public int? PairedActivityId { get; set; }
-        public int? BlockId { get; set; }
-        [Required]
-        public string OriginalLine { get; set; }
         
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
@@ -24,8 +23,6 @@ namespace DomL.Business.Entities
         public Status Status { get; set; }
         [ForeignKey("PairedActivityId")]
         public Activity PairedActivity { get; set; }
-        [ForeignKey("BlockId")]
-        public Block Block { get; set; }
 
         public string GetInfoMessage()
         {
@@ -51,15 +48,6 @@ namespace DomL.Business.Entities
         public virtual ShowActivity ShowActivity { get; set; }
         public virtual TravelActivity TravelActivity { get; set; }
         public virtual WorkActivity WorkActivity { get; set; }
-    }
-
-    [Table("Block")]
-    public class Block
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
     }
 
     [Table("Category")]

@@ -13,7 +13,7 @@ namespace DomL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202012141400551_Initial"; }
+            get { return "202012151743141_Initial"; }
         }
         
         string IMigrationMetadata.Source

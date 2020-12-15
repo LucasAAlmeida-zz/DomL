@@ -51,37 +51,30 @@ namespace DomL.DataAccess.Repositories
             return DomLContext.Activity
                 .Include(u => u.Category)
                 .Include(u => u.Status)
-                .Include(u => u.Block)
                 .Include(u => u.AutoActivity)
-                .Include(u => u.BookActivity.Book.Series)
-                .Include(u => u.ComicActivity.Comic.Series)
+                .Include(u => u.BookActivity.Book)
+                .Include(u => u.ComicActivity.Comic)
                 .Include(u => u.CourseActivity.Course)
                 .Include(u => u.DoomActivity)
                 .Include(u => u.EventActivity)
-                .Include(u => u.GameActivity.Game.Series)
+                .Include(u => u.GameActivity.Game)
                 .Include(u => u.GiftActivity)
                 .Include(u => u.HealthActivity)
-                .Include(u => u.MovieActivity.Movie.Series)
+                .Include(u => u.MovieActivity.Movie)
                 .Include(u => u.PetActivity)
                 .Include(u => u.MeetActivity)
                 .Include(u => u.PlayActivity)
                 .Include(u => u.PurchaseActivity)
-                .Include(u => u.ShowActivity.Show.Series)
+                .Include(u => u.ShowActivity.Show)
                 .Include(u => u.TravelActivity)
                 .Include(u => u.WorkActivity)
                 .OrderBy(a => a.Date).ThenBy(a => a.DayOrder);
         }
 
-        public void DeleteAllFromMonth(int month, int year)
+        public void DeleteAllFromDay(DateTime date)
         {
             DomLContext.Activity
-                .Where(u=> u.PairedActivityId != null &&
-                    (
-                        (u.Date.Month == month && u.Date.Year == year) 
-                        ||
-                        (u.PairedActivity.Date.Month == month && u.PairedActivity.Date.Year == year)
-                    )
-                )
+                .Where(u => u.PairedActivityId != null && (u.Date == date || u.PairedActivity.Date == date))
                 .ToList()
                 .ForEach(u => u.PairedActivityId = null);
             DomLContext.SaveChanges();
@@ -105,7 +98,7 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.ShowActivity)
                     .Include(u => u.TravelActivity)
                     .Include(u => u.WorkActivity)
-                    .Where(u => u.Date.Month == month && u.Date.Year == year)
+                    .Where(u => u.Date == date)
             );
         }
 
@@ -141,16 +134,6 @@ namespace DomL.DataAccess.Repositories
                     .Include(u => u.WorkActivity)
                     .Where(u => u.CategoryId == categoryId)
             );
-        }
-
-        public void CreateActivityBlock(Block activityBlock)
-        {
-            DomLContext.ActivityBlock.Add(activityBlock);
-        }
-
-        public Block GetActivityBlockByName(string blockName)
-        {
-            return DomLContext.ActivityBlock.SingleOrDefault(u => u.Name == blockName);
         }
 
         public Category GetCategoryByName(string categoryName)

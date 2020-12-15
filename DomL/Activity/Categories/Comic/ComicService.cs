@@ -40,23 +40,22 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(ComicConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var series = SeriesService.GetOrCreateByName(consolidated.Series, unitOfWork);
-
-            var comicVolume = GetOrUpdateOrCreateComicVolume(consolidated, series, unitOfWork);
+            var comicVolume = GetOrUpdateOrCreateComicVolume(consolidated, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
             CreateComicActivity(activity, comicVolume, consolidated.Description, unitOfWork);
         }
 
-        private static Comic GetOrUpdateOrCreateComicVolume(ComicConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
+        private static Comic GetOrUpdateOrCreateComicVolume(ComicConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var instance = GetByTitle(consolidated.Title, unitOfWork);
 
             var title = Util.GetStringOrNull(consolidated.Title);
             var type = Util.GetStringOrNull(consolidated.Type);
+            var series = Util.GetStringOrNull(consolidated.Series);
             var number = Util.GetStringOrNull(consolidated.Number);
             var person = Util.GetStringOrNull(consolidated.Person);
             var company = Util.GetStringOrNull(consolidated.Company);
-            var year = Util.GetIntOrZero(consolidated.Year);
+            var year = Util.GetStringOrNull(consolidated.Year);
             var score = Util.GetStringOrNull(consolidated.Score);
 
             if (instance == null) {
@@ -76,7 +75,7 @@ namespace DomL.Business.Services
                 instance.Number = number ?? instance.Number;
                 instance.Person = person ?? instance.Person;
                 instance.Company = company ?? instance.Company;
-                instance.Year = year != 0 ? year : instance.Year;
+                instance.Year = year ?? instance.Year;
                 instance.Score = score ?? instance.Score;
             }
 

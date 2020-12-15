@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -9,31 +10,35 @@ namespace DomL.Business.DTOs
 
         public AutoConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "AUTO";
-
             var autoActivity = activity.AutoActivity;
 
-            Auto = autoActivity.Auto;
-            Description = autoActivity.Description;
+            Auto = Util.GetStringOrDash(autoActivity.Auto);
+            Description = Util.GetStringOrDash(autoActivity.Description);
+
+            FillCommonInfo();
         }
 
         public AutoConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "AUTO";
+            Auto = Util.GetStringOrDash(rawSegments[1]);
+            Description = Util.GetStringOrDash(rawSegments[2]);
 
-            Auto = rawSegments[1];
-            Description = rawSegments[2];
+            FillCommonInfo();
         }
 
         public AutoConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "AUTO";
-
             Auto = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
-                + GetAutoActivityInfo().Replace("\t", "; ");
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "AUTO";
+            ConsolidatedLine = GetInfoForConsolidatedLine()
+                + "; " + GetAutoActivityInfo().Replace("\t", "; ");
         }
 
         public new string GetInfoForYearRecap()

@@ -42,7 +42,7 @@ namespace DomL.Presentation
 
             var titleList = games.Select(u => u.Title).Distinct().ToList();
             var typeList = games.Where(u => u.Type != null).Select(u => u.Type).Distinct().ToList();
-            var seriesList = games.Where(u => u.Series != null).Select(u => u.Series.Name).Distinct().ToList();
+            var seriesList = games.Where(u => u.Series != null).Select(u => u.Series).Distinct().ToList();
             var numberList = Util.GetDefaultNumberList();
             var personList = games.Where(u => u.Person != null).Select(u => u.Person).Distinct().ToList();
             var companyList = games.Where(u => u.Company != null).Select(u => u.Company).Distinct().ToList();
@@ -53,9 +53,9 @@ namespace DomL.Presentation
             var remainingSegments = segments;
             var orderedSegments = new string[Enum.GetValues(typeof(NamedIndices)).Length];
 
-            var indexesToAvoid = new int[] { (int)NamedIndices.year };
+            var indexesToAvoid = new int[] { (int)NamedIndices.type, (int)NamedIndices.number, (int)NamedIndices.year, (int)NamedIndices.score };
             Util.PlaceOrderedSegment(orderedSegments, (int)NamedIndices.title, remainingSegments[1], indexesToAvoid);
-            Util.SetComboBox(TitleCB, segments, titleList, orderedSegments[(int)NamedIndices.title]);
+            Util.SetComboBox(TitleCB, titleList, orderedSegments[(int)NamedIndices.title]);
             TitleCB_LostFocus(null, null);
 
             // GAME; Title; Type; Series; Number; Person; Company; Year; Score; Description
@@ -86,14 +86,14 @@ namespace DomL.Presentation
                 remainingSegments = remainingSegments.Where(u => u != remainingSegments[2]).ToArray();
             }
 
-            Util.SetComboBox(TypeCB, segments, typeList, orderedSegments[(int)NamedIndices.type]);
-            Util.SetComboBox(SeriesCB, segments, seriesList, orderedSegments[(int)NamedIndices.series]);
-            Util.SetComboBox(NumberCB, segments, numberList, orderedSegments[(int)NamedIndices.number]);
-            Util.SetComboBox(PersonCB, segments, personList, orderedSegments[(int)NamedIndices.person]);
-            Util.SetComboBox(CompanyCB, segments, companyList, orderedSegments[(int)NamedIndices.company]);
-            Util.SetComboBox(YearCB, segments, yearList, orderedSegments[(int)NamedIndices.year]);
-            Util.SetComboBox(ScoreCB, segments, scoreList, orderedSegments[(int)NamedIndices.score]);
-            Util.SetComboBox(DescriptionCB, segments, new List<string>(), orderedSegments[(int)NamedIndices.description]);
+            Util.SetComboBox(TypeCB, typeList, orderedSegments[(int)NamedIndices.type]);
+            Util.SetComboBox(SeriesCB, seriesList, orderedSegments[(int)NamedIndices.series]);
+            Util.SetComboBox(NumberCB, numberList, orderedSegments[(int)NamedIndices.number]);
+            Util.SetComboBox(PersonCB, personList, orderedSegments[(int)NamedIndices.person]);
+            Util.SetComboBox(CompanyCB, companyList, orderedSegments[(int)NamedIndices.company]);
+            Util.SetComboBox(YearCB, yearList, orderedSegments[(int)NamedIndices.year]);
+            Util.SetComboBox(ScoreCB, scoreList, orderedSegments[(int)NamedIndices.score]);
+            Util.SetComboBox(DescriptionCB, new List<string>(), orderedSegments[(int)NamedIndices.description]);
         }
 
         private void BtnDialogOk_Click(object sender, RoutedEventArgs e)
@@ -121,33 +121,13 @@ namespace DomL.Presentation
 
         private void UpdateOptionalComboBoxes(Game game)
         {
-            if (game.Type != null) {
-                TypeCB.Text = game.Type;
-            }
-
-            if (game.Series != null) {
-                SeriesCB.Text = game.Series.Name;
-            }
-
-            if (game.Number != null) {
-                NumberCB.Text = game.Number;
-            }
-
-            if (game.Person != null) {
-                PersonCB.Text = game.Person;
-            }
-
-            if (game.Company != null) {
-                CompanyCB.Text = game.Company;
-            }
-
-            if (game.Year != 0) {
-                YearCB.Text = game.Year.ToString();
-            }
-
-            if (game.Score != null) {
-                ScoreCB.Text = game.Score;
-            }
+            TypeCB.Text = game.Type ?? TypeCB.Text;
+            SeriesCB.Text = game.Series ?? SeriesCB.Text;
+            NumberCB.Text = game.Number ?? NumberCB.Text;
+            PersonCB.Text = game.Person ?? PersonCB.Text;
+            CompanyCB.Text = game.Company ?? CompanyCB.Text;
+            YearCB.Text = game.Year ?? YearCB.Text;
+            ScoreCB.Text = game.Score ?? ScoreCB.Text;
         }
     }
 }

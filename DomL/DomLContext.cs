@@ -6,7 +6,6 @@ namespace DomL.DataAccess
     public class DomLContext : DbContext
     {
         public DbSet<Activity> Activity { get; set; }
-        public DbSet<Block> ActivityBlock { get; set; }
         public DbSet<Category> ActivityCategory { get; set; }
         public DbSet<Status> ActivityStatus { get; set; }
 
@@ -49,9 +48,6 @@ namespace DomL.DataAccess
         public DbSet<TravelActivity> TravelActivity { get; set; }
         
         public DbSet<WorkActivity> WorkActivity { get; set; }
-
-        public DbSet<Series> Series { get; set; }
-        public DbSet<Franchise> Franchise { get; set; }
 
         public DomLContext() : base("name=DefaultConnection") { }
     }

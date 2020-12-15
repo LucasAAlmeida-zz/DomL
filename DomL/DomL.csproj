@@ -136,8 +136,6 @@
     <Compile Include="Activity\Categories\Pet\Pet.cs" />
     <Compile Include="Activity\Activity.cs" />
     <Compile Include="Activity\Categories\Event\Event.cs" />
-    <Compile Include="Activity\Helpers\Franchise\Franchise.cs" />
-    <Compile Include="Activity\Helpers\Series\Series.cs" />
     <Compile Include="Activity\ActivityService.cs" />
     <Compile Include="Activity\Categories\Travel\TravelService.cs" />
     <Compile Include="Activity\Categories\Show\ShowService.cs" />
@@ -154,19 +152,14 @@
     <Compile Include="Activity\Categories\Comic\ComicService.cs" />
     <Compile Include="Activity\Categories\Book\BookService.cs" />
     <Compile Include="Activity\Categories\Auto\AutoService.cs" />
-    <Compile Include="Migrations\202012141400551_Initial.cs" />
-    <Compile Include="Migrations\202012141400551_Initial.designer.cs">
-      <DependentUpon>202012141400551_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012141659487_a.cs" />
-    <Compile Include="Migrations\202012141659487_a.designer.cs">
-      <DependentUpon>202012141659487_a.cs</DependentUpon>
+    <Compile Include="Migrations\202012151743141_Initial.cs" />
+    <Compile Include="Migrations\202012151743141_Initial.designer.cs">
+      <DependentUpon>202012151743141_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Windows\RestoreWindow.xaml.cs">
       <DependentUpon>RestoreWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DomLServices.cs" />
-    <Compile Include="Activity\Helpers\Series\SeriesService.cs" />
     <Compile Include="DomLExceptions.cs" />
     <Compile Include="Activity\Categories\Comic\Comic.cs" />
     <Compile Include="Activity\Categories\Doom\Doom.cs" />
@@ -185,14 +178,12 @@
     <Compile Include="Activity\Categories\Movie\MovieRepository.cs" />
     <Compile Include="Activity\Categories\Event\EventRepository.cs" />
     <Compile Include="Activity\Categories\Doom\DoomRepository.cs" />
-    <Compile Include="Activity\Helpers\Franchise\FranchiseRepository.cs" />
     <Compile Include="Activity\Categories\Travel\TravelRepository.cs" />
     <Compile Include="Activity\Categories\Purchase\PurchaseRepository.cs" />
     <Compile Include="Activity\Categories\Play\PlayRepository.cs" />
     <Compile Include="Activity\Categories\Health\HealthRepository.cs" />
     <Compile Include="Activity\Categories\Gift\GiftRepository.cs" />
     <Compile Include="Activity\Categories\Auto\AutoRepository.cs" />
-    <Compile Include="Activity\Helpers\Series\SeriesRepository.cs" />
     <Compile Include="Activity\Categories\Game\GameRepository.cs" />
     <Compile Include="Activity\Categories\Comic\ComicRepository.cs" />
     <Compile Include="Activity\Categories\Book\BookRepository.cs" />
@@ -241,11 +232,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Migrations\202012141400551_Initial.resx">
-      <DependentUpon>202012141400551_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012141659487_a.resx">
-      <DependentUpon>202012141659487_a.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202012151743141_Initial.resx">
+      <DependentUpon>202012151743141_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

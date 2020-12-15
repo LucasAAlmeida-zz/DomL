@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -9,30 +10,34 @@ namespace DomL.Business.DTOs
 
         public WorkConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "WORK";
-
             var workActivity = activity.WorkActivity;
 
-            Work = workActivity.Work;
-            Description = workActivity.Description;
+            Work = Util.GetStringOrDash(workActivity.Work);
+            Description = Util.GetStringOrDash(workActivity.Description);
+
+            FillCommonInfo();
         }
 
         public WorkConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "WORK";
+            Work = Util.GetStringOrDash(rawSegments[1]);
+            Description = Util.GetStringOrDash(rawSegments[2]);
 
-            Work = rawSegments[1];
-            Description = rawSegments[2];
+            FillCommonInfo();
         }
 
         public WorkConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "WORK";
-
             Work = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "WORK";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetWorkActivityInfo().Replace("\t", "; ");
         }
 

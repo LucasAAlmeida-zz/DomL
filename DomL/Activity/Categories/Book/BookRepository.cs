@@ -19,7 +19,6 @@ namespace DomL.DataAccess
         {
             var cleanTitle = Util.CleanString(title);
             return DomLContext.Book
-                .Include(u => u.Series)
                 .SingleOrDefault(u =>
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanTitle
@@ -38,9 +37,7 @@ namespace DomL.DataAccess
 
         public List<Book> GetAllBooks()
         {
-            return DomLContext.Book
-                .Include(u => u.Series)
-                .ToList();
+            return DomLContext.Book.ToList();
         }
     }
 }

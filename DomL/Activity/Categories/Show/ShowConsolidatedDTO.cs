@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.Presentation;
 
 namespace DomL.Business.DTOs
@@ -7,7 +8,7 @@ namespace DomL.Business.DTOs
     {
         public string Title;
         public string Type;
-        public string SeriesName;
+        public string Series;
         public string Number;
         public string Person;
         public string Company;
@@ -17,44 +18,42 @@ namespace DomL.Business.DTOs
 
         public ShowConsolidatedDTO(Activity activity) : base (activity)
         {
-            CategoryName = "SHOW";
-
             var showActivity = activity.ShowActivity;
-            var showSeason = showActivity.Show;
+            var show = showActivity.Show;
 
-            Title = showSeason.Title;
-            Type = showSeason.Type ?? "-";
-            SeriesName = showSeason.Series.Name;
-            Number = showSeason.Number;
-            Person = showSeason.Person ?? "-";
-            Company = showSeason.Company ?? "-";
-            Year = showSeason.Year.ToString();
-            Score = showSeason.Score ?? "-";
-            Description = (!string.IsNullOrWhiteSpace(showActivity.Description)) ? showActivity.Description : "-";
+            Title = Util.GetStringOrDash(show.Title);
+            Type = Util.GetStringOrDash(show.Type);
+            Series = Util.GetStringOrDash(show.Series);
+            Number = Util.GetStringOrDash(show.Number);
+            Person = Util.GetStringOrDash(show.Person);
+            Company = Util.GetStringOrDash(show.Company);
+            Year = Util.GetStringOrDash(show.Year);
+            Score = Util.GetStringOrDash(show.Score);
+            Description = Util.GetStringOrDash(showActivity.Description);
+
+            FillCommonInfo();
         }
 
         public ShowConsolidatedDTO(ShowWindow showWindow, Activity activity) : base(activity)
         {
-            CategoryName = "SHOW";
+            Title = Util.GetStringOrDash(showWindow.TitleCB.Text);
+            Type = Util.GetStringOrDash(showWindow.TypeCB.Text);
+            Series = Util.GetStringOrDash(showWindow.SeriesCB.Text);
+            Number = Util.GetStringOrDash(showWindow.NumberCB.Text);
+            Person = Util.GetStringOrDash(showWindow.PersonCB.Text);
+            Company = Util.GetStringOrDash(showWindow.CompanyCB.Text);
+            Year = Util.GetStringOrDash(showWindow.YearCB.Text);
+            Score = Util.GetStringOrDash(showWindow.ScoreCB.Text);
+            Description = Util.GetStringOrDash(showWindow.DescriptionCB.Text);
 
-            Title = showWindow.TitleCB.Text;
-            Type = showWindow.TypeCB.Text;
-            SeriesName = showWindow.SeriesCB.Text;
-            Number = showWindow.NumberCB.Text;
-            Person = showWindow.PersonCB.Text;
-            Company = showWindow.CompanyCB.Text;
-            Year = showWindow.YearCB.Text;
-            Score = showWindow.ScoreCB.Text;
-            Description = (!string.IsNullOrWhiteSpace(showWindow.DescriptionCB.Text)) ? showWindow.DescriptionCB.Text : null;
+            FillCommonInfo();
         }
 
         public ShowConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "SHOW";
-
             Title = backupSegments[4];
             Type = backupSegments[5];
-            SeriesName = backupSegments[6];
+            Series = backupSegments[6];
             Number = backupSegments[7];
             Person = backupSegments[8];
             Company = backupSegments[9];
@@ -62,7 +61,13 @@ namespace DomL.Business.DTOs
             Score = backupSegments[11];
             Description = backupSegments[12];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "SHOW";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetShowActivityInfo().Replace("\t", "; ");
         }
 
@@ -81,7 +86,7 @@ namespace DomL.Business.DTOs
         private string GetShowActivityInfo()
         {
             return Title + "\t" + Type
-                + "\t" + SeriesName + "\t" + Number
+                + "\t" + Series + "\t" + Number
                 + "\t" + Person + "\t" + Company
                 + "\t" + Year + "\t" + Score
                 + "\t" + Description;

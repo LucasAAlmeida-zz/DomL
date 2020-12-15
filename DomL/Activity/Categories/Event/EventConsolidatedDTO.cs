@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -11,16 +12,18 @@ namespace DomL.Business.DTOs
         {
             var eventActivity = activity.EventActivity;
 
-            Description = eventActivity.Description;
+            Description = Util.GetStringOrDash(eventActivity.Description);
             IsImportant = eventActivity.IsImportant;
+
+            FillCommonInfo();
         }
 
         public EventConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "EVENT";
-
-            Description = rawSegments[0];
+            Description = Util.GetStringOrDash(rawSegments[0]);
             IsImportant = false;
+
+            FillCommonInfo();
 
             if (Description.StartsWith("*")) {
                 IsImportant = true;
@@ -30,18 +33,22 @@ namespace DomL.Business.DTOs
 
         public EventConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "EVENT";
-
             Description = backupSegments[4];
             IsImportant = false;
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
-                + GetEventActivityInfo().Replace("\t", "; ");
+            FillCommonInfo();
 
             if (Description.StartsWith("*")) {
                 IsImportant = true;
                 Description = Description.Substring(1);
             }
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "EVENT";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
+                + GetEventActivityInfo().Replace("\t", "; ");
         }
 
         public new string GetInfoForYearRecap()

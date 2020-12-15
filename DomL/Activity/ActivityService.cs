@@ -16,68 +16,22 @@ namespace DomL.Business.Services
         {
             var date = DateTime.ParseExact(consolidated.Date, "yyyy/MM/dd", null);
             var dayOrder = int.Parse(consolidated.DayOrder);
+            var block = Util.GetStringOrNull(consolidated.Block);
 
             var status = GetStatusByName(consolidated.StatusName, unitOfWork);
             var category = GetCategoryByName(consolidated.CategoryName, unitOfWork);
-            var block = CreateOrGetBlockByName(consolidated.BlockName, unitOfWork);
 
             var activity = new Activity() {
                 Date = date,
                 DayOrder = dayOrder,
+                Block = block,
                 Status = status,
                 Category = category,
-                Block = block,
-                OriginalLine = consolidated.OriginalLine
+                ConsolidatedLine = consolidated.ConsolidatedLine
             };
 
             unitOfWork.ActivityRepo.Add(activity);
             return activity;
-        }
-
-        public static Block ChangeActivityBlock(string rawLine, UnitOfWork unitOfWork)
-        {
-            if (rawLine == "<END>") {
-                return null;
-            }
-
-            var newBlockName = rawLine.Substring(1, rawLine.Length - 2);
-            var activityBlock = new Block {
-                Name = newBlockName
-            };
-            unitOfWork.ActivityRepo.CreateActivityBlock(activityBlock);
-            return activityBlock;
-        }
-
-        private static Block CreateOrGetBlockByName(string blockName, UnitOfWork unitOfWork)
-        {
-            if (Util.IsStringEmpty(blockName)) {
-                return null;
-            }
-
-            var block = GetActivityBlockByName(blockName, unitOfWork);
-
-            if (block == null) {
-                block = CreateActivityBlock(blockName, unitOfWork);
-            }
-
-            return block;
-        }
-
-        private static Block GetActivityBlockByName(string blockName, UnitOfWork unitOfWork)
-        {
-            if (string.IsNullOrWhiteSpace(blockName)) {
-                return null;
-            }
-            return unitOfWork.ActivityRepo.GetActivityBlockByName(blockName);
-        }
-
-        private static Block CreateActivityBlock(string blockName, UnitOfWork unitOfWork)
-        {
-            var block = new Block() {
-                Name = blockName,
-            };
-            unitOfWork.ActivityRepo.CreateActivityBlock(block);
-            return block;
         }
 
         private static Category GetCategoryByName(string categoryName, UnitOfWork unitOfWork)

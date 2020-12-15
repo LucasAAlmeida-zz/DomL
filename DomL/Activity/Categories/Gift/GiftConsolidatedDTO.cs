@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -13,29 +14,37 @@ namespace DomL.Business.DTOs
         {
             var giftActivity = activity.GiftActivity;
 
-            Gift = giftActivity.Gift;
+            Gift = Util.GetStringOrDash(giftActivity.Gift);
             IsToOrFrom = giftActivity.IsFrom ? "From" : "To";
-            Who = giftActivity.Who;
-            Description = giftActivity.Description;
+            Who = Util.GetStringOrDash(giftActivity.Who);
+            Description = Util.GetStringOrDash(giftActivity.Description);
+
+            FillCommonInfo();
         }
         public GiftConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            Gift = rawSegments[1];
-            IsToOrFrom = rawSegments[2];
-            Who = rawSegments[3];
-            Description = (rawSegments.Length > 4) ? rawSegments[4] : null;
+            Gift = Util.GetStringOrDash(rawSegments[1]);
+            IsToOrFrom = Util.GetStringOrDash(rawSegments[2]);
+            Who = Util.GetStringOrDash(rawSegments[3]);
+            Description = Util.GetStringOrDash(rawSegments.Length > 4 ? rawSegments[4] : "-");
+
+            FillCommonInfo();
         }
 
         public GiftConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "GIFT";
-
             Gift = backupSegments[4];
             IsToOrFrom = backupSegments[5];
             Who = backupSegments[6];
             Description = backupSegments[7];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "GIFT";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetGiftActivityInfo().Replace("\t", "; ");
         }
 

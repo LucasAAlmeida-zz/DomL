@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -12,29 +13,35 @@ namespace DomL.Business.DTOs
         {
             var meetActivity = activity.MeetActivity;
 
-            Person = meetActivity.Person;
-            Origin = meetActivity.Origin;
-            Description = meetActivity.Description;
+            Person = Util.GetStringOrDash(meetActivity.Person);
+            Origin = Util.GetStringOrDash(meetActivity.Origin);
+            Description = Util.GetStringOrDash(meetActivity.Description);
+
+            FillCommonInfo();
         }
 
         public MeetConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "MEET";
+            Person = Util.GetStringOrDash(rawSegments[1]);
+            Origin = Util.GetStringOrDash(rawSegments[2]);
+            Description = Util.GetStringOrDash(rawSegments[3]);
 
-            Person = rawSegments[1];
-            Origin = rawSegments[2];
-            Description = rawSegments[3];
+            FillCommonInfo();
         }
 
         public MeetConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "MEET";
-
             Person = backupSegments[4];
             Origin = backupSegments[5];
             Description = backupSegments[6];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "MEET";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetMeetActivityInfo().Replace("\t", "; ");
         }
 

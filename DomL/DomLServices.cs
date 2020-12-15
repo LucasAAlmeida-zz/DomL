@@ -42,10 +42,7 @@ namespace DomL.Business.Services
         public static void SaveFromRawMonthText(string rawMonthText, int month, int year)
         {
             using (var unitOfWork = new UnitOfWork(new DomLContext())) {
-                unitOfWork.ActivityRepo.DeleteAllFromMonth(month, year);
-                unitOfWork.Complete();
-
-                Block currentActivityBlock = null;
+                string block = null;
                 var date = new DateTime(year, month, 1);
                 var dayOrder = 0;
 
@@ -59,11 +56,15 @@ namespace DomL.Business.Services
                         if (Util.IsLineNewDay(rawLine, out int dia)) {
                             date = new DateTime(year, month, dia);
                             dayOrder = 0;
+
+                            unitOfWork.ActivityRepo.DeleteAllFromDay(date);
+                            unitOfWork.Complete();
+
                             continue;
                         }
 
-                        if (Util.IsLineActivityBlockTag(rawLine)) {
-                            currentActivityBlock = ActivityService.ChangeActivityBlock(rawLine, unitOfWork);
+                        if (Util.IsLineBlockTag(rawLine)) {
+                            block = (rawLine != "<END>") ? rawLine.Substring(1, rawLine.Length - 2) : null;
                             continue;
                         }
 
@@ -77,8 +78,8 @@ namespace DomL.Business.Services
                             DayOrder = dayOrder,
                             Status = status,
                             Category = category,
-                            Block = currentActivityBlock,
-                            OriginalLine = rawLine
+                            Block = block,
+                            ConsolidatedLine = rawLine
                         };
 
                         var rawSegments = Regex.Split(rawLine, "; ");
@@ -180,7 +181,7 @@ namespace DomL.Business.Services
                 var yearCategoryActivities = yearActivities.Where(u => u.CategoryId == category.Id).ToList();
                 
                 if (yearCategoryActivities.Count == 0) {
-                    return;
+                    continue;
                 }
 
                 using (var file = new StreamWriter(filePath)) {

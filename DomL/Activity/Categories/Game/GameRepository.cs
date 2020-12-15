@@ -25,7 +25,6 @@ namespace DomL.DataAccess
         {
             var cleanTitle = Util.CleanString(title);
             return DomLContext.Game
-                .Include(u => u.Series)
                 .SingleOrDefault(u =>
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanTitle
@@ -39,9 +38,7 @@ namespace DomL.DataAccess
 
         public List<Game> GetAllGames()
         {
-            return DomLContext.Game
-                .Include(u => u.Series)
-                .ToList();
+            return DomLContext.Game.ToList();
         }
     }
 }

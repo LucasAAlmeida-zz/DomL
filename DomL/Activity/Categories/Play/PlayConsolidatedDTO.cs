@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -9,30 +10,34 @@ namespace DomL.Business.DTOs
 
         public PlayConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "PLAY";
-
             var playActivity = activity.PlayActivity;
 
-            Who = playActivity.Who;
-            Description = playActivity.Description;
+            Who = Util.GetStringOrDash(playActivity.Who);
+            Description = Util.GetStringOrDash(playActivity.Description);
+
+            FillCommonInfo();
         }
 
         public PlayConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "PLAY";
+            Who = Util.GetStringOrDash(rawSegments[1]);
+            Description = Util.GetStringOrDash(rawSegments.Length > 2 ? rawSegments[2] : "-");
 
-            Who = rawSegments[1];
-            Description = rawSegments.Length > 2 ? rawSegments[2] : null;
+            FillCommonInfo();
         }
 
         public PlayConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "PLAY";
-
             Who = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "PLAY";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetPlayActivityInfo().Replace("\t", "; ");
         }
 

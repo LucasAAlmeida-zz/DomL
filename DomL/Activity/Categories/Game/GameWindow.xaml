@@ -25,47 +25,47 @@
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
             <DockPanel Margin="5">
                 <Label Content="Title:" Width="90" />
-                <ComboBox Name="TitleCB" IsEditable="True" Width="300" LostFocus="TitleCB_LostFocus" IsTextSearchEnabled="True" />
+                <ComboBox Name="TitleCB" Width="300" IsEditable="True" LostFocus="TitleCB_LostFocus" IsTextSearchEnabled="True" />
                 <Label Name="TitleInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Platform:" Width="90" />
-                <ComboBox Name="TypeCB" Width="300" IsTextSearchEnabled="True" />
-                <Label Name="PlatformInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Type:" Width="90" />
+                <ComboBox Name="TypeCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
+                <Label Name="TypeInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Series:" Width="90" />
-                <ComboBox Name="SeriesCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="SeriesCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
                 <Label Name="SeriesInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Number:" Width="90" />
-                <ComboBox Name="NumberCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="NumberCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
                 <Label Name="NumberInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Director:" Width="90" />
-                <ComboBox Name="PersonCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
-                <Label Name="DirectorInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Person:" Width="90" />
+                <ComboBox Name="PersonCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
+                <Label Name="PersonInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
-                <Label Content="Publisher:" Width="90" />
-                <ComboBox Name="CompanyCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
-                <Label Name="PublisherInfoLb" Margin="5,0" Width="40" />
+                <Label Content="Company:" Width="90" />
+                <ComboBox Name="CompanyCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
+                <Label Name="CompanyInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Year:" Width="90" />
-                <ComboBox Name="YearCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="YearCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
                 <Label Name="YearInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Score:" Width="90" />
-                <ComboBox Name="ScoreCB" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="ScoreCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
                 <Label Name="ScoreInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
             <DockPanel Margin="5">
                 <Label Content="Description:" Width="90" />
-                <ComboBox Name="DescriptionCB" IsEditable="True" Width="300" IsTextSearchEnabled="True" />
+                <ComboBox Name="DescriptionCB" Width="300" IsEditable="True" IsTextSearchEnabled="True" />
                 <Label Name="DescriptionInfoLb" Margin="5,0" Width="40" />
             </DockPanel>
         </StackPanel>

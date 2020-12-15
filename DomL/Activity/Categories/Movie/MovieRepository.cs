@@ -19,7 +19,6 @@ namespace DomL.DataAccess
         {
             var cleanTitle = Util.CleanString(title);
             return DomLContext.Movie
-                .Include(u => u.Series)
                 .SingleOrDefault(u =>
                     u.Title.Replace(":", "").Replace("-", "").Replace("(", "").Replace(")", "").Replace(".", "").Replace(" ", "").Replace("'", "").Replace(",", "").ToLower().Replace("the", "")
                     == cleanTitle
@@ -38,9 +37,7 @@ namespace DomL.DataAccess
 
         public List<Movie> GetAllMovies()
         {
-            return DomLContext.Movie
-                .Include(u => u.Series)
-                .ToList();
+            return DomLContext.Movie.ToList();
         }
     }
 }

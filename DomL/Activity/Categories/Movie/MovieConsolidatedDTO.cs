@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.Presentation;
 
 namespace DomL.Business.DTOs
@@ -6,7 +7,7 @@ namespace DomL.Business.DTOs
     public class MovieConsolidatedDTO : ActivityConsolidatedDTO
     {
         public string Title;
-        public string SeriesName;
+        public string Series;
         public string Number;
         public string Person;
         public string Company;
@@ -16,41 +17,39 @@ namespace DomL.Business.DTOs
 
         public MovieConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "MOVIE";
-
             var movieActivity = activity.MovieActivity;
             var movie = movieActivity.Movie;
             
-            Title = movie.Title;
-            SeriesName = (movie.Series != null) ? movie.Series.Name : "-";
-            Number = movie.Number ?? "-";
-            Person = movie.Person ?? "-";
-            Company = movie.Company ?? "-";
-            Year = movie.Year.ToString();
-            Score = movie.Score ?? "-";
-            Description = movieActivity.Description ?? "-";
+            Title = Util.GetStringOrDash(movie.Title);
+            Series = Util.GetStringOrDash(movie.Series);
+            Number = Util.GetStringOrDash(movie.Number);
+            Person = Util.GetStringOrDash(movie.Person);
+            Company = Util.GetStringOrDash(movie.Company);
+            Year = Util.GetStringOrDash(movie.Year);
+            Score = Util.GetStringOrDash(movie.Score);
+            Description = Util.GetStringOrDash(movieActivity.Description);
+
+            FillCommonInfo();
         }
 
         public MovieConsolidatedDTO(MovieWindow movieWindow, Activity activity) : base(activity)
         {
-            CategoryName = "MOVIE";
+            Title = Util.GetStringOrDash(movieWindow.TitleCB.Text);
+            Series = Util.GetStringOrDash(movieWindow.SeriesCB.Text);
+            Number = Util.GetStringOrDash(movieWindow.NumberCB.Text);
+            Person = Util.GetStringOrDash(movieWindow.PersonCB.Text);
+            Company = Util.GetStringOrDash(movieWindow.CompanyCB.Text);
+            Year = Util.GetStringOrDash(movieWindow.YearCB.Text);
+            Score = Util.GetStringOrDash(movieWindow.ScoreCB.Text);
+            Description = Util.GetStringOrDash(movieWindow.DescriptionCB.Text);
 
-            Title = movieWindow.TitleCB.Text;
-            SeriesName = movieWindow.SeriesCB.Text;
-            Number = movieWindow.NumberCB.Text;
-            Person = movieWindow.PersonCB.Text;
-            Company = movieWindow.CompanyCB.Text;
-            Year = movieWindow.YearCB.Text;
-            Score = movieWindow.ScoreCB.Text;
-            Description = movieWindow.DescriptionCB.Text;
+            FillCommonInfo();
         }
 
         public MovieConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "MOVIE";
-
             Title = backupSegments[4];
-            SeriesName = backupSegments[5];
+            Series = backupSegments[5];
             Number = backupSegments[6];
             Person = backupSegments[7];
             Company = backupSegments[8];
@@ -58,7 +57,13 @@ namespace DomL.Business.DTOs
             Score = backupSegments[10];
             Description = backupSegments[11];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "MOVIE";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetMovieActivityInfo().Replace("\t", "; ");
         }
 
@@ -77,7 +82,7 @@ namespace DomL.Business.DTOs
         public string GetMovieActivityInfo()
         {
             return Title + "\t" + Person
-                + "\t" + SeriesName + "\t" + Number
+                + "\t" + Series + "\t" + Number
                 + "\t" + Company + "\t" + Year
                 + "\t" + Score + "\t" + Description;
         }

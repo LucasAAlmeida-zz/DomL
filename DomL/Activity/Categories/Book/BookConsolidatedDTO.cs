@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 using DomL.Presentation;
 
 namespace DomL.Business.DTOs
@@ -19,44 +20,50 @@ namespace DomL.Business.DTOs
             var bookActivity = activity.BookActivity;
             var book = bookActivity.Book;
             
-            Title = book.Title;
-            Series = (book.Series != null) ? book.Series.Name : "-";
-            Number = (!string.IsNullOrWhiteSpace(book.Number)) ? book.Number : "-";
-            Person = (!string.IsNullOrWhiteSpace(book.Person)) ? book.Person : "-";
-            Company = (!string.IsNullOrWhiteSpace(book.Company)) ? book.Company : "-";
-            Year = book.Year.ToString();
-            Score = (!string.IsNullOrWhiteSpace(book.Score)) ? book.Score : "-";
-            Description = (!string.IsNullOrWhiteSpace(bookActivity.Description)) ? bookActivity.Description : "-";
+            Title = Util.GetStringOrDash(book.Title);
+            Series = Util.GetStringOrDash(book.Series);
+            Number = Util.GetStringOrDash(book.Number);
+            Person = Util.GetStringOrDash(book.Person);
+            Company = Util.GetStringOrDash(book.Company);
+            Year = Util.GetStringOrDash(book.Year);
+            Score = Util.GetStringOrDash(book.Score);
+            Description = Util.GetStringOrDash(bookActivity.Description);
+
+            FillCommonInfo();
         }
 
         public BookConsolidatedDTO(BookWindow bookWindow, Activity activity) : base(activity)
         {
-            CategoryName = "BOOK";
+            Title = Util.GetStringOrDash(bookWindow.TitleCB.Text);
+            Series = Util.GetStringOrDash(bookWindow.SeriesCB.Text);
+            Number = Util.GetStringOrDash(bookWindow.NumberCB.Text);
+            Person = Util.GetStringOrDash(bookWindow.PersonCB.Text);
+            Company = Util.GetStringOrDash(bookWindow.CompanyCB.Text);
+            Year = Util.GetStringOrDash(bookWindow.YearCB.Text);
+            Score = Util.GetStringOrDash(bookWindow.SeriesCB.Text);
+            Description = Util.GetStringOrDash(bookWindow.DescriptionCB.Text);
 
-            Title = bookWindow.TitleCB.Text;
-            Series = bookWindow.SeriesCB.Text;
-            Number = bookWindow.NumberCB.Text;
-            Person = bookWindow.PersonCB.Text;
-            Company = bookWindow.CompanyCB.Text;
-            Year = bookWindow.YearCB.Text;
-            Score = bookWindow.SeriesCB.Text;
-            Description = bookWindow.DescriptionCB.Text;
+            FillCommonInfo();
         }
 
         public BookConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "BOOK";
-
             Title = backupSegments[4];
-            Series = backupSegments[6];
-            Number = backupSegments[7];
-            Person = backupSegments[5];
+            Series = backupSegments[5];
+            Number = backupSegments[6];
+            Person = backupSegments[7];
             Company = backupSegments[8];
             Year = backupSegments[9];
             Score = backupSegments[10];
             Description = backupSegments[11];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "BOOK";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetBookActivityInfo().Replace("\t", "; ");
         }
 

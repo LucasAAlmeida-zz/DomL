@@ -81,7 +81,7 @@ namespace DomL.Business.Utils
         public static List<string> GetDefaultChaptersList()
         {
             var list = new List<string>();
-            for (int i = 1; i < 500; i = i + 50) {
+            for (int i = 1; i < 500; i += 50) {
                 list.Add(i.ToString("000") + "~" + (i + 50).ToString("000"));
             }
             return list;
@@ -105,13 +105,12 @@ namespace DomL.Business.Utils
             return list;
         }
 
-        public static void SetComboBox(ComboBox comboBox, string[] originalSegments, List<string> nameList, string chosenStr)
+        public static void SetComboBox(ComboBox comboBox, List<string> nameList, string chosenStr)
         {
             var possibleStrings = new List<string>();
-            possibleStrings.AddRange(originalSegments);
             possibleStrings.AddRange(nameList);
             comboBox.ItemsSource = possibleStrings;
-            comboBox.SelectedItem = chosenStr;
+            comboBox.Text = !string.IsNullOrWhiteSpace(chosenStr) ? chosenStr : comboBox.Text;
         }
 
         public static bool IsStringEmpty(string text)
@@ -127,6 +126,11 @@ namespace DomL.Business.Utils
         public static int GetIntOrZero(string textNumber)
         {
             return !IsStringEmpty(textNumber) ? int.Parse(textNumber) : 0;
+        }
+
+        public static string GetStringOrDash(string text)
+        {
+            return text ?? "-";
         }
 
         public static void PlaceOrderedSegment(string[] orderedSegments, int index, string toPlace, int[] indexesToAvoid)
@@ -173,7 +177,7 @@ namespace DomL.Business.Utils
             infoLabel.Foreground = Brushes.Goldenrod;
         }
 
-        public static bool IsLineActivityBlockTag(string line)
+        public static bool IsLineBlockTag(string line)
         {
             return line.StartsWith("<");
         }

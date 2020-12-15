@@ -19,6 +19,61 @@ namespace DomL.Presentation
             InitializeComponent();
         }
 
+        private void AllRestoreButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.AUTO_ID);
+            Console.WriteLine("AUTO");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.BOOK_ID);
+            Console.WriteLine("BOOK");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.COMIC_ID);
+            Console.WriteLine("COMIC");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.COURSE_ID);
+            Console.WriteLine("COURSE");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.DOOM_ID);
+            Console.WriteLine("DOOM");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.EVENT_ID);
+            Console.WriteLine("EVENT");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.GAME_ID);
+            Console.WriteLine("GAME");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.GIFT_ID);
+            Console.WriteLine("GIFT");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.HEALTH_ID);
+            Console.WriteLine("HEALTH");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.MEET_ID);
+            Console.WriteLine("MEET");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.MOVIE_ID);
+            Console.WriteLine("MOVIE");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.PET_ID);
+            Console.WriteLine("PET");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.PLAY_ID);
+            Console.WriteLine("PLAY");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.PURCHASE_ID);
+            Console.WriteLine("PURCHASE");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.SHOW_ID);
+            Console.WriteLine("SHOW");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.TRAVEL_ID);
+            Console.WriteLine("TRAVEL");
+
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.WORK_ID);
+            Console.WriteLine("WORK");
+        }
+
         private void AutoRestoreButton_Click(object sender, RoutedEventArgs e)
         {
             try {
@@ -32,13 +87,8 @@ namespace DomL.Presentation
 
         private void BookRestoreButton_Click(object sender, RoutedEventArgs e)
         {
-            try {
-                DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.BOOK_ID);
-                MessageBox.Show(((Button)sender).Content + " Funcionou!");
-            } catch (Exception exception) {
-                MessageLabel.Content = exception.Message;
-                Console.WriteLine(exception);
-            }
+            DomLServices.RestoreFromFile(BACKUP_DIR_PATH, Category.BOOK_ID);
+            MessageBox.Show(((Button)sender).Content + " Funcionou!");
         }
 
         private void ComicRestoreButton_Click(object sender, RoutedEventArgs e)

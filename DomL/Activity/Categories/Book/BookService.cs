@@ -34,8 +34,7 @@ namespace DomL.Business.Services
 
         private static void SaveFromConsolidated(BookConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
-            var series = SeriesService.GetOrCreateByName(consolidated.Series, unitOfWork);
-            var book = GetOrUpdateOrCreateBook(consolidated, series, unitOfWork);
+            var book = GetOrUpdateOrCreateBook(consolidated, unitOfWork);
             var activity = ActivityService.Create(consolidated, unitOfWork);
 
             CreateBookActivity(activity, book, consolidated.Description, unitOfWork);
@@ -60,15 +59,16 @@ namespace DomL.Business.Services
             return unitOfWork.BookRepo.GetAllBooks();
         }
 
-        public static Book GetOrUpdateOrCreateBook(BookConsolidatedDTO consolidated, Series series, UnitOfWork unitOfWork)
+        public static Book GetOrUpdateOrCreateBook(BookConsolidatedDTO consolidated, UnitOfWork unitOfWork)
         {
             var instance = GetByTitle(consolidated.Title, unitOfWork);
 
             var title = Util.GetStringOrNull(consolidated.Title);
+            var series = Util.GetStringOrNull(consolidated.Series);
             var number = Util.GetStringOrNull(consolidated.Number);
             var person = Util.GetStringOrNull(consolidated.Person);
             var company = Util.GetStringOrNull(consolidated.Company);
-            var year = Util.GetIntOrZero(consolidated.Year);
+            var year = Util.GetStringOrNull(consolidated.Year);
             var score = Util.GetStringOrNull(consolidated.Score);
 
             if (instance == null) {
@@ -86,7 +86,7 @@ namespace DomL.Business.Services
                 instance.Number = number ?? instance.Number;
                 instance.Person = person ?? instance.Person;
                 instance.Company = company ?? instance.Company;
-                instance.Year = year != 0 ? year : instance.Year;
+                instance.Year = year ?? instance.Year;
                 instance.Score = score ?? instance.Score;
             }
 

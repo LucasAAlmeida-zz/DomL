@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -9,34 +10,34 @@ namespace DomL.Business.DTOs
 
         public HealthConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "HEALTH";
-
             var healthActivity = activity.HealthActivity;
 
-            Specialty = healthActivity.Specialty ??  "-";
-            Description = healthActivity.Description;
+            Specialty = Util.GetStringOrDash(healthActivity.Specialty);
+            Description = Util.GetStringOrDash(healthActivity.Description);
+
+            FillCommonInfo();
         }
 
         public HealthConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "HEALTH";
+            Specialty = Util.GetStringOrDash(rawSegments.Length > 2 ? rawSegments[1] : "-");
+            Description = Util.GetStringOrDash(rawSegments.Length > 2 ? rawSegments[2] : rawSegments[1]);
 
-            Specialty = null;
-            Description = rawSegments[1];
-            if (rawSegments.Length > 2) {
-                Specialty = rawSegments[1];
-                Description = rawSegments[2];
-            }
+            FillCommonInfo();
         }
 
         public HealthConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "HEALTH";
-
             Specialty = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "HEALTH";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetHealthActivityInfo().Replace("\t", "; ");
         }
 

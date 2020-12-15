@@ -1,4 +1,5 @@
 ﻿using DomL.Business.Entities;
+using DomL.Business.Utils;
 
 namespace DomL.Business.DTOs
 {
@@ -9,30 +10,34 @@ namespace DomL.Business.DTOs
 
         public PetConsolidatedDTO(Activity activity) : base(activity)
         {
-            CategoryName = "PET";
-
             var petActivity = activity.PetActivity;
 
-            Pet = petActivity.Pet;
-            Description = petActivity.Description;
+            Pet = Util.GetStringOrDash(petActivity.Pet);
+            Description = Util.GetStringOrDash(petActivity.Description);
+
+            FillCommonInfo();
         }
 
         public PetConsolidatedDTO(string[] rawSegments, Activity activity) : base(activity)
         {
-            CategoryName = "PET";
+            Pet = Util.GetStringOrDash(rawSegments[1]);
+            Description = Util.GetStringOrDash(rawSegments[2]);
 
-            Pet = rawSegments[1];
-            Description = rawSegments[2];
+            FillCommonInfo();
         }
 
         public PetConsolidatedDTO(string[] backupSegments) : base(backupSegments)
         {
-            CategoryName = "PET";
-
             Pet = backupSegments[4];
             Description = backupSegments[5];
 
-            OriginalLine = GetInfoForOriginalLine() + "; "
+            FillCommonInfo();
+        }
+
+        private void FillCommonInfo()
+        {
+            CategoryName = "PET";
+            ConsolidatedLine = GetInfoForConsolidatedLine() + "; "
                 + GetPetActivityInfo().Replace("\t", "; ");
         }
 
